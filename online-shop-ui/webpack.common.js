@@ -23,23 +23,17 @@
  */
 
 module.exports = {
-    entry: { main: "./src/index.js" },
-    resolve: {
-        extensions: [".js", ".jsx"],
-    },
+    entry: { main: "./src/index.tsx" },
     module: {
         rules: [
             {
-                test: /\.(svg|png|gif|jpg|mp3)$/,
-                type: "asset/resource",
-            },
-            {
-                test: /\.(js|jsx)$/, // .js and .jsx files
-                exclude: /node_modules/, // excluding the node_modules folder
-                use: {
-                    loader: "babel-loader",
-                },
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
             },
         ],
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
     },
 };
