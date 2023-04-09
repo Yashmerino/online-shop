@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * JPA Entity for a user.
+ * JPA Entity for a customer.
  */
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +21,7 @@ import lombok.Setter;
 public class Customer extends NamedEntity {
 
     /**
-     * User's cart.
+     * Customer's cart.
      */
     @OneToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
