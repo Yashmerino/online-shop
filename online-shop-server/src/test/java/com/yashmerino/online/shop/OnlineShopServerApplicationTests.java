@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.server;
+package com.yashmerino.online.shop;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,14 +24,14 @@ package com.yashmerino.online.shop.server;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootApplication
-public class OnlineShopServerApplication {
+@SpringBootTest
+class OnlineShopServerApplicationTests {
 
-    public static void main(String[] args) {
-        SpringApplication.run(OnlineShopServerApplication.class, args);
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
