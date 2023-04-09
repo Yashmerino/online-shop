@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -48,6 +49,6 @@ public class Seller extends NamedEntity {
     /**
      * Seller's products.
      */
-    @OneToMany(mappedBy="id")
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private Set<Product> products;
 }
