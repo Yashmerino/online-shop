@@ -33,6 +33,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -50,7 +51,7 @@ public class Cart extends BaseEntity {
      * Cart's items.
      */
     @OneToMany(mappedBy = "cart")
-    private Set<CartItem> items;
+    private Set<CartItem> items = new HashSet<>();
 
     /**
      * Customer of the cart.

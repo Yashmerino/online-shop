@@ -24,7 +24,7 @@ package com.yashmerino.online.shop.repositories;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Cart;
+import com.yashmerino.online.shop.model.CartItem;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -32,6 +32,6 @@ import org.springframework.stereotype.Repository;
  * Cart Items' repository.
  */
 @Repository
-public interface CartItemRepository extends CrudRepository<Cart, Long> {
+public interface CartItemRepository extends CrudRepository<CartItem, Long> {
 
 }
