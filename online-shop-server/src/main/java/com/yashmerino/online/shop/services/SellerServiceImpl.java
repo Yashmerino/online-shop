@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.repositories.SellerRepository;
 import com.yashmerino.online.shop.services.interfaces.SellerService;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +34,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class SellerServiceImpl implements SellerService {
 
+    /**
+     * Seller repository.
+     */
+    private final SellerRepository sellerRepository;
+
+    /**
+     * Constructor to inject dependencies.
+     *
+     * @param sellerRepository is the seller repository.
+     */
+    public SellerServiceImpl(SellerRepository sellerRepository) {
+        this.sellerRepository = sellerRepository;
+    }
 }

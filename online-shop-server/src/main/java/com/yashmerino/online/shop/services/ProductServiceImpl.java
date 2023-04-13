@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.repositories.ProductRepository;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +34,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    /**
+     * Product repository.
+     */
+    private final ProductRepository productRepository;
+
+    /**
+     * Constructor to inject dependencies.
+     *
+     * @param productRepository is the product repository.
+     */
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 }

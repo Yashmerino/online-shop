@@ -24,6 +24,9 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.Category;
+import com.yashmerino.online.shop.repositories.CartRepository;
+import com.yashmerino.online.shop.repositories.CategoryRepository;
 import com.yashmerino.online.shop.services.interfaces.CategoryService;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +36,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+    /**
+     * Category repository.
+     */
+    private final CategoryRepository categoryRepository;
+
+    /**
+     * Constructor to inject dependencies.
+     *
+     * @param categoryRepository is the category repository.
+     */
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 }

@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.repositories.CustomerRepository;
 import com.yashmerino.online.shop.services.interfaces.CustomerService;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +34,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+    /**
+     * Customer repository.
+     */
+    private final CustomerRepository customerRepository;
+
+    /**
+     * Constructor to inject dependencies.
+     *
+     * @param customerRepository is the customer repository.
+     */
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
 }

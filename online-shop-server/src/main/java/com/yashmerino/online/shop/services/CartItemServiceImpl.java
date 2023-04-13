@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.repositories.CartItemRepository;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +34,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartItemServiceImpl implements CartItemService {
 
+    /**
+     * Cart Item repository.
+     */
+    private final CartItemRepository cartItemRepository;
+
+    /**
+     * Constructor to inject dependencies.
+     *
+     * @param cartItemRepository is the cart item repository.
+     */
+    public CartItemServiceImpl(CartItemRepository cartItemRepository) {
+        this.cartItemRepository = cartItemRepository;
+    }
 }
