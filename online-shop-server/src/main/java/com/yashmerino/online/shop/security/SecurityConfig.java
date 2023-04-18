@@ -71,10 +71,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET).permitAll()
-                .anyRequest().authenticated()
-                .and().httpBasic();
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers(HttpMethod.GET).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .httpBasic();
 
         return http.build();
     }

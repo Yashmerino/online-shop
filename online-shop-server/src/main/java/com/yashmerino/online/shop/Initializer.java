@@ -24,6 +24,7 @@ package com.yashmerino.online.shop;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.Role;
 import com.yashmerino.online.shop.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -60,6 +61,11 @@ public class Initializer implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
 
     /**
+     * Roles' repository.
+     */
+    private final RoleRepository roleRepository;
+
+    /**
      * Constructor.
      *
      * @param userRepository     is the repository for customers.
@@ -67,16 +73,32 @@ public class Initializer implements CommandLineRunner {
      * @param cartItemRepository is the repository for cart items.
      * @param productRepository  is the repository for products.
      * @param categoryRepository is the repository for categories.
+     * @param roleRepository     is the repository  for roles.
      */
-    public Initializer(UserRepository userRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public Initializer(UserRepository userRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository, CategoryRepository categoryRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
+        Role adminRole = new Role();
+        adminRole.setName("ADMIN");
+
+        roleRepository.save(adminRole);
+
+        Role userRole = new Role();
+        userRole.setName("USER");
+
+        roleRepository.save(userRole);
+
+        Role sellerRole = new Role();
+        sellerRole.setName("SELLER");
+
+        roleRepository.save(sellerRole);
     }
 }
