@@ -31,12 +31,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -52,12 +49,19 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
 
     /**
+     * Jwt Auth Entry Point to handle exceptions.
+     */
+    private JwtAuthEntryPoint jwtAuthEntryPoint;
+
+    /**
      * Constructor.
      *
      * @param customUserDetailsService is the custom user details service.
+     * @param jwtAuthEntryPoint        is the auth entry point.
      */
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthEntryPoint jwtAuthEntryPoint) {
         this.customUserDetailsService = customUserDetailsService;
+        this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 
     /**
@@ -71,6 +75,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthEntryPoint)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.GET).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
