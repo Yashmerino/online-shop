@@ -44,6 +44,7 @@ public class SecurityConfig {
 
     /**
      * Security filter.
+     *
      * @param http is the Http Security config object.
      * @return Security Filter Chain.
      * @throws Exception if certain settings couldn't be changed.
@@ -62,6 +63,7 @@ public class SecurityConfig {
 
     /**
      * Creating in memory users.
+     *
      * @return in memory users manager.
      */
     @Bean

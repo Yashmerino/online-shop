@@ -38,6 +38,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Finds a user by username.
+     *
      * @param username is the username to be used for search.
      * @return an <code>Optional</code> object.
      */
@@ -45,6 +46,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Checks if a user exists by username.
+     *
      * @param username is the username to be used for search.
      * @return <code>true</code> if exists and <code>false</code> otherwise.
      */
