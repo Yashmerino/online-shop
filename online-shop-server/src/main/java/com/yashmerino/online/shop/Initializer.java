@@ -24,13 +24,9 @@ package com.yashmerino.online.shop;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.*;
 import com.yashmerino.online.shop.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * Class that initializes data.
@@ -42,11 +38,6 @@ public class Initializer implements CommandLineRunner {
      * Customers' repository.
      */
     private final UserRepository userRepository;
-
-    /**
-     * Sellers' repository.
-     */
-    private final SellerRepository sellerRepository;
 
     /**
      * Carts' repository.
@@ -71,16 +62,14 @@ public class Initializer implements CommandLineRunner {
     /**
      * Constructor.
      *
-     * @param userRepository is the repository for customers.
-     * @param sellerRepository   is the repository for sellers.
+     * @param userRepository     is the repository for customers.
      * @param cartRepository     is the repository for carts.
      * @param cartItemRepository is the repository for cart items.
      * @param productRepository  is the repository for products.
      * @param categoryRepository is the repository for categories.
      */
-    public Initializer(UserRepository userRepository, SellerRepository sellerRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public Initializer(UserRepository userRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.userRepository = userRepository;
-        this.sellerRepository = sellerRepository;
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
         this.productRepository = productRepository;
@@ -89,48 +78,5 @@ public class Initializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Fruits");
-        categoryRepository.save(category);
-
-        Cart cart = new Cart();
-        cart.setId(1L);
-        cartRepository.save(cart);
-
-        Seller seller = new Seller();
-        seller.setId(1L);
-        seller.setFirstName("Johny");
-        seller.setLastName("Sins");
-        sellerRepository.save(seller);
-
-        Product product = new Product();
-        product.setId(1L);
-        product.setName("Apples");
-        product.setPrice(500);
-        product.setCategories(new HashSet<>(Arrays.asList(category)));
-        product.setSeller(seller);
-        productRepository.save(product);
-
-        seller.setProducts(new HashSet<>(Arrays.asList(product)));
-        sellerRepository.save(seller);
-
-        CartItem item = new CartItem();
-        item.setId(1L);
-        item.setQuantity(5);
-        item.setCart(cart);
-        item.setProduct(product);
-        cartItemRepository.save(item);
-
-        cart.addItem(item);
-        cartRepository.save(cart);
-
-        User user = new User();
-        user.setId(1L);
-        user.setFirstName("John");
-        user.setLastName("McGill");
-        user.setCart(cart);
-
-        userRepository.save(user);
     }
 }
