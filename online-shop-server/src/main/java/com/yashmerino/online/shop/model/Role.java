@@ -24,56 +24,28 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.base.NamedEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * JPA Entity for a user.
+ * User's roles.
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "users")
-@Table(name = "users")
-public class User extends NamedEntity {
+@Entity
+@Table(name = "roles")
+public class Role {
 
     /**
-     * User's cart.
+     * Role's id.
      */
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     /**
-     * User's products.
+     * Role's name.
      */
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private Set<Product> products;
-
-    /**
-     * User's username.
-     */
-    private String username;
-
-    /**
-     * User's password.
-     */
-    private String password;
-
-    /**
-     * User's roles.
-     */
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<Role> roles = new HashSet<>();
-
-
+    private String name;
 }
