@@ -82,28 +82,6 @@ public class SecurityConfig {
     }
 
     /**
-     * Creating in memory users.
-     *
-     * @return in memory users manager.
-     */
-    @Bean
-    public UserDetailsService users() {
-        UserDetails admin = User.builder().
-                username("admin")
-                .password("admin")
-                .roles("ADMIN")
-                .build();
-
-        UserDetails user = User.builder()
-                .username("user")
-                .password("user")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, user);
-    }
-
-    /**
      * Gives the authentication manager.
      *
      * @param authenticationConfiguration is the auth configuration.
