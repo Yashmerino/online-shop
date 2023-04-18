@@ -26,8 +26,13 @@ package com.yashmerino.online.shop.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -37,14 +42,42 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * Security filter.
+     * @param http is the Http Security config object.
+     * @return Security Filter Chain.
+     * @throws Exception if certain settings couldn't be changed.
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET).permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();
 
         return http.build();
+    }
+
+    /**
+     * Creating in memory users.
+     * @return in memory users manager.
+     */
+    @Bean
+    public UserDetailsService users() {
+        UserDetails admin = User.builder().
+                username("admin")
+                .password("admin")
+                .roles("ADMIN")
+                .build();
+
+        UserDetails user = User.builder()
+                .username("user")
+                .password("user")
+                .roles("USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(admin, user);
     }
 }
