@@ -26,10 +26,12 @@ package com.yashmerino.online.shop.model.controllers;
 
 import com.yashmerino.online.shop.model.Role;
 import com.yashmerino.online.shop.model.User;
+import com.yashmerino.online.shop.model.dto.AuthResponseDTO;
 import com.yashmerino.online.shop.model.dto.LoginDTO;
 import com.yashmerino.online.shop.model.dto.RegisterDTO;
 import com.yashmerino.online.shop.repositories.RoleRepository;
 import com.yashmerino.online.shop.repositories.UserRepository;
+import com.yashmerino.online.shop.security.JwtProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -73,18 +75,25 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     /**
+     * JWT Token generator.
+     */
+    private final JwtProvider jwtProvider;
+
+    /**
      * Constructor.
      *
      * @param authenticationManager is the authentication manager.
      * @param userRepository        is the users' repository.
      * @param roleRepository        is the roles' repository.
      * @param passwordEncoder       is the password encoder.
+     * @param jwtProvider           is the JWT token generator.
      */
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtProvider jwtProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtProvider = jwtProvider;
     }
 
     /**
@@ -118,10 +127,12 @@ public class AuthController {
      * @return <code>ResponseEntity</code>
      */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new ResponseEntity<>("User signed in success!", HttpStatus.OK);
+        String token = jwtProvider.generateToken(authentication);
+
+        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 }

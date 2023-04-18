@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.security;
+package com.yashmerino.online.shop.model.dto;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,28 +24,33 @@ package com.yashmerino.online.shop.security;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.security.SecurityConstants;
+import lombok.Data;
+
+import static com.yashmerino.online.shop.security.SecurityConstants.JWT_HEADER;
+
 /**
- * Constant values for security configuration.
+ * Authorization response DTO.
  */
-public class SecurityConstants {
+@Data
+public class AuthResponseDTO {
 
     /**
-     * Time after which JWT token expires.
+     * Access token.
      */
-    public static final long JWT_EXPIRATION = 70000;
+    private String accessToken;
 
     /**
-     * JWT Secret.
+     * Token's type.
      */
-    public static final String JWT_SECRET = "";
+    private String tokenType = JWT_HEADER;
 
     /**
-     * Bearer part from the auth header.
+     * Constructor.
+     *
+     * @param accessToken is the access token.
      */
-    public static final String JWT_HEADER = "Bearer ";
-
-    /**
-     * Auth header.
-     */
-    public static final String AUTH_HEADER = "Authorization";
+    public AuthResponseDTO(final String accessToken) {
+        this.accessToken = accessToken;
+    }
 }
