@@ -1,5 +1,4 @@
 package com.yashmerino.online.shop.repositories;
-
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,29 +23,22 @@ package com.yashmerino.online.shop.repositories;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.User;
+import com.yashmerino.online.shop.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 /**
- * Users' repository.
+ * Roles' repository.
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
     /**
-     * Finds a user by username.
-     * @param username is the username to be used for search.
+     * Finds a role by name.
+     * @param name is the name to be used for search.
      * @return an <code>Optional</code> object.
      */
-    Optional<User> findByUsername(final String username);
-
-    /**
-     * Checks if a user exists by username.
-     * @param username is the username to be used for search.
-     * @return <code>true</code> if exists and <code>false</code> otherwise.
-     */
-    Boolean existsByUsername(final String username);
+    Optional<Role> findByName(final String name);
 }
