@@ -63,6 +63,6 @@ public class Product extends BaseEntity {
      * Product's seller.
      */
     @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Seller seller;
+    @JoinColumn(name = "user_id")
+    private User user;
 }

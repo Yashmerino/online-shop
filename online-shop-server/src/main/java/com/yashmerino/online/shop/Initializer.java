@@ -30,7 +30,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -42,7 +41,7 @@ public class Initializer implements CommandLineRunner {
     /**
      * Customers' repository.
      */
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
     /**
      * Sellers' repository.
@@ -72,15 +71,15 @@ public class Initializer implements CommandLineRunner {
     /**
      * Constructor.
      *
-     * @param customerRepository is the repository for customers.
+     * @param userRepository is the repository for customers.
      * @param sellerRepository   is the repository for sellers.
      * @param cartRepository     is the repository for carts.
      * @param cartItemRepository is the repository for cart items.
      * @param productRepository  is the repository for products.
      * @param categoryRepository is the repository for categories.
      */
-    public Initializer(CustomerRepository customerRepository, SellerRepository sellerRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository, CategoryRepository categoryRepository) {
-        this.customerRepository = customerRepository;
+    public Initializer(UserRepository userRepository, SellerRepository sellerRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository, CategoryRepository categoryRepository) {
+        this.userRepository = userRepository;
         this.sellerRepository = sellerRepository;
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
@@ -126,12 +125,12 @@ public class Initializer implements CommandLineRunner {
         cart.addItem(item);
         cartRepository.save(cart);
 
-        Customer customer = new Customer();
-        customer.setId(1L);
-        customer.setFirstName("John");
-        customer.setLastName("McGill");
-        customer.setCart(cart);
+        User user = new User();
+        user.setId(1L);
+        user.setFirstName("John");
+        user.setLastName("McGill");
+        user.setCart(cart);
 
-        customerRepository.save(customer);
+        userRepository.save(user);
     }
 }

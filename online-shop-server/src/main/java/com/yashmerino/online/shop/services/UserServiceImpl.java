@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.repositories;
+package com.yashmerino.online.shop.services;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,14 +24,27 @@ package com.yashmerino.online.shop.repositories;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Seller;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import com.yashmerino.online.shop.repositories.UserRepository;
+import com.yashmerino.online.shop.services.interfaces.UserService;
+import org.springframework.stereotype.Service;
 
 /**
- * Sellers' repository.
+ * Implementation for user service.
  */
-@Repository
-public interface SellerRepository extends CrudRepository<Seller, Long> {
+@Service
+public class UserServiceImpl implements UserService {
 
+    /**
+     * User repository.
+     */
+    private final UserRepository userRepository;
+
+    /**
+     * Constructor to inject dependencies.
+     *
+     * @param userRepository is the user repository.
+     */
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 }

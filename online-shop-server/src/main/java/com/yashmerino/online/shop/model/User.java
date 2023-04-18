@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.services.interfaces;
+package com.yashmerino.online.shop.model;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,9 +24,35 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-/**
- * Interface for customer service.
- */
-public interface CustomerService {
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.Set;
+
+/**
+ * JPA Entity for a user.
+ */
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity(name = "users")
+@Table(name = "users")
+public class User extends NamedEntity {
+
+    /**
+     * User's cart.
+     */
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
+    /**
+     * User's products.
+     */
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private Set<Product> products;
 }

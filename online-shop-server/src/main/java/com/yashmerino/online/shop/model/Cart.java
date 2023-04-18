@@ -51,10 +51,10 @@ public class Cart extends BaseEntity {
     private Set<CartItem> items = new HashSet<>();
 
     /**
-     * Customer of the cart.
+     * User of the cart.
      */
     @OneToOne(mappedBy = "cart")
-    private Customer customer;
+    private User user;
 
     /**
      * Adds an item to the cart.
