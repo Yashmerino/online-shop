@@ -24,7 +24,6 @@ package com.yashmerino.online.shop;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Role;
 import com.yashmerino.online.shop.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -86,19 +85,6 @@ public class Initializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Role adminRole = new Role();
-        adminRole.setName("ADMIN");
-
-        roleRepository.save(adminRole);
-
-        Role userRole = new Role();
-        userRole.setName("USER");
-
-        roleRepository.save(userRole);
-
-        Role sellerRole = new Role();
-        sellerRole.setName("SELLER");
-
-        roleRepository.save(sellerRole);
+        
     }
 }
