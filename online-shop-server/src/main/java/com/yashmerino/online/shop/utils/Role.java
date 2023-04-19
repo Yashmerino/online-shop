@@ -1,5 +1,4 @@
-package com.yashmerino.online.shop.model;
-
+package com.yashmerino.online.shop.utils;
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,42 +23,23 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.base.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 /**
- * JPA Entity for cart's item.
+ * Possbile roles.
  */
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity(name = "cart_items")
-@Table(name = "cart_items")
-public class CartItem extends BaseEntity {
-    /**
-     * The cart item's product.
-     */
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+public enum Role {
 
     /**
-     * The cart item's cart.
+     * Simple user(customer).
      */
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    USER,
 
     /**
-     * Quantity of cart's item.
+     * Seller.
      */
-    private Integer quantity;
+    SELLER,
+
+    /**
+     * Admin.
+     */
+    ADMIN
 }

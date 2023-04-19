@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.services;
+package com.yashmerino.online.shop.security;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,27 +24,31 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.repositories.CustomerRepository;
-import com.yashmerino.online.shop.services.interfaces.CustomerService;
-import org.springframework.stereotype.Service;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 /**
- * Implementation for customer service.
+ * Jwt Auth Entry Point that handles the exceptions.
  */
-@Service
-public class CustomerServiceImpl implements CustomerService {
+@Component
+public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
 
     /**
-     * Customer repository.
+     * Handles the exceptions.
+     * @param request is the request.
+     * @param response is the response.
+     * @param authException is the thrown exception.
+     * @throws IOException
+     * @throws ServletException
      */
-    private final CustomerRepository customerRepository;
-
-    /**
-     * Constructor to inject dependencies.
-     *
-     * @param customerRepository is the customer repository.
-     */
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
     }
 }

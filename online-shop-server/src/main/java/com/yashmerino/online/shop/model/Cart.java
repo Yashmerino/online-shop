@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,10 +52,10 @@ public class Cart extends BaseEntity {
     private Set<CartItem> items = new HashSet<>();
 
     /**
-     * Customer of the cart.
+     * User of the cart.
      */
     @OneToOne(mappedBy = "cart")
-    private Customer customer;
+    private User user;
 
     /**
      * Adds an item to the cart.

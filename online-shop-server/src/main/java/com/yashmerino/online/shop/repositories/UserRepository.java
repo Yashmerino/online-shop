@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.model;
+package com.yashmerino.online.shop.repositories;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,42 +24,31 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.base.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.yashmerino.online.shop.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
- * JPA Entity for cart's item.
+ * Users' repository.
  */
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity(name = "cart_items")
-@Table(name = "cart_items")
-public class CartItem extends BaseEntity {
-    /**
-     * The cart item's product.
-     */
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * The cart item's cart.
+     * Finds a user by username.
+     *
+     * @param username is the username to be used for search.
+     * @return an <code>Optional</code> object.
      */
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    Optional<User> findByUsername(final String username);
 
     /**
-     * Quantity of cart's item.
+     * Checks if a user exists by username.
+     *
+     * @param username is the username to be used for search.
+     * @return <code>true</code> if exists and <code>false</code> otherwise.
      */
-    private Integer quantity;
+    Boolean existsByUsername(final String username);
 }

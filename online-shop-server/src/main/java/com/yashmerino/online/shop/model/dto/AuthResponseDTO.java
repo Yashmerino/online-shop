@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.model;
+package com.yashmerino.online.shop.model.dto;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,42 +24,33 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.base.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.yashmerino.online.shop.security.SecurityConstants;
+import lombok.Data;
+
+import static com.yashmerino.online.shop.security.SecurityConstants.JWT_HEADER;
 
 /**
- * JPA Entity for cart's item.
+ * Authorization response DTO.
  */
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity(name = "cart_items")
-@Table(name = "cart_items")
-public class CartItem extends BaseEntity {
-    /**
-     * The cart item's product.
-     */
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+@Data
+public class AuthResponseDTO {
 
     /**
-     * The cart item's cart.
+     * Access token.
      */
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    private String accessToken;
 
     /**
-     * Quantity of cart's item.
+     * Token's type.
      */
-    private Integer quantity;
+    private String tokenType = JWT_HEADER;
+
+    /**
+     * Constructor.
+     *
+     * @param accessToken is the access token.
+     */
+    public AuthResponseDTO(final String accessToken) {
+        this.accessToken = accessToken;
+    }
 }

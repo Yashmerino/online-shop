@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.model;
+package com.yashmerino.online.shop.model.base;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,24 +24,25 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Base named entity.
+ * Parent class for JPA Entities
  */
 @Getter
 @Setter
 @MappedSuperclass
-public class NamedEntity extends BaseEntity{
-    /**
-     * Entity's first name.
-     */
-    private String firstName;
+public class BaseEntity {
 
     /**
-     * Entity's last name.
+     * Entity's id.
      */
-    private String lastName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 }

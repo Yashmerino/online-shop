@@ -24,31 +24,28 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 /**
- * JPA Entity for seller.
+ * User's roles.
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "sellers")
-@Table(name = "sellers")
-public class Seller extends NamedEntity {
+@Entity
+@Table(name = "roles")
+public class Role {
 
     /**
-     * Seller's products.
+     * Role's id.
      */
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private Set<Product> products;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    /**
+     * Role's name.
+     */
+    private String name;
 }

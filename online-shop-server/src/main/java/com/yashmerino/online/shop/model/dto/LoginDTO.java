@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.model;
+package com.yashmerino.online.shop.model.dto;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,42 +24,30 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.base.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 /**
- * JPA Entity for cart's item.
+ * Login DTO.
  */
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity(name = "cart_items")
-@Table(name = "cart_items")
-public class CartItem extends BaseEntity {
-    /**
-     * The cart item's product.
-     */
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+@Data
+public class LoginDTO {
 
     /**
-     * The cart item's cart.
+     * User's username.
      */
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    private String username;
 
     /**
-     * Quantity of cart's item.
+     * User's password.
      */
-    private Integer quantity;
+    private String password;
+
+    /**
+     * Converts object's data to a JSON Object.
+     *
+     * @return a JSON-format Object.
+     */
+    public String toJson() {
+        return "{\n \t\"username\": \"" + this.username + "\",\n \t\"password\": \"" + this.password + "\"\n}";
+    }
 }

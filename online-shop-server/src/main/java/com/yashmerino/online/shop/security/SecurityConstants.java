@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.services;
+package com.yashmerino.online.shop.security;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,27 +24,28 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.repositories.SellerRepository;
-import com.yashmerino.online.shop.services.interfaces.SellerService;
-import org.springframework.stereotype.Service;
-
 /**
- * Implementation for seller service.
+ * Constant values for security configuration.
  */
-@Service
-public class SellerServiceImpl implements SellerService {
+public class SecurityConstants {
 
     /**
-     * Seller repository.
+     * Time after which JWT token expires.
      */
-    private final SellerRepository sellerRepository;
+    public static final long JWT_EXPIRATION = 70000;
 
     /**
-     * Constructor to inject dependencies.
-     *
-     * @param sellerRepository is the seller repository.
+     * JWT Secret.
      */
-    public SellerServiceImpl(SellerRepository sellerRepository) {
-        this.sellerRepository = sellerRepository;
-    }
+    public static final String JWT_SECRET = "640762F165320F52408DAFED313C106346575273C66013DE94B8D13E9ED20316640762F165320F52408DAFED313C106346575273C66013DE94B8D13E9ED20316640762F165320F52408DAFED313C106346575273C66013DE94B8D13E9ED20316640762F165320F52408DAFED313C106346575273C66013DE94B8D13E9ED20316640762F165320F52408DAFED313C106346575273C66013DE94B8D13E9ED20316640762F165320F52408DAFED313C106346575273C66013DE94B8D13E9ED20316640762F165320F52408DAFED313C106346575273C66013DE94B8D13E9ED20316640762F165320F52408DAFED313C106346575273C66013DE94B8D13E9ED20316";
+
+    /**
+     * Bearer part from the auth header.
+     */
+    public static final String JWT_HEADER = "Bearer ";
+
+    /**
+     * Auth header.
+     */
+    public static final String AUTH_HEADER = "Authorization";
 }

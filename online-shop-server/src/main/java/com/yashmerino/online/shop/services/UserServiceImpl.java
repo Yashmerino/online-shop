@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.services.interfaces;
+package com.yashmerino.online.shop.services;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,9 +24,27 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-/**
- * Interface for seller service.
- */
-public interface SellerService {
+import com.yashmerino.online.shop.repositories.UserRepository;
+import com.yashmerino.online.shop.services.interfaces.UserService;
+import org.springframework.stereotype.Service;
 
+/**
+ * Implementation for user service.
+ */
+@Service
+public class UserServiceImpl implements UserService {
+
+    /**
+     * User repository.
+     */
+    private final UserRepository userRepository;
+
+    /**
+     * Constructor to inject dependencies.
+     *
+     * @param userRepository is the user repository.
+     */
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 }

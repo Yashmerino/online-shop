@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.services.interfaces;
+package com.yashmerino.online.shop.model.dto;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,9 +24,30 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-/**
- * Interface for customer service.
- */
-public interface CustomerService {
+import lombok.Data;
 
+/**
+ * Register DTO.
+ */
+@Data
+public class RegisterDTO {
+
+    /**
+     * User's username.
+     */
+    private String username;
+
+    /**
+     * User's password.
+     */
+    private String password;
+
+    /**
+     * Converts object's data to a JSON Object.
+     *
+     * @return a JSON-format Object.
+     */
+    public String toJson() {
+        return "{\n \t\"username\": \"" + this.username + "\",\n \t\"password\": \"" + this.password + "\"\n}";
+    }
 }

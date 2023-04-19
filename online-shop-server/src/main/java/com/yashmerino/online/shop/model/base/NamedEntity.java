@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.model;
+package com.yashmerino.online.shop.model.base;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,27 +24,24 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * JPA Entity for a customer.
+ * Base named entity.
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "customers")
-@Table(name = "customers")
-public class Customer extends NamedEntity {
+@MappedSuperclass
+public class NamedEntity extends BaseEntity{
+    /**
+     * Entity's first name.
+     */
+    private String firstName;
 
     /**
-     * Customer's cart.
+     * Entity's last name.
      */
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+    private String lastName;
 }

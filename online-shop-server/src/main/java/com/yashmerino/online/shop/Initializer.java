@@ -24,14 +24,10 @@ package com.yashmerino.online.shop;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.*;
+import com.yashmerino.online.shop.model.Role;
 import com.yashmerino.online.shop.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 
 /**
  * Class that initializes data.
@@ -42,12 +38,7 @@ public class Initializer implements CommandLineRunner {
     /**
      * Customers' repository.
      */
-    private final CustomerRepository customerRepository;
-
-    /**
-     * Sellers' repository.
-     */
-    private final SellerRepository sellerRepository;
+    private final UserRepository userRepository;
 
     /**
      * Carts' repository.
@@ -70,68 +61,44 @@ public class Initializer implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
 
     /**
+     * Roles' repository.
+     */
+    private final RoleRepository roleRepository;
+
+    /**
      * Constructor.
      *
-     * @param customerRepository is the repository for customers.
-     * @param sellerRepository   is the repository for sellers.
+     * @param userRepository     is the repository for customers.
      * @param cartRepository     is the repository for carts.
      * @param cartItemRepository is the repository for cart items.
      * @param productRepository  is the repository for products.
      * @param categoryRepository is the repository for categories.
+     * @param roleRepository     is the repository  for roles.
      */
-    public Initializer(CustomerRepository customerRepository, SellerRepository sellerRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository, CategoryRepository categoryRepository) {
-        this.customerRepository = customerRepository;
-        this.sellerRepository = sellerRepository;
+    public Initializer(UserRepository userRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository, CategoryRepository categoryRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Fruits");
-        categoryRepository.save(category);
+        Role adminRole = new Role();
+        adminRole.setName("ADMIN");
 
-        Cart cart = new Cart();
-        cart.setId(1L);
-        cartRepository.save(cart);
+        roleRepository.save(adminRole);
 
-        Seller seller = new Seller();
-        seller.setId(1L);
-        seller.setFirstName("Johny");
-        seller.setLastName("Sins");
-        sellerRepository.save(seller);
+        Role userRole = new Role();
+        userRole.setName("USER");
 
-        Product product = new Product();
-        product.setId(1L);
-        product.setName("Apples");
-        product.setPrice(500);
-        product.setCategories(new HashSet<>(Arrays.asList(category)));
-        product.setSeller(seller);
-        productRepository.save(product);
+        roleRepository.save(userRole);
 
-        seller.setProducts(new HashSet<>(Arrays.asList(product)));
-        sellerRepository.save(seller);
+        Role sellerRole = new Role();
+        sellerRole.setName("SELLER");
 
-        CartItem item = new CartItem();
-        item.setId(1L);
-        item.setQuantity(5);
-        item.setCart(cart);
-        item.setProduct(product);
-        cartItemRepository.save(item);
-
-        cart.addItem(item);
-        cartRepository.save(cart);
-
-        Customer customer = new Customer();
-        customer.setId(1L);
-        customer.setFirstName("John");
-        customer.setLastName("McGill");
-        customer.setCart(cart);
-
-        customerRepository.save(customer);
+        roleRepository.save(sellerRole);
     }
 }

@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.repositories;
+package com.yashmerino.online.shop.services.interfaces;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,14 +24,9 @@ package com.yashmerino.online.shop.repositories;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Customer;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
 /**
- * Customers' repository.
+ * Interface for user service.
  */
-@Repository
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
+public interface UserService {
 
 }

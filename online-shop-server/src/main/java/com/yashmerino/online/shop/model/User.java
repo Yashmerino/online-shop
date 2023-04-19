@@ -24,25 +24,56 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import com.yashmerino.online.shop.model.base.NamedEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * Parent class for JPA Entities
+ * JPA Entity for a user.
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@MappedSuperclass
-public class BaseEntity {
+@Entity(name = "users")
+@Table(name = "users")
+public class User extends NamedEntity {
 
     /**
-     * Entity's id.
+     * User's cart.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
+    /**
+     * User's products.
+     */
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private Set<Product> products;
+
+    /**
+     * User's username.
+     */
+    private String username;
+
+    /**
+     * User's password.
+     */
+    private String password;
+
+    /**
+     * User's roles.
+     */
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles = new HashSet<>();
+
+
 }

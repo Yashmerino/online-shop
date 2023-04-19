@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -63,6 +64,6 @@ public class Product extends BaseEntity {
      * Product's seller.
      */
     @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Seller seller;
+    @JoinColumn(name = "user_id")
+    private User user;
 }

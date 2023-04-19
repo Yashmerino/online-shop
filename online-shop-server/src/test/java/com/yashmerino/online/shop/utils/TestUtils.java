@@ -1,5 +1,4 @@
-package com.yashmerino.online.shop.model;
-
+package com.yashmerino.online.shop.utils;
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,42 +23,34 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.base.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+
+import static com.yashmerino.online.shop.security.SecurityConstants.JWT_SECRET;
 
 /**
- * JPA Entity for cart's item.
+ * Utils for tests.
  */
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity(name = "cart_items")
-@Table(name = "cart_items")
-public class CartItem extends BaseEntity {
-    /**
-     * The cart item's product.
-     */
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+public class TestUtils {
 
     /**
-     * The cart item's cart.
+     * Generates a JWT Token.
+     * @param username is the user's username.
+     * @param email is the user's email.
+     * @param role is the user's role.
+     * @return Generated JWT Token.
      */
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    public static String generateToken(final String username, final String email, final Role role) {
+        Claims claims = Jwts.claims();
+        claims.put("username", username);
+        claims.put("email", email);
+        claims.put("role", role.name());
 
-    /**
-     * Quantity of cart's item.
-     */
-    private Integer quantity;
+        SecretKey secretKey = Keys.hmacShaKeyFor(JWT_SECRET.getBytes(StandardCharsets.UTF_8));
+        return Jwts.builder().setClaims(claims).signWith(secretKey).compact();
+    }
 }
