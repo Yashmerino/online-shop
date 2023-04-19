@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.model.controllers;
+package com.yashmerino.online.shop.controllers;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
