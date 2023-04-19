@@ -57,6 +57,21 @@ public class SecurityConfig {
     private JwtAuthEntryPoint jwtAuthEntryPoint;
 
     /**
+     * Endpoints for Swagger UI.
+     */
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
+
+    /**
      * Constructor.
      *
      * @param customUserDetailsService is the custom user details service.
@@ -88,6 +103,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .requestMatchers(toH2Console()).permitAll()
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .anyRequest()
                         .authenticated())
                 .httpBasic();

@@ -32,6 +32,18 @@ import com.yashmerino.online.shop.model.dto.RegisterDTO;
 import com.yashmerino.online.shop.repositories.RoleRepository;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.security.JwtProvider;
+import com.yashmerino.online.shop.swagger.SwaggerConfig;
+import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
+import com.yashmerino.online.shop.swagger.SwaggerMediaTypes;
+import com.yashmerino.online.shop.swagger.SwaggerMessages;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,10 +51,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -50,7 +62,9 @@ import java.util.HashSet;
 /**
  * Controller for authentication.
  */
-@Controller
+@Tag(name = "Authentication/Authorization", description = "These endpoints are used to register/login.")
+@SecurityRequirement(name = SwaggerConfig.SECURITY_SCHEME_NAME)
+@RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
@@ -102,8 +116,17 @@ public class AuthController {
      * @param registerDTO is the user's data.
      * @return <code>ResponseEntity</code>
      */
+    @Operation(summary = "Registers a new user.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SUCCESSFULLY_REGISTERED,
+                    content = {@Content(mediaType = SwaggerMediaTypes.APPLICATION_JSON,
+                            schema = @Schema(implementation = RegisterDTO.class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.USERNAME_IS_TAKEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<String> register(@Parameter(description = "JSON Object for user's credentials.") @RequestBody RegisterDTO registerDTO) {
         if (userRepository.existsByUsername(registerDTO.getUsername())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
@@ -126,8 +149,17 @@ public class AuthController {
      * @param loginDTO is the user's data.
      * @return <code>ResponseEntity</code>
      */
+    @Operation(summary = "Allows user to login and get his JWT Token.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SIGNED_IN,
+                    content = {@Content(mediaType = SwaggerMediaTypes.APPLICATION_JSON,
+                            schema = @Schema(implementation = RegisterDTO.class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.USER_DOES_NOT_EXIST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<AuthResponseDTO> login(@Parameter(description = "JSON Object for user's credentials.") @RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
