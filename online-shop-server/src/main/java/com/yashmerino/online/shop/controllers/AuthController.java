@@ -34,7 +34,6 @@ import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.security.JwtProvider;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
-import com.yashmerino.online.shop.swagger.SwaggerMediaTypes;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -45,6 +44,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -119,7 +119,7 @@ public class AuthController {
     @Operation(summary = "Registers a new user.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SUCCESSFULLY_REGISTERED,
-                    content = {@Content(mediaType = SwaggerMediaTypes.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = RegisterDTO.class))}),
             @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.USERNAME_IS_TAKEN,
                     content = @Content),
@@ -152,7 +152,7 @@ public class AuthController {
     @Operation(summary = "Allows user to login and get his JWT Token.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SIGNED_IN,
-                    content = {@Content(mediaType = SwaggerMediaTypes.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = RegisterDTO.class))}),
             @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.USER_DOES_NOT_EXIST,
                     content = @Content),
