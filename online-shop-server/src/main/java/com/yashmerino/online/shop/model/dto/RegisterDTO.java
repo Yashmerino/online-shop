@@ -33,6 +33,11 @@ import lombok.Data;
 public class RegisterDTO {
 
     /**
+     * User's email.
+     */
+    private String email;
+
+    /**
      * User's username.
      */
     private String username;
@@ -48,6 +53,6 @@ public class RegisterDTO {
      * @return a JSON-format Object.
      */
     public String toJson() {
-        return "{\n \t\"username\": \"" + this.username + "\",\n \t\"password\": \"" + this.password + "\"\n}";
+        return "{\n" + "\t\"email\": \"" + this.email + "\",\n" + "\t\"username\": \"" + this.username + "\",\n \t\"password\": \"" + this.password + "\"\n}";
     }
 }

@@ -70,6 +70,7 @@ class AuthControllerTest {
         registerDTO = new RegisterDTO();
         registerDTO.setUsername("test");
         registerDTO.setPassword("test");
+        registerDTO.setEmail("test@test.test");
 
         loginDTO = new LoginDTO();
         loginDTO.setUsername("test");
