@@ -24,14 +24,14 @@ package com.yashmerino.online.shop.exceptions;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /**
- * Exception thrown when the login field was not provided.
+ * Exception thrown when the username field is already taken.
  */
-public class NoLoginProvidedException extends RuntimeException {
+public class UsernameAlreadyTakenException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public NoLoginProvidedException() {
+    public UsernameAlreadyTakenException() {
         super();
     }
 }
