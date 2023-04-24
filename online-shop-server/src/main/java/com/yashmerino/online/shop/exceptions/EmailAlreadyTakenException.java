@@ -26,12 +26,12 @@ package com.yashmerino.online.shop.exceptions;
 /**
  * Exception thrown when the email field is already taken.
  */
-public class EmailAlreadyTaken extends RuntimeException {
+public class EmailAlreadyTakenException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public EmailAlreadyTaken() {
+    public EmailAlreadyTakenException() {
         super();
     }
 }

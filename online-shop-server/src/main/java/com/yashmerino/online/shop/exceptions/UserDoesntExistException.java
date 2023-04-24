@@ -24,14 +24,14 @@ package com.yashmerino.online.shop.exceptions;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /**
- * Exception thrown when the login field is invalid.
+ * Exception thrown when the user doesn't exist.
  */
-public class InvalidLogin extends RuntimeException {
+public class UserDoesntExistException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public InvalidLogin() {
+    public UserDoesntExistException() {
         super();
     }
 }

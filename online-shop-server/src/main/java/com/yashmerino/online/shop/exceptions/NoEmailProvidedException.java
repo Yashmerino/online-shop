@@ -26,12 +26,12 @@ package com.yashmerino.online.shop.exceptions;
 /**
  * Exception thrown when the email field was not provided.
  */
-public class NoEmailProvided extends RuntimeException {
+public class NoEmailProvidedException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public NoEmailProvided() {
+    public NoEmailProvidedException() {
         super();
     }
 }

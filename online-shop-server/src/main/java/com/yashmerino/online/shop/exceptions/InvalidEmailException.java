@@ -26,12 +26,12 @@ package com.yashmerino.online.shop.exceptions;
 /**
  * Exception thrown when the email field is invalid.
  */
-public class InvalidEmail extends RuntimeException {
+public class InvalidEmailException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public InvalidEmail() {
+    public InvalidEmailException() {
         super();
     }
 }

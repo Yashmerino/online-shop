@@ -24,14 +24,14 @@ package com.yashmerino.online.shop.exceptions;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /**
- * Exception thrown when the user doesn't exist.
+ * Exception thrown when the request is bad.
  */
-public class UserDoesntExist extends RuntimeException {
+public class InvalidInputException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public UserDoesntExist() {
+    public InvalidInputException() {
         super();
     }
 }

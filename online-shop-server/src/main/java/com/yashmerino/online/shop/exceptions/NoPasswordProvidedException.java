@@ -24,14 +24,14 @@ package com.yashmerino.online.shop.exceptions;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /**
- * Exception thrown when the login field was not provided.
+ * Exception thrown when the password field was not provided.
  */
-public class NoLoginProvided extends RuntimeException {
+public class NoPasswordProvidedException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public NoLoginProvided() {
+    public NoPasswordProvidedException() {
         super();
     }
 }

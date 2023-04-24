@@ -26,12 +26,12 @@ package com.yashmerino.online.shop.exceptions;
 /**
  * Exception thrown when the password field is invalid.
  */
-public class InvalidPassword extends RuntimeException {
+public class InvalidPasswordException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public InvalidPassword() {
+    public InvalidPasswordException() {
         super();
     }
 }

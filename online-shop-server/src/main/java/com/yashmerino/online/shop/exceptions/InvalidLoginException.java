@@ -24,14 +24,14 @@ package com.yashmerino.online.shop.exceptions;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /**
- * Exception thrown when the login field is already taken.
+ * Exception thrown when the login field is invalid.
  */
-public class LoginAlreadyTaken extends RuntimeException {
+public class InvalidLoginException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public LoginAlreadyTaken() {
+    public InvalidLoginException() {
         super();
     }
 }
