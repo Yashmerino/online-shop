@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.model.dto;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.utils.Role;
 import lombok.Data;
 
 /**
@@ -31,6 +32,11 @@ import lombok.Data;
  */
 @Data
 public class RegisterDTO {
+
+    /**
+     * User's role.
+     */
+    private Role role;
 
     /**
      * User's email.
@@ -53,6 +59,6 @@ public class RegisterDTO {
      * @return a JSON-format Object.
      */
     public String toJson() {
-        return "{\n" + "\t\"email\": \"" + this.email + "\",\n" + "\t\"username\": \"" + this.username + "\",\n \t\"password\": \"" + this.password + "\"\n}";
+        return "{\n" + "\t\"role\": \"" + this.role.name() + "\",\n" + "\t\"email\": \"" + this.email + "\",\n" + "\t\"username\": \"" + this.username + "\",\n \t\"password\": \"" + this.password + "\"\n}";
     }
 }

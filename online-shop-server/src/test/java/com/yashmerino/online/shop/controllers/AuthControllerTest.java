@@ -25,6 +25,7 @@ package com.yashmerino.online.shop.controllers;
 
 import com.yashmerino.online.shop.model.dto.LoginDTO;
 import com.yashmerino.online.shop.model.dto.RegisterDTO;
+import com.yashmerino.online.shop.utils.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,7 @@ class AuthControllerTest {
     @BeforeEach
     void initialize() {
         registerDTO = new RegisterDTO();
+        registerDTO.setRole(Role.USER);
         registerDTO.setUsername("test");
         registerDTO.setPassword("test");
         registerDTO.setEmail("test@test.test");
