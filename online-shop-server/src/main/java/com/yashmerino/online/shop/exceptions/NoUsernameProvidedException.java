@@ -24,14 +24,14 @@ package com.yashmerino.online.shop.exceptions;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /**
- * Exception thrown when the login field is invalid.
+ * Exception thrown when the username field was not provided.
  */
-public class InvalidLoginException extends RuntimeException {
+public class NoUsernameProvidedException extends RuntimeException {
 
     /**
      * Constructor;
      */
-    public InvalidLoginException() {
+    public NoUsernameProvidedException() {
         super();
     }
 }

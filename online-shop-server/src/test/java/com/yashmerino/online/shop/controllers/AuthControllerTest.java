@@ -36,8 +36,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static com.yashmerino.online.shop.utils.Role.USER;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 class AuthControllerTest {
 
@@ -69,7 +71,7 @@ class AuthControllerTest {
     @BeforeEach
     void initialize() {
         registerDTO = new RegisterDTO();
-        registerDTO.setRole(Role.USER);
+        registerDTO.setRole(USER);
         registerDTO.setUsername("test");
         registerDTO.setPassword("test");
         registerDTO.setEmail("test@test.test");
