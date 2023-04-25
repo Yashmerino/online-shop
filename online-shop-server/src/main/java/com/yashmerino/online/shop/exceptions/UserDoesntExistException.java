@@ -31,7 +31,7 @@ public class UserDoesntExistException extends RuntimeException {
     /**
      * Constructor;
      */
-    public UserDoesntExistException() {
-        super();
+    public UserDoesntExistException(final String message) {
+        super(message);
     }
 }

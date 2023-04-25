@@ -31,7 +31,7 @@ public class NoPasswordProvidedException extends RuntimeException {
     /**
      * Constructor;
      */
-    public NoPasswordProvidedException() {
-        super();
+    public NoPasswordProvidedException(final String message) {
+        super(message);
     }
 }

@@ -31,7 +31,7 @@ public class InvalidUsernameException extends RuntimeException {
     /**
      * Constructor;
      */
-    public InvalidUsernameException() {
-        super();
+    public InvalidUsernameException(final String message) {
+        super(message);
     }
 }

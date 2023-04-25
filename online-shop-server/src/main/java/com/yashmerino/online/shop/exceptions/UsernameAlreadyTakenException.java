@@ -31,7 +31,7 @@ public class UsernameAlreadyTakenException extends RuntimeException {
     /**
      * Constructor;
      */
-    public UsernameAlreadyTakenException() {
-        super();
+    public UsernameAlreadyTakenException(final String message) {
+        super(message);
     }
 }

@@ -31,7 +31,7 @@ public class NoUsernameProvidedException extends RuntimeException {
     /**
      * Constructor;
      */
-    public NoUsernameProvidedException() {
-        super();
+    public NoUsernameProvidedException(final String message) {
+        super(message);
     }
 }

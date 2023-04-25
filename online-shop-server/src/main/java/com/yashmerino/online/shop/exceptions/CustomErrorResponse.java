@@ -1,4 +1,5 @@
 package com.yashmerino.online.shop.exceptions;
+
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -23,15 +24,32 @@ package com.yashmerino.online.shop.exceptions;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
 /**
- * Exception thrown when the email field is invalid.
+ * Custom error response returned to user when an error occurs.
  */
-public class InvalidEmailException extends RuntimeException {
+@Getter
+@Setter
+public class CustomErrorResponse {
 
     /**
-     * Constructor;
+     * Timestamp.
      */
-    public InvalidEmailException(final String message) {
-        super(message);
-    }
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime timestamp;
+
+    /**
+     * Error's HTTP status.
+     */
+    private int status;
+
+    /**
+     * Error message.
+     */
+    private String error;
 }

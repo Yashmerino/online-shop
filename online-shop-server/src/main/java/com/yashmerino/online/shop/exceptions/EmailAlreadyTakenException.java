@@ -31,7 +31,7 @@ public class EmailAlreadyTakenException extends RuntimeException {
     /**
      * Constructor;
      */
-    public EmailAlreadyTakenException() {
-        super();
+    public EmailAlreadyTakenException(final String message) {
+        super(message);
     }
 }

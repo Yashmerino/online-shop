@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.LocalDateTime;
+
 /**
  * Controler advice that handles thrown exceptions in API requests.
  */
@@ -44,7 +46,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {EmailAlreadyTakenException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public ResponseEntity emailAlreadyTakenExceptionHandler(EmailAlreadyTakenException e) {
-        return new ResponseEntity<>("The email is already taken!", HttpStatus.CONFLICT);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.CONFLICT.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
     }
 
     /**
@@ -56,7 +63,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {InvalidEmailException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity invalidEmailExceptionHandler(InvalidEmailException e) {
-        return new ResponseEntity<>("The email is invalid!", HttpStatus.BAD_REQUEST);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -68,7 +80,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {InvalidInputException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity invalidInputExceptionHandler(InvalidInputException e) {
-        return new ResponseEntity<>("The input is invalid", HttpStatus.BAD_REQUEST);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -80,7 +97,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {InvalidPasswordException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity invalidPasswordExceptionHandler(InvalidPasswordException e) {
-        return new ResponseEntity<>("The password is invalid", HttpStatus.BAD_REQUEST);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -92,7 +114,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {InvalidUsernameException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity invalidUsernameExceptionHandler(InvalidUsernameException e) {
-        return new ResponseEntity<>("The username is invalid", HttpStatus.BAD_REQUEST);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -104,7 +131,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {NoEmailProvidedException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity noEmailProvidedExceptionHandler(NoEmailProvidedException e) {
-        return new ResponseEntity<>("Email field is not provided!", HttpStatus.BAD_REQUEST);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -116,7 +148,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {NoPasswordProvidedException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity noPasswordProvidedExceptionHandler(NoPasswordProvidedException e) {
-        return new ResponseEntity<>("Password field is not provided!", HttpStatus.BAD_REQUEST);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -128,7 +165,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {NoUsernameProvidedException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity noUsernameProvidedExceptionHandler(NoUsernameProvidedException e) {
-        return new ResponseEntity<>("Username field is not provided!", HttpStatus.BAD_REQUEST);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -140,7 +182,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {UserDoesntExistException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ResponseEntity userDoesntExistExceptionHandler(UserDoesntExistException e) {
-        return new ResponseEntity<>("User doesn't exist!", HttpStatus.NOT_FOUND);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.NOT_FOUND.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -152,6 +199,11 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {UsernameAlreadyTakenException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public ResponseEntity usernameAlreadyTakenExceptionHandler(UsernameAlreadyTakenException e) {
-        return new ResponseEntity<>("Username is already taken!", HttpStatus.CONFLICT);
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.CONFLICT.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
     }
 }

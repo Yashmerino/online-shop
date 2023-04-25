@@ -31,7 +31,7 @@ public class NoEmailProvidedException extends RuntimeException {
     /**
      * Constructor;
      */
-    public NoEmailProvidedException() {
-        super();
+    public NoEmailProvidedException(final String message) {
+        super(message);
     }
 }
