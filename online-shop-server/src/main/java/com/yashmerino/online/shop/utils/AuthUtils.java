@@ -41,7 +41,7 @@ public class AuthUtils {
     /**
      * Regex to check if an email is valid.
      */
-    private static String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+    private static final String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
             "[a-zA-Z0-9_+&*-]+)*@" +
             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
             "A-Z]{2,7}$";
@@ -49,7 +49,7 @@ public class AuthUtils {
     /**
      * Regex pattern object that checks if an email is valid.
      */
-    private static Pattern emailRegexPattern = Pattern.compile(emailRegex);
+    private static final Pattern emailRegexPattern = Pattern.compile(emailRegex);
 
     /**
      * Method that validates the registration process and throws exceptions in case it's invalid.
