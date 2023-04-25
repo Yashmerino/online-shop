@@ -25,7 +25,7 @@ package com.yashmerino.online.shop.controllers;
 
 import com.yashmerino.online.shop.model.dto.LoginDTO;
 import com.yashmerino.online.shop.model.dto.RegisterDTO;
-import com.yashmerino.online.shop.utils.Role;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+@Transactional
 @ActiveProfiles("test")
 class AuthControllerTest {
 
@@ -106,10 +107,54 @@ class AuthControllerTest {
                 APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isOk());
 
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
+                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isConflict()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("\"status\":409,\"error\":\"Username is already taken!\"}"));
+    }
+
+    /**
+     * Tests /register without email.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void registerNoEmailTest() throws Exception {
+        registerDTO.setEmail("");
+
+        MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
 
-        String content = result.getResponse().getContentAsString();
-        assertTrue(content.contains("Username is taken!"));
+        assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Email field not provided!\"}"));
+    }
+
+    /**
+     * Tests /register with invalid email.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void registerInvalidEmailTest() throws Exception {
+        registerDTO.setEmail("@invalid.mail");
+
+        MvcResult result = mvc.perform(post("/api/auth/register").contentType(
+                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Email field is invalid!\"}"));
+    }
+
+    /**
+     * Tests /register with email without address sign.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void registerNoSignEmailTest() throws Exception {
+        registerDTO.setEmail("nosign_email");
+
+        MvcResult result = mvc.perform(post("/api/auth/register").contentType(
+                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Email field is invalid!\"}"));
     }
 
     /**
@@ -119,8 +164,12 @@ class AuthControllerTest {
      */
     @Test
     void registerNoUsername() throws Exception {
-        mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isOk());
+        registerDTO.setUsername("");
+
+        MvcResult result = mvc.perform(post("/api/auth/register").contentType(
+                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Username field not provided!\"}"));
     }
 
     /**
@@ -130,7 +179,7 @@ class AuthControllerTest {
      */
     @Test
     void registerNoRequestBodyTest() throws Exception {
-        mvc.perform(post("/api/auth/register")).andExpect(status().isBadRequest());
+        mvc.perform(post("/api/auth/register")).andExpect(status().isBadRequest()).andReturn();
     }
 
     /**
@@ -140,8 +189,12 @@ class AuthControllerTest {
      */
     @Test
     void registerNoPasswordTest() throws Exception {
-        mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isOk());
+        registerDTO.setPassword("");
+
+        MvcResult result = mvc.perform(post("/api/auth/register").contentType(
+                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Password field not provided!\"}"));
     }
 
     /**
@@ -184,8 +237,10 @@ class AuthControllerTest {
 
         loginDTO.setUsername("");
 
-        mvc.perform(post("/api/auth/login").contentType(
-                APPLICATION_JSON).content(loginDTO.toJson())).andExpect(status().isUnauthorized());
+        MvcResult result = mvc.perform(post("/api/auth/login").contentType(
+                APPLICATION_JSON).content(loginDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Username field not provided!\"}"));
     }
 
     /**
@@ -200,7 +255,9 @@ class AuthControllerTest {
 
         loginDTO.setPassword("");
 
-        mvc.perform(post("/api/auth/login").contentType(
-                APPLICATION_JSON).content(loginDTO.toJson())).andExpect(status().isUnauthorized());
+        MvcResult result = mvc.perform(post("/api/auth/login").contentType(
+                APPLICATION_JSON).content(loginDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Password field not provided!\"}"));
     }
 }
