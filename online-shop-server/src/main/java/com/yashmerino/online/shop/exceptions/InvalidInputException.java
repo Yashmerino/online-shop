@@ -31,7 +31,7 @@ public class InvalidInputException extends RuntimeException {
     /**
      * Constructor;
      */
-    public InvalidInputException() {
-        super();
+    public InvalidInputException(final String message) {
+        super(message);
     }
 }

@@ -31,7 +31,7 @@ public class InvalidEmailException extends RuntimeException {
     /**
      * Constructor;
      */
-    public InvalidEmailException() {
-        super();
+    public InvalidEmailException(final String message) {
+        super(message);
     }
 }

@@ -77,11 +77,11 @@ public class AuthUtils {
         final String password = registerDto.getPassword();
 
         if (email == null || email.trim().isEmpty()) {
-            throw new NoEmailProvidedException();
+            throw new NoEmailProvidedException("Email field not provided!");
         } else if (username == null || username.trim().isEmpty()) {
-            throw new NoUsernameProvidedException();
+            throw new NoUsernameProvidedException("Username field not provided!");
         } else if (password == null || password.trim().isEmpty()) {
-            throw new NoPasswordProvidedException();
+            throw new NoPasswordProvidedException("Password field not provided!");
         }
     }
 
@@ -92,11 +92,11 @@ public class AuthUtils {
      */
     private static void isEmailValid(final String email) {
         if (email == null) {
-            throw new NoUsernameProvidedException();
+            throw new NoEmailProvidedException("Email field not provided!");
         }
 
         if (!emailRegexPattern.matcher(email).matches()) {
-            throw new InvalidEmailException();
+            throw new InvalidEmailException("Email field not provided!");
         }
     }
 
@@ -110,9 +110,9 @@ public class AuthUtils {
         final String password = loginDTO.getPassword();
 
         if (username == null || username.trim().isEmpty()) {
-            throw new NoUsernameProvidedException();
+            throw new NoUsernameProvidedException("Username field not provided!");
         } else if (password == null || password.trim().isEmpty()) {
-            throw new NoPasswordProvidedException();
+            throw new NoPasswordProvidedException("Password field not provided!");
         }
     }
 }
