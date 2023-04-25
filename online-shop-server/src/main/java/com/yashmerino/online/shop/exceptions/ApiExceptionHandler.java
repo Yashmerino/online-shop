@@ -151,7 +151,7 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {UsernameAlreadyTakenException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
-    public ResponseEntity usernameAlreadyTakenExceptionHandler(UserDoesntExistException e) {
+    public ResponseEntity usernameAlreadyTakenExceptionHandler(UsernameAlreadyTakenException e) {
         return new ResponseEntity<>("Username is already taken!", HttpStatus.CONFLICT);
     }
 }
