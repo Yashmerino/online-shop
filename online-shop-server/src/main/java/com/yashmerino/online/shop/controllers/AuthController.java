@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.exceptions.UsernameAlreadyTakenException;
 import com.yashmerino.online.shop.model.Role;
 import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.AuthResponseDTO;
@@ -35,6 +36,7 @@ import com.yashmerino.online.shop.security.JwtProvider;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
+import com.yashmerino.online.shop.utils.AuthUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -128,14 +130,15 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@Parameter(description = "JSON Object for user's credentials.") @RequestBody RegisterDTO registerDTO) {
         if (userRepository.existsByUsername(registerDTO.getUsername())) {
-            return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
+            throw new UsernameAlreadyTakenException("Username is already taken!");
         }
+
+        AuthUtils.validateRegistration(registerDTO);
 
         User user = new User();
         user.setUsername(registerDTO.getUsername());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-
-        Role roles = roleRepository.findByName("USER").get();
+        Role roles = roleRepository.findByName(registerDTO.getRole().name()).get();
         user.setRoles(new HashSet<>(Arrays.asList(roles)));
 
         userRepository.save(user);
@@ -160,6 +163,8 @@ public class AuthController {
                     content = @Content)})
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Parameter(description = "JSON Object for user's credentials.") @RequestBody LoginDTO loginDTO) {
+        AuthUtils.validateLogin(loginDTO);
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
