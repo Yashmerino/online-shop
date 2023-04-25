@@ -96,7 +96,7 @@ public class AuthUtils {
         }
 
         if (!emailRegexPattern.matcher(email).matches()) {
-            throw new InvalidEmailException("Email field not provided!");
+            throw new InvalidEmailException("Email field is invalid!");
         }
     }
 
