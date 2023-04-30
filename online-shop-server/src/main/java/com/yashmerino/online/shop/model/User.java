@@ -26,10 +26,8 @@ package com.yashmerino.online.shop.model;
 
 import com.yashmerino.online.shop.model.base.NamedEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -61,11 +59,13 @@ public class User extends NamedEntity {
     /**
      * User's username.
      */
+    @NonNull
     private String username;
 
     /**
      * User's password.
      */
+    @NonNull
     private String password;
 
     /**

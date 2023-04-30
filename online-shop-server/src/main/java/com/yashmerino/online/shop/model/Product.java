@@ -26,10 +26,8 @@ package com.yashmerino.online.shop.model;
 
 import com.yashmerino.online.shop.model.base.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Min;
+import lombok.*;
 
 import java.util.Set;
 
@@ -47,11 +45,14 @@ public class Product extends BaseEntity {
     /**
      * Product's name.
      */
+    @NonNull
     private String name;
 
     /**
      * Product's price.
      */
+    @NonNull
+    @Min(value = 0)
     private double price;
 
     /**

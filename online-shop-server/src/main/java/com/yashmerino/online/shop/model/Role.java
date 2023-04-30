@@ -26,6 +26,7 @@ package com.yashmerino.online.shop.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -47,5 +48,6 @@ public class Role {
     /**
      * Role's name.
      */
+    @NonNull
     private String name;
 }
