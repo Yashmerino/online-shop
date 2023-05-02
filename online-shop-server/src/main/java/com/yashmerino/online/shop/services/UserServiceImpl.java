@@ -24,9 +24,13 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Implementation for user service.
@@ -46,5 +50,22 @@ public class UserServiceImpl implements UserService {
      */
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    /**
+     * Returns user by id.
+     *
+     * @param id is the user's id.
+     * @return <code>User</code>
+     */
+    @Override
+    public Optional<User> getById(Long id) {
+        Optional<User> user = Optional.of(userRepository.getById(id));
+
+        if (!user.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+
+        return user;
     }
 }

@@ -25,6 +25,7 @@ package com.yashmerino.online.shop.controllers;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.exceptions.UsernameAlreadyTakenException;
+import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.model.Role;
 import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.auth.AuthResponseDTO;
@@ -33,6 +34,7 @@ import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
 import com.yashmerino.online.shop.repositories.RoleRepository;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.security.JwtProvider;
+import com.yashmerino.online.shop.services.interfaces.CartService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
@@ -96,6 +98,11 @@ public class AuthController {
     private final JwtProvider jwtProvider;
 
     /**
+     * Cart service.
+     */
+    private final CartService cartService;
+
+    /**
      * Constructor.
      *
      * @param authenticationManager is the authentication manager.
@@ -103,13 +110,15 @@ public class AuthController {
      * @param roleRepository        is the roles' repository.
      * @param passwordEncoder       is the password encoder.
      * @param jwtProvider           is the JWT token generator.
+     * @param cartService           is the cart service.
      */
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtProvider jwtProvider) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtProvider jwtProvider, CartService cartService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtProvider = jwtProvider;
+        this.cartService = cartService;
     }
 
     /**
@@ -141,7 +150,15 @@ public class AuthController {
         Role roles = roleRepository.findByName(registerDTO.getRole().name()).get();
         user.setRoles(new HashSet<>(Arrays.asList(roles)));
 
+        Cart cart = new Cart();
+        cartService.save(cart);
         userRepository.save(user);
+
+        user.setCart(cart);
+        userRepository.save(user);
+
+        cart.setUser(user);
+        cartService.save(cart);
 
         return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
     }

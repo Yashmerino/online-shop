@@ -54,5 +54,5 @@ public class ProductDTO {
     /**
      * Product's user id.
      */
-    private Integer userId;
+    private Long userId;
 }

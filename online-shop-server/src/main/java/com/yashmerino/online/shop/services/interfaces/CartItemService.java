@@ -55,4 +55,10 @@ public interface CartItemService {
      * @return <code>CartItem</code>
      */
     Optional<CartItem> getCartItem(final Long id);
+
+    /**
+     * Saves cart item.
+     * @param cartItem is the cart item.
+     */
+    void save(final CartItem cartItem);
 }

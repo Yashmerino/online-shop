@@ -24,9 +24,13 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.repositories.ProductRepository;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Implementation for product service.
@@ -46,5 +50,33 @@ public class ProductServiceImpl implements ProductService {
      */
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    /**
+     * Returns the product.
+     *
+     * @param id is the product's id.
+     * @return <code>Product</code>
+     */
+    @Override
+    public Optional<Product> getProduct(Long id) {
+        Optional<Product> product = Optional.of(productRepository.getById(id));
+
+        if (!product.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+
+        return product;
+    }
+
+    /**
+     * Saves a product.
+     *
+     * @param product is the product's object.
+     * @return <code>Product</code>
+     */
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
     }
 }

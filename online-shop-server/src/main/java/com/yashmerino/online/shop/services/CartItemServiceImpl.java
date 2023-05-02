@@ -72,6 +72,8 @@ public class CartItemServiceImpl implements CartItemService {
         CartItem cartItem = cartItemRepository.getById(id);
 
         cartItem.setQuantity(quantity);
+
+        cartItemRepository.save(cartItem);
     }
 
     /**
@@ -83,5 +85,15 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public Optional<CartItem> getCartItem(Long id) {
         return Optional.of(cartItemRepository.getById(id));
+    }
+
+    /**
+     * Saves cart item.
+     *
+     * @param cartItem is the cart item.
+     */
+    @Override
+    public void save(CartItem cartItem) {
+        cartItemRepository.save(cartItem);
     }
 }
