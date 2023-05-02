@@ -1,5 +1,4 @@
-package com.yashmerino.online.shop.model;
-
+package com.yashmerino.online.shop.model.dto;
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,47 +23,36 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.base.BaseEntity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import lombok.*;
+import com.yashmerino.online.shop.model.Category;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
 /**
- * JPA Entity for a product.
+ * Product DTO.
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "products")
-@Table(name = "products")
-public class Product extends BaseEntity {
+public class ProductDTO {
 
     /**
-     * Product's name.
+     * Product's name;
      */
-    @NonNull
     private String name;
 
     /**
-     * Product's price.
+     * Product's Price.
      */
-    @NonNull
-    @Min(value = 0)
     private Double price;
 
     /**
      * Product's categories.
      */
-    @OneToMany(mappedBy = "id")
     private Set<Category> categories;
 
     /**
-     * Product's seller.
+     * Product's user id.
      */
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Integer userId;
 }

@@ -23,8 +23,28 @@ package com.yashmerino.online.shop.model.dto;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
- * Cart's DTO.
+ * Cart item DTO.
  */
-public class CartDTO {
+@Getter
+@Setter
+public class CartItemDTO {
+
+    /**
+     * Product's id.
+     */
+    private Integer productId;
+
+    /**
+     * Cart's id.
+     */
+    private Integer cartId;
+
+    /**
+     * Quantity.
+     */
+    private Integer quantity;
 }
