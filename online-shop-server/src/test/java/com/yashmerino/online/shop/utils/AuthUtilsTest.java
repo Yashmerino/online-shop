@@ -27,8 +27,8 @@ import com.yashmerino.online.shop.exceptions.InvalidEmailException;
 import com.yashmerino.online.shop.exceptions.NoEmailProvidedException;
 import com.yashmerino.online.shop.exceptions.NoPasswordProvidedException;
 import com.yashmerino.online.shop.exceptions.NoUsernameProvidedException;
-import com.yashmerino.online.shop.model.dto.LoginDTO;
-import com.yashmerino.online.shop.model.dto.RegisterDTO;
+import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
+import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

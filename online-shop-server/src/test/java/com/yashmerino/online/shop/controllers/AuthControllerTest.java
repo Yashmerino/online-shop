@@ -23,8 +23,8 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.dto.LoginDTO;
-import com.yashmerino.online.shop.model.dto.RegisterDTO;
+import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
+import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

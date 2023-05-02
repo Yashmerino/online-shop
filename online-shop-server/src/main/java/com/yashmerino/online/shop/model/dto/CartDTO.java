@@ -1,5 +1,4 @@
 package com.yashmerino.online.shop.model.dto;
-
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,30 +23,8 @@ package com.yashmerino.online.shop.model.dto;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import lombok.Data;
-
 /**
- * Login DTO.
+ * Cart's DTO.
  */
-@Data
-public class LoginDTO {
-
-    /**
-     * User's username.
-     */
-    private String username;
-
-    /**
-     * User's password.
-     */
-    private String password;
-
-    /**
-     * Converts object's data to a JSON Object.
-     *
-     * @return a JSON-format Object.
-     */
-    public String toJson() {
-        return "{\n \t\"username\": \"" + this.username + "\",\n \t\"password\": \"" + this.password + "\"\n}";
-    }
+public class CartDTO {
 }

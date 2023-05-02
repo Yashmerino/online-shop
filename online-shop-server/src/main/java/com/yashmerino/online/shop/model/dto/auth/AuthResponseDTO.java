@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.model.dto;
+package com.yashmerino.online.shop.model.dto.auth;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
