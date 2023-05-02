@@ -24,9 +24,35 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.CartItem;
+
+import java.util.Optional;
+
 /**
  * Interface for cart item service.
  */
 public interface CartItemService {
 
+    /**
+     * Deletes a cart item.
+     *
+     * @param id is the cart item's id.
+     */
+    void deleteCartItem(final Long id);
+
+    /**
+     * Changes the quantity of a cart item.
+     *
+     * @param id       is the cart item's id.
+     * @param quantity is the cart item's quantity.
+     */
+    void changeQuantity(final Long id, final Integer quantity);
+
+    /**
+     * Returns a cart item.
+     *
+     * @param id is the cart item's id.
+     * @return <code>CartItem</code>
+     */
+    Optional<CartItem> getCartItem(final Long id);
 }
