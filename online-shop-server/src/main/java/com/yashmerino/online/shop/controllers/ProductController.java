@@ -36,13 +36,18 @@ import com.yashmerino.online.shop.swagger.SwaggerMessages;
 import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Product's controller.
@@ -106,8 +111,8 @@ public class ProductController {
                     content = @Content),
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
-    @PostMapping("/{id}")
-    public ResponseEntity addProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+    @PostMapping()
+    public ResponseEntity addProduct(@RequestBody ProductDTO productDTO) {
         Product product = RequestBodyToEntityConverter.convertToProduct(productDTO);
         product.setUser(userService.getById(productDTO.getUserId()).get());
 
@@ -148,5 +153,61 @@ public class ProductController {
         cartItemService.save(cartItem);
 
         return new ResponseEntity("Product successfully added!", HttpStatus.OK);
+    }
+
+    /**
+     * Returns a product.
+     *
+     * @param id is the product's id.
+     * @return <code>ResponseEntity</code>
+     */
+    @Operation(summary = "Returns a product.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.RETURN_PRODUCT,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ProductDTO.class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @GetMapping("/{id}")
+    public ResponseEntity getProduct(@PathVariable Long id) {
+        Product product = productService.getProduct(id).get();
+        ProductDTO productDTO = RequestBodyToEntityConverter.convertToProductDTO(product);
+
+        return new ResponseEntity(productDTO, HttpStatus.OK);
+    }
+
+    /**
+     * Returns all the products.
+     *
+     * @return <code>ResponseEntity</code>
+     */
+    @Operation(summary = "Returns all the products.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.RETURN_PRODUCTS,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @GetMapping
+    public ResponseEntity getAllProducts() {
+        List<Product> products = productService.getAllProducts();
+        List<ProductDTO> productsDTO = new ArrayList<>();
+
+        for (Product product : products) {
+            productsDTO.add(RequestBodyToEntityConverter.convertToProductDTO(product));
+        }
+
+        return new ResponseEntity(productsDTO, HttpStatus.OK);
     }
 }

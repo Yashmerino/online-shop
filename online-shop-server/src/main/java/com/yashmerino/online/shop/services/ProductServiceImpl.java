@@ -30,6 +30,7 @@ import com.yashmerino.online.shop.services.interfaces.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -67,6 +68,16 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return product;
+    }
+
+    /**
+     * Returns all the products.
+     *
+     * @return <code>List of Products</code>
+     */
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
     /**

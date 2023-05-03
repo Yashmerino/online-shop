@@ -93,4 +93,14 @@ public class SwaggerMessages {
      * Message when a product was successfully added as a cart item.
      */
     public static final String ITEM_SUCCESSFULLY_ADDED = "Item was successfully added!";
+
+    /**
+     * Message when a product was returned.
+     */
+    public static final String RETURN_PRODUCT = "Returns the product.";
+
+    /**
+     * Message when all the products were returned.
+     */
+    public static final String RETURN_PRODUCTS = "Returns all the products.";
 }

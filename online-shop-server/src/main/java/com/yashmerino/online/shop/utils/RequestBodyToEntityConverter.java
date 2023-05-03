@@ -27,7 +27,7 @@ import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
 
 /**
- * Utils class that covnerts request body to an entity;
+ * Utils class that converts request body to an entity;
  */
 public class RequestBodyToEntityConverter {
 
@@ -44,5 +44,21 @@ public class RequestBodyToEntityConverter {
         product.setCategories(productDTO.getCategories());
 
         return product;
+    }
+
+    /**
+     * Converts a product to ProductDTO.
+     *
+     * @param product is the product entity.
+     * @return <code>ProductDTO</code>
+     */
+    public static ProductDTO convertToProductDTO(final Product product) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setName(product.getName());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setUserId(product.getUser().getId());
+        productDTO.setCategories(product.getCategories());
+
+        return productDTO;
     }
 }

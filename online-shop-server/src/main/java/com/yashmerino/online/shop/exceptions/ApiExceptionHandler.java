@@ -23,6 +23,7 @@ package com.yashmerino.online.shop.exceptions;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -205,5 +206,22 @@ public class ApiExceptionHandler {
         errors.setStatus(HttpStatus.CONFLICT.value());
 
         return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Handles the {@link EntityNotFoundException}
+     *
+     * @param e is the thrown exception.
+     * @return <code>ResponseEntity</code>
+     */
+    @ExceptionHandler(value = {EntityNotFoundException.class})
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ResponseEntity entityNotFoundExceptionHandler(EntityNotFoundException e) {
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.NOT_FOUND.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
     }
 }
