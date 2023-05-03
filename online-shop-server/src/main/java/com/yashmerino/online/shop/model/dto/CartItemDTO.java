@@ -36,12 +36,12 @@ public class CartItemDTO {
     /**
      * Product's id.
      */
-    private Integer productId;
+    private Long productId;
 
     /**
      * Cart's id.
      */
-    private Integer cartId;
+    private Long cartId;
 
     /**
      * Quantity.

@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yashmerino.online.shop.model.base.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -45,6 +46,7 @@ public class CartItem extends BaseEntity {
     /**
      * The cart item's product.
      */
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -52,6 +54,7 @@ public class CartItem extends BaseEntity {
     /**
      * The cart item's cart.
      */
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;

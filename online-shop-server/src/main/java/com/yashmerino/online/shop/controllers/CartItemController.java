@@ -29,6 +29,7 @@ import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
+import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,13 +37,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 /**
  * Cart item's controller.
@@ -138,12 +136,9 @@ public class CartItemController {
                     content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity getCartItem(@PathVariable Long id) {
-        Optional<CartItem> cartItem = cartItemService.getCartItem(id);
+        CartItem cartItem = cartItemService.getCartItem(id).get();
+        CartItemDTO cartItemDTO = RequestBodyToEntityConverter.convertToCartItemDTO(cartItem);
 
-        if (cartItem.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
-        return new ResponseEntity<>(cartItem.get(), HttpStatus.OK);
+        return new ResponseEntity<>(cartItemDTO, HttpStatus.OK);
     }
 }
