@@ -30,7 +30,16 @@ import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import com.yashmerino.online.shop.services.interfaces.CartService;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
 import com.yashmerino.online.shop.services.interfaces.UserService;
+import com.yashmerino.online.shop.swagger.SwaggerConfig;
+import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
+import com.yashmerino.online.shop.swagger.SwaggerMessages;
 import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +47,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Product's controller.
  */
+@Tag(name = "2. Products Controller", description = "These endpoints are used to perform actions on products.")
+@SecurityRequirement(name = SwaggerConfig.SECURITY_SCHEME_NAME)
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
@@ -83,6 +94,18 @@ public class ProductController {
      * @param productDTO is the product DTO.
      * @return <code>ResponseEntity</code>
      */
+    @Operation(summary = "Adds a new product.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.PRODUCT_SUCCESSFULLY_ADDED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
     @PostMapping("/{id}")
     public ResponseEntity addProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         Product product = RequestBodyToEntityConverter.convertToProduct(productDTO);
@@ -101,6 +124,18 @@ public class ProductController {
      * @param quantity is the quantity of item.
      * @return <code>ResponseEntity</code>
      */
+    @Operation(summary = "Adds a product to the cart.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.ITEM_SUCCESSFULLY_ADDED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
     @PostMapping("/{id}/add")
     public ResponseEntity addProductToCart(@PathVariable Long id, @RequestParam Long cartId, @RequestParam Integer quantity) {
         Product product = productService.getProduct(id).get();

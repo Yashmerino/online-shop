@@ -24,10 +24,21 @@ package com.yashmerino.online.shop.controllers;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.CartItem;
+import com.yashmerino.online.shop.model.dto.CartItemDTO;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
-import com.yashmerino.online.shop.services.interfaces.CartService;
+import com.yashmerino.online.shop.swagger.SwaggerConfig;
+import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
+import com.yashmerino.online.shop.swagger.SwaggerMessages;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +47,8 @@ import java.util.Optional;
 /**
  * Cart item's controller.
  */
+@Tag(name = "3. Cart Items Controller", description = "These endpoints are used to perform actions on cart items.")
+@SecurityRequirement(name = SwaggerConfig.SECURITY_SCHEME_NAME)
 @RestController
 @RequestMapping("/api/cartItem")
 public class CartItemController {
@@ -46,19 +59,12 @@ public class CartItemController {
     private final CartItemService cartItemService;
 
     /**
-     * Cart's service.
-     */
-    private final CartService cartService;
-
-    /**
      * Constructor.
      *
      * @param cartItemService is the cart items' service.
-     * @param cartService     is the cart's service.
      */
-    public CartItemController(CartItemService cartItemService, CartService cartService) {
+    public CartItemController(CartItemService cartItemService) {
         this.cartItemService = cartItemService;
-        this.cartService = cartService;
     }
 
     /**
@@ -67,7 +73,19 @@ public class CartItemController {
      * @param id is the cart item's id.
      * @return <code>ResponseEntity</code>
      */
-    @PostMapping("/{id}/delete")
+    @Operation(summary = "Deletes a cart item.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.ITEM_SUCCESSFULLY_DELETED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteCartItem(@PathVariable Long id) {
         cartItemService.deleteCartItem(id);
 
@@ -80,11 +98,23 @@ public class CartItemController {
      * @param id is the cart item's id.
      * @return <code>ResponseEntity</code>
      */
+    @Operation(summary = "Changes the quantity of an item in the cart.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.QUANTITY_SUCCESSFULLY_CHANGED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
     @PostMapping("/{id}/quantity")
     public ResponseEntity changeQuantity(@PathVariable Long id, @RequestParam Integer quantity) {
         cartItemService.changeQuantity(id, quantity);
 
-        return new ResponseEntity<>("Item's quantity successfully changed!", HttpStatus.OK);
+        return new ResponseEntity<>("Quantity of the item successfully changed!", HttpStatus.OK);
     }
 
     /**
@@ -93,11 +123,24 @@ public class CartItemController {
      * @param id is the cart item's id.
      * @return <code>ResponseEntity</code>
      */
+    @Operation(summary = "Returns an item from the cart.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.RETURNED_CART_ITEM,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = CartItemDTO.class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity getCartItem(@PathVariable Long id) {
         Optional<CartItem> cartItem = cartItemService.getCartItem(id);
 
-        if (!cartItem.isPresent()) {
+        if (cartItem.isEmpty()) {
             throw new EntityNotFoundException();
         }
 

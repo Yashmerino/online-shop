@@ -66,7 +66,7 @@ import java.util.HashSet;
 /**
  * Controller for authentication.
  */
-@Tag(name = "Authentication/Authorization", description = "These endpoints are used to register/login.")
+@Tag(name = "1. Authentication/Authorization", description = "These endpoints are used to register/login.")
 @SecurityRequirement(name = SwaggerConfig.SECURITY_SCHEME_NAME)
 @RestController
 @RequestMapping("/api/auth")

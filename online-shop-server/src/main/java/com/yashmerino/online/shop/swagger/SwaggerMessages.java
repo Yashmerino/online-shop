@@ -53,4 +53,44 @@ public class SwaggerMessages {
      * Message when a problem occurred on the server.
      */
     public static final String INTERNAL_SERVER_ERROR = "Internal Server Error.";
+
+    /**
+     * Message when the request is bad.
+     */
+    public static final String BAD_REQUEST = "Bad Request.";
+
+    /**
+     * Message when the cart item is successfully deleted.
+     */
+    public static final String ITEM_SUCCESSFULLY_DELETED = "Item successfully deleted!";
+
+    /**
+     * Message when the cart item's quantity is successfully changed.
+     */
+    public static final String QUANTITY_SUCCESSFULLY_CHANGED = "Quantity of the item successfully changed!";
+
+    /**
+     * Message when the cart item is returned.
+     */
+    public static final String RETURNED_CART_ITEM = "Returned item.";
+
+    /**
+     * Message when the endpoint is forbidden.
+     */
+    public static final String FORBIDDEN = "You have no access to this endpoint!";
+
+    /**
+     * Message when the user isn't authorized.
+     */
+    public static final String UNAUTHORIZED = "You are not authorized!";
+
+    /**
+     * Message when a product was successfully added.
+     */
+    public static final String PRODUCT_SUCCESSFULLY_ADDED = "Product was successfully added!";
+
+    /**
+     * Message when a product was successfully added as a cart item.
+     */
+    public static final String ITEM_SUCCESSFULLY_ADDED = "Item was successfully added!";
 }
