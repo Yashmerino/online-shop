@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.utils;
+package com.yashmerino.online.shop.model.dto;
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -23,34 +23,28 @@ package com.yashmerino.online.shop.utils;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-
-import static com.yashmerino.online.shop.security.SecurityConstants.JWT_SECRET;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * Utils for tests.
+ * Cart item DTO.
  */
-public class TestUtils {
+@Getter
+@Setter
+public class CartItemDTO {
 
     /**
-     * Generates a JWT Token.
-     * @param username is the user's username.
-     * @param email is the user's email.
-     * @param role is the user's role.
-     * @return Generated JWT Token.
+     * Product's id.
      */
-    public static String generateToken(final String username, final String email, final Role role) {
-        Claims claims = Jwts.claims();
-        claims.put("username", username);
-        claims.put("email", email);
-        claims.put("role", role.name());
+    private Long productId;
 
-        SecretKey secretKey = Keys.hmacShaKeyFor(JWT_SECRET.getBytes(StandardCharsets.UTF_8));
-        return Jwts.builder().setClaims(claims).signWith(secretKey).compact();
-    }
+    /**
+     * Cart's id.
+     */
+    private Long cartId;
+
+    /**
+     * Quantity.
+     */
+    private Integer quantity;
 }

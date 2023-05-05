@@ -24,9 +24,20 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.User;
+
+import java.util.Optional;
+
 /**
  * Interface for user service.
  */
 public interface UserService {
 
+    /**
+     * Returns user by id.
+     *
+     * @param id is the user's id.
+     * @return <code>User</code>
+     */
+    public Optional<User> getById(final Long id);
 }

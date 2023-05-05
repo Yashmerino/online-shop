@@ -1,5 +1,4 @@
-package com.yashmerino.online.shop.utils;
-
+package com.yashmerino.online.shop;
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,96 +23,87 @@ package com.yashmerino.online.shop.utils;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Role;
 import com.yashmerino.online.shop.model.*;
 import com.yashmerino.online.shop.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static com.yashmerino.online.shop.utils.Role.SELLER;
-import static com.yashmerino.online.shop.utils.Role.USER;
-
 /**
- * Class that initializes data.
+ * Initializer to initialize data.
  */
 @Component
-@Profile("test")
+@Profile("!test")
 public class Initializer implements CommandLineRunner {
 
     /**
-     * Customers' repository.
-     */
-    private final UserRepository userRepository;
-
-    /**
-     * Carts' repository.
-     */
-    private final CartRepository cartRepository;
-
-    /**
-     * Cart items' repository.
-     */
-    private final CartItemRepository cartItemRepository;
-
-    /**
-     * Products' repository.
-     */
-    private final ProductRepository productRepository;
-
-    /**
-     * Categories' repository.
-     */
-    private final CategoryRepository categoryRepository;
-
-    /**
-     * Roles' repository.
+     * Role repository;
      */
     private final RoleRepository roleRepository;
 
     /**
+     * User repository.
+     */
+    private final UserRepository userRepository;
+
+    /**
+     * Product repository.
+     */
+    private final ProductRepository productRepository;
+
+    /**
+     * Cart item repository.
+     */
+    private final CartItemRepository cartItemRepository;
+
+    /**
+     * Cart repository.
+     */
+    private final CartRepository cartRepository;
+
+    /**
+     * Password encoder.
+     */
+    private final PasswordEncoder passwordEncoder;
+
+    /**
      * Constructor.
      *
-     * @param userRepository     is the repository for customers.
-     * @param cartRepository     is the repository for carts.
-     * @param cartItemRepository is the repository for cart items.
-     * @param productRepository  is the repository for products.
-     * @param categoryRepository is the repository for categories.
-     * @param roleRepository     is the repository  for roles.
+     * @param roleRepository     is the role repository.
+     * @param userRepository     is the user repository.
+     * @param productRepository  is the product repository.
+     * @param cartItemRepository is the cart item repository.
+     * @param cartRepository     is the cart repository.
+     * @param passwordEncoder    is the password encoder.
      */
-    public Initializer(UserRepository userRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository, CategoryRepository categoryRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.cartRepository = cartRepository;
-        this.cartItemRepository = cartItemRepository;
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
+    public Initializer(RoleRepository roleRepository, UserRepository userRepository, ProductRepository productRepository, CartItemRepository cartItemRepository, CartRepository cartRepository, PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.productRepository = productRepository;
+        this.cartItemRepository = cartItemRepository;
+        this.cartRepository = cartRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Initializes data.
+     *
+     * @param args is the command line arguments.
+     * @throws Exception when something goes wrong.
+     */
     @Override
     public void run(String... args) throws Exception {
-        Role adminRole = new Role();
-        adminRole.setName("ADMIN");
-
-        roleRepository.save(adminRole);
-
-        Role userRole = new Role();
-        userRole.setName(USER.name());
-
-        roleRepository.save(userRole);
-
-        Role sellerRole = new Role();
-        sellerRole.setName(SELLER.name());
-
-        roleRepository.save(sellerRole);
+        Role userRole = roleRepository.findByName("USER").get();
+        Role sellerRole = roleRepository.findByName("SELLER").get();
 
         User user = new User();
         user.setId(1L);
         user.setUsername("user");
-        user.setPassword("user");
+        user.setPassword(passwordEncoder.encode("user"));
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         userRepository.save(user);
 
@@ -130,26 +120,22 @@ public class Initializer implements CommandLineRunner {
         User seller = new User();
         seller.setId(2L);
         seller.setUsername("seller");
-        seller.setPassword("seller");
+        seller.setPassword(passwordEncoder.encode("seller"));
         seller.setRoles(new HashSet<>(Arrays.asList(sellerRole)));
         userRepository.save(seller);
 
         Product product = new Product();
         product.setId(1L);
+        product.setName("Apple");
+        product.setPrice(2.50);
         product.setUser(seller);
-        product.setName("Phone");
-        product.setPrice(5.0);
-
         productRepository.save(product);
 
         CartItem cartItem = new CartItem();
         cartItem.setId(1L);
-        cartItem.setProduct(product);
-        cartItem.setQuantity(1);
         cartItem.setCart(cart);
+        cartItem.setProduct(product);
+        cartItem.setQuantity(5);
         cartItemRepository.save(cartItem);
-
-        cart.setItems(new HashSet<>(Arrays.asList(cartItem)));
-        cartRepository.save(cart);
     }
 }

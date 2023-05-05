@@ -24,6 +24,9 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yashmerino.online.shop.model.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,17 +46,20 @@ import java.util.Set;
 @Setter
 @Entity(name = "carts")
 @Table(name = "carts")
+@JsonIgnoreProperties(value = { "intValue" })
 public class Cart extends BaseEntity {
 
     /**
      * Cart's items.
      */
+    @JsonManagedReference
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private Set<CartItem> items = new HashSet<>();
 
     /**
      * User of the cart.
      */
+    @JsonIgnore
     @OneToOne(mappedBy = "cart")
     private User user;
 

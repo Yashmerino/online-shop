@@ -24,9 +24,13 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.repositories.CartRepository;
 import com.yashmerino.online.shop.services.interfaces.CartService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Implementation for cart service.
@@ -46,5 +50,31 @@ public class CartServiceImpl implements CartService {
      */
     public CartServiceImpl(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
+    }
+
+    /**
+     * Returns the cart.
+     *
+     * @param id is the cart's id.
+     */
+    @Override
+    public Optional<Cart> getCart(Long id) {
+        Optional<Cart> cart = Optional.of(cartRepository.getById(id));
+
+        if (!cart.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+
+        return cart;
+    }
+
+    /**
+     * Saves a cart.
+     *
+     * @param cart is the cart to save.
+     */
+    @Override
+    public void save(Cart cart) {
+        cartRepository.save(cart);
     }
 }

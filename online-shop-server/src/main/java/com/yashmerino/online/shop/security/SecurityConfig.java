@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.security;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.utils.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -98,8 +99,11 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.GET).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        .requestMatchers("/api/cartItem/**").hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
+                        .requestMatchers(HttpMethod.POST, "/api/product/**").hasAuthority(Role.SELLER.name())
+                        .requestMatchers(HttpMethod.DELETE, "/api/product/**").hasAuthority(Role.SELLER.name())
+                        .requestMatchers(HttpMethod.GET, "/api/product/**").hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .anyRequest()
                         .authenticated())

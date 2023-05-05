@@ -24,9 +24,12 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.CartItem;
 import com.yashmerino.online.shop.repositories.CartItemRepository;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Implementation for cart item service.
@@ -46,5 +49,51 @@ public class CartItemServiceImpl implements CartItemService {
      */
     public CartItemServiceImpl(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
+    }
+
+    /**
+     * Deletes a cart item.
+     *
+     * @param id is the cart item's id.
+     */
+    @Override
+    public void deleteCartItem(final Long id) {
+        cartItemRepository.deleteById(id);
+    }
+
+    /**
+     * Changes the quantity of a cart item.
+     *
+     * @param id       is the cart item's id.
+     * @param quantity is the cart item's quantity.
+     */
+    @Override
+    public void changeQuantity(Long id, Integer quantity) {
+        CartItem cartItem = cartItemRepository.getById(id);
+
+        cartItem.setQuantity(quantity);
+
+        cartItemRepository.save(cartItem);
+    }
+
+    /**
+     * Returns a cart item.
+     *
+     * @param id is the cart item's id.
+     * @return <code>CartItem</code>
+     */
+    @Override
+    public Optional<CartItem> getCartItem(Long id) {
+        return Optional.of(cartItemRepository.getById(id));
+    }
+
+    /**
+     * Saves cart item.
+     *
+     * @param cartItem is the cart item.
+     */
+    @Override
+    public void save(CartItem cartItem) {
+        cartItemRepository.save(cartItem);
     }
 }

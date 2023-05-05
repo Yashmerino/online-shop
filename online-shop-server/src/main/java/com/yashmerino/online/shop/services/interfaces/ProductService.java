@@ -24,9 +24,36 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.Product;
+
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Interface for product service.
  */
 public interface ProductService {
 
+    /**
+     * Returns the product.
+     *
+     * @param id is the product's id.
+     * @return <code>Product</code>
+     */
+    Optional<Product> getProduct(final Long id);
+
+    /**
+     * Returns all the products.
+     *
+     * @return <code>List of Products</code>
+     */
+    List<Product> getAllProducts();
+
+    /**
+     * Saves a product.
+     *
+     * @param product is the product's object.
+     * @return <code>Product</code>
+     */
+    void save(final Product product);
 }

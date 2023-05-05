@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.model;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yashmerino.online.shop.model.base.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -53,7 +54,7 @@ public class Product extends BaseEntity {
      */
     @NonNull
     @Min(value = 0)
-    private double price;
+    private Double price;
 
     /**
      * Product's categories.
@@ -64,6 +65,7 @@ public class Product extends BaseEntity {
     /**
      * Product's seller.
      */
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

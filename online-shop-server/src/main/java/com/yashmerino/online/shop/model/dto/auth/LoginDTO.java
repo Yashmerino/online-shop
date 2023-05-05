@@ -1,4 +1,4 @@
-package com.yashmerino.online.shop.services.interfaces;
+package com.yashmerino.online.shop.model.dto.auth;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
@@ -24,41 +24,30 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.CartItem;
-
-import java.util.Optional;
+import lombok.Data;
 
 /**
- * Interface for cart item service.
+ * Login DTO.
  */
-public interface CartItemService {
+@Data
+public class LoginDTO {
 
     /**
-     * Deletes a cart item.
+     * User's username.
+     */
+    private String username;
+
+    /**
+     * User's password.
+     */
+    private String password;
+
+    /**
+     * Converts object's data to a JSON Object.
      *
-     * @param id is the cart item's id.
+     * @return a JSON-format Object.
      */
-    void deleteCartItem(final Long id);
-
-    /**
-     * Changes the quantity of a cart item.
-     *
-     * @param id       is the cart item's id.
-     * @param quantity is the cart item's quantity.
-     */
-    void changeQuantity(final Long id, final Integer quantity);
-
-    /**
-     * Returns a cart item.
-     *
-     * @param id is the cart item's id.
-     * @return <code>CartItem</code>
-     */
-    Optional<CartItem> getCartItem(final Long id);
-
-    /**
-     * Saves cart item.
-     * @param cartItem is the cart item.
-     */
-    void save(final CartItem cartItem);
+    public String toJson() {
+        return "{\n \t\"username\": \"" + this.username + "\",\n \t\"password\": \"" + this.password + "\"\n}";
+    }
 }
