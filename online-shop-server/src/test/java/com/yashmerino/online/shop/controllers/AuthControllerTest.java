@@ -23,6 +23,7 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
 import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
 import jakarta.transaction.Transactional;
@@ -60,6 +61,12 @@ class AuthControllerTest {
     private MockMvc mvc;
 
     /**
+     * Object mapper.
+     */
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    /**
      * Register DTO.
      */
     private RegisterDTO registerDTO;
@@ -90,7 +97,7 @@ class AuthControllerTest {
     @Test
     void registerSuccessfulTest() throws Exception {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isOk()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isOk()).andReturn();
 
         String content = result.getResponse().getContentAsString();
         assertTrue(content.contains("User registered successfully!"));
@@ -104,10 +111,10 @@ class AuthControllerTest {
     @Test
     void registerExistingUserTest() throws Exception {
         mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isOk());
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isOk());
 
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isConflict()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isConflict()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("\"status\":409,\"error\":\"Username is already taken!\"}"));
     }
@@ -122,7 +129,7 @@ class AuthControllerTest {
         registerDTO.setEmail("");
 
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Email field not provided!\"}"));
     }
@@ -137,7 +144,7 @@ class AuthControllerTest {
         registerDTO.setEmail("@invalid.mail");
 
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Email field is invalid!\"}"));
     }
@@ -152,7 +159,7 @@ class AuthControllerTest {
         registerDTO.setEmail("nosign_email");
 
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Email field is invalid!\"}"));
     }
@@ -167,7 +174,7 @@ class AuthControllerTest {
         registerDTO.setUsername("");
 
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Username field not provided!\"}"));
     }
@@ -192,7 +199,7 @@ class AuthControllerTest {
         registerDTO.setPassword("");
 
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Password field not provided!\"}"));
     }
@@ -205,10 +212,10 @@ class AuthControllerTest {
     @Test
     void loginSuccessfulTest() throws Exception {
         mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isOk());
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isOk());
 
         MvcResult result = mvc.perform(post("/api/auth/login").contentType(
-                APPLICATION_JSON).content(loginDTO.toJson())).andExpect(status().isOk()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isOk()).andReturn();
 
         String content = result.getResponse().getContentAsString();
         assertTrue(content.contains("Bearer "));
@@ -222,7 +229,7 @@ class AuthControllerTest {
     @Test
     void loginNonExistingUserTest() throws Exception {
         mvc.perform(post("/api/auth/login").contentType(
-                APPLICATION_JSON).content(loginDTO.toJson())).andExpect(status().isUnauthorized());
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isUnauthorized());
     }
 
     /**
@@ -233,12 +240,12 @@ class AuthControllerTest {
     @Test
     void loginNoUsernameTest() throws Exception {
         mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isOk());
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isOk());
 
         loginDTO.setUsername("");
 
         MvcResult result = mvc.perform(post("/api/auth/login").contentType(
-                APPLICATION_JSON).content(loginDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Username field not provided!\"}"));
     }
@@ -251,12 +258,12 @@ class AuthControllerTest {
     @Test
     void loginNoPasswordTest() throws Exception {
         mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(registerDTO.toJson())).andExpect(status().isOk());
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isOk());
 
         loginDTO.setPassword("");
 
         MvcResult result = mvc.perform(post("/api/auth/login").contentType(
-                APPLICATION_JSON).content(loginDTO.toJson())).andExpect(status().isBadRequest()).andReturn();
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Password field not provided!\"}"));
     }

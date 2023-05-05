@@ -52,13 +52,4 @@ public class RegisterDTO {
      * User's password.
      */
     private String password;
-
-    /**
-     * Converts object's data to a JSON Object.
-     *
-     * @return a JSON-format Object.
-     */
-    public String toJson() {
-        return "{\n" + "\t\"role\": \"" + this.role.name() + "\",\n" + "\t\"email\": \"" + this.email + "\",\n" + "\t\"username\": \"" + this.username + "\",\n \t\"password\": \"" + this.password + "\"\n}";
-    }
 }
