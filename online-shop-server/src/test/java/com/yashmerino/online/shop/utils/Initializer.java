@@ -25,10 +25,17 @@ package com.yashmerino.online.shop.utils;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.Role;
+import com.yashmerino.online.shop.model.*;
 import com.yashmerino.online.shop.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.HashSet;
+
+import static com.yashmerino.online.shop.utils.Role.SELLER;
+import static com.yashmerino.online.shop.utils.Role.USER;
 
 /**
  * Class that initializes data.
@@ -94,13 +101,55 @@ public class Initializer implements CommandLineRunner {
         roleRepository.save(adminRole);
 
         Role userRole = new Role();
-        userRole.setName("USER");
+        userRole.setName(USER.name());
 
         roleRepository.save(userRole);
 
         Role sellerRole = new Role();
-        sellerRole.setName("SELLER");
+        sellerRole.setName(SELLER.name());
 
         roleRepository.save(sellerRole);
+
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("user");
+        user.setPassword("user");
+        user.setRoles(new HashSet<>(Arrays.asList(userRole)));
+        userRepository.save(user);
+
+        Cart cart = new Cart();
+        cart.setId(1L);
+        cartRepository.save(cart);
+
+        user.setCart(cart);
+        userRepository.save(user);
+
+        cart.setUser(user);
+        cartRepository.save(cart);
+
+        User seller = new User();
+        seller.setId(2L);
+        seller.setUsername("seller");
+        seller.setPassword("seller");
+        seller.setRoles(new HashSet<>(Arrays.asList(sellerRole)));
+        userRepository.save(seller);
+
+        Product product = new Product();
+        product.setId(1L);
+        product.setUser(seller);
+        product.setName("Phone");
+        product.setPrice(5.0);
+
+        productRepository.save(product);
+
+        CartItem cartItem = new CartItem();
+        cartItem.setId(1L);
+        cartItem.setProduct(product);
+        cartItem.setQuantity(1);
+        cartItem.setCart(cart);
+        cartItemRepository.save(cartItem);
+
+        cart.setItems(new HashSet<>(Arrays.asList(cartItem)));
+        cartRepository.save(cart);
     }
 }

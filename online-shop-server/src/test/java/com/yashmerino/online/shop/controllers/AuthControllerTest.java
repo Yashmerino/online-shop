@@ -70,7 +70,7 @@ class AuthControllerTest {
     private LoginDTO loginDTO;
 
     @BeforeEach
-    void initialize() {
+    void setup() {
         registerDTO = new RegisterDTO();
         registerDTO.setRole(USER);
         registerDTO.setUsername("test");

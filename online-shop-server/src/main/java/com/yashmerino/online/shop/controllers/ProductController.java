@@ -111,7 +111,7 @@ public class ProductController {
                     content = @Content),
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
-    @PostMapping()
+    @PostMapping
     public ResponseEntity addProduct(@RequestBody ProductDTO productDTO) {
         Product product = RequestBodyToEntityConverter.convertToProduct(productDTO);
         product.setUser(userService.getById(productDTO.getUserId()).get());
@@ -141,7 +141,7 @@ public class ProductController {
                     content = @Content),
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
-    @PostMapping("/{id}/add")
+    @GetMapping("/{id}/add")
     public ResponseEntity addProductToCart(@PathVariable Long id, @RequestParam Long cartId, @RequestParam Integer quantity) {
         Product product = productService.getProduct(id).get();
 

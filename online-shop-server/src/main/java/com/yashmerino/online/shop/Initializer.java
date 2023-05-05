@@ -26,6 +26,7 @@ package com.yashmerino.online.shop;
 import com.yashmerino.online.shop.model.*;
 import com.yashmerino.online.shop.repositories.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +37,7 @@ import java.util.HashSet;
  * Initializer to initialize data.
  */
 @Component
+@Profile("!test")
 public class Initializer implements CommandLineRunner {
 
     /**
