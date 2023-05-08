@@ -46,11 +46,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     /**
-     * Custom user details service.
-     */
-    private final CustomUserDetailsService customUserDetailsService;
-
-    /**
      * Jwt Auth Entry Point to handle exceptions.
      */
     private JwtAuthEntryPoint jwtAuthEntryPoint;
@@ -73,11 +68,9 @@ public class SecurityConfig {
     /**
      * Constructor.
      *
-     * @param customUserDetailsService is the custom user details service.
-     * @param jwtAuthEntryPoint        is the auth entry point.
+     * @param jwtAuthEntryPoint is the auth entry point.
      */
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthEntryPoint jwtAuthEntryPoint) {
-        this.customUserDetailsService = customUserDetailsService;
+    public SecurityConfig(JwtAuthEntryPoint jwtAuthEntryPoint) {
         this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 

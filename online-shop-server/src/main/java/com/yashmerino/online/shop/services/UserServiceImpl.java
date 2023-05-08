@@ -27,7 +27,6 @@ package com.yashmerino.online.shop.services;
 import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -61,11 +60,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getById(Long id) {
         Optional<User> user = Optional.of(userRepository.getById(id));
-
-        if (!user.isPresent()) {
-            throw new EntityNotFoundException();
-        }
-
         return user;
     }
 }

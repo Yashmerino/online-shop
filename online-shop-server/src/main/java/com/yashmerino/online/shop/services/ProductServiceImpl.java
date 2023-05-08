@@ -27,7 +27,6 @@ package com.yashmerino.online.shop.services;
 import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.repositories.ProductRepository;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,11 +61,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> getProduct(Long id) {
         Optional<Product> product = Optional.of(productRepository.getById(id));
-
-        if (!product.isPresent()) {
-            throw new EntityNotFoundException();
-        }
-
         return product;
     }
 

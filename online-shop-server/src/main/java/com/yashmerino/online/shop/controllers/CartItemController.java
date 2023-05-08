@@ -37,10 +37,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 /**
  * Cart item's controller.
@@ -84,7 +87,7 @@ public class CartItemController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCartItem(@PathVariable Long id) {
+    public ResponseEntity<String> deleteCartItem(@PathVariable Long id) {
         cartItemService.deleteCartItem(id);
 
         return new ResponseEntity<>("Item successfully deleted!", HttpStatus.OK);
@@ -109,7 +112,7 @@ public class CartItemController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping("/{id}/quantity")
-    public ResponseEntity changeQuantity(@PathVariable Long id, @RequestParam Integer quantity) {
+    public ResponseEntity<String> changeQuantity(@PathVariable Long id, @RequestParam Integer quantity) {
         cartItemService.changeQuantity(id, quantity);
 
         return new ResponseEntity<>("Quantity of the item successfully changed!", HttpStatus.OK);
@@ -120,6 +123,7 @@ public class CartItemController {
      *
      * @param id is the cart item's id.
      * @return <code>ResponseEntity</code>
+     * @throws EntityNotFoundException if cart item couldn't be found.
      */
     @Operation(summary = "Returns an item from the cart.")
     @ApiResponses(value = {
@@ -135,10 +139,15 @@ public class CartItemController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @GetMapping("/{id}")
-    public ResponseEntity getCartItem(@PathVariable Long id) {
-        CartItem cartItem = cartItemService.getCartItem(id).get();
-        CartItemDTO cartItemDTO = RequestBodyToEntityConverter.convertToCartItemDTO(cartItem);
+    public ResponseEntity<CartItemDTO> getCartItem(@PathVariable Long id) {
+        Optional<CartItem> cartItemOptional = cartItemService.getCartItem(id);
 
-        return new ResponseEntity<>(cartItemDTO, HttpStatus.OK);
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+            CartItemDTO cartItemDTO = RequestBodyToEntityConverter.convertToCartItemDTO(cartItem);
+            return new ResponseEntity<>(cartItemDTO, HttpStatus.OK);
+        } else {
+            throw new EntityNotFoundException("Cart Item couldn't be found!");
+        }
     }
 }

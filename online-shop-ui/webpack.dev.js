@@ -23,7 +23,7 @@
  */
 
 const common = require("./webpack.common");
-const { merge } = require("webpack-merge");
+const {merge} = require("webpack-merge");
 const path = require("path");
 let HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -37,14 +37,12 @@ module.exports = merge(common, {
     module: {
         rules: [
             {
-                test: /\.(s(a|c)ss)$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
-            },
-        ],
-        rules: [
-            {
                 test: /\.(css)$/,
                 use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.(s(a|c)ss)$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
             },
         ],
     },

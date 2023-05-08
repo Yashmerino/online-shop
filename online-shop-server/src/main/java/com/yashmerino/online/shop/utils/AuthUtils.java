@@ -26,8 +26,8 @@ package com.yashmerino.online.shop.utils;
 import com.yashmerino.online.shop.controllers.AuthController;
 import com.yashmerino.online.shop.exceptions.InvalidEmailException;
 import com.yashmerino.online.shop.exceptions.NoEmailProvidedException;
-import com.yashmerino.online.shop.exceptions.NoUsernameProvidedException;
 import com.yashmerino.online.shop.exceptions.NoPasswordProvidedException;
+import com.yashmerino.online.shop.exceptions.NoUsernameProvidedException;
 import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
 import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
 
@@ -41,6 +41,7 @@ public class AuthUtils {
     /**
      * Regex to check if an email is valid.
      */
+    @SuppressWarnings("java:S5998")
     private static final String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
             "[a-zA-Z0-9_+&*-]+)*@" +
             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +

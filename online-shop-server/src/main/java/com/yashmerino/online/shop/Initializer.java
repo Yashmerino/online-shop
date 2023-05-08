@@ -96,6 +96,7 @@ public class Initializer implements CommandLineRunner {
      * @throws Exception when something goes wrong.
      */
     @Override
+    @SuppressWarnings({"java:S3655", "java:S6437"})
     public void run(String... args) throws Exception {
         Role userRole = roleRepository.findByName("USER").get();
         Role sellerRole = roleRepository.findByName("SELLER").get();

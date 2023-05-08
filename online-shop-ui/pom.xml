@@ -12,7 +12,13 @@
     <artifactId>online-shop-ui</artifactId>
 
     <properties>
-        <sonar.sources>.</sonar.sources>
+        <sonar.sources>src</sonar.sources>
+        <sonar.coverage.exclusions>
+            src/reportWebVitals.ts,
+            src/setupTests.ts,
+            src/index.tsx,
+            src/app/App.tsx
+        </sonar.coverage.exclusions>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

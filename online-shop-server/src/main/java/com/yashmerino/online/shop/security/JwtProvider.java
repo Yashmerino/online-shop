@@ -40,6 +40,7 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS512;
  * Class that generates JWT tokens.
  */
 @Component
+@SuppressWarnings("java:S6437")
 public class JwtProvider {
 
     /**

@@ -23,8 +23,10 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.model.CartItem;
 import com.yashmerino.online.shop.model.Product;
+import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import com.yashmerino.online.shop.services.interfaces.CartService;
@@ -41,6 +43,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +51,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Product's controller.
@@ -98,6 +102,7 @@ public class ProductController {
      *
      * @param productDTO is the product DTO.
      * @return <code>ResponseEntity</code>
+     * @throws EntityNotFoundException if user couldn't be found.
      */
     @Operation(summary = "Adds a new product.")
     @ApiResponses(value = {
@@ -112,13 +117,20 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping
-    public ResponseEntity addProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO) {
         Product product = RequestBodyToEntityConverter.convertToProduct(productDTO);
-        product.setUser(userService.getById(productDTO.getUserId()).get());
 
-        productService.save(product);
+        Optional<User> userOptional = userService.getById(productDTO.getUserId());
 
-        return new ResponseEntity("Product successfully added!", HttpStatus.OK);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            product.setUser(user);
+            productService.save(product);
+
+            return new ResponseEntity("Product successfully added!", HttpStatus.OK);
+        } else {
+            throw new EntityNotFoundException("User couldn't be found!");
+        }
     }
 
     /**
@@ -128,6 +140,7 @@ public class ProductController {
      * @param cartId   is the cart's id.
      * @param quantity is the quantity of item.
      * @return <code>ResponseEntity</code>
+     * @throws EntityNotFoundException if product or cart couldn't be found.
      */
     @Operation(summary = "Adds a product to the cart.")
     @ApiResponses(value = {
@@ -142,17 +155,29 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @GetMapping("/{id}/add")
-    public ResponseEntity addProductToCart(@PathVariable Long id, @RequestParam Long cartId, @RequestParam Integer quantity) {
-        Product product = productService.getProduct(id).get();
+    public ResponseEntity<ProductDTO> addProductToCart(@PathVariable Long id, @RequestParam Long cartId, @RequestParam Integer quantity) {
+        Optional<Product> productOptional = productService.getProduct(id);
 
-        CartItem cartItem = new CartItem();
-        cartItem.setProduct(product);
-        cartItem.setCart(cartService.getCart(cartId).get());
-        cartItem.setQuantity(quantity);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            Optional<Cart> optionalCart = cartService.getCart(cartId);
 
-        cartItemService.save(cartItem);
+            if (optionalCart.isPresent()) {
+                Cart cart = optionalCart.get();
 
-        return new ResponseEntity("Product successfully added!", HttpStatus.OK);
+                CartItem cartItem = new CartItem();
+                cartItem.setCart(cart);
+                cartItem.setProduct(product);
+                cartItem.setQuantity(quantity);
+                cartItemService.save(cartItem);
+
+                return new ResponseEntity("Product successfully added!", HttpStatus.OK);
+            } else {
+                throw new EntityNotFoundException("Cart couldn't be found!");
+            }
+        } else {
+            throw new EntityNotFoundException("Product couldn't be found!");
+        }
     }
 
     /**
@@ -160,6 +185,7 @@ public class ProductController {
      *
      * @param id is the product's id.
      * @return <code>ResponseEntity</code>
+     * @throws EntityNotFoundException if cart item couldn't be found.
      */
     @Operation(summary = "Returns a product.")
     @ApiResponses(value = {
@@ -175,11 +201,15 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @GetMapping("/{id}")
-    public ResponseEntity getProduct(@PathVariable Long id) {
-        Product product = productService.getProduct(id).get();
-        ProductDTO productDTO = RequestBodyToEntityConverter.convertToProductDTO(product);
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
+        Optional<Product> product = productService.getProduct(id);
 
-        return new ResponseEntity(productDTO, HttpStatus.OK);
+        if (product.isPresent()) {
+            ProductDTO productDTO = RequestBodyToEntityConverter.convertToProductDTO(product.get());
+            return new ResponseEntity(productDTO, HttpStatus.OK);
+        } else {
+            throw new EntityNotFoundException("Product couldn't be found!");
+        }
     }
 
     /**
@@ -200,7 +230,7 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @GetMapping
-    public ResponseEntity getAllProducts() {
+    public ResponseEntity<ProductDTO> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         List<ProductDTO> productsDTO = new ArrayList<>();
 

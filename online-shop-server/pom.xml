@@ -13,9 +13,20 @@
     <version>1.0-SNAPSHOT</version>
     <name>online-shop-server</name>
     <properties>
-        <java.version>19</java.version>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>
+        <sonar.coverage.exclusions>
+            src/main/java/com/yashmerino/online/shop/exceptions/*.java,
+            src/main/java/com/yashmerino/online/shop/model/*.java,
+            src/main/java/com/yashmerino/online/shop/model/base/*.java,
+            src/main/java/com/yashmerino/online/shop/model/dto/*.java,
+            src/main/java/com/yashmerino/online/shop/model/dto/auth/*.java,
+            src/main/java/com/yashmerino/online/shop/security/*.java,
+            src/main/java/com/yashmerino/online/shop/swagger/*.java,
+            src/main/java/com/yashmerino/online/shop/Initializer.java,
+            src/main/java/com/yashmerino/online/shop/OnlineShopServerApplication.java
+        </sonar.coverage.exclusions>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
@@ -38,10 +49,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
@@ -121,5 +132,39 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.7</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <formats>
+                                        <format>XML</format>
+                                    </formats>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

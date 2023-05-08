@@ -47,6 +47,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -62,6 +63,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 
 /**
  * Controller for authentication.
@@ -126,6 +128,7 @@ public class AuthController {
      *
      * @param registerDTO is the user's data.
      * @return <code>ResponseEntity</code>
+     * @throws EntityNotFoundException if role couldn't be found.
      */
     @Operation(summary = "Registers a new user.")
     @ApiResponses(value = {
@@ -146,8 +149,16 @@ public class AuthController {
         User user = new User();
         user.setUsername(registerDTO.getUsername());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        Role roles = roleRepository.findByName(registerDTO.getRole().name()).get();
-        user.setRoles(new HashSet<>(Arrays.asList(roles)));
+
+        Optional<Role> roleOptional = roleRepository.findByName(registerDTO.getRole().name());
+
+
+        if (roleOptional.isPresent()) {
+            Role role = roleOptional.get();
+            user.setRoles(new HashSet<>(Arrays.asList(role)));
+        } else {
+            throw new EntityNotFoundException("Role couldn't be found!");
+        }
 
         Cart cart = new Cart();
         cartService.save(cart);

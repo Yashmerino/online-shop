@@ -27,7 +27,6 @@ package com.yashmerino.online.shop.services;
 import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.repositories.CartRepository;
 import com.yashmerino.online.shop.services.interfaces.CartService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -60,11 +59,6 @@ public class CartServiceImpl implements CartService {
     @Override
     public Optional<Cart> getCart(Long id) {
         Optional<Cart> cart = Optional.of(cartRepository.getById(id));
-
-        if (!cart.isPresent()) {
-            throw new EntityNotFoundException();
-        }
-
         return cart;
     }
 
