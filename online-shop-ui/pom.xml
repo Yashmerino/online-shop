@@ -17,7 +17,8 @@
             src/reportWebVitals.ts,
             src/setupTests.ts,
             src/index.tsx,
-            src/app/App.tsx
+            src/app/App.tsx,
+            src/app/store.tsx
         </sonar.coverage.exclusions>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
