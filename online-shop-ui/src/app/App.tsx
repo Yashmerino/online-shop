@@ -25,10 +25,18 @@
 import React from 'react';
 import './../main.scss';
 
+import { Link } from 'react-router-dom';
+import Main from './Main';
+
 function App() {
     return (
         <div>
-            <h1>Hello, World!</h1>
+            <ul>
+                <li><Link to='/login'>Login page</Link></li>
+                <li><Link to='/register'>Register page</Link></li>
+            </ul>
+            <hr />
+            <Main />
         </div>
     );
 }
