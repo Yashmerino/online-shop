@@ -127,7 +127,7 @@ public class ProductController {
             product.setUser(user);
             productService.save(product);
 
-            return new ResponseEntity<String>("Product successfully added!", HttpStatus.OK);
+            return new ResponseEntity<>("Product successfully added!", HttpStatus.OK);
         } else {
             throw new EntityNotFoundException("User couldn't be found!");
         }
@@ -171,7 +171,7 @@ public class ProductController {
                 cartItem.setQuantity(quantity);
                 cartItemService.save(cartItem);
 
-                return new ResponseEntity<String>("Product successfully added!", HttpStatus.OK);
+                return new ResponseEntity<>("Product successfully added!", HttpStatus.OK);
             } else {
                 throw new EntityNotFoundException("Cart couldn't be found!");
             }
@@ -206,7 +206,7 @@ public class ProductController {
 
         if (product.isPresent()) {
             ProductDTO productDTO = RequestBodyToEntityConverter.convertToProductDTO(product.get());
-            return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
+            return new ResponseEntity<>(productDTO, HttpStatus.OK);
         } else {
             throw new EntityNotFoundException("Product couldn't be found!");
         }
@@ -238,6 +238,6 @@ public class ProductController {
             productsDTO.add(RequestBodyToEntityConverter.convertToProductDTO(product));
         }
 
-        return new ResponseEntity<List<ProductDTO>>(productsDTO, HttpStatus.OK);
+        return new ResponseEntity<>(productsDTO, HttpStatus.OK);
     }
 }
