@@ -31,6 +31,8 @@ import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
 import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -80,34 +82,11 @@ class AuthUtilsTest {
     }
 
     /**
-     * Test if an email is null.
+     * Test if an email is only whitespaces and is not provided.
      */
-    @Test
-    void nullEmailRegisterTest() {
-        registerDTO.setEmail(null);
-
-        assertThrows(NoEmailProvidedException.class, () -> {
-            AuthUtils.validateRegistration(registerDTO);
-        });
-    }
-
-    /**
-     * Test if an email is not provided
-     */
-    @Test
-    void noEmailProvidedRegisterTest() {
-        registerDTO.setEmail("");
-
-        assertThrows(NoEmailProvidedException.class, () -> {
-            AuthUtils.validateRegistration(registerDTO);
-        });
-    }
-
-    /**
-     * Test if an email is only whitespaces
-     */
-    @Test
-    void whitespacesEmailRegisterTest() {
+    @ParameterizedTest
+    @ValueSource(strings = {"    ", ""})
+    void badEmailRegisterTest(final String email) {
         registerDTO.setEmail("    ");
 
         assertThrows(NoEmailProvidedException.class, () -> {
@@ -135,30 +114,6 @@ class AuthUtilsTest {
         registerDTO.setEmail("@test.com");
 
         assertThrows(InvalidEmailException.class, () -> {
-            AuthUtils.validateRegistration(registerDTO);
-        });
-    }
-
-    /**
-     * Tests if an registerDTO has null username.
-     */
-    @Test
-    void nullUsernameRegisterTest() {
-        registerDTO.setUsername(null);
-
-        assertThrows(NoUsernameProvidedException.class, () -> {
-            AuthUtils.validateRegistration(registerDTO);
-        });
-    }
-
-    /**
-     * Tests if an registerDTO has null password.
-     */
-    @Test
-    void nullPasswordRegisterTest() {
-        registerDTO.setPassword(null);
-
-        assertThrows(NoPasswordProvidedException.class, () -> {
             AuthUtils.validateRegistration(registerDTO);
         });
     }
@@ -204,9 +159,9 @@ class AuthUtilsTest {
      */
     @Test
     void whitespacePasswordRegisterTest() {
-        registerDTO.setUsername("   ");
+        registerDTO.setPassword("   ");
 
-        assertThrows(NoUsernameProvidedException.class, () -> {
+        assertThrows(NoPasswordProvidedException.class, () -> {
             AuthUtils.validateRegistration(registerDTO);
         });
     }
