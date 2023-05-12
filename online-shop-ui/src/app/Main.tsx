@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Routes, Route } from 'react-router-dom';
-import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
+import LoginPage from './components/pages/LoginPage';
+import RegisterPage from './components/pages/RegisterPage';
 
 const Main = () => {
     return (
