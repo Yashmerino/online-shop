@@ -45,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
-public class CartItemControllerTest {
+class CartItemControllerTest {
 
     /**
      * Mock mvc to perform requests.

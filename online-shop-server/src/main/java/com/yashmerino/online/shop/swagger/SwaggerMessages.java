@@ -30,6 +30,13 @@ package com.yashmerino.online.shop.swagger;
 public class SwaggerMessages {
 
     /**
+     * Private constructor to now allow instantiation.
+     */
+    private SwaggerMessages() {
+
+    }
+
+    /**
      * Message when user successfully registered.
      */
     public static final String USER_SUCCESSFULLY_REGISTERED = "User successfully registered.";

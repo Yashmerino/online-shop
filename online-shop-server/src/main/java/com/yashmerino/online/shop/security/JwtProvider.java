@@ -26,10 +26,13 @@ package com.yashmerino.online.shop.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 
 import static com.yashmerino.online.shop.security.SecurityConstants.JWT_EXPIRATION;
@@ -54,14 +57,12 @@ public class JwtProvider {
         Date currentDate = new Date();
         Date expiringDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
 
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(currentDate)
                 .setExpiration(expiringDate)
-                .signWith(HS512, JWT_SECRET)
+                .signWith(getSigningKey(), HS512)
                 .compact();
-
-        return token;
     }
 
     /**
@@ -71,8 +72,9 @@ public class JwtProvider {
      * @return the username.
      */
     public String getUsernameFromJWT(final String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
 
@@ -87,10 +89,20 @@ public class JwtProvider {
      */
     public boolean validateToken(final String token) {
         try {
-            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             throw new AuthenticationCredentialsNotFoundException("JWT Token is not valid, it could be because it's expired or incorrect.");
         }
+    }
+
+    /**
+     * Gets signing key from JWT secret.
+     *
+     * @return <code>Key</code>.
+     */
+    private Key getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }

@@ -55,11 +55,11 @@ public class CartServiceImpl implements CartService {
      * Returns the cart.
      *
      * @param id is the cart's id.
+     * @return <code>Optional of Cart</code>.
      */
     @Override
     public Optional<Cart> getCart(Long id) {
-        Optional<Cart> cart = Optional.of(cartRepository.getById(id));
-        return cart;
+        return cartRepository.findById(id);
     }
 
     /**

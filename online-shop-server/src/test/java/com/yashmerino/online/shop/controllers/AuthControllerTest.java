@@ -29,6 +29,8 @@ import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -120,41 +122,10 @@ class AuthControllerTest {
     }
 
     /**
-     * Tests /register without email.
-     *
-     * @throws Exception if something goes wrong.
+     * Test if an email has no sign, is invalid and is not provided.
      */
-    @Test
-    void registerNoEmailTest() throws Exception {
-        registerDTO.setEmail("");
-
-        MvcResult result = mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
-
-        assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Email field not provided!\"}"));
-    }
-
-    /**
-     * Tests /register with invalid email.
-     *
-     * @throws Exception if something goes wrong.
-     */
-    @Test
-    void registerInvalidEmailTest() throws Exception {
-        registerDTO.setEmail("@invalid.mail");
-
-        MvcResult result = mvc.perform(post("/api/auth/register").contentType(
-                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
-
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Email field is invalid!\"}"));
-    }
-
-    /**
-     * Tests /register with email without address sign.
-     *
-     * @throws Exception if something goes wrong.
-     */
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"nosign_email", "@invalid.mail", ""})
     void registerNoSignEmailTest() throws Exception {
         registerDTO.setEmail("nosign_email");
 
