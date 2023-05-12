@@ -61,8 +61,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -140,7 +140,7 @@ public class AuthController {
                     content = @Content)})
     @PostMapping("/register")
     public ResponseEntity<String> register(@Parameter(description = "JSON Object for user's credentials.") @RequestBody RegisterDTO registerDTO) {
-        if (userRepository.existsByUsername(registerDTO.getUsername())) {
+        if (userRepository.existsByUsername(registerDTO.getUsername())) { // NOSONAR - The user repository cannot be null.
             throw new UsernameAlreadyTakenException("Username is already taken!");
         }
 
@@ -155,7 +155,7 @@ public class AuthController {
 
         if (roleOptional.isPresent()) {
             Role role = roleOptional.get();
-            user.setRoles(new HashSet<>(Arrays.asList(role)));
+            user.setRoles(new HashSet<>(List.of(role)));
         } else {
             throw new EntityNotFoundException("Role couldn't be found!");
         }

@@ -27,6 +27,7 @@ package com.yashmerino.online.shop.services;
 import com.yashmerino.online.shop.model.CartItem;
 import com.yashmerino.online.shop.repositories.CartItemRepository;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -69,22 +70,27 @@ public class CartItemServiceImpl implements CartItemService {
      */
     @Override
     public void changeQuantity(Long id, Integer quantity) {
-        CartItem cartItem = cartItemRepository.getById(id);
+        Optional<CartItem> cartItemOptional = cartItemRepository.findById(id);
 
-        cartItem.setQuantity(quantity);
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
 
-        cartItemRepository.save(cartItem);
+            cartItem.setQuantity(quantity);
+            cartItemRepository.save(cartItem);
+        } else {
+            throw new EntityNotFoundException("Cart item couldn't be found!");
+        }
     }
 
     /**
      * Returns a cart item.
      *
      * @param id is the cart item's id.
-     * @return <code>CartItem</code>
+     * @return <code>Optional of CartItem</code>
      */
     @Override
     public Optional<CartItem> getCartItem(Long id) {
-        return Optional.of(cartItemRepository.getById(id));
+        return cartItemRepository.findById(id);
     }
 
     /**

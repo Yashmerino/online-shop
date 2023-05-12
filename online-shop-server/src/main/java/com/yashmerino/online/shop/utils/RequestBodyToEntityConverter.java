@@ -34,6 +34,13 @@ import com.yashmerino.online.shop.model.dto.ProductDTO;
 public class RequestBodyToEntityConverter {
 
     /**
+     * Private constructor to now allow instantiation.
+     */
+    private RequestBodyToEntityConverter() {
+
+    }
+
+    /**
      * Converts productDTO to product entity.
      *
      * @param productDTO is the product DTO.

@@ -46,13 +46,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {EmailAlreadyTakenException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
-    public ResponseEntity emailAlreadyTakenExceptionHandler(EmailAlreadyTakenException e) {
+    public ResponseEntity<CustomErrorResponse> emailAlreadyTakenExceptionHandler(EmailAlreadyTakenException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.CONFLICT.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.CONFLICT);
     }
 
     /**
@@ -63,13 +63,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {InvalidEmailException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity invalidEmailExceptionHandler(InvalidEmailException e) {
+    public ResponseEntity<CustomErrorResponse> invalidEmailExceptionHandler(InvalidEmailException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.BAD_REQUEST.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -80,13 +80,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {InvalidInputException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity invalidInputExceptionHandler(InvalidInputException e) {
+    public ResponseEntity<CustomErrorResponse> invalidInputExceptionHandler(InvalidInputException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.BAD_REQUEST.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -97,13 +97,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {InvalidPasswordException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity invalidPasswordExceptionHandler(InvalidPasswordException e) {
+    public ResponseEntity<CustomErrorResponse> invalidPasswordExceptionHandler(InvalidPasswordException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.BAD_REQUEST.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -114,13 +114,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {InvalidUsernameException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity invalidUsernameExceptionHandler(InvalidUsernameException e) {
+    public ResponseEntity<CustomErrorResponse> invalidUsernameExceptionHandler(InvalidUsernameException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.BAD_REQUEST.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -131,13 +131,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {NoEmailProvidedException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity noEmailProvidedExceptionHandler(NoEmailProvidedException e) {
+    public ResponseEntity<CustomErrorResponse> noEmailProvidedExceptionHandler(NoEmailProvidedException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.BAD_REQUEST.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -148,13 +148,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {NoPasswordProvidedException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity noPasswordProvidedExceptionHandler(NoPasswordProvidedException e) {
+    public ResponseEntity<CustomErrorResponse> noPasswordProvidedExceptionHandler(NoPasswordProvidedException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.BAD_REQUEST.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -165,13 +165,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {NoUsernameProvidedException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity noUsernameProvidedExceptionHandler(NoUsernameProvidedException e) {
+    public ResponseEntity<CustomErrorResponse> noUsernameProvidedExceptionHandler(NoUsernameProvidedException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.BAD_REQUEST.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -182,13 +182,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {UserDoesntExistException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ResponseEntity userDoesntExistExceptionHandler(UserDoesntExistException e) {
+    public ResponseEntity<CustomErrorResponse> userDoesntExistExceptionHandler(UserDoesntExistException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.NOT_FOUND.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -199,13 +199,13 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {UsernameAlreadyTakenException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
-    public ResponseEntity usernameAlreadyTakenExceptionHandler(UsernameAlreadyTakenException e) {
+    public ResponseEntity<CustomErrorResponse> usernameAlreadyTakenExceptionHandler(UsernameAlreadyTakenException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.CONFLICT.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.CONFLICT);
     }
 
     /**
@@ -216,12 +216,12 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = {EntityNotFoundException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ResponseEntity entityNotFoundExceptionHandler(EntityNotFoundException e) {
+    public ResponseEntity<CustomErrorResponse> entityNotFoundExceptionHandler(EntityNotFoundException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());
         errors.setStatus(HttpStatus.NOT_FOUND.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.NOT_FOUND);
     }
 }

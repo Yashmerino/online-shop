@@ -24,8 +24,6 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Category;
-import com.yashmerino.online.shop.repositories.CartRepository;
 import com.yashmerino.online.shop.repositories.CategoryRepository;
 import com.yashmerino.online.shop.services.interfaces.CategoryService;
 import org.springframework.stereotype.Service;

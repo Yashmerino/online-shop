@@ -30,6 +30,13 @@ package com.yashmerino.online.shop.swagger;
 public class SwaggerHttpStatus {
 
     /**
+     * Private constructor to now allow instantiation.
+     */
+    private SwaggerHttpStatus() {
+
+    }
+
+    /**
      * Status code for OK.
      */
     public static final String OK = "200";

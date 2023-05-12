@@ -56,12 +56,11 @@ public class ProductServiceImpl implements ProductService {
      * Returns the product.
      *
      * @param id is the product's id.
-     * @return <code>Product</code>
+     * @return <code>Optional of Product</code>.
      */
     @Override
     public Optional<Product> getProduct(Long id) {
-        Optional<Product> product = Optional.of(productRepository.getById(id));
-        return product;
+        return productRepository.findById(id);
     }
 
     /**

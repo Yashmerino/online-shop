@@ -48,7 +48,7 @@ public class SecurityConfig {
     /**
      * Jwt Auth Entry Point to handle exceptions.
      */
-    private JwtAuthEntryPoint jwtAuthEntryPoint;
+    private final JwtAuthEntryPoint jwtAuthEntryPoint;
 
     /**
      * Endpoints for Swagger UI.
@@ -64,6 +64,11 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/swagger-ui/**"
     };
+
+    /**
+     * Regex for all the endpoints related to products.
+     */
+    private static final String PRODUCTS_ALL_ENDPOINTS = "/api/product/**";
 
     /**
      * Constructor.
@@ -94,9 +99,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .requestMatchers("/api/cartItem/**").hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
-                        .requestMatchers(HttpMethod.POST, "/api/product/**").hasAuthority(Role.SELLER.name())
-                        .requestMatchers(HttpMethod.DELETE, "/api/product/**").hasAuthority(Role.SELLER.name())
-                        .requestMatchers(HttpMethod.GET, "/api/product/**").hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
+                        .requestMatchers(HttpMethod.POST, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())
+                        .requestMatchers(HttpMethod.DELETE, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())
+                        .requestMatchers(HttpMethod.GET, PRODUCTS_ALL_ENDPOINTS).hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .anyRequest()
                         .authenticated())

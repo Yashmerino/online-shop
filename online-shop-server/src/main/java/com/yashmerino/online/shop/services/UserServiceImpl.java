@@ -55,11 +55,10 @@ public class UserServiceImpl implements UserService {
      * Returns user by id.
      *
      * @param id is the user's id.
-     * @return <code>User</code>
+     * @return <code>Optional of User</code>.
      */
     @Override
     public Optional<User> getById(Long id) {
-        Optional<User> user = Optional.of(userRepository.getById(id));
-        return user;
+        return userRepository.findById(id);
     }
 }
