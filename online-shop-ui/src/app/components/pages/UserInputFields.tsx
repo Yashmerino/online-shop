@@ -33,7 +33,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit }: UserInputProps) =>
                 <Typography component="h1" variant="h5">
                     {title}
                 </Typography>
-                <Box component="form" onSubmit={() => handleSubmit} noValidate sx={{ mt: 1 }}>
+                <Box component="form" onSubmit={(e) => handleSubmit(e)} noValidate sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
