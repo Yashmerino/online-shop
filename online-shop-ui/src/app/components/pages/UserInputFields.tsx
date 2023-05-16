@@ -68,11 +68,11 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                 <Typography component="h1" variant="h5">
                     {title}
                 </Typography>
-                <Box component="form" noValidate sx={{ mt: 1 }}>
+                <Box component="form" onSubmit={(e) => handleSubmit(e)} noValidate sx={{ mt: 1 }}>
                     {isEmailAndRoleMandatory &&
                         <>
                             <FormControl fullWidth>
-                                <InputLabel id="role">Role</InputLabel>
+                                <InputLabel id="roleInput">Role</InputLabel>
                                 <Select
                                     labelId="role"
                                     id="role"
@@ -124,7 +124,6 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
-                        onSubmit={(e) => handleSubmit(e)}
                     >
                         {buttonText}
                     </Button>
