@@ -31,7 +31,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import store from "./app/store";
+import store from "./store/store";
 import { Provider } from "react-redux";
 
 import { BrowserRouter } from "react-router-dom";
