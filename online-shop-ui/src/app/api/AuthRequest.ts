@@ -37,7 +37,7 @@ export const register = async (role: string, email: string, username: string, pa
         headers: { 'Content-Type': 'application/json' }
     })
 
-    console.log(response);
+    return response.json();
 }
 
 export const login = async (username: string, password: string) => {
@@ -52,5 +52,5 @@ export const login = async (username: string, password: string) => {
         headers: { 'Content-Type': 'application/json' }
     })
 
-    console.log(response);
+    return response.json();
 }

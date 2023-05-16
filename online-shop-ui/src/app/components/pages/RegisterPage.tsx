@@ -34,22 +34,22 @@ import * as AuthRequest from '../../api/AuthRequest';
 
 const RegisterPage = () => {
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const username = data.get('username')?.toString();
         const password = data.get('password')?.toString();
-        const role = "SELLER";
-        const email = "emailtest@mail.com";
+        const role = data.get('role')?.toString();
+        const email = data.get('email')?.toString();
 
-        AuthRequest.register(role, email, username || "", password || "");
+        const response = await AuthRequest.register(role || "", email || "", username || "", password || "");
     };
 
     return (
         <Container component="main" maxWidth="xs">
             <Grid container>
                 <Grid item>
-                    <UserInputFields title="Sign Up" buttonText="Sign Up" handleSubmit={handleSubmit} />
+                    <UserInputFields title="Sign Up" buttonText="Sign Up" handleSubmit={handleSubmit} isEmailAndRoleMandatory={true} />
                 </Grid>
                 <Grid item>
                     <Link component={RouterLink} to={'/login'} variant="body2">

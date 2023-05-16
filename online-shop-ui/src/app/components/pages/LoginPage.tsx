@@ -34,20 +34,20 @@ import * as AuthRequest from '../../api/AuthRequest';
 
 const LoginPage = () => {
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let username = data.get('username')?.toString();
     let password = data.get('password')?.toString();
 
-    AuthRequest.login(username || "", password || "");
+    const response = await AuthRequest.login(username || "", password || "");
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <Grid container>
         <Grid item>
-          <UserInputFields title="Sign In" buttonText="Sign In" handleSubmit={handleSubmit} />
+          <UserInputFields title="Sign In" buttonText="Sign In" handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} />
         </Grid>
         <Grid item>
           <Link component={RouterLink} to={'/register'} variant="body2">

@@ -32,14 +32,25 @@ import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface UserInputProps {
     title: string,
     buttonText: string,
-    handleSubmit: Function
+    handleSubmit: Function,
+    isEmailAndRoleMandatory: boolean
 }
 
-const UserInputFields = ({ title, buttonText, handleSubmit }: UserInputProps) => {
+const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandatory }: UserInputProps) => {
+    const [role, setRole] = React.useState('USER');
+
+    const handleRoleChange = (event: SelectChangeEvent) => {
+        setRole(event.target.value as string);
+    };
+
     return (
         <React.Fragment>
             <CssBaseline />
@@ -57,7 +68,33 @@ const UserInputFields = ({ title, buttonText, handleSubmit }: UserInputProps) =>
                 <Typography component="h1" variant="h5">
                     {title}
                 </Typography>
-                <Box component="form" onSubmit={(e) => handleSubmit(e)} noValidate sx={{ mt: 1 }}>
+                <Box component="form" noValidate sx={{ mt: 1 }}>
+                    {isEmailAndRoleMandatory &&
+                        <>
+                            <FormControl fullWidth>
+                                <InputLabel id="role">Role</InputLabel>
+                                <Select
+                                    labelId="role"
+                                    id="role"
+                                    value={role}
+                                    label="Role"
+                                    onChange={handleRoleChange}
+                                >
+                                    <MenuItem value={"USER"}>User</MenuItem>
+                                    <MenuItem value={"SELLER"}>Seller</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="email"
+                                label="Email"
+                                type="email"
+                                id="email"
+                                autoComplete="current-email"
+                            />
+                        </>}
                     <TextField
                         margin="normal"
                         required
@@ -87,6 +124,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit }: UserInputProps) =>
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
+                        onSubmit={(e) => handleSubmit(e)}
                     >
                         {buttonText}
                     </Button>
