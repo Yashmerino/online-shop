@@ -21,6 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { apiBaseUrl } from "../../env-config";
+
 export const register = async (role: string, email: string, username: string, password: string) => {
     const registerDTO = {
         role,
@@ -29,7 +31,7 @@ export const register = async (role: string, email: string, username: string, pa
         password
     }
 
-    const response = await fetch(`http://localhost:8080/api/auth/register`, {
+    const response = await fetch(`${apiBaseUrl}/api/auth/register`, {
         method: 'POST',
         body: JSON.stringify(registerDTO),
         headers: { 'Content-Type': 'application/json' }
@@ -44,7 +46,7 @@ export const login = async (username: string, password: string) => {
         password
     }
 
-    const response = await fetch(`http://localhost:8080/login`, {
+    const response = await fetch(`${apiBaseUrl}/api/auth/login`, {
         method: 'POST',
         body: JSON.stringify(loginDTO),
         headers: { 'Content-Type': 'application/json' }
