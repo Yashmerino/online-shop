@@ -21,36 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { apiBaseUrl } from "../../env-config";
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './app/App';
-import reportWebVitals from './reportWebVitals';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+export const register = async (role: string, email: string, username: string, password: string) => {
+    const registerDTO = {
+        role,
+        email,
+        username,
+        password
+    }
 
-import store from "./store/store";
-import { Provider } from "react-redux";
+    const response = await fetch(`${apiBaseUrl}/api/auth/register`, {
+        method: 'POST',
+        body: JSON.stringify(registerDTO),
+        headers: { 'Content-Type': 'application/json' }
+    })
 
-import { BrowserRouter } from "react-router-dom";
+    return response.json();
+}
 
-const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
-);
-root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </Provider>
-    </React.StrictMode>
+export const login = async (username: string, password: string) => {
+    const loginDTO = {
+        username,
+        password
+    }
 
-);
+    const response = await fetch(`${apiBaseUrl}/api/auth/login`, {
+        method: 'POST',
+        body: JSON.stringify(loginDTO),
+        headers: { 'Content-Type': 'application/json' }
+    })
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    return response.json();
+}

@@ -32,6 +32,12 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Jacoco Report
         run: mvn verify -Pcoverage
+      - name: Install UI dependencies
+        run: npm install
+        working-directory: ./online-shop-ui
+      - name: Test and coverage UI 
+        run: npm test -- --coverage
+        working-directory: ./online-shop-ui
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
