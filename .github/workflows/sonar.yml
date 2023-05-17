@@ -35,7 +35,7 @@ jobs:
       - name: Install UI dependencies
         run: npm install
         working-directory: ./online-shop-ui
-      - name: Test and coverage
+      - name: Test and coverage UI 
         run: npm test -- --coverage
         working-directory: ./online-shop-ui
       - name: Build and analyze
