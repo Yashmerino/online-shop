@@ -15,11 +15,14 @@
         <sonar.sources>src</sonar.sources>
         <sonar.coverage.exclusions>
             src/reportWebVitals.ts,
-            src/setupTests.ts,
+            setupTests.ts,
             src/index.tsx,
             src/app/App.tsx,
-            src/app/store.ts
-            src/app/Main.tsx
+            src/app/hooks.ts,
+            src/store/store.ts
+            src/app/Main.tsx,
+            src/env-config.ts,
+            src/__tests__/*
         </sonar.coverage.exclusions>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>

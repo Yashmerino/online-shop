@@ -40,7 +40,7 @@ const LoginPage = () => {
     let username = data.get('username')?.toString();
     let password = data.get('password')?.toString();
 
-    const response = await AuthRequest.login(username || "", password || "");
+    await AuthRequest.login(username ?? "", password ?? "");
   };
 
   return (

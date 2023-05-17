@@ -41,7 +41,7 @@ const RegisterPage = () => {
         const password = data.get('password')?.toString();
         const role = document.getElementById("role") as HTMLInputElement;
         const email = data.get('email')?.toString();
-        const response = await AuthRequest.register(role.innerHTML.toUpperCase() || "", email || "", username || "", password || "");
+        await AuthRequest.register(role.innerHTML.toUpperCase() ?? "", email ?? "", username ?? "", password ?? "");
     };
 
     return (
