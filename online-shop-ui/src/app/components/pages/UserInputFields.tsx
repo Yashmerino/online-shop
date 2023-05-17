@@ -65,7 +65,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" data-testid="title">
                     {title}
                 </Typography>
                 <Box component="form" onSubmit={(e) => handleSubmit(e)} noValidate sx={{ mt: 1 }}>
@@ -76,6 +76,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                                 <Select
                                     labelId="role"
                                     id="role"
+                                    data-testid="role"
                                     value={role}
                                     label="Role"
                                     onChange={handleRoleChange}
@@ -92,6 +93,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                                 label="Email"
                                 type="email"
                                 id="email"
+                                data-testid="email"
                                 autoComplete="current-email"
                             />
                         </>}
@@ -100,6 +102,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         required
                         fullWidth
                         id="username"
+                        data-testid="username"
                         label="Username"
                         name="username"
                         autoComplete="username"
@@ -113,14 +116,12 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         label="Password"
                         type="password"
                         id="password"
+                        data-testid="password"
                         autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
                     />
                     <Button
                         type="submit"
+                        data-testid="submit-button"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
