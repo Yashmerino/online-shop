@@ -19,7 +19,7 @@
             src/index.tsx,
             src/app/App.tsx,
             src/app/hooks.ts,
-            src/store/store.ts
+            src/store/store.ts,
             src/app/Main.tsx,
             src/env-config.ts,
             src/__tests__/*
