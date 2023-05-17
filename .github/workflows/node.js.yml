@@ -31,5 +31,5 @@ jobs:
       working-directory: ./online-shop-ui
     - run: npm run build --if-present
       working-directory: ./online-shop-ui
-    - run: npm test -- --coverage
+    - run: npm test
       working-directory: ./online-shop-ui
