@@ -14,9 +14,11 @@ jobs:
         with:
           fetch-depth: 0 
       - name: Install dependencies
-        run: yarn
+        run: npm install
+        working-directory: ./online-shop-ui
       - name: Test and coverage
         run: npm test -- --coverage
+        working-directory: ./online-shop-ui
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
