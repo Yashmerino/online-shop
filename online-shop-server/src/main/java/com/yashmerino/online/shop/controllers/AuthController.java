@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.exceptions.UserDoesntExistException;
 import com.yashmerino.online.shop.exceptions.UsernameAlreadyTakenException;
 import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.model.Role;
@@ -184,13 +185,17 @@ public class AuthController {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SIGNED_IN,
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = AuthResponseDTO.class))}),
-            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.USER_DOES_NOT_EXIST,
+            @ApiResponse(responseCode = SwaggerHttpStatus.NOT_FOUND, description = SwaggerMessages.USER_DOES_NOT_EXIST,
                     content = @Content),
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Parameter(description = "JSON Object for user's credentials.") @RequestBody LoginDTO loginDTO) {
         AuthUtils.validateLogin(loginDTO);
+
+        if (!userRepository.existsByUsername(loginDTO.getUsername())) {
+            throw new UserDoesntExistException("Username doesn't exist!");
+        }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);

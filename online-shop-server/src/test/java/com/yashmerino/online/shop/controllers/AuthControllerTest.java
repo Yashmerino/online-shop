@@ -193,14 +193,16 @@ class AuthControllerTest {
     }
 
     /**
-     * Tests /login with a non-existing user
+     * Tests /login with a non-existing username.
      *
      * @throws Exception if something goes wrong.
      */
     @Test
-    void loginNonExistingUserTest() throws Exception {
-        mvc.perform(post("/api/auth/login").contentType(
-                APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isUnauthorized());
+    void usernameDoesntExistTest() throws Exception {
+        MvcResult result = mvc.perform(post("/api/auth/login").contentType(
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isNotFound()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("\"status\":404,\"error\":\"Username doesn't exist!\"}"));
     }
 
     /**
