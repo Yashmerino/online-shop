@@ -31,8 +31,10 @@ import { Link as RouterLink } from 'react-router-dom';
 import Copyright from '../footer/Copyright';
 import UserInputFields from './UserInputFields';
 import * as AuthRequest from '../../api/AuthRequest';
+import { Alert } from '@mui/material';
 
 const LoginPage = () => {
+  const [error, setError] = React.useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,13 +42,18 @@ const LoginPage = () => {
     let username = data.get('username')?.toString();
     let password = data.get('password')?.toString();
 
-    await AuthRequest.login(username ?? "", password ?? "");
+    const response = await AuthRequest.login(username ?? "", password ?? "");
+
+    if (response.status != 200) {
+      setError(response.error);
+    }
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <Grid container>
         <Grid item>
+          {error.length > 0 && <Alert id="alert-error" data-testid="alert-error" severity='error' sx={{ width: '100%' }}>{error}</Alert>}
           <UserInputFields title="Sign In" buttonText="Sign In" handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} />
         </Grid>
         <Grid item>

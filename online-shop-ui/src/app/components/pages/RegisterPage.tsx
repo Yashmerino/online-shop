@@ -26,6 +26,7 @@ import * as React from 'react';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import { Alert } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
 import Copyright from '../footer/Copyright';
@@ -33,6 +34,7 @@ import UserInputFields from './UserInputFields';
 import * as AuthRequest from '../../api/AuthRequest';
 
 const RegisterPage = () => {
+    const [error, setError] = React.useState("");
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -41,13 +43,19 @@ const RegisterPage = () => {
         const password = data.get('password')?.toString();
         const role = document.getElementById("role") as HTMLInputElement;
         const email = data.get('email')?.toString();
-        await AuthRequest.register(role.innerHTML.toUpperCase() ?? "", email ?? "", username ?? "", password ?? "");
+
+        const response = await AuthRequest.register(role.innerHTML.toUpperCase() ?? "", email ?? "", username ?? "", password ?? "");
+
+        if (response.status != 200) {
+            setError(response.error);
+        }
     };
 
     return (
         <Container component="main" maxWidth="xs">
             <Grid container>
                 <Grid item>
+                    {error.length > 0 && <Alert id="alert-error" data-testid="alert-error" severity='error' sx={{ width: '100%' }}>{error}</Alert>}
                     <UserInputFields title="Sign Up" buttonText="Sign Up" handleSubmit={handleSubmit} isEmailAndRoleMandatory={true} />
                 </Grid>
                 <Grid item>
