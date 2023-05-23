@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import RegisterPage from "../app/components/pages/RegisterPage";
 import * as AuthRequest from "../app/api/AuthRequest";
+import { clickSubmitButton } from "../app/utils/TestUtils";
 
 describe("Register Page Tests", () => {
     it("Test register success", () => {
@@ -37,8 +38,7 @@ describe("Register Page Tests", () => {
         const loginHref = screen.getByText("Have already an account? Log in");
         expect(loginHref).toBeInTheDocument();
 
-        const submitButton = screen.getByTestId("submit-button");
-        fireEvent.click(submitButton);
+        clickSubmitButton();
     });
 
     it("Test register fail", async () => {
@@ -51,30 +51,7 @@ describe("Register Page Tests", () => {
         const loginMock = jest.spyOn(AuthRequest, 'register');
         loginMock.mockReturnValue(Promise.resolve({ status: 404, error: "Error" }));
 
-        const title = screen.getByTestId("title");
-        expect(title).toBeInTheDocument();
-        expect(title).toHaveTextContent("Sign Up");
-
-        const roleSelection = screen.getByDisplayValue("USER");
-        expect(roleSelection).toBeInTheDocument();
-
-        const emailInput = screen.getByText("Email");
-        expect(emailInput).toBeInTheDocument();
-
-        const usernameInput = screen.getByText("Username");
-        expect(usernameInput).toBeInTheDocument();
-
-        const passwordInput = screen.getByText("Password");
-        expect(passwordInput).toBeInTheDocument();
-
-        const copyright = screen.getByText("Online Shop");
-        expect(copyright).toBeInTheDocument();
-
-        const loginHref = screen.getByText("Have already an account? Log in");
-        expect(loginHref).toBeInTheDocument();
-
-        const submitButton = screen.getByTestId("submit-button");
-        fireEvent.click(submitButton);
+        clickSubmitButton();
 
         await waitFor(() => {
             const alertError = screen.getByTestId("alert-error");
