@@ -23,18 +23,40 @@
  */
 
 import * as React from 'react';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import { Link as RouterLink } from 'react-router-dom';
 
 import Copyright from '../../footer/Copyright';
-import { Alert } from '@mui/material';
+import Header from '../../Header';
+import ProductCard from './ProductCard';
 
 const ProductsContainer = () => {
 
   return (
-   null 
+    <Container component="main" maxWidth={false} id="main-container" disableGutters>
+      <Header />
+      <Grid container justifyContent="center" alignItems="center" columnGap={2}>
+        <Grid item>
+          <ProductCard />
+        </Grid>
+        <Grid item>
+          <ProductCard />
+        </Grid>
+        <Grid item>
+          <ProductCard />
+        </Grid>
+        <Grid item>
+          <ProductCard />
+        </Grid>
+        <Grid item>
+          <ProductCard />
+        </Grid>
+        <Grid item>
+          <ProductCard />
+        </Grid>
+      </Grid>
+      <Copyright sx={{ mt: 8, mb: 4 }} />
+    </Container>
   );
 }
 
