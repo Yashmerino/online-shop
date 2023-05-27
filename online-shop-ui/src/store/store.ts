@@ -1,7 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import jwtReducer from "../app/slices/jwtSlicer";
 
 const store = configureStore({
     reducer: {
+        jwt: jwtReducer
     },
 });
 
