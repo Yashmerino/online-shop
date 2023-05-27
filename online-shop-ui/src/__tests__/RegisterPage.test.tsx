@@ -41,9 +41,9 @@ describe("Register Page Tests", () => {
         clickSubmitButton();
 
         await waitFor(() => {
-            const alertError = screen.getByTestId("alert-success");
-            expect(alertError).toBeInTheDocument();
-            expect(alertError).toHaveTextContent("User registered successfully!");
+            const alertSuccess = screen.getByTestId("alert-success");
+            expect(alertSuccess).toBeInTheDocument();
+            expect(alertSuccess).toHaveTextContent("User registered successfully!");
         });
     });
 
