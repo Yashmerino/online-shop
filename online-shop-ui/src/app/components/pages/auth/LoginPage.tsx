@@ -26,7 +26,7 @@ import * as React from 'react';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import Copyright from '../../footer/Copyright';
 import UserInputFields from './UserInputFields';
@@ -35,6 +35,7 @@ import { Alert } from '@mui/material';
 
 const LoginPage = () => {
   const [error, setError] = React.useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,8 +44,9 @@ const LoginPage = () => {
     let password = data.get('password')?.toString();
 
     const response = await AuthRequest.login(username ?? "", password ?? "");
-
-    if (response.status != 200) {
+    if (response.accessToken) {
+      navigate("/products");
+    } else {
       setError(response.error);
     }
   };
