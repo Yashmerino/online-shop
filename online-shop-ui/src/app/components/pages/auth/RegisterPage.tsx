@@ -29,15 +29,20 @@ import Container from '@mui/material/Container';
 import { Alert } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
-import Copyright from '../footer/Copyright';
+import Copyright from '../../footer/Copyright';
 import UserInputFields from './UserInputFields';
-import * as AuthRequest from '../../api/AuthRequest';
+import * as AuthRequest from '../../../api/AuthRequest';
 
 const RegisterPage = () => {
     const [error, setError] = React.useState("");
+    const [isSuccess, setSuccess] = React.useState(false);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        setSuccess(false);
+        setError("");
+
         const data = new FormData(event.currentTarget);
         const username = data.get('username')?.toString();
         const password = data.get('password')?.toString();
@@ -46,7 +51,10 @@ const RegisterPage = () => {
 
         const response = await AuthRequest.register(role.innerHTML.toUpperCase() ?? "", email ?? "", username ?? "", password ?? "");
 
-        if (response.status != 200) {
+        console.log(response);
+        if (response.status == 200) {
+            setSuccess(true);
+        } else {
             setError(response.error);
         }
     };
@@ -56,6 +64,7 @@ const RegisterPage = () => {
             <Grid container>
                 <Grid item>
                     {error.length > 0 && <Alert id="alert-error" data-testid="alert-error" severity='error' sx={{ width: '100%' }}>{error}</Alert>}
+                    {isSuccess && <Alert id="alert-success" data-testid="alert-success" severity='success' sx={{ width: '100%' }}>User registered successfully!</Alert>}
                     <UserInputFields title="Sign Up" buttonText="Sign Up" handleSubmit={handleSubmit} isEmailAndRoleMandatory={true} />
                 </Grid>
                 <Grid item>

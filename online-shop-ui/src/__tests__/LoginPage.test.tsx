@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import LoginPage from "../app/components/pages/LoginPage";
+import LoginPage from "../app/components/pages/auth/LoginPage";
 import * as AuthRequest from "../app/api/AuthRequest";
 import { clickSubmitButton } from "../app/utils/TestUtils";
 

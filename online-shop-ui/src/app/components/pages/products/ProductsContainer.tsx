@@ -28,43 +28,14 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
 
-import Copyright from '../footer/Copyright';
-import UserInputFields from './UserInputFields';
-import * as AuthRequest from '../../api/AuthRequest';
+import Copyright from '../../footer/Copyright';
 import { Alert } from '@mui/material';
 
-const LoginPage = () => {
-  const [error, setError] = React.useState("");
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    let username = data.get('username')?.toString();
-    let password = data.get('password')?.toString();
-
-    const response = await AuthRequest.login(username ?? "", password ?? "");
-
-    if (response.status != 200) {
-      setError(response.error);
-    }
-  };
+const ProductsContainer = () => {
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Grid container>
-        <Grid item>
-          {error.length > 0 && <Alert id="alert-error" data-testid="alert-error" severity='error' sx={{ width: '100%' }}>{error}</Alert>}
-          <UserInputFields title="Sign In" buttonText="Sign In" handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} />
-        </Grid>
-        <Grid item>
-          <Link component={RouterLink} to={'/register'} variant="body2">
-            {"Don't have an account? Sign Up"}
-          </Link>
-        </Grid>
-      </Grid>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
-    </Container>
+   null 
   );
 }
 
-export default LoginPage;
+export default ProductsContainer;

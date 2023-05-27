@@ -29,6 +29,7 @@ import com.yashmerino.online.shop.exceptions.UsernameAlreadyTakenException;
 import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.model.Role;
 import com.yashmerino.online.shop.model.User;
+import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.model.dto.auth.AuthResponseDTO;
 import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
 import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
@@ -140,7 +141,7 @@ public class AuthController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Parameter(description = "JSON Object for user's credentials.") @RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<SuccessDTO> register(@Parameter(description = "JSON Object for user's credentials.") @RequestBody RegisterDTO registerDTO) {
         if (userRepository.existsByUsername(registerDTO.getUsername())) { // NOSONAR - The user repository cannot be null.
             throw new UsernameAlreadyTakenException("Username is already taken!");
         }
@@ -171,7 +172,11 @@ public class AuthController {
         cart.setUser(user);
         cartService.save(cart);
 
-        return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("User registered successfully!");
+
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
 
     /**

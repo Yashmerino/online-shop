@@ -1,12 +1,12 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import RegisterPage from "../app/components/pages/RegisterPage";
+import RegisterPage from "../app/components/pages/auth/RegisterPage";
 import * as AuthRequest from "../app/api/AuthRequest";
 import { clickSubmitButton } from "../app/utils/TestUtils";
 
 describe("Register Page Tests", () => {
-    it("Test register success", () => {
+    it("Test register success", async () => {
         render(
             <MemoryRouter>
                 <RegisterPage />
@@ -39,6 +39,12 @@ describe("Register Page Tests", () => {
         expect(loginHref).toBeInTheDocument();
 
         clickSubmitButton();
+
+        await waitFor(() => {
+            const alertError = screen.getByTestId("alert-success");
+            expect(alertError).toBeInTheDocument();
+            expect(alertError).toHaveTextContent("User registered successfully!");
+        });
     });
 
     it("Test register fail", async () => {
