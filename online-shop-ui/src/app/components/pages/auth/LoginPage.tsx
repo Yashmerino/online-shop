@@ -33,9 +33,14 @@ import UserInputFields from './UserInputFields';
 import * as AuthRequest from '../../../api/AuthRequest';
 import { Alert } from '@mui/material';
 
+import { useAppDispatch } from '../../../hooks';
+import { updateJwt } from '../../../slices/jwtSlicer';
+
 const LoginPage = () => {
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,6 +50,7 @@ const LoginPage = () => {
 
     const response = await AuthRequest.login(username ?? "", password ?? "");
     if (response.accessToken) {
+      dispatch(updateJwt(response.accessToken));
       navigate("/products");
     } else {
       setError(response.error);
