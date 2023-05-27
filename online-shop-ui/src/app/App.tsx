@@ -34,6 +34,7 @@ function App() {
             <ul>
                 <li><Link to='/login'>Login page</Link></li>
                 <li><Link to='/register'>Register page</Link></li>
+                <li><Link to='/products'>Products page</Link></li>
             </ul>
             <hr />
             <Main />
