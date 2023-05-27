@@ -29,31 +29,38 @@ import Container from '@mui/material/Container';
 import Copyright from '../../footer/Copyright';
 import Header from '../../Header';
 import ProductCard from './ProductCard';
+import { getProducts } from '../../../api/ProductRequest';
+
+import { useAppSelector } from '../../../hooks';
+
+interface Product {
+  id: number,
+  name: string,
+  price: string,
+}
 
 const ProductsContainer = () => {
+  const jwt = useAppSelector(state => state.jwt);
+  const [products, setProducts] = React.useState<Product[]>([]);
+
+  React.useEffect(() => {
+    const token = jwt.token;
+
+    const fetchProducts = async () => {
+      const products = await getProducts(token);
+      setProducts(products);
+    }
+
+    fetchProducts();
+  }, []);
 
   return (
     <Container component="main" maxWidth={false} id="main-container" disableGutters>
       <Header />
       <Grid container justifyContent="center" alignItems="center" columnGap={2}>
-        <Grid item>
-          <ProductCard />
-        </Grid>
-        <Grid item>
-          <ProductCard />
-        </Grid>
-        <Grid item>
-          <ProductCard />
-        </Grid>
-        <Grid item>
-          <ProductCard />
-        </Grid>
-        <Grid item>
-          <ProductCard />
-        </Grid>
-        <Grid item>
-          <ProductCard />
-        </Grid>
+        {products.map(product => {
+          return (<ProductCard id={product.id} title={product.name} price={product.price} />);
+        })}
       </Grid>
       <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
