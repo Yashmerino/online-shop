@@ -29,32 +29,38 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 
-const ProductCard = () => {
-    return (
-        <Card sx={{ maxWidth: 400, marginTop: "5%" }} className="card-item">
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="140"
-              alt="product"
-              width="320"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Title
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Price: 5$
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions >
-            <Button size="small" color="primary">
-              Add To Cart
-            </Button>
-          </CardActions>
-        </Card>
-      );
+interface ProductCardProps {
+  id: number,
+  title: string,
+  price: string,
+}
+
+const ProductCard = ({ id, title, price }: ProductCardProps) => {
+  return (
+    <Card sx={{ maxWidth: 400, marginTop: "5%" }}>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          height="140"
+          alt="product"
+          width="320"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Price: {price}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions >
+        <Button size="small" color="primary">
+          Add To Cart
+        </Button>
+      </CardActions>
+    </Card>
+  );
 }
 
 export default ProductCard;
