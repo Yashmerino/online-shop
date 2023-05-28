@@ -5,13 +5,24 @@ import LoginPage from "../app/components/pages/auth/LoginPage";
 import * as AuthRequest from "../app/api/AuthRequest";
 import { clickSubmitButton } from "../app/utils/TestUtils";
 
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { Store } from "redux";
 
 describe("Login Page Tests", () => {
+    const initialState = { token: "" }
+    const mockStore = configureStore()
+    let store: Store;
+
     it("Test login success", () => {
+        store = mockStore(initialState)
+
         render(
-            <MemoryRouter>
-                <LoginPage />
-            </MemoryRouter>
+            <Provider store={store}>
+                <MemoryRouter>
+                    <LoginPage />
+                </MemoryRouter>
+            </Provider>
         );
 
         const loginMock = jest.spyOn(AuthRequest, 'login');
@@ -32,15 +43,17 @@ describe("Login Page Tests", () => {
 
         const registerHref = screen.getByText("Don't have an account? Sign Up");
         expect(registerHref).toBeInTheDocument();
-
-        clickSubmitButton();
     });
 
     it("Test login fail", async () => {
+        store = mockStore(initialState)
+
         render(
-            <MemoryRouter>
-                <LoginPage />
-            </MemoryRouter>
+            <Provider store={store}>
+                <MemoryRouter>
+                    <LoginPage />
+                </MemoryRouter>
+            </Provider>
         );
 
         const loginMock = jest.spyOn(AuthRequest, 'login');

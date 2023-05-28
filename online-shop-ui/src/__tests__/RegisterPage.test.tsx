@@ -59,7 +59,7 @@ describe("Register Page Tests", () => {
 
         clickSubmitButton();
 
-        await waitFor(() => {
+        await waitFor(() => { 
             const alertError = screen.getByTestId("alert-error");
             expect(alertError).toBeInTheDocument();
             expect(alertError).toHaveTextContent("Error");
