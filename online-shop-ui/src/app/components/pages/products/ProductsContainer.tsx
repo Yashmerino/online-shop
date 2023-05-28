@@ -51,15 +51,15 @@ const ProductsContainer = () => {
       setProducts(products);
     }
 
-    fetchProducts();
+    fetchProducts(); // NOSONAR: It should not await.
   }, []);
 
   return (
     <Container component="main" maxWidth={false} id="main-container" disableGutters>
       <Header />
       <Grid container justifyContent="center" alignItems="center" columnGap={2}>
-        {products.map(product => {
-          return (<ProductCard id={product.id} title={product.name} price={product.price} />);
+        {products.length <= 0 && products.map(product => {
+          return (<ProductCard key={product.id} id={product.id} title={product.name} price={product.price} />);
         })}
       </Grid>
       <Copyright sx={{ mt: 8, mb: 4 }} />

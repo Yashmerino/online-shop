@@ -51,7 +51,6 @@ const RegisterPage = () => {
 
         const response = await AuthRequest.register(role.innerHTML.toUpperCase() ?? "", email ?? "", username ?? "", password ?? "");
 
-        console.log(response);
         if (response.status == 200) {
             setSuccess(true);
         } else {
