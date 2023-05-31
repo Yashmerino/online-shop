@@ -61,4 +61,15 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getById(Long id) {
         return userRepository.findById(id);
     }
+
+    /**
+     * Returns user by username.
+     *
+     * @param username is the user's username.
+     * @return <code>User</code>
+     */
+    @Override
+    public Optional<User> getByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }

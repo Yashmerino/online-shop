@@ -73,7 +73,7 @@ class CartItemControllerTest {
      */
     @Test
     @WithMockUser(username = "user", authorities = {"USER"})
-    void addCartItemTest() throws Exception {
+    void deleteCartItemTest() throws Exception {
         MvcResult result = mvc.perform(delete("/api/cartItem/1")).andExpect(status().isOk()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("Item successfully deleted!"));

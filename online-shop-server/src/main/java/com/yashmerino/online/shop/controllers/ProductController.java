@@ -47,6 +47,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -137,7 +139,6 @@ public class ProductController {
      * Adds a product to the cart.
      *
      * @param id       is the product's id.
-     * @param cartId   is the cart's id.
      * @param quantity is the quantity of item.
      * @return <code>ResponseEntity</code>
      * @throws EntityNotFoundException if product or cart couldn't be found.
@@ -155,15 +156,19 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @GetMapping("/{id}/add")
-    public ResponseEntity<String> addProductToCart(@PathVariable Long id, @RequestParam Long cartId, @RequestParam Integer quantity) {
+    public ResponseEntity<String> addProductToCart(@PathVariable Long id, @RequestParam Integer quantity) {
         Optional<Product> productOptional = productService.getProduct(id);
 
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
-            Optional<Cart> optionalCart = cartService.getCart(cartId);
 
-            if (optionalCart.isPresent()) {
-                Cart cart = optionalCart.get();
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            Optional<User> currentUserOptional = userService.getByUsername(userDetails.getUsername());
+
+            if (currentUserOptional.isPresent()) {
+                User user = currentUserOptional.get();
+                Cart cart = user.getCart();
 
                 CartItem cartItem = new CartItem();
                 cartItem.setCart(cart);
@@ -172,8 +177,9 @@ public class ProductController {
                 cartItemService.save(cartItem);
 
                 return new ResponseEntity<>("Product successfully added!", HttpStatus.OK);
+
             } else {
-                throw new EntityNotFoundException("Cart couldn't be found!");
+                throw new EntityNotFoundException("User couldn't be found!");
             }
         } else {
             throw new EntityNotFoundException("Product couldn't be found!");

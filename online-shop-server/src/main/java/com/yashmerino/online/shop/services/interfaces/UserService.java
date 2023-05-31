@@ -40,4 +40,12 @@ public interface UserService {
      * @return <code>User</code>
      */
     public Optional<User> getById(final Long id);
+
+    /**
+     * Returns user by username.
+     *
+     * @param username is the user's username.
+     * @return <code>User</code>
+     */
+    public Optional<User> getByUsername(final String username);
 }
