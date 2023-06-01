@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { apiBaseUrl } from "../../env-config";
+import { API_BASE_URL } from "../../env-config";
 
 export const getProducts = async (token: string) => {
-    const response = await fetch(`${apiBaseUrl}/api/product`, {
+    const response = await fetch(`${API_BASE_URL}/api/product`, {
         headers: { Authorization: `Bearer ${token}` },
     })
 
@@ -32,7 +32,7 @@ export const getProducts = async (token: string) => {
 }
 
 export const getProduct = async (token: string, id: number) => {
-    const response = await fetch(`${apiBaseUrl}/api/product/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/product/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
     })
 

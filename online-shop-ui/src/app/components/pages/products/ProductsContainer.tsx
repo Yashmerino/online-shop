@@ -31,7 +31,8 @@ import Header from '../../Header';
 import ProductCard from './ProductCard';
 import { getProducts } from '../../../api/ProductRequest';
 
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector, useAppDispatch } from '../../../hooks';
+import { parseJwt } from '../../../utils/Utils';
 
 interface Product {
   id: number,
@@ -41,6 +42,8 @@ interface Product {
 
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
+  const user = useAppSelector(state => state.user);
+
   const [products, setProducts] = React.useState<Product[]>([]);
 
   React.useEffect(() => {

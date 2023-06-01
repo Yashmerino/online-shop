@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../../src/store/store'
+import type { RootState } from '../../store/store'
 
 export interface JwtState {
     token: string

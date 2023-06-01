@@ -34,7 +34,9 @@ import * as AuthRequest from '../../../api/AuthRequest';
 import { Alert } from '@mui/material';
 
 import { useAppDispatch } from '../../../hooks';
-import { updateJwt } from '../../../slices/jwtSlicer';
+import { updateJwt } from '../../../slices/jwtSlice';
+import { updateUserInfo } from '../../../slices/userSlice';
+import { parseJwt } from '../../../utils/Utils';
 
 const LoginPage = () => {
   const [error, setError] = React.useState("");
@@ -51,6 +53,7 @@ const LoginPage = () => {
     const response = await AuthRequest.login(username ?? "", password ?? "");
     if (response.accessToken) {
       dispatch(updateJwt(response.accessToken));
+      dispatch(updateUserInfo(parseJwt(response.accessToken)));
       navigate("/products");
     } else {
       setError(response.error);
