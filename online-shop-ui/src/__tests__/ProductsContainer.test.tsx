@@ -45,4 +45,33 @@ describe("Products Container Tests", () => {
             expect(addToCartButton).toBeInTheDocument();
         })
     });
+
+    it("Test add product to cart", () => {
+        store = mockStore(initialState)
+
+        const getAllProductsMock = jest.spyOn(ProductRequest, 'getProducts');
+        const result = [{ "name": "Apple", "price": 2.5, "categories": [], "userId": 2 }];
+        getAllProductsMock.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+
+        const addProductToCart = jest.spyOn(ProductRequest, "addProductToCart");
+        const successResponse = { "status": 200, "message": "Product successfully added to the cart!" };
+        addProductToCart.mockReturnValue(Promise.resolve(JSON.stringify(successResponse)));
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <ProductsContainer />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        waitFor(() => { // NOSONAR: No need to await.
+            const addToCartButton = screen.getByText("Add To Cart");
+            expect(addToCartButton).toBeInTheDocument();
+            addToCartButton.click();
+
+            const successAlert = screen.getByText("The product has been successfully added to the cart!");
+            expect(successAlert).toBeInTheDocument();
+        })
+    });
 });
