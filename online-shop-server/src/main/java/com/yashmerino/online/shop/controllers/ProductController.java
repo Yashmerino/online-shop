@@ -28,6 +28,7 @@ import com.yashmerino.online.shop.model.CartItem;
 import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
+import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import com.yashmerino.online.shop.services.interfaces.CartService;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
@@ -119,7 +120,7 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<SuccessDTO> addProduct(@RequestBody ProductDTO productDTO) {
         Product product = RequestBodyToEntityConverter.convertToProduct(productDTO);
 
         Optional<User> userOptional = userService.getById(productDTO.getUserId());
@@ -129,7 +130,11 @@ public class ProductController {
             product.setUser(user);
             productService.save(product);
 
-            return new ResponseEntity<>("Product successfully added!", HttpStatus.OK);
+            SuccessDTO successDTO = new SuccessDTO();
+            successDTO.setStatus(200);
+            successDTO.setMessage("Product successfully added!");
+
+            return new ResponseEntity<>(successDTO, HttpStatus.OK);
         } else {
             throw new EntityNotFoundException("User couldn't be found!");
         }
@@ -156,7 +161,7 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @GetMapping("/{id}/add")
-    public ResponseEntity<String> addProductToCart(@PathVariable Long id, @RequestParam Integer quantity) {
+    public ResponseEntity<SuccessDTO> addProductToCart(@PathVariable Long id, @RequestParam Integer quantity) {
         Optional<Product> productOptional = productService.getProduct(id);
 
         if (productOptional.isPresent()) {
@@ -176,7 +181,11 @@ public class ProductController {
                 cartItem.setQuantity(quantity);
                 cartItemService.save(cartItem);
 
-                return new ResponseEntity<>("Product successfully added!", HttpStatus.OK);
+                SuccessDTO successDTO = new SuccessDTO();
+                successDTO.setStatus(200);
+                successDTO.setMessage("Product successfully added to the cart!");
+
+                return new ResponseEntity<>(successDTO, HttpStatus.OK);
 
             } else {
                 throw new EntityNotFoundException("User couldn't be found!");

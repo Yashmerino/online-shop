@@ -37,6 +37,11 @@ import java.util.Set;
 public class ProductDTO {
 
     /**
+     * Product's id.
+     */
+    private Long id;
+
+    /**
      * Product's name;
      */
     private String name;
