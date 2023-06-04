@@ -84,7 +84,7 @@ const ProductCard = ({ id, title, price }: ProductCardProps) => {
         </CardContent>
       </CardActionArea>
       <CardActions >
-        <Button size="small" color="primary" onClick={addProduct}>
+        <Button size="small" color="primary" onClick={addProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/}
           Add To Cart
         </Button>
       </CardActions>
