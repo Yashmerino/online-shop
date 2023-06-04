@@ -50,8 +50,8 @@ const ProductsContainer = () => {
     const token = jwt.token;
 
     const fetchProducts = async () => {
-      const products = await getProducts(token);
-      setProducts(products);
+      const productsResponse = await getProducts(token);
+      setProducts(productsResponse);
     }
 
     fetchProducts(); // NOSONAR: It should not await.
@@ -61,7 +61,7 @@ const ProductsContainer = () => {
     <Container component="main" maxWidth={false} id="main-container" disableGutters>
       <Header />
       <Grid container justifyContent="center" alignItems="center" columnGap={2}>
-        {products.length <= 0 && products.map(product => {
+        {products.length > 0 && products.map(product => {
           return (<ProductCard key={product.id} id={product.id} title={product.name} price={product.price} />);
         })}
       </Grid>

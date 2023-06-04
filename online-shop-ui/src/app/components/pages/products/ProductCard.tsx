@@ -27,7 +27,18 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import { addProductToCart } from '../../../api/ProductRequest';
+import { useAppSelector } from '../../../hooks';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 interface ProductCardProps {
   id: number,
@@ -36,6 +47,24 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ id, title, price }: ProductCardProps) => {
+  const [isAdded, setAdded] = React.useState<boolean>(false);
+
+  const jwt = useAppSelector(state => state.jwt);
+
+  const handleAlertClick = () => {
+    setAdded(false);
+  };
+
+  const addProduct = async () => {
+    setAdded(false);
+
+    const response = await addProductToCart(jwt.token, id, 1);
+
+    if (response.status == 200) {
+      setAdded(true);
+    }
+  }
+
   return (
     <Card sx={{ maxWidth: 400, marginTop: "5%" }}>
       <CardActionArea>
@@ -55,10 +84,16 @@ const ProductCard = ({ id, title, price }: ProductCardProps) => {
         </CardContent>
       </CardActionArea>
       <CardActions >
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={addProduct}>
           Add To Cart
         </Button>
       </CardActions>
+      {isAdded &&
+        <Snackbar open={isAdded} autoHideDuration={2000} onClose={handleAlertClick}>
+          <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+            The product has been successfully added to the cart!
+          </Alert>
+        </Snackbar>}
     </Card>
   );
 }

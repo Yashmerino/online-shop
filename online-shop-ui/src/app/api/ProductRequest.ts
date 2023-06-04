@@ -38,3 +38,11 @@ export const getProduct = async (token: string, id: number) => {
 
     return response.json();
 }
+
+export const addProductToCart = async (token: string, id: number, quantity: number) => {
+    const response = await fetch(`${API_BASE_URL}/api/product/${id}/add?quantity=${quantity}`, {
+        headers: { Authorization: `Bearer ${token}` },
+    })
+
+    return response.json();
+}
