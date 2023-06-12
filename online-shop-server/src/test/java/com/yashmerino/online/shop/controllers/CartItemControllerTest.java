@@ -63,7 +63,7 @@ class CartItemControllerTest {
     void getCartItemTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/cartItem/1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"productId\":1,\"cartId\":1,\"quantity\":1}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":1}"));
     }
 
     /**
@@ -89,11 +89,23 @@ class CartItemControllerTest {
     void changeQuantityTest() throws Exception {
         MvcResult result = mvc.perform(post("/api/cartItem/1/quantity?quantity=5")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Quantity of the item successfully changed!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Quantity of the item successfully changed!\"}"));
 
         result = mvc.perform(get("/api/cartItem/1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"productId\":1,\"cartId\":1,\"quantity\":5}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":5}"));
     }
 
+    /**
+     * Test get cart items.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "user", authorities = {"USER"})
+    void getCartItemsTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/cartItem?username=user")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("[{\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":1}]"));
+    }
 }

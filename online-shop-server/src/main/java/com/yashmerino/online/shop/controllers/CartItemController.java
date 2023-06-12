@@ -23,9 +23,13 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.model.CartItem;
+import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.CartItemDTO;
+import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
+import com.yashmerino.online.shop.services.interfaces.UserService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
@@ -43,7 +47,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Cart item's controller.
@@ -60,12 +67,19 @@ public class CartItemController {
     private final CartItemService cartItemService;
 
     /**
+     * Users' service.
+     */
+    private final UserService userService;
+
+    /**
      * Constructor.
      *
      * @param cartItemService is the cart items' service.
+     * @param userService     is the user's service.
      */
-    public CartItemController(CartItemService cartItemService) {
+    public CartItemController(CartItemService cartItemService, UserService userService) {
         this.cartItemService = cartItemService;
+        this.userService = userService;
     }
 
     /**
@@ -112,10 +126,14 @@ public class CartItemController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping("/{id}/quantity")
-    public ResponseEntity<String> changeQuantity(@PathVariable Long id, @RequestParam Integer quantity) {
+    public ResponseEntity<SuccessDTO> changeQuantity(@PathVariable Long id, @RequestParam Integer quantity) {
         cartItemService.changeQuantity(id, quantity);
 
-        return new ResponseEntity<>("Quantity of the item successfully changed!", HttpStatus.OK);
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("Quantity of the item successfully changed!");
+
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
 
     /**
@@ -148,6 +166,45 @@ public class CartItemController {
             return new ResponseEntity<>(cartItemDTO, HttpStatus.OK);
         } else {
             throw new EntityNotFoundException("Cart Item couldn't be found!");
+        }
+    }
+
+    /**
+     * Returns all the cart items.
+     *
+     * @param username is the user's username.
+     * @return <code>List of CartItems</code>
+     */
+    @Operation(summary = "Returns all the items from the cart.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.RETURNED_CART_ITEM,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @GetMapping
+    public List<CartItemDTO> getCartItems(@RequestParam String username) {
+        Optional<User> userOptional = userService.getByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Cart cart = user.getCart();
+
+            Set<CartItem> cartItemsSet = cart.getItems();
+            List<CartItemDTO> cartItems = new ArrayList<>();
+
+            for (CartItem cartItem : cartItemsSet) {
+                cartItems.add(RequestBodyToEntityConverter.convertToCartItemDTO(cartItem));
+            }
+
+            return cartItems;
+        } else {
+            throw new EntityNotFoundException("User not found!");
         }
     }
 }

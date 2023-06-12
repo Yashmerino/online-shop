@@ -94,7 +94,7 @@ public class Initializer implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Role adminRole = new Role();
         adminRole.setName("ADMIN");
 
@@ -144,6 +144,8 @@ public class Initializer implements CommandLineRunner {
 
         CartItem cartItem = new CartItem();
         cartItem.setId(1L);
+        cartItem.setName(product.getName());
+        cartItem.setPrice(product.getPrice());
         cartItem.setProduct(product);
         cartItem.setQuantity(1);
         cartItem.setCart(cart);
