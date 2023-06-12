@@ -23,24 +23,41 @@
  */
 
 import React from 'react';
-import './../main.scss';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea, CardActions } from '@mui/material';
 
-import { Link } from 'react-router-dom';
-import Main from './Main';
-
-function App() {
-    return (
-        <div>
-            <ul>
-                <li><Link to='/login'>Login page</Link></li>
-                <li><Link to='/register'>Register page</Link></li>
-                <li><Link to='/products'>Products page</Link></li>
-                <li><Link to='/cart'>My Cart page</Link></li>
-            </ul>
-            <hr />
-            <Main />
-        </div>
-    );
+interface CartItemProps {
+  id: number,
+  title: string,
+  price: string,
 }
 
-export default App;
+const CartItemCard = ({ id, title, price }: CartItemProps) => {
+  return (
+    <Card sx={{ maxWidth: 400, marginTop: "5%" }}>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          height="140"
+          alt="product"
+          width="320"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Price: {price}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions >
+      </CardActions>
+    </Card>
+  );
+}
+
+export default CartItemCard;

@@ -28,6 +28,8 @@ import Container from '@mui/material/Container';
 
 import Copyright from '../footer/Copyright';
 import Header from '../Header';
+import { getCartItems } from '../../api/CartItemsRequest';
+import CartItemCard from './CartItemCard';
 
 import { useAppSelector } from '../../hooks';
 
@@ -40,14 +42,15 @@ interface CartItem {
 
 const CartContainer = () => {
     const jwt = useAppSelector(state => state.jwt);
+    const user = useAppSelector(state => state.user);
     const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
 
     React.useEffect(() => {
         const token = jwt.token;
 
         const fetchCartItems = async () => {
-            //const cartItems = await getCartItems(token);
-            //setCartItems(cartItems);
+            const cartItems = await getCartItems(token, user.info.sub);
+            setCartItems(cartItems);
         }
 
         fetchCartItems(); // NOSONAR: It should not await.
@@ -57,9 +60,9 @@ const CartContainer = () => {
         <Container component="main" maxWidth={false} id="main-container" disableGutters>
             <Header />
             <Grid container justifyContent="center" alignItems="center" columnGap={2}>
-                {/* {cartItems.length <= 0 && cartItems.map(cartItem => {
-                    return (<CartItem key={product.id} id={product.id} title={product.name} price={product.price} />);
-                })} */}
+                {cartItems.length > 0 && cartItems.map(cartItem => {
+                    return (<CartItemCard key={cartItem.id} id={cartItem.id} title={cartItem.name} price={cartItem.price} />);
+                })}
             </Grid>
             <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
