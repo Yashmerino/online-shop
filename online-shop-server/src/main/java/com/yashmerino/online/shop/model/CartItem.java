@@ -43,6 +43,7 @@ import lombok.*;
 @Entity(name = "cart_items")
 @Table(name = "cart_items")
 public class CartItem extends BaseEntity {
+
     /**
      * The cart item's product.
      */
@@ -50,6 +51,19 @@ public class CartItem extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    /**
+     * Cart Item's name.
+     */
+    @NonNull
+    private String name;
+
+    /**
+     * Cart Item's price.
+     */
+    @NonNull
+    @Min(value = 0)
+    private Double price;
 
     /**
      * The cart item's cart.

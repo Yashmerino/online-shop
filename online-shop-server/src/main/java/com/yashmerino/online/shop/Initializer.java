@@ -135,6 +135,8 @@ public class Initializer implements CommandLineRunner {
         CartItem cartItem = new CartItem();
         cartItem.setId(1L);
         cartItem.setCart(cart);
+        cartItem.setName(product.getName());
+        cartItem.setPrice(product.getPrice());
         cartItem.setProduct(product);
         cartItem.setQuantity(5);
         cartItemRepository.save(cartItem);

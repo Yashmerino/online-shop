@@ -23,7 +23,13 @@ package com.yashmerino.online.shop.model.dto;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.yashmerino.online.shop.model.Cart;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -37,6 +43,16 @@ public class CartItemDTO {
      * Product's id.
      */
     private Long productId;
+
+    /**
+     * Cart Item's name.
+     */
+    private String name;
+
+    /**
+     * Cart Item's price.
+     */
+    private Double price;
 
     /**
      * Cart's id.

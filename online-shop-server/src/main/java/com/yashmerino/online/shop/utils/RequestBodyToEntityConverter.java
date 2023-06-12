@@ -81,6 +81,8 @@ public class RequestBodyToEntityConverter {
     public static CartItemDTO convertToCartItemDTO(CartItem cartItem) {
         CartItemDTO cartItemDTO = new CartItemDTO();
         cartItemDTO.setCartId(cartItem.getCart().getId());
+        cartItemDTO.setName(cartItem.getName());
+        cartItemDTO.setPrice(cartItem.getPrice());
         cartItemDTO.setProductId(cartItem.getProduct().getId());
         cartItemDTO.setQuantity(cartItem.getQuantity());
 
