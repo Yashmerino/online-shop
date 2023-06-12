@@ -21,26 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { API_BASE_URL } from "../../env-config";
 
-import React from 'react';
-import './../main.scss';
+export const getCartItems = async (token: string, username: string) => {
+    const response = await fetch(`${API_BASE_URL}/api/cartItem?&username=${username}`, {
+        headers: { Authorization: `Bearer ${token}` },
+    })
 
-import { Link } from 'react-router-dom';
-import Main from './Main';
-
-function App() {
-    return (
-        <div>
-            <ul>
-                <li><Link to='/login'>Login page</Link></li>
-                <li><Link to='/register'>Register page</Link></li>
-                <li><Link to='/products'>Products page</Link></li>
-                <li><Link to='/cart'>My Cart page</Link></li>
-            </ul>
-            <hr />
-            <Main />
-        </div>
-    );
+    return response.json();
 }
-
-export default App;
