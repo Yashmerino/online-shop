@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import jwtReducer from "../app/slices/jwtSlice";
-import userReducer from "../app/slices/userSlice";
+import userReducer from "../app/slices/usernameSlice";
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import {
@@ -12,13 +12,15 @@ import {
     PURGE,
     REGISTER,
 } from 'redux-persist';
+import usernameSlice from "../app/slices/usernameSlice";
+import rolesSlice from "../app/slices/rolesSlice";
 
 const persistConfig = {
     key: 'counter',
     storage,
 };
 
-const reducers = combineReducers({ jwt: jwtReducer, user: userReducer });
+const reducers = combineReducers({ jwt: jwtReducer, username: usernameSlice, roles: rolesSlice });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 

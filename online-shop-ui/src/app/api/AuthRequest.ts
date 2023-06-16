@@ -54,3 +54,11 @@ export const login = async (username: string, password: string) => {
 
     return response.json();
 }
+
+export const getUserInfo = async (username: string) => {
+    const response = await fetch(`${API_BASE_URL}/api/auth/${username}`, {
+        headers: { 'Content-Type': 'application/json' }
+    })
+
+    return response.json();
+}

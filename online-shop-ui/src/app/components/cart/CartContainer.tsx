@@ -42,14 +42,14 @@ interface CartItem {
 
 const CartContainer = () => {
     const jwt = useAppSelector(state => state.jwt);
-    const user = useAppSelector(state => state.user);
+    const username = useAppSelector(state => state.username);
     const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
 
     React.useEffect(() => {
         const token = jwt.token;
 
         const fetchCartItems = async () => {
-            const cartItems = await getCartItems(token, user.info.sub);
+            const cartItems = await getCartItems(token, username.sub);
             setCartItems(cartItems);
         }
 
