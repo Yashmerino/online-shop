@@ -33,6 +33,7 @@ import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.model.dto.auth.AuthResponseDTO;
 import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
 import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
+import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
 import com.yashmerino.online.shop.repositories.RoleRepository;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.security.JwtProvider;
@@ -58,10 +59,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -208,5 +206,31 @@ public class AuthController {
         String token = jwtProvider.generateToken(authentication);
 
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+    }
+
+    /**
+     * Login for user.
+     *
+     * @param username is the user's username.
+     * @return <code>ResponseEntity</code>
+     */
+    @Operation(summary = "Returns user info.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_INFO_IS_RETURNED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserInfoDTO.class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.NOT_FOUND, description = SwaggerMessages.USER_DOES_NOT_EXIST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @PostMapping("/{username}")
+    public ResponseEntity<UserInfoDTO> getUserInfo(@Parameter(description = "User's username.") @PathVariable String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        User user = userOptional.orElseThrow(() -> new EntityNotFoundException("Username not found."));
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
+        userInfoDTO.setRoles(user.getRoles());
+
+        return new ResponseEntity<>(userInfoDTO, HttpStatus.OK);
     }
 }
