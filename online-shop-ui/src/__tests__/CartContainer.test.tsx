@@ -9,7 +9,7 @@ import configureStore from 'redux-mock-store';
 import { Store } from "redux";
 
 describe("Cart Container Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, user: { info: { sub: "user" } } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" } };
     const mockStore = configureStore();
     let store: Store;
 
