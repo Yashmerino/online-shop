@@ -223,7 +223,7 @@ public class AuthController {
                     content = @Content),
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
-    @PostMapping("/{username}")
+    @GetMapping("/{username}")
     public ResponseEntity<UserInfoDTO> getUserInfo(@Parameter(description = "User's username.") @PathVariable String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
 

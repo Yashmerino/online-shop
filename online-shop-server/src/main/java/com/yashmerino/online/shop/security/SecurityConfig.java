@@ -102,6 +102,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/auth/**").permitAll()
                         .requestMatchers("/api/cartItem/**").hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
                         .requestMatchers(HttpMethod.POST, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())
                         .requestMatchers(HttpMethod.DELETE, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())

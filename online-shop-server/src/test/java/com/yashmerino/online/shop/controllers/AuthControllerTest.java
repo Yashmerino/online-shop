@@ -43,6 +43,7 @@ import static com.yashmerino.online.shop.utils.Role.USER;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -239,5 +240,29 @@ class AuthControllerTest {
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Password field not provided!\"}"));
+    }
+
+    /**
+     * Tests get user info.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void getUserInfoTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/auth/seller")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"roles\":[{\"id\":3,\"name\":\"SELLER\"}]}"));
+    }
+
+    /**
+     * Tests get user info with non-existing username.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void getUserInfoNonExistingUsernameTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/auth/error")).andExpect(status().isNotFound()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"Username not found.\"}"));
     }
 }
