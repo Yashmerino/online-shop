@@ -74,4 +74,26 @@ describe("Products Container Tests", () => {
             expect(successAlert).toBeInTheDocument();
         })
     });
+
+    it("Test no add product to the cart button as Seller", () => {
+        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } } };
+        store = mockStore(newState)
+
+        const getAllProductsMock = jest.spyOn(ProductRequest, 'getProducts');
+        const result = [{ "name": "Apple", "price": 2.5, "categories": [], "userId": 2 }];
+        getAllProductsMock.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <ProductsContainer />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        waitFor(() => { // NOSONAR: No need to await.
+            const addToCartButton = screen.getByText("Add To Cart");
+            expect(addToCartButton).toBeNull();
+        })
+    });
 });

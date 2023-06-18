@@ -42,4 +42,26 @@ describe("Cart Container Tests", () => {
             expect(productPrice).toBeInTheDocument();
         })
     });
+
+    it("Test no rights to access page as Seller", () => {
+        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } } };
+        store = mockStore(newState)
+
+        const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');
+        const result = [{ "productId": 1, "name": "Apple", "price": 2.5, "cartId": 1, "quantity": 5 }];
+        getCartItems.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <CartContainer />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        waitFor(() => { // NOSONAR: No need to await.
+            const productPrice = screen.getByText("You don't have rights to access this page.");
+            expect(productPrice).toBeInTheDocument();
+        })
+    });
 });
