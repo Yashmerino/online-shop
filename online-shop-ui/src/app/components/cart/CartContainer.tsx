@@ -32,6 +32,7 @@ import { getCartItems } from '../../api/CartItemsRequest';
 import CartItemCard from './CartItemCard';
 
 import { useAppSelector } from '../../hooks';
+import { Typography } from '@mui/material';
 
 interface CartItem {
     id: number,
@@ -42,6 +43,7 @@ interface CartItem {
 
 const CartContainer = () => {
     const jwt = useAppSelector(state => state.jwt);
+    const roles = useAppSelector(state => state.roles);
     const username = useAppSelector(state => state.username);
     const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
 
@@ -59,11 +61,13 @@ const CartContainer = () => {
     return (
         <Container component="main" maxWidth={false} id="main-container" disableGutters>
             <Header />
-            <Grid container justifyContent="center" alignItems="center" columnGap={2}>
-                {cartItems.length > 0 && cartItems.map(cartItem => {
-                    return (<CartItemCard key={cartItem.id} id={cartItem.id} title={cartItem.name} price={cartItem.price} />);
-                })}
-            </Grid>
+            {// @ts-ignore 
+                roles.roles.roles[0].name == "USER" ? <Grid container justifyContent="center" alignItems="center" columnGap={2}>
+                    {cartItems.length > 0 && cartItems.map(cartItem => {
+                        return (<CartItemCard key={cartItem.id} id={cartItem.id} title={cartItem.name} price={cartItem.price} />);
+                    })}
+                </Grid>
+                    : <Typography align='center' marginTop={10}>You don't have rights to access this page.</Typography>}
             <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
     );

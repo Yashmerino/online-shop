@@ -47,6 +47,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ id, title, price }: ProductCardProps) => {
+  const roles = useAppSelector(state => state.roles);
   const [isAdded, setAdded] = React.useState<boolean>(false);
 
   const jwt = useAppSelector(state => state.jwt);
@@ -84,9 +85,9 @@ const ProductCard = ({ id, title, price }: ProductCardProps) => {
         </CardContent>
       </CardActionArea>
       <CardActions >
-        <Button size="small" color="primary" onClick={addProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/}
-          Add To Cart
-        </Button>
+        {// @ts-ignore 
+          roles.roles.roles[0].name == "USER" ? <Button size="small" color="primary" onClick={addProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/} Add To Cart</Button> : null
+        }
       </CardActions>
       {isAdded &&
         <Snackbar open={isAdded} autoHideDuration={2000} onClose={handleAlertClick}>

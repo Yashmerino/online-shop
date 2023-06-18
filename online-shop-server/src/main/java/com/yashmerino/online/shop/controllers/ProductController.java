@@ -179,6 +179,8 @@ public class ProductController {
                 cartItem.setCart(cart);
                 cartItem.setProduct(product);
                 cartItem.setQuantity(quantity);
+                cartItem.setName(product.getName());
+                cartItem.setPrice(product.getPrice());
                 cartItemService.save(cartItem);
 
                 SuccessDTO successDTO = new SuccessDTO();

@@ -41,7 +41,6 @@ interface Product {
 
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
-  const roles = useAppSelector(state => state.roles);
 
   const [products, setProducts] = React.useState<Product[]>([]);
 

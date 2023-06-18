@@ -10,10 +10,12 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useAppSelector } from '../hooks';
 
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+    const roles = useAppSelector(state => state.roles);
     const navigate = useNavigate();
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -96,7 +98,9 @@ const Header = () => {
                             onClose={handleCloseUserMenu}
                         >
                             <MenuItem onClick={() => { }}>Profile</MenuItem>
-                            <MenuItem onClick={handleMyCart}>My Cart</MenuItem>
+
+                            {// @ts-ignore 
+                                roles.roles.roles[0].name == "USER" ? <MenuItem onClick={handleMyCart}>My Cart</MenuItem> : null}
                             <MenuItem onClick={() => { }}>Logout</MenuItem>
                         </Menu>
                     </Box>
