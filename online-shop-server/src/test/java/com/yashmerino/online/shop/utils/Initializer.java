@@ -153,5 +153,8 @@ public class Initializer implements CommandLineRunner {
 
         cart.setItems(new HashSet<>(Arrays.asList(cartItem)));
         cartRepository.save(cart);
+
+        product.linkCartItem(cartItem);
+        productRepository.save(product);
     }
 }

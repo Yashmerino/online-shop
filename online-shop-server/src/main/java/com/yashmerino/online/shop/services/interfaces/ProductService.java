@@ -53,7 +53,13 @@ public interface ProductService {
      * Saves a product.
      *
      * @param product is the product's object.
-     * @return <code>Product</code>
      */
     void save(final Product product);
+
+    /**
+     * Deletes a product.
+     *
+     * @param id is the product's id.
+     */
+    void delete(final Long id);
 }

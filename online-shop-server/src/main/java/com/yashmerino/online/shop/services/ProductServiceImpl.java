@@ -83,4 +83,14 @@ public class ProductServiceImpl implements ProductService {
     public void save(Product product) {
         productRepository.save(product);
     }
+
+    /**
+     * Deletes a product.
+     *
+     * @param id is the product's id.
+     */
+    @Override
+    public void delete(Long id) {
+        productRepository.deleteById(id);
+    }
 }

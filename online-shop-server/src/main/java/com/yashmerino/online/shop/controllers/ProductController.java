@@ -189,6 +189,9 @@ public class ProductController {
                 successDTO.setStatus(200);
                 successDTO.setMessage("Product successfully added to the cart!");
 
+                product.linkCartItem(cartItem);
+                productService.save(product);
+
                 return new ResponseEntity<>(successDTO, HttpStatus.OK);
 
             } else {
@@ -258,5 +261,41 @@ public class ProductController {
         }
 
         return new ResponseEntity<>(productsDTO, HttpStatus.OK);
+    }
+
+    /**
+     * Deletes a product.
+     *
+     * @param id is the product's id.
+     * @return <code>ResponseEntity</code>
+     * @throws EntityNotFoundException if product couldn't be found.
+     */
+    @Operation(summary = "Deletes a product.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.PRODUCT_SUCCESSFULLY_DELETED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SuccessDTO> deleteProduct(@PathVariable Long id) {
+        Optional<Product> productOptional = productService.getProduct(id);
+
+        if (productOptional.isPresent()) {
+            productService.delete(id);
+
+            SuccessDTO successDTO = new SuccessDTO();
+            successDTO.setStatus(200);
+            successDTO.setMessage("Product successfully deleted!");
+
+            return new ResponseEntity<>(successDTO, HttpStatus.OK);
+        } else {
+            throw new EntityNotFoundException("Product couldn't be found!");
+        }
     }
 }

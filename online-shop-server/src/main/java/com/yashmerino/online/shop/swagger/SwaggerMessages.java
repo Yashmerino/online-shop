@@ -97,6 +97,11 @@ public class SwaggerMessages {
     public static final String PRODUCT_SUCCESSFULLY_ADDED = "Product was successfully added!";
 
     /**
+     * Message when a product was successfully deleted.
+     */
+    public static final String PRODUCT_SUCCESSFULLY_DELETED = "Product was successfully deleted!";
+
+    /**
      * Message when a product was successfully added as a cart item.
      */
     public static final String ITEM_SUCCESSFULLY_ADDED = "Item was successfully added!";

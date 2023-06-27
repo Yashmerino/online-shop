@@ -25,6 +25,7 @@ package com.yashmerino.online.shop.controllers;
 
 import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.model.CartItem;
+import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.CartItemDTO;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
@@ -102,6 +103,17 @@ public class CartItemController {
                     content = @Content)})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCartItem(@PathVariable Long id) {
+        Optional<CartItem> cartItemOptional = cartItemService.getCartItem(id);
+
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+
+            Product product = cartItem.getProduct();
+            product.deleteCartItem(cartItem);
+        } else {
+            throw new EntityNotFoundException("Cart Item couldn't be found!");
+        }
+
         cartItemService.deleteCartItem(id);
 
         return new ResponseEntity<>("Item successfully deleted!", HttpStatus.OK);

@@ -39,8 +39,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -174,5 +173,35 @@ class ProductControllerTest {
         mvc.perform(post("/api/product")
                 .content("error").contentType(
                         APPLICATION_JSON)).andExpect(status().isForbidden());
+    }
+
+    /**
+     * Test delete product.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void deleteProductTest() throws Exception {
+        MvcResult result = mvc.perform(delete("/api/product/1")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("Product successfully deleted!"));
+    }
+
+    /**
+     * Test delete non-existent product.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void deleteNonexistentProductTest() throws Exception {
+        MvcResult result = mvc.perform(delete("/api/product/99999")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isNotFound()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("Product couldn't be found!"));
     }
 }
