@@ -66,7 +66,6 @@ public class RequestBodyToEntityConverter {
         productDTO.setId(product.getId());
         productDTO.setName(product.getName());
         productDTO.setPrice(product.getPrice());
-        productDTO.setUserId(product.getUser().getId());
         productDTO.setCategories(product.getCategories());
 
         return productDTO;

@@ -55,9 +55,4 @@ public class ProductDTO {
      * Product's categories.
      */
     private Set<Category> categories;
-
-    /**
-     * Product's user id.
-     */
-    private Long userId;
 }

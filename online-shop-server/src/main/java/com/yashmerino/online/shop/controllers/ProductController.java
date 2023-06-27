@@ -123,7 +123,9 @@ public class ProductController {
     public ResponseEntity<SuccessDTO> addProduct(@RequestBody ProductDTO productDTO) {
         Product product = RequestBodyToEntityConverter.convertToProduct(productDTO);
 
-        Optional<User> userOptional = userService.getById(productDTO.getUserId());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        Optional<User> userOptional = userService.getByUsername(userDetails.getUsername());
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();

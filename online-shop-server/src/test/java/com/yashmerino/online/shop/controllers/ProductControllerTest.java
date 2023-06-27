@@ -73,7 +73,6 @@ class ProductControllerTest {
     void setup() {
         productDTO.setName("Product");
         productDTO.setPrice(2.50);
-        productDTO.setUserId(1L);
     }
 
     /**
@@ -120,7 +119,7 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product/2")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[],\"userId\":1}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[]}"));
     }
 
     /**
@@ -148,7 +147,7 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("[{\"id\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[],\"userId\":2},{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[],\"userId\":1},{\"id\":3,\"name\":\"Banana\",\"price\":1.25,\"categories\":[],\"userId\":1}]"));
+        assertTrue(result.getResponse().getContentAsString().contains("[{\"id\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]},{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[]},{\"id\":3,\"name\":\"Banana\",\"price\":1.25,\"categories\":[]}]"));
     }
 
     /**
