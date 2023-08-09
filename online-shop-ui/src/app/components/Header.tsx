@@ -31,6 +31,10 @@ const Header = () => {
         navigate("/cart");
     }
 
+    const handleAddProduct = () => {
+        navigate("/product/add");
+    }
+
     return (
         <AppBar position="static" sx={{ width: "100%" }}>
             <Container maxWidth={false}>
@@ -101,6 +105,8 @@ const Header = () => {
 
                             {// @ts-ignore 
                                 roles.roles.roles[0].name == "USER" ? <MenuItem onClick={handleMyCart}>My Cart</MenuItem> : null}
+                            {// @ts-ignore 
+                                roles.roles.roles[0].name == "SELLER" ? <MenuItem onClick={handleAddProduct}>Add Product</MenuItem> : null}
                             <MenuItem onClick={() => { }}>Logout</MenuItem>
                         </Menu>
                     </Box>

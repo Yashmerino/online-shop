@@ -22,26 +22,36 @@
  * SOFTWARE.
  */
 
-import React from 'react';
-import './../main.scss';
+import * as React from 'react';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
 
-import { Link } from 'react-router-dom';
-import Main from './Main';
+import Header from '../../Header';
+import Copyright from '../../footer/Copyright';
 
-function App() {
+import { useAppSelector } from '../../../hooks'
+import { Typography } from '@mui/material';
+
+interface CartItem {
+    id: number,
+    productId: number,
+    name: string,
+    price: string,
+}
+
+const AddProductPage = () => {
+    const roles = useAppSelector(state => state.roles);
+
     return (
-        <div>
-            <ul>
-                <li><Link to='/login'>Login page</Link></li>
-                <li><Link to='/register'>Register page</Link></li>
-                <li><Link to='/products'>Products page</Link></li>
-                <li><Link to='/cart'>My Cart page</Link></li>
-                <li><Link to='/product/add'>Add Product page</Link></li>
-            </ul>
-            <hr />
-            <Main />
-        </div>
+        <Container component="main" maxWidth={false} id="main-container" disableGutters>
+            <Header />
+            {// @ts-ignore 
+                roles.roles.roles[0].name == "SELLER"
+                ? (null)
+                : (<Typography align='center' marginTop={10}>You don't have rights to access this page.</Typography>)}
+            <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Container>
     );
 }
 
-export default App;
+export default AddProductPage;
