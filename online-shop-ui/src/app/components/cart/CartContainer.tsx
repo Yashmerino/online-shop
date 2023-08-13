@@ -62,7 +62,8 @@ const CartContainer = () => {
         <Container component="main" maxWidth={false} id="main-container" disableGutters>
             <Header />
             {// @ts-ignore 
-                roles.roles.roles[0].name == "USER" ? <Grid container justifyContent="center" alignItems="center" columnGap={2}>
+                roles.roles.roles[0].name == "USER" ?
+                <Grid container justifyContent="center" alignItems="center" columnGap={2}>
                     {cartItems.length > 0 && cartItems.map(cartItem => {
                         return (<CartItemCard key={cartItem.id} id={cartItem.id} title={cartItem.name} price={cartItem.price} />);
                     })}

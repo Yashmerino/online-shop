@@ -23,21 +23,24 @@
  */
 
 import * as React from 'react';
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
 
 import { useAppSelector } from '../../../hooks'
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
-interface CartItem {
-    id: number,
-    productId: number,
-    name: string,
-    price: string,
-}
+const currencies = [
+    {
+        value: 'EUR',
+        label: '€',
+    },
+];
 
 const AddProductPage = () => {
     const roles = useAppSelector(state => state.roles);
@@ -47,8 +50,57 @@ const AddProductPage = () => {
             <Header />
             {// @ts-ignore 
                 roles.roles.roles[0].name == "SELLER"
-                ? (null)
-                : (<Typography align='center' marginTop={10}>You don't have rights to access this page.</Typography>)}
+                    ? (<Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        component="form"
+                        sx={{
+                            '& .MuiTextField-root': { m: 1, width: '50ch' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                        margin="5%"
+                    >
+                        <Stack>
+                            <TextField
+                                required
+                                id="name-field"
+                                label="Name"
+                                defaultValue="Apple"
+                                sx={{width: "75%"}} />
+                            <TextField
+                                id="currency-field"
+                                select
+                                label="Currency"
+                                defaultValue="EUR"
+                                helperText="Please select your currency"
+                            >
+                                {currencies.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                            <TextField
+                                required
+                                id="name-field"
+                                label="Price"
+                                type="number"
+                                defaultValue="1"
+                                inputProps={{ min: 0 }} />
+                            <Button
+                                type="submit"
+                                data-testid="submit-button"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Add
+                            </Button>
+                        </Stack>
+                    </Box>)
+                    : (<Typography align='center' marginTop={10}>You don't have rights to access this page.</Typography>)}
             <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
     );
