@@ -46,3 +46,22 @@ export const addProductToCart = async (token: string, id: number, quantity: numb
 
     return response.json();
 }
+
+export const addProduct = async (token: string, name: string, price: number) => {
+    const productDTO = {
+        name,
+        price,
+        categories: []
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/product`, {
+        method: 'POST',
+        body: JSON.stringify(productDTO),
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': "application/json"
+        },
+    })
+
+    return response.json();
+}

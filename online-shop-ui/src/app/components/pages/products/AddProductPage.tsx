@@ -28,6 +28,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import { addProduct } from '../../../api/ProductRequest';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
@@ -44,6 +45,15 @@ const currencies = [
 
 const AddProductPage = () => {
     const roles = useAppSelector(state => state.roles);
+    const jwt = useAppSelector(state => state.jwt);
+
+    const [name, setName] = React.useState("");
+    const [price, setPrice] = React.useState(0);
+
+    const handleSubmit = async () => {
+        const response = await addProduct(jwt.token, name, price);
+        console.log(response);
+    }
 
     return (
         <Container component="main" maxWidth={false} id="main-container" disableGutters>
@@ -51,6 +61,7 @@ const AddProductPage = () => {
             {// @ts-ignore 
                 roles.roles.roles[0].name == "SELLER"
                     ? (<Box
+                        onSubmit={handleSubmit}
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
@@ -64,11 +75,13 @@ const AddProductPage = () => {
                     >
                         <Stack>
                             <TextField
+                                value={name}
+                                onChange={(event) => { setName(event.target.value) }}
                                 required
                                 id="name-field"
                                 label="Name"
                                 defaultValue="Apple"
-                                sx={{width: "75%"}} />
+                                sx={{ width: "75%" }} />
                             <TextField
                                 id="currency-field"
                                 select
@@ -83,6 +96,8 @@ const AddProductPage = () => {
                                 ))}
                             </TextField>
                             <TextField
+                                value={price}
+                                onChange={(event) => { setPrice(Number(event.target.value)) }}
                                 required
                                 id="name-field"
                                 label="Price"
