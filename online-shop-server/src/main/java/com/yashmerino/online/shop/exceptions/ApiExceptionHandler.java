@@ -24,19 +24,48 @@ package com.yashmerino.online.shop.exceptions;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller advice that handles thrown exceptions in API requests.
  */
 @RestControllerAdvice
+@Validated
 public class ApiExceptionHandler {
+
+    /**
+     * Handles the {@link ConstraintViolationException}
+     *
+     * @param e is the thrown exception.
+     * @return <code>ResponseEntity</code>
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
+        FieldErrorResponse fieldErrorResponse = new FieldErrorResponse();
+
+        List<CustomFieldError> fieldErrors = new ArrayList<>();
+        e.getConstraintViolations().forEach((error) -> {
+            CustomFieldError fieldError = new CustomFieldError();
+            fieldError.setField(error.getPropertyPath().toString());
+            fieldError.setMessage(error.getMessage());
+            fieldErrors.add(fieldError);
+        });
+
+        fieldErrorResponse.setFieldErrors(fieldErrors);
+        return new ResponseEntity<>(fieldErrorResponse, HttpStatus.BAD_REQUEST);
+    }
 
     /**
      * Handles the {@link EmailAlreadyTakenException}

@@ -28,8 +28,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yashmerino.online.shop.model.base.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import lombok.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,14 +53,15 @@ public class Product extends BaseEntity {
     /**
      * Product's name.
      */
-    @NonNull
+    @NotNull(message = "Name is required.")
+    @NotEmpty(message = "Name is required.")
     private String name;
 
     /**
      * Product's price.
      */
-    @NonNull
-    @Min(value = 0)
+    @NotNull(message = "Price is required.")
+    @DecimalMin(value = "0.01", message = "Price should be greater than or equal to 0.01.")
     private Double price;
 
     /**

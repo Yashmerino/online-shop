@@ -29,6 +29,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { addProduct } from '../../../api/ProductRequest';
+import Alert from '@mui/material/Alert';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
@@ -50,9 +51,25 @@ const AddProductPage = () => {
     const [name, setName] = React.useState("");
     const [price, setPrice] = React.useState(0);
 
-    const handleSubmit = async () => {
+    const [error, setError] = React.useState([]);
+    const [isSuccess, setSuccess] = React.useState(false);
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        setSuccess(false);
+        setError([]);
+
         const response = await addProduct(jwt.token, name, price);
         console.log(response);
+        if (response.status != 200) {
+            console.log("bad" + response.status)
+            setError(response.fieldErrors);
+            console.log(response)
+        } else {
+            console.log("good" + response.status)
+            setSuccess(true);
+        }
     }
 
     return (
@@ -61,7 +78,7 @@ const AddProductPage = () => {
             {// @ts-ignore 
                 roles.roles.roles[0].name == "SELLER"
                     ? (<Box
-                        onSubmit={handleSubmit}
+                        onSubmit={event => handleSubmit(event)}
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
@@ -71,16 +88,19 @@ const AddProductPage = () => {
                         }}
                         noValidate
                         autoComplete="off"
-                        margin="5%"
+                        margin="2%"
                     >
-                        <Stack>
+                        <Stack
+                            alignItems="center"
+                            justifyContent="center">
+                            {isSuccess && <Alert id="alert-success" data-testid="alert-success" severity='success' sx={{ width: '100%', marginBottom: '5%' }}>Product added successfully!</Alert>}
+                            {error.length > 0 && error.map(e => <Alert id="alert-error" data-testid="alert-error" severity='error' sx={{ width: '100%', marginBottom: '5%' }}>{e['message']}</Alert>)}
                             <TextField
                                 value={name}
                                 onChange={(event) => { setName(event.target.value) }}
                                 required
                                 id="name-field"
                                 label="Name"
-                                defaultValue="Apple"
                                 sx={{ width: "75%" }} />
                             <TextField
                                 id="currency-field"
@@ -102,7 +122,6 @@ const AddProductPage = () => {
                                 id="name-field"
                                 label="Price"
                                 type="number"
-                                defaultValue="1"
                                 inputProps={{ min: 0 }} />
                             <Button
                                 type="submit"
