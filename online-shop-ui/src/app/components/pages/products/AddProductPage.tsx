@@ -62,12 +62,9 @@ const AddProductPage = () => {
 
         const response = await addProduct(jwt.token, name, price);
         console.log(response);
-        if (response.status != 200) {
-            console.log("bad" + response.status)
+        if (response.fieldErrors) {
             setError(response.fieldErrors);
-            console.log(response)
         } else {
-            console.log("good" + response.status)
             setSuccess(true);
         }
     }
