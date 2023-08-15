@@ -61,7 +61,6 @@ const AddProductPage = () => {
         setError([]);
 
         const response = await addProduct(jwt.token, name, price);
-        console.log(response);
         if (response.fieldErrors) {
             setError(response.fieldErrors);
         } else {
@@ -97,10 +96,12 @@ const AddProductPage = () => {
                                 onChange={(event) => { setName(event.target.value) }}
                                 required
                                 id="name-field"
+                                data-testid="name-field"
                                 label="Name"
                                 sx={{ width: "75%" }} />
                             <TextField
                                 id="currency-field"
+                                data-testid="currency-field"
                                 select
                                 label="Currency"
                                 defaultValue="EUR"
@@ -116,7 +117,8 @@ const AddProductPage = () => {
                                 value={price}
                                 onChange={(event) => { setPrice(Number(event.target.value)) }}
                                 required
-                                id="name-field"
+                                id="price-field"
+                                data-testid="price-field"
                                 label="Price"
                                 type="number"
                                 inputProps={{ min: 0 }} />

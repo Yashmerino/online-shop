@@ -28,7 +28,7 @@ import Link from '@mui/material/Link';
 
 const Copyright = (props: any) => {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        <Typography variant="body2" color="text.secondary" align="center" {...props} data-testid="footer">
             {'Copyright © '}
             <Link color="inherit" href="#">
                 Online Shop

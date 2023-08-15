@@ -204,4 +204,56 @@ class ProductControllerTest {
 
         assertTrue(result.getResponse().getContentAsString().contains("Product couldn't be found!"));
     }
+
+    /**
+     * Test add product without name.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void addProductWithoutNameTest() throws Exception {
+        productDTO.setName("");
+
+        MvcResult result = mvc.perform(post("/api/product")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"Name is required.\"}]}"));
+    }
+
+    /**
+     * Test add product with zero price.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void addProductWithZeroPriceTest() throws Exception {
+        productDTO.setPrice(0.0);
+
+        MvcResult result = mvc.perform(post("/api/product")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"price\",\"message\":\"Price should be greater than or equal to 0.01.\"}]}"));
+    }
+
+    /**
+     * Test add product without name and with zero price.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void addProductWithoutNameAndWithZeroPriceTest() throws Exception {
+        productDTO.setPrice(0.0);
+        productDTO.setName("");
+
+        MvcResult result = mvc.perform(post("/api/product")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"price\",\"message\":\"Price should be greater than or equal to 0.01.\"},{\"field\":\"name\",\"message\":\"Name is required.\"}]}"));
+    }
 }

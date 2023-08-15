@@ -37,7 +37,7 @@ const Header = () => {
 
     return (
         <AppBar position="static" sx={{ width: "100%" }}>
-            <Container maxWidth={false}>
+            <Container maxWidth={false} data-testid="header">
                 <Toolbar disableGutters>
                     <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
