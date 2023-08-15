@@ -254,6 +254,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"price\",\"message\":\"Price should be greater than or equal to 0.01.\"},{\"field\":\"name\",\"message\":\"Name is required.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"price\",\"message\":\"Price should be greater than or equal to 0.01.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is required.\"}"));
     }
 }
