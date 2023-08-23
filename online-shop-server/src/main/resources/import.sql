@@ -3,7 +3,7 @@ INSERT INTO roles (id, name) VALUES (2, 'SELLER');
 INSERT INTO roles (id, name) VALUES (3, 'ADMIN');
 
 INSERT INTO categories (id, name) VALUES (1, 'Digital Services');
-INSERT INTO categories (id, name) VALUES (2, 'Cosmetics and Body are');
+INSERT INTO categories (id, name) VALUES (2, 'Cosmetics and Body Care');
 INSERT INTO categories (id, name) VALUES (3, 'Food and Beverage');
 INSERT INTO categories (id, name) VALUES (4, 'Furniture and Decor');
 INSERT INTO categories (id, name) VALUES (5, 'Health and Wellness');

@@ -156,5 +156,50 @@ public class Initializer implements CommandLineRunner {
 
         product.linkCartItem(cartItem);
         productRepository.save(product);
+
+        Category digitalServices = new Category();
+        digitalServices.setId(1L);
+        digitalServices.setName("Digital Services");
+        categoryRepository.save(digitalServices);
+
+        Category cosmeticsAndBodyCare = new Category();
+        cosmeticsAndBodyCare.setId(2L);
+        cosmeticsAndBodyCare.setName("Cosmetics and Body Care");
+        categoryRepository.save(cosmeticsAndBodyCare);
+
+        Category foodAndBeverage = new Category();
+        foodAndBeverage.setId(3L);
+        foodAndBeverage.setName("Food and Beverage");
+        categoryRepository.save(foodAndBeverage);
+
+        Category furnitureAndDecor = new Category();
+        furnitureAndDecor.setId(4L);
+        furnitureAndDecor.setName("Furniture and Decor");
+        categoryRepository.save(furnitureAndDecor);
+
+        Category healthAndWellness = new Category();
+        healthAndWellness.setId(5L);
+        healthAndWellness.setName("Health and Wellness");
+        categoryRepository.save(healthAndWellness);
+
+        Category householdItems = new Category();
+        householdItems.setId(6L);
+        householdItems.setName("Household Items");
+        categoryRepository.save(householdItems);
+
+        Category media = new Category();
+        media.setId(7L);
+        media.setName("Media");
+        categoryRepository.save(media);
+
+        Category petCare = new Category();
+        petCare.setId(8L);
+        petCare.setName("Pet Care");
+        categoryRepository.save(petCare);
+
+        Category officeEquipment = new Category();
+        officeEquipment.setId(9L);
+        officeEquipment.setName("Office Equipment");
+        categoryRepository.save(officeEquipment);
     }
 }
