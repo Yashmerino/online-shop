@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.controllers;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yashmerino.online.shop.model.Category;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -52,21 +56,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProductControllerTest {
 
     /**
+     * Product DTO to use in tests.
+     */
+    private final ProductDTO productDTO = new ProductDTO();
+    /**
      * Mock mvc to perform requests.
      */
     @Autowired
     private MockMvc mvc;
-
     /**
      * Object mapper.
      */
     @Autowired
     private ObjectMapper objectMapper;
-
-    /**
-     * Product DTO to use in tests.
-     */
-    private final ProductDTO productDTO = new ProductDTO();
 
     @BeforeEach
     void setup() {
@@ -256,5 +258,34 @@ class ProductControllerTest {
 
         assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"price\",\"message\":\"Price should be greater than or equal to 0.01.\"}"));
         assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is required.\"}"));
+    }
+
+    /**
+     * Test get product with categories.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void getProductWithCategoriesTest() throws Exception {
+        Category digitalServices = new Category();
+        digitalServices.setId(1L);
+        digitalServices.setName("Digital Services");
+
+        Category cosmeticsAndBodyCare = new Category();
+        cosmeticsAndBodyCare.setId(2L);
+        cosmeticsAndBodyCare.setName("Cosmetics and Body Care");
+
+        productDTO.setCategories(new HashSet<>(Arrays.asList(digitalServices, cosmeticsAndBodyCare)));
+
+        MvcResult result = mvc.perform(post("/api/product")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+
+        result = mvc.perform(get("/api/product/2")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[{\"id\":2,\"name\":\"Cosmetics and Body Care\"},{\"id\":1,\"name\":\"Digital Services\"}]}"));
     }
 }

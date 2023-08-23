@@ -124,5 +124,5 @@ public class SwaggerMessages {
     /**
      * Message when categories are successfully retrieved.
      */
-    public static final String CATEGORIES_SUCCESSFULLY_RETRIEVED = "Products successfully retrieved.";
+    public static final String CATEGORIES_SUCCESSFULLY_RETRIEVED = "Categories successfully retrieved.";
 }
