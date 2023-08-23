@@ -49,11 +49,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     /**
-     * Jwt Auth Entry Point to handle exceptions.
-     */
-    private final JwtAuthEntryPoint jwtAuthEntryPoint;
-
-    /**
      * Endpoints for Swagger UI.
      */
     private static final String[] SWAGGER_WHITELIST = {
@@ -67,11 +62,26 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/swagger-ui/**"
     };
-
+    /**
+     * Regex for all the endpoints related to authentication/authorization.
+     */
+    private static final String AUTH_ALL_ENDPOINTS = "/api/auth/**";
     /**
      * Regex for all the endpoints related to products.
      */
     private static final String PRODUCTS_ALL_ENDPOINTS = "/api/product/**";
+    /**
+     * Regex for all the endpoints related to cart items.
+     */
+    private static final String CART_ITEMS_ALL_ENDPOINTS = "/api/cartItem/**";
+    /**
+     * Regex for all the endpoints related to categories.
+     */
+    private static final String CATEGORIES_ALL_ENDPOINTS = "api/categories/**";
+    /**
+     * Jwt Auth Entry Point to handle exceptions.
+     */
+    private final JwtAuthEntryPoint jwtAuthEntryPoint;
 
     /**
      * Constructor.
@@ -101,12 +111,13 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/auth/**").permitAll()
-                        .requestMatchers("/api/cartItem/**").hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
+                        .requestMatchers(HttpMethod.POST, AUTH_ALL_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, AUTH_ALL_ENDPOINTS).permitAll()
+                        .requestMatchers(CART_ITEMS_ALL_ENDPOINTS).hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
                         .requestMatchers(HttpMethod.POST, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())
                         .requestMatchers(HttpMethod.DELETE, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())
                         .requestMatchers(HttpMethod.GET, PRODUCTS_ALL_ENDPOINTS).hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
+                        .requestMatchers(HttpMethod.GET, CATEGORIES_ALL_ENDPOINTS).hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .anyRequest()
                         .authenticated())
@@ -119,6 +130,7 @@ public class SecurityConfig {
 
     /**
      * Configure the CORS policy.
+     *
      * @return <code>CorsConfigurationSource</code>
      */
     @Bean

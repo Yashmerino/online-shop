@@ -120,4 +120,9 @@ public class SwaggerMessages {
      * Message when user info is returned.
      */
     public static final String USER_INFO_IS_RETURNED = "User information successfully returned.";
+
+    /**
+     * Message when categories are successfully retrieved.
+     */
+    public static final String CATEGORIES_SUCCESSFULLY_RETRIEVED = "Products successfully retrieved.";
 }

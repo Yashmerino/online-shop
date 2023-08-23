@@ -1,5 +1,4 @@
-package com.yashmerino.online.shop.services;
-
+package com.yashmerino.online.shop.model.dto;
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,40 +23,23 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Category;
-import com.yashmerino.online.shop.repositories.CategoryRepository;
-import com.yashmerino.online.shop.services.interfaces.CategoryService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * Implementation for category service.
+ * Category's DTO.
  */
-@Service
-public class CategoryServiceImpl implements CategoryService {
+@Getter
+@Setter
+public class CategoryDTO {
 
     /**
-     * Category repository.
+     * Category's id.
      */
-    private final CategoryRepository categoryRepository;
+    private Long id;
 
     /**
-     * Constructor to inject dependencies.
-     *
-     * @param categoryRepository is the category repository.
+     * Category's name.
      */
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
-    /**
-     * Returns list of categories.
-     *
-     * @return a list of categories.
-     */
-    @Override
-    public List<Category> getCategories() {
-        return categoryRepository.findAll();
-    }
+    private String name;
 }

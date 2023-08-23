@@ -24,8 +24,10 @@ package com.yashmerino.online.shop.utils;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.CartItem;
+import com.yashmerino.online.shop.model.Category;
 import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.model.dto.CartItemDTO;
+import com.yashmerino.online.shop.model.dto.CategoryDTO;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
 
 /**
@@ -75,7 +77,7 @@ public class RequestBodyToEntityConverter {
      * Converts a cart item entity to cart item DTO.
      *
      * @param cartItem is the cart item entity.
-     * @return <code>cartItemDTO</code>
+     * @return <code>CartItemDTO</code>
      */
     public static CartItemDTO convertToCartItemDTO(CartItem cartItem) {
         CartItemDTO cartItemDTO = new CartItemDTO();
@@ -86,5 +88,19 @@ public class RequestBodyToEntityConverter {
         cartItemDTO.setQuantity(cartItem.getQuantity());
 
         return cartItemDTO;
+    }
+
+    /**
+     * Converts a category entity to category DTO.
+     *
+     * @param category is the category entity.
+     * @return <code>CategoryDTO</code>
+     */
+    public static CategoryDTO converToCategoryDTO(Category category) {
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(category.getId());
+        categoryDTO.setName(category.getName());
+
+        return categoryDTO;
     }
 }
