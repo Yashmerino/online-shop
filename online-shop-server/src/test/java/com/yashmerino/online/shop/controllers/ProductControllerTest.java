@@ -39,6 +39,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -74,6 +75,7 @@ class ProductControllerTest {
     void setup() {
         productDTO.setName("Product");
         productDTO.setPrice(2.50);
+        productDTO.setCategories(new HashSet<>());
     }
 
     /**
@@ -276,7 +278,7 @@ class ProductControllerTest {
         cosmeticsAndBodyCare.setId(2L);
         cosmeticsAndBodyCare.setName("Cosmetics and Body Care");
 
-        productDTO.setCategories(new HashSet<>(Arrays.asList(digitalServices, cosmeticsAndBodyCare)));
+        productDTO.setCategories(new LinkedHashSet<>(Arrays.asList(digitalServices, cosmeticsAndBodyCare)));
 
         MvcResult result = mvc.perform(post("/api/product")
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
@@ -286,6 +288,6 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product/2")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[{\"id\":2,\"name\":\"Cosmetics and Body Care\"},{\"id\":1,\"name\":\"Digital Services\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[{\"id\":1,\"name\":\"Digital Services\"},{\"id\":2,\"name\":\"Cosmetics and Body Care\"}]}"));
     }
 }
