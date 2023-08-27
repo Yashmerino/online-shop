@@ -41,6 +41,9 @@ describe("Add Product Page Tests", () => {
         const priceInput = screen.getByTestId("price-field");
         expect(priceInput).toBeInTheDocument();
 
+        const categoriesInput = screen.getByTestId("categories-field");
+        expect(categoriesInput).toBeInTheDocument();
+
         const header = screen.getByTestId("header");
         expect(header).toBeInTheDocument();
 

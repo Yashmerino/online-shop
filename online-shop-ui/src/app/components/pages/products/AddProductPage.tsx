@@ -35,6 +35,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
+import InputLabel from '@mui/material/InputLabel';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
@@ -167,22 +168,27 @@ const AddProductPage = () => {
                                 ))}
                             </TextField>
                             <Select
-                                labelId="select-categories"
                                 id="categories-field"
+                                data-testid="categories-field"
+                                displayEmpty
                                 multiple
+                                label="Categories"
                                 value={categories}
                                 onChange={handleCategoriesChange}
-                                input={<OutlinedInput id="select-multiple-categories" label="Categories" />}
+                                input={<OutlinedInput />}
                                 renderValue={(selected) => (
-                                    <Box sx={{ display: 'grid', flexWrap: 'wrap', gap: 0.5, maxWidth: "100%" }}>
-                                        {selected.map((value) => (
-                                            <Chip key={value} label={value} />
-                                        ))}
-                                    </Box>
+                                    selected.length === 0
+                                        ? (<em>Categories</em>)
+                                        : (<Box sx={{ display: 'grid', flexWrap: 'wrap', gap: 0.5, maxWidth: "100%" }}>
+                                            {selected.map((value) => (
+                                                <Chip key={value} label={value} />
+                                            ))}
+                                        </Box>)
                                 )}
                                 MenuProps={MenuProps}
                                 sx={{ width: "95%", mb: "3%", maxWidth: "95%" }}
                             >
+
                                 {fetchedCategories.map((fetchedCategory) => (
                                     <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
                                         <Checkbox checked={categories.indexOf(fetchedCategory.name) > -1} />
