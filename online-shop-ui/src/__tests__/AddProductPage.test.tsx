@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import * as ProductRequest from "../app/api/ProductRequest";
 import AddProductPage from "../app/components/pages/products/AddProductPage";
 import { clickSubmitButton } from "../app/utils/TestUtils";
+import * as CategoryRequest from "../app/api/CategoryRequest";
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -13,6 +14,9 @@ describe("Add Product Page Tests", () => {
     const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } } };
     const mockStore = configureStore()
     let store: Store;
+
+    const categoryMock = jest.spyOn(CategoryRequest, 'getCategories');
+    categoryMock.mockReturnValue(Promise.resolve([{ "id": 1, "name": "Digital Services" }, { "id": 2, "name": "Cosmetics and Body Care" }]));
 
     it("Test add product success", async () => {
         store = mockStore(initialState)

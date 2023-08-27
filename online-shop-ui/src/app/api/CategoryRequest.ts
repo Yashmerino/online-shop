@@ -22,46 +22,10 @@
  * SOFTWARE.
  */
 import { API_BASE_URL } from "../../env-config";
-import { Category } from "../components/pages/products/AddProductPage";
 
-export const getProducts = async (token: string) => {
-    const response = await fetch(`${API_BASE_URL}/api/product`, {
+export const getCategories = async (token: string) => {
+    const response = await fetch(`${API_BASE_URL}/api/categories`, {
         headers: { Authorization: `Bearer ${token}` },
-    })
-
-    return response.json();
-}
-
-export const getProduct = async (token: string, id: number) => {
-    const response = await fetch(`${API_BASE_URL}/api/product/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-    })
-
-    return response.json();
-}
-
-export const addProductToCart = async (token: string, id: number, quantity: number) => {
-    const response = await fetch(`${API_BASE_URL}/api/product/${id}/add?quantity=${quantity}`, {
-        headers: { Authorization: `Bearer ${token}` },
-    })
-
-    return response.json();
-}
-
-export const addProduct = async (token: string, name: string, categories: Category[], price: number) => {
-    const productDTO = {
-        name,
-        price,
-        categories
-    }
-
-    const response = await fetch(`${API_BASE_URL}/api/product`, {
-        method: 'POST',
-        body: JSON.stringify(productDTO),
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': "application/json"
-        },
     })
 
     return response.json();

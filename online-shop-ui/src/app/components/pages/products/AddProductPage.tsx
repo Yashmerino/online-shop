@@ -30,12 +30,32 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { addProduct } from '../../../api/ProductRequest';
 import Alert from '@mui/material/Alert';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import ListItemText from '@mui/material/ListItemText';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
+import Chip from '@mui/material/Chip';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
 
 import { useAppSelector } from '../../../hooks'
 import { Stack, Typography } from '@mui/material';
+import { getCategories } from '../../../api/CategoryRequest';
+
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: 48 * 4.5 + 8,
+            width: 350,
+        },
+    },
+};
+
+export interface Category {
+    id: number,
+    name: string
+}
 
 const currencies = [
     {
@@ -50,9 +70,22 @@ const AddProductPage = () => {
 
     const [name, setName] = React.useState("");
     const [price, setPrice] = React.useState(0);
+    const [categories, setCategories] = React.useState<string[]>([]);
+    const [fetchedCategories, setFetchedCategories] = React.useState<Category[]>([]);
 
     const [error, setError] = React.useState([]);
     const [isSuccess, setSuccess] = React.useState(false);
+
+    React.useEffect(() => {
+        const token = jwt.token;
+
+        const fetchCategories = async () => {
+            const categoriesRequest = await getCategories(token);
+            setFetchedCategories(categoriesRequest);
+        }
+
+        fetchCategories(); // NOSONAR: It should not await.
+    }, [categories]);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -60,13 +93,33 @@ const AddProductPage = () => {
         setSuccess(false);
         setError([]);
 
-        const response = await addProduct(jwt.token, name, price);
+        let categoriesDTO: Category[] = [];
+        categories.forEach((category) => {
+            fetchedCategories.forEach((fetchedCategory) => {
+                if (fetchedCategory.name.localeCompare(category) == 0) {
+                    const categoryDTO = {
+                        id: fetchedCategory.id,
+                        name: fetchedCategory.name
+                    }
+
+                    categoriesDTO.push(categoryDTO);
+                }
+            }
+            )
+        })
+
+        const response = await addProduct(jwt.token, name, categoriesDTO, price);
         if (response.fieldErrors) {
             setError(response.fieldErrors);
         } else {
             setSuccess(true);
         }
     }
+
+    const handleCategoriesChange = (event: SelectChangeEvent<typeof categories>) => {
+        const { target: { value }, } = event;
+        setCategories(typeof value === 'string' ? value.split(',') : value);
+    };
 
     return (
         <Container component="main" maxWidth={false} id="main-container" disableGutters>
@@ -90,7 +143,7 @@ const AddProductPage = () => {
                             alignItems="center"
                             justifyContent="center">
                             {isSuccess && <Alert id="alert-success" data-testid="alert-success" severity='success' sx={{ width: '100%', marginBottom: '5%' }}>Product added successfully!</Alert>}
-                            {error.length > 0 && error.map(e => <Alert id="alert-error" data-testid="alert-error" severity='error' sx={{ width: '100%', marginBottom: '5%' }}>{e['message']}</Alert>)}
+                            {error.length > 0 && error.map(e => <Alert id="alert-error" key={e['field']} data-testid="alert-error" severity='error' sx={{ width: '100%', marginBottom: '5%' }}>{e['message']}</Alert>)}
                             <TextField
                                 value={name}
                                 onChange={(event) => { setName(event.target.value) }}
@@ -113,6 +166,30 @@ const AddProductPage = () => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                            <Select
+                                labelId="select-categories"
+                                id="categories-field"
+                                multiple
+                                value={categories}
+                                onChange={handleCategoriesChange}
+                                input={<OutlinedInput id="select-multiple-categories" label="Categories" />}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'grid', flexWrap: 'wrap', gap: 0.5, maxWidth: "100%" }}>
+                                        {selected.map((value) => (
+                                            <Chip key={value} label={value} />
+                                        ))}
+                                    </Box>
+                                )}
+                                MenuProps={MenuProps}
+                                sx={{ width: "95%", mb: "3%", maxWidth: "95%" }}
+                            >
+                                {fetchedCategories.map((fetchedCategory) => (
+                                    <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
+                                        <Checkbox checked={categories.indexOf(fetchedCategory.name) > -1} />
+                                        <ListItemText primary={fetchedCategory.name} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
                             <TextField
                                 value={price}
                                 onChange={(event) => { setPrice(Number(event.target.value)) }}
