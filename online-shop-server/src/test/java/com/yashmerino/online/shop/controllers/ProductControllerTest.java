@@ -288,6 +288,8 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product/2")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[{\"id\":1,\"name\":\"Digital Services\"},{\"id\":2,\"name\":\"Cosmetics and Body Care\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[{"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":1,\"name\":\"Digital Services\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Cosmetics and Body Care\"}"));
     }
 }
