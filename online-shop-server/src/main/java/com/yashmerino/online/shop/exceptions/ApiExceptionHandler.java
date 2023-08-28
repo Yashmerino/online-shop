@@ -27,6 +27,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -174,5 +175,22 @@ public class ApiExceptionHandler {
         errors.setStatus(HttpStatus.NOT_FOUND.value());
 
         return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Handles the {@link BadCredentialsException}
+     *
+     * @param e is the thrown exception.
+     * @return <code>ResponseEntity</code>
+     */
+    @ExceptionHandler(value = {BadCredentialsException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CustomErrorResponse> badCredentialsExceptionHandler(BadCredentialsException e) {
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

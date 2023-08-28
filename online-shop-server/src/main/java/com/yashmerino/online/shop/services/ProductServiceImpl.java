@@ -30,6 +30,7 @@ import com.yashmerino.online.shop.repositories.ProductRepository;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
 import com.yashmerino.online.shop.utils.Role;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -121,7 +122,7 @@ public class ProductServiceImpl implements ProductService {
 
             return productRepository.getProductsBySellerId(userId);
         } else {
-            throw new UsernameNotFoundException("User hasn't been found.");
+            throw new BadCredentialsException("Bad credentials.");
         }
     }
 }

@@ -359,4 +359,17 @@ class ProductControllerTest {
 
         assertTrue(result.getResponse().getContentAsString().contains("[{\"id\":2,\"name\":\"Laptop\",\"price\":3.0,\"categories\":[]}]"));
     }
+
+    /**
+     * Test get all seller's products with non-existing username.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void getAllSellerProductsNonexistentUsernameTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/product/seller/ERROR")).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Bad credentials.\"}"));
+    }
 }
