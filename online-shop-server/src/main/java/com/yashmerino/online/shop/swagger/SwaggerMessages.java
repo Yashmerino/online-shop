@@ -117,6 +117,11 @@ public class SwaggerMessages {
     public static final String RETURN_PRODUCTS = "Returns all the products.";
 
     /**
+     * Message when sellers' products were returned.
+     */
+    public static final String RETURN_SELLER_PRODUCTS = "Returns all the seller's products";
+
+    /**
      * Message when user info is returned.
      */
     public static final String USER_INFO_IS_RETURNED = "User information successfully returned.";

@@ -62,4 +62,12 @@ public interface ProductService {
      * @param id is the product's id.
      */
     void delete(final Long id);
+
+    /**
+     * Returns seller's products.
+     *
+     * @param username is the seller's username.
+     * @return List of Products.
+     */
+    List<Product> getSellerProducts(String username);
 }

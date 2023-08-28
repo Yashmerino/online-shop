@@ -120,9 +120,9 @@ class ProductControllerTest {
 
         assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
 
-        result = mvc.perform(get("/api/product/2")).andExpect(status().isOk()).andReturn();
+        result = mvc.perform(get("/api/product/3")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[]}"));
     }
 
     /**
@@ -150,7 +150,7 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("[{\"id\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]},{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[]},{\"id\":3,\"name\":\"Banana\",\"price\":1.25,\"categories\":[]}]"));
+        assertTrue(result.getResponse().getContentAsString().contains("[{\"id\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]},{\"id\":2,\"name\":\"Laptop\",\"price\":3.0,\"categories\":[]},{\"id\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[]},{\"id\":4,\"name\":\"Banana\",\"price\":1.25,\"categories\":[]}]"));
     }
 
     /**
@@ -287,9 +287,9 @@ class ProductControllerTest {
 
         assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
 
-        result = mvc.perform(get("/api/product/2")).andExpect(status().isOk()).andReturn();
+        result = mvc.perform(get("/api/product/3")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[{"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[{"));
         assertTrue(result.getResponse().getContentAsString().contains("{\"id\":1,\"name\":\"Digital Services\"}"));
         assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Cosmetics and Body Care\"}"));
     }
@@ -326,5 +326,37 @@ class ProductControllerTest {
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"Name is too short.\"}]}"));
+    }
+
+    /**
+     * Test get all seller's products.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void getAllSellerProductsTest() throws Exception {
+        MvcResult result = mvc.perform(post("/api/product")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+
+        productDTO.setName("Banana");
+        productDTO.setPrice(1.25);
+
+        result = mvc.perform(post("/api/product")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+
+        result = mvc.perform(get("/api/product/seller/seller")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("[{\"id\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]},{\"id\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[]},{\"id\":4,\"name\":\"Banana\",\"price\":1.25,\"categories\":[]}]"));
+
+        result = mvc.perform(get("/api/product/seller/anotherSeller")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("[{\"id\":2,\"name\":\"Laptop\",\"price\":3.0,\"categories\":[]}]"));
     }
 }

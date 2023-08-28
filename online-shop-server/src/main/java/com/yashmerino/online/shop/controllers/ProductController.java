@@ -45,7 +45,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -300,5 +299,35 @@ public class ProductController {
         } else {
             throw new EntityNotFoundException("Product couldn't be found!");
         }
+    }
+
+    /**
+     * Returns all the seller's products.
+     *
+     * @param username is the seller's username.
+     * @return <code>List of ProductDTOs</code>.
+     */
+    @Operation(summary = "Returns all the seller's products by username.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.RETURN_SELLER_PRODUCTS,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @GetMapping("/seller/{username}")
+    public ResponseEntity<List<ProductDTO>> getSellerProducts(@PathVariable String username) {
+        List<Product> products = productService.getSellerProducts(username);
+        List<ProductDTO> productsDTO = new ArrayList<>();
+
+        for (Product product : products) {
+            productsDTO.add(RequestBodyToEntityConverter.convertToProductDTO(product));
+        }
+
+        return new ResponseEntity<>(productsDTO, HttpStatus.OK);
     }
 }

@@ -134,6 +134,13 @@ public class Initializer implements CommandLineRunner {
         seller.setRoles(new HashSet<>(Arrays.asList(sellerRole)));
         userRepository.save(seller);
 
+        User anotherSeller = new User();
+        anotherSeller.setId(3L);
+        anotherSeller.setUsername("anotherSeller");
+        anotherSeller.setPassword("anotherSeller");
+        anotherSeller.setRoles(new HashSet<>(Arrays.asList(sellerRole)));
+        userRepository.save(anotherSeller);
+
         Product product = new Product();
         product.setId(1L);
         product.setUser(seller);
@@ -141,6 +148,14 @@ public class Initializer implements CommandLineRunner {
         product.setPrice(5.0);
 
         productRepository.save(product);
+
+        Product anotherProduct = new Product();
+        anotherProduct.setId(2L);
+        anotherProduct.setUser(anotherSeller);
+        anotherProduct.setName("Laptop");
+        anotherProduct.setPrice(3.0);
+
+        productRepository.save(anotherProduct);
 
         CartItem cartItem = new CartItem();
         cartItem.setId(1L);

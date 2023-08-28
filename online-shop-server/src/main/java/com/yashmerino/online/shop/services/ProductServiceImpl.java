@@ -25,8 +25,12 @@ package com.yashmerino.online.shop.services;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.Product;
+import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.repositories.ProductRepository;
+import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
+import com.yashmerino.online.shop.utils.Role;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,12 +48,19 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     /**
+     * User repository.
+     */
+    private final UserRepository userRepository;
+
+    /**
      * Constructor to inject dependencies.
      *
      * @param productRepository is the product repository.
+     * @param userRepository    is the user repository.
      */
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository) {
         this.productRepository = productRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -92,5 +103,25 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void delete(Long id) {
         productRepository.deleteById(id);
+    }
+
+    /**
+     * Returns seller's products.
+     *
+     * @param username is the seller's username.
+     * @return List of Products.
+     */
+    @Override
+    public List<Product> getSellerProducts(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Long userId = user.getId();
+
+            return productRepository.getProductsBySellerId(userId);
+        } else {
+            throw new UsernameNotFoundException("User hasn't been found.");
+        }
     }
 }
