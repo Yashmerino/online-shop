@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import RegisterPage from "../app/components/pages/auth/RegisterPage";
 import * as AuthRequest from "../app/api/AuthRequest";
@@ -55,14 +55,34 @@ describe("Register Page Tests", () => {
         );
 
         const loginMock = jest.spyOn(AuthRequest, 'register');
-        loginMock.mockReturnValue(Promise.resolve({ status: 404, error: "Error" }));
+        loginMock.mockReturnValue(Promise.resolve({
+            "fieldErrors": [
+                {
+                    "field": "password",
+                    "message": "Password is required."
+                },
+                {
+                    "field": "username",
+                    "message": "Username is required."
+                },
+                {
+                    "field": "email",
+                    "message": "Email is required."
+                }
+            ]
+        }));
 
         clickSubmitButton();
 
-        await waitFor(() => { 
-            const alertError = screen.getByTestId("alert-error");
-            expect(alertError).toBeInTheDocument();
-            expect(alertError).toHaveTextContent("Error");
+        await waitFor(async () => {
+            let fieldErrorMessage = document.getElementById("username-helper-text")
+            expect(fieldErrorMessage).toBeInTheDocument();
+
+            fieldErrorMessage = document.getElementById("password-helper-text");
+            expect(fieldErrorMessage).toBeInTheDocument();
+
+            fieldErrorMessage = document.getElementById("email-helper-text");
+            expect(fieldErrorMessage).toBeInTheDocument();
         });
     });
 });

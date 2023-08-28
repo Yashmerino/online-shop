@@ -34,15 +34,20 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputFields from '../../../utils/InputFields';
+import { InputError } from '../../../utils/InputErrorUtils';
+import { isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
+import { getFieldInputErrorMessage } from '../../../utils/InputErrorUtils';
 
 interface UserInputProps {
     title: string,
     buttonText: string,
     handleSubmit: Function,
-    isEmailAndRoleMandatory: boolean
+    isEmailAndRoleMandatory: boolean,
+    inputErrors: InputError[]
 }
 
-const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandatory }: UserInputProps) => {
+const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandatory, inputErrors }: UserInputProps) => {
     const [role, setRole] = React.useState('USER');
 
     const handleRoleChange = (event: SelectChangeEvent) => {
@@ -84,6 +89,8 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                                 </Select>
                             </FormControl>
                             <TextField
+                                error={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors)}
+                                helperText={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors) ? getFieldInputErrorMessage(InputFields.EMAIL, inputErrors) : null}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -96,6 +103,8 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                             />
                         </>}
                     <TextField
+                        error={isFieldPresentInInputErrors(InputFields.USERNAME, inputErrors)}
+                        helperText={isFieldPresentInInputErrors(InputFields.USERNAME, inputErrors) ? getFieldInputErrorMessage(InputFields.USERNAME, inputErrors) : null}
                         margin="normal"
                         required
                         fullWidth
@@ -107,6 +116,8 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         autoFocus
                     />
                     <TextField
+                        error={isFieldPresentInInputErrors(InputFields.PASSWORD, inputErrors)}
+                        helperText={isFieldPresentInInputErrors(InputFields.PASSWORD, inputErrors) ? getFieldInputErrorMessage(InputFields.PASSWORD, inputErrors) : null}
                         margin="normal"
                         required
                         fullWidth

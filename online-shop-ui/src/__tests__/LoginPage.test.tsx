@@ -57,14 +57,27 @@ describe("Login Page Tests", () => {
         );
 
         const loginMock = jest.spyOn(AuthRequest, 'login');
-        loginMock.mockReturnValue(Promise.resolve({ status: 404, error: "Error" }));
+        loginMock.mockReturnValue(Promise.resolve({
+            "fieldErrors": [
+                {
+                    "field": "password",
+                    "message": "Password is required."
+                },
+                {
+                    "field": "username",
+                    "message": "Username is required."
+                },
+            ]
+        }));
 
         clickSubmitButton();
 
-        await waitFor(() => {
-            const alertError = screen.getByTestId("alert-error");
-            expect(alertError).toBeInTheDocument();
-            expect(alertError).toHaveTextContent("Error");
+        await waitFor(async () => {
+            let fieldErrorMessage = document.getElementById("username-helper-text")
+            expect(fieldErrorMessage).toBeInTheDocument();
+
+            fieldErrorMessage = document.getElementById("password-helper-text");
+            expect(fieldErrorMessage).toBeInTheDocument();
         });
     });
 });

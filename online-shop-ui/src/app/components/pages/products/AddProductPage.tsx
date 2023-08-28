@@ -35,7 +35,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
-import InputLabel from '@mui/material/InputLabel';
+import { InputError } from '../../../utils/InputErrorUtils';
+import { getFieldInputErrorMessage, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
+import InputFields from '../../../utils/InputFields';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
@@ -74,7 +76,7 @@ const AddProductPage = () => {
     const [categories, setCategories] = React.useState<string[]>([]);
     const [fetchedCategories, setFetchedCategories] = React.useState<Category[]>([]);
 
-    const [error, setError] = React.useState([]);
+    const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
     const [isSuccess, setSuccess] = React.useState(false);
 
     React.useEffect(() => {
@@ -92,7 +94,7 @@ const AddProductPage = () => {
         event.preventDefault();
 
         setSuccess(false);
-        setError([]);
+        setInputErrors([]);
 
         let categoriesDTO: Category[] = [];
         categories.forEach((category) => {
@@ -111,7 +113,7 @@ const AddProductPage = () => {
 
         const response = await addProduct(jwt.token, name, categoriesDTO, price);
         if (response.fieldErrors) {
-            setError(response.fieldErrors);
+            setInputErrors(response.fieldErrors);
         } else {
             setSuccess(true);
         }
@@ -144,8 +146,9 @@ const AddProductPage = () => {
                             alignItems="center"
                             justifyContent="center">
                             {isSuccess && <Alert id="alert-success" data-testid="alert-success" severity='success' sx={{ width: '100%', marginBottom: '5%' }}>Product added successfully!</Alert>}
-                            {error.length > 0 && error.map(e => <Alert id="alert-error" key={e['field']} data-testid="alert-error" severity='error' sx={{ width: '100%', marginBottom: '5%' }}>{e['message']}</Alert>)}
                             <TextField
+                                error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}
+                                helperText={isFieldPresentInInputErrors(InputFields.NAME, inputErrors) ? getFieldInputErrorMessage(InputFields.NAME, inputErrors) : null}
                                 value={name}
                                 onChange={(event) => { setName(event.target.value) }}
                                 required
@@ -197,6 +200,8 @@ const AddProductPage = () => {
                                 ))}
                             </Select>
                             <TextField
+                                error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
+                                helperText={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors) ? getFieldInputErrorMessage(InputFields.PRICE, inputErrors) : null}
                                 value={price}
                                 onChange={(event) => { setPrice(Number(event.target.value)) }}
                                 required

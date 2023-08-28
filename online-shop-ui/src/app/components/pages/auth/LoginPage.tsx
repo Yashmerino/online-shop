@@ -31,7 +31,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Copyright from '../../footer/Copyright';
 import UserInputFields from './UserInputFields';
 import * as AuthRequest from '../../../api/AuthRequest';
-import { Alert } from '@mui/material';
+import { InputError } from '../../../utils/InputErrorUtils';
 
 import { useAppDispatch } from '../../../hooks';
 import { updateJwt } from '../../../slices/jwtSlice';
@@ -40,13 +40,16 @@ import { parseJwt } from '../../../utils/Utils';
 import { updateRoles } from '../../../slices/rolesSlice';
 
 const LoginPage = () => {
-  const [error, setError] = React.useState("");
+  const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setInputErrors([]);
+
     const data = new FormData(event.currentTarget);
     let username = data.get('username')?.toString();
     let password = data.get('password')?.toString();
@@ -58,7 +61,9 @@ const LoginPage = () => {
       dispatch(updateRoles(await AuthRequest.getUserInfo(username ?? "")));
       navigate("/products");
     } else {
-      setError(response.error);
+      if (response.fieldErrors) {
+        setInputErrors(response.fieldErrors);
+      }
     }
   };
 
@@ -66,8 +71,7 @@ const LoginPage = () => {
     <Container component="main" maxWidth="xs">
       <Grid container>
         <Grid item>
-          {error.length > 0 && <Alert id="alert-error" data-testid="alert-error" severity='error' sx={{ width: '100%' }}>{error}</Alert>}
-          <UserInputFields title="Sign In" buttonText="Sign In" handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} />
+          <UserInputFields title="Sign In" buttonText="Sign In" handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
         </Grid>
         <Grid item>
           <Link component={RouterLink} to={'/register'} variant="body2">
