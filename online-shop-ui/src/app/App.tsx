@@ -37,6 +37,7 @@ function App() {
                 <li><Link to='/products'>Products page</Link></li>
                 <li><Link to='/cart'>My Cart page</Link></li>
                 <li><Link to='/product/add'>Add Product page</Link></li>
+                <li><Link to='/profile/products'>My Products page</Link></li>
             </ul>
             <hr />
             <Main />

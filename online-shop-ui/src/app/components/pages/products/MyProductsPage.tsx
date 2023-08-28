@@ -25,19 +25,20 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
 import Copyright from '../../footer/Copyright';
 import Header from '../../Header';
 import ProductCard from './ProductCard';
-import { getProducts } from '../../../api/ProductRequest';
+import { getSellerProducts } from '../../../api/ProductRequest';
 import Product from './Product';
 
 import { useAppSelector } from '../../../hooks';
 
-
-
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
+  const roles = useAppSelector(state => state.roles);
+  const username = useAppSelector(state => state.username.sub);
 
   const [products, setProducts] = React.useState<Product[]>([]);
 
@@ -45,7 +46,7 @@ const ProductsContainer = () => {
     const token = jwt.token;
 
     const fetchProducts = async () => {
-      const productsResponse = await getProducts(token);
+      const productsResponse = await getSellerProducts(token, username);
       setProducts(productsResponse);
     }
 
@@ -53,14 +54,18 @@ const ProductsContainer = () => {
   }, []);
 
   return (
-    <Container component="main" maxWidth={false} id="main-container" disableGutters>
+    <Container component="main" maxWidth={false} id="my-products-container" disableGutters>
       <Header />
-      <Grid container justifyContent="center" alignItems="center" columnGap={2}>
-        {products.length > 0 && products.map(product => {
-          return (<ProductCard key={product.id} id={product.id} title={product.name} price={product.price} />);
-        })}
-      </Grid>
+      {// @ts-ignore 
+        roles.roles.roles[0].name == "SELLER" ?
+          (<Grid container justifyContent="center" alignItems="center" columnGap={2}>
+            {products.length > 0 && products.map(product => {
+              return (<ProductCard key={product.id} id={product.id} title={product.name} price={product.price} />);
+            })}
+          </Grid>) : (<Typography align='center' marginTop={10}>You don't have rights to access this page.</Typography>)
+      }
       <Copyright sx={{ mt: 8, mb: 4 }} />
+
     </Container>
   );
 }

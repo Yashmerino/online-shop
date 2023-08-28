@@ -6,6 +6,7 @@ import RegisterPage from './components/pages/auth/RegisterPage';
 import ProductsContainer from './components/pages/products/ProductsContainer';
 import CartContainer from './components/cart/CartContainer';
 import AddProductPage from './components/pages/products/AddProductPage';
+import MyProductsPage from './components/pages/products/MyProductsPage';
 
 const Main = () => {
     return (
@@ -15,6 +16,7 @@ const Main = () => {
             <Route path='/products' element={<ProductsContainer />} />
             <Route path='/cart' element={<CartContainer />} />
             <Route path='/product/add' element={<AddProductPage />} />
+            <Route path='/profile/products' element={<MyProductsPage />} />
         </Routes>
     );
 }
