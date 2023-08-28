@@ -29,6 +29,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -68,6 +69,29 @@ public class ApiExceptionHandler {
     }
 
     /**
+     * Handles the {@link MethodArgumentNotValidException}
+     *
+     * @param e is the thrown exception.
+     * @return <code>ResponseEntity</code>
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ResponseEntity<Object> handleConstraintViolationException(MethodArgumentNotValidException e) {
+        FieldErrorResponse fieldErrorResponse = new FieldErrorResponse();
+
+        List<CustomFieldError> fieldErrors = new ArrayList<>();
+        e.getAllErrors().forEach((error) -> {
+            CustomFieldError fieldError = new CustomFieldError();
+            fieldError.setField(((FieldError) error).getField());
+            fieldError.setMessage(error.getDefaultMessage());
+            fieldErrors.add(fieldError);
+        });
+
+        fieldErrorResponse.setFieldErrors(fieldErrors);
+        return new ResponseEntity<>(fieldErrorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
      * Handles the {@link EmailAlreadyTakenException}
      *
      * @param e is the thrown exception.
@@ -85,23 +109,6 @@ public class ApiExceptionHandler {
     }
 
     /**
-     * Handles the {@link InvalidEmailException}
-     *
-     * @param e is the thrown exception.
-     * @return <code>ResponseEntity</code>
-     */
-    @ExceptionHandler(value = {InvalidEmailException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CustomErrorResponse> invalidEmailExceptionHandler(InvalidEmailException e) {
-        CustomErrorResponse errors = new CustomErrorResponse();
-        errors.setTimestamp(LocalDateTime.now());
-        errors.setError(e.getMessage());
-        errors.setStatus(HttpStatus.BAD_REQUEST.value());
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    /**
      * Handles the {@link InvalidInputException}
      *
      * @param e is the thrown exception.
@@ -110,91 +117,6 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {InvalidInputException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity<CustomErrorResponse> invalidInputExceptionHandler(InvalidInputException e) {
-        CustomErrorResponse errors = new CustomErrorResponse();
-        errors.setTimestamp(LocalDateTime.now());
-        errors.setError(e.getMessage());
-        errors.setStatus(HttpStatus.BAD_REQUEST.value());
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    /**
-     * Handles the {@link InvalidPasswordException}
-     *
-     * @param e is the thrown exception.
-     * @return <code>ResponseEntity</code>
-     */
-    @ExceptionHandler(value = {InvalidPasswordException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CustomErrorResponse> invalidPasswordExceptionHandler(InvalidPasswordException e) {
-        CustomErrorResponse errors = new CustomErrorResponse();
-        errors.setTimestamp(LocalDateTime.now());
-        errors.setError(e.getMessage());
-        errors.setStatus(HttpStatus.BAD_REQUEST.value());
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    /**
-     * Handles the {@link InvalidUsernameException}
-     *
-     * @param e is the thrown exception.
-     * @return <code>ResponseEntity</code>
-     */
-    @ExceptionHandler(value = {InvalidUsernameException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CustomErrorResponse> invalidUsernameExceptionHandler(InvalidUsernameException e) {
-        CustomErrorResponse errors = new CustomErrorResponse();
-        errors.setTimestamp(LocalDateTime.now());
-        errors.setError(e.getMessage());
-        errors.setStatus(HttpStatus.BAD_REQUEST.value());
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    /**
-     * Handles the {@link NoEmailProvidedException}
-     *
-     * @param e is the thrown exception.
-     * @return <code>ResponseEntity</code>
-     */
-    @ExceptionHandler(value = {NoEmailProvidedException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CustomErrorResponse> noEmailProvidedExceptionHandler(NoEmailProvidedException e) {
-        CustomErrorResponse errors = new CustomErrorResponse();
-        errors.setTimestamp(LocalDateTime.now());
-        errors.setError(e.getMessage());
-        errors.setStatus(HttpStatus.BAD_REQUEST.value());
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    /**
-     * Handles the {@link NoPasswordProvidedException}
-     *
-     * @param e is the thrown exception.
-     * @return <code>ResponseEntity</code>
-     */
-    @ExceptionHandler(value = {NoPasswordProvidedException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CustomErrorResponse> noPasswordProvidedExceptionHandler(NoPasswordProvidedException e) {
-        CustomErrorResponse errors = new CustomErrorResponse();
-        errors.setTimestamp(LocalDateTime.now());
-        errors.setError(e.getMessage());
-        errors.setStatus(HttpStatus.BAD_REQUEST.value());
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    /**
-     * Handles the {@link NoUsernameProvidedException}
-     *
-     * @param e is the thrown exception.
-     * @return <code>ResponseEntity</code>
-     */
-    @ExceptionHandler(value = {NoUsernameProvidedException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CustomErrorResponse> noUsernameProvidedExceptionHandler(NoUsernameProvidedException e) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(e.getMessage());

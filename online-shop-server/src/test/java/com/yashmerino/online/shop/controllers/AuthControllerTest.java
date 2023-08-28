@@ -133,7 +133,7 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Email field is invalid!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"email\",\"message\":\"Email is invalid.\"}]}"));
     }
 
     /**
@@ -148,7 +148,8 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Username field not provided!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"username\",\"message\":\"Username is required.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"username\",\"message\":\"Username is too short.\"}"));
     }
 
     /**
@@ -173,7 +174,8 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":400,\"error\":\"Password field not provided!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"password\",\"message\":\"Password is too short.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"password\",\"message\":\"Password is required.\"}"));
     }
 
     /**
@@ -221,7 +223,7 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/login").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Username field not provided!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"username\",\"message\":\"Username is required.\"}]}"));
     }
 
     /**
@@ -239,7 +241,7 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/login").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Password field not provided!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"password\",\"message\":\"Password is required.\"}]}"));
     }
 
     /**
@@ -264,5 +266,35 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(get("/api/auth/error")).andExpect(status().isNotFound()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"Username not found.\"}"));
+    }
+
+    /**
+     * Tests /register with a username that is too long
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void registerUsernameTooLongTest() throws Exception {
+        registerDTO.setUsername("gaerghetrhatetaewrvtuaewtgarhgyjareghtyjargeytjgaeRJGYAERKGFHAGERKUGHERUKGHARUKGhgukraehgkuerahkughkurgaehukg");
+
+        MvcResult result = mvc.perform(post("/api/auth/register").contentType(
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"username\",\"message\":\"Username is too long.\"}]}"));
+    }
+
+    /**
+     * Tests /register with a username that is too short
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void registerUsernameTooShortTest() throws Exception {
+        registerDTO.setUsername("baa");
+
+        MvcResult result = mvc.perform(post("/api/auth/register").contentType(
+                APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"username\",\"message\":\"Username is too short.\"}]}"));
     }
 }

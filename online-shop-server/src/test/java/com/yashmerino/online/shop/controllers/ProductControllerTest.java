@@ -223,7 +223,8 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"Name is required.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is too short.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is required.\"}"));
     }
 
     /**
@@ -291,5 +292,39 @@ class ProductControllerTest {
         assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Product\",\"price\":2.5,\"categories\":[{"));
         assertTrue(result.getResponse().getContentAsString().contains("{\"id\":1,\"name\":\"Digital Services\"}"));
         assertTrue(result.getResponse().getContentAsString().contains("{\"id\":2,\"name\":\"Cosmetics and Body Care\"}"));
+    }
+
+    /**
+     * Test add product with name that is too long.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void addProductNameTooLongTest() throws Exception {
+        productDTO.setName("geragaergaerghawrighaerwuighaerghaerghaerghaerjygfaerjygfawjfgawefgaewyfagrjyaerjyaergfjyargfjyarwgyjfa");
+
+        MvcResult result = mvc.perform(post("/api/product")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"Name is too long.\"}]}"));
+    }
+
+    /**
+     * Test add product with name that is too short.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void addProductNameTooShortTest() throws Exception {
+        productDTO.setName("baa");
+
+        MvcResult result = mvc.perform(post("/api/product")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"Name is too short.\"}]}"));
     }
 }

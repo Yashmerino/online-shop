@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.model.dto;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.Category;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,11 +45,19 @@ public class ProductDTO {
     /**
      * Product's name;
      */
+    @NotNull(message = "Name is required.")
+    @NotBlank(message = "Name is required.")
+    @Size.List({
+            @Size(min = 4, message = "Name is too short."),
+            @Size(max = 40, message = "Name is too long.")
+    })
     private String name;
 
     /**
      * Product's Price.
      */
+    @NotNull(message = "Price is required.")
+    @DecimalMin(value = "0.01", message = "Price should be greater than or equal to 0.01.")
     private Double price;
 
     /**

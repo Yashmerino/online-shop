@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yashmerino.online.shop.model.Cart;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -47,11 +47,19 @@ public class CartItemDTO {
     /**
      * Cart Item's name.
      */
+    @NotNull(message = "Name is required.")
+    @NotBlank(message = "Name is required.")
+    @Size.List({
+            @Size(min = 4, message = "Name is too short."),
+            @Size(max = 40, message = "Name is too long.")
+    })
     private String name;
 
     /**
      * Cart Item's price.
      */
+    @NotNull(message = "Price is required.")
+    @DecimalMin(value = "0.01", message = "Price should be greater than or equal to 0.01.")
     private Double price;
 
     /**
@@ -62,5 +70,7 @@ public class CartItemDTO {
     /**
      * Quantity.
      */
+    @NotNull(message = "Quantity is required.")
+    @Min(value = 1L, message = "Quantity should be greater than or equal to 1.")
     private Integer quantity;
 }

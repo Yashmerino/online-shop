@@ -42,6 +42,5 @@ public class Category extends BaseEntity {
     /**
      * Category's name.
      */
-    @NonNull
     private String name;
 }

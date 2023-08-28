@@ -60,13 +60,11 @@ public class User extends NamedEntity {
     /**
      * User's username.
      */
-    @NonNull
     private String username;
 
     /**
      * User's password.
      */
-    @NonNull
     private String password;
 
     /**

@@ -41,7 +41,6 @@ import com.yashmerino.online.shop.services.interfaces.CartService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
-import com.yashmerino.online.shop.utils.AuthUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -51,6 +50,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +59,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -72,6 +73,7 @@ import java.util.Optional;
 @SecurityRequirement(name = SwaggerConfig.SECURITY_SCHEME_NAME)
 @RestController
 @RequestMapping("/api/auth")
+@Validated
 public class AuthController {
 
     /**
@@ -139,12 +141,10 @@ public class AuthController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping("/register")
-    public ResponseEntity<SuccessDTO> register(@Parameter(description = "JSON Object for user's credentials.") @RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<SuccessDTO> register(@Parameter(description = "JSON Object for user's credentials.") @Valid @RequestBody RegisterDTO registerDTO) {
         if (userRepository.existsByUsername(registerDTO.getUsername())) { // NOSONAR - The user repository cannot be null.
             throw new UsernameAlreadyTakenException("Username is already taken!");
         }
-
-        AuthUtils.validateRegistration(registerDTO);
 
         User user = new User();
         user.setUsername(registerDTO.getUsername());
@@ -193,9 +193,7 @@ public class AuthController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@Parameter(description = "JSON Object for user's credentials.") @RequestBody LoginDTO loginDTO) {
-        AuthUtils.validateLogin(loginDTO);
-
+    public ResponseEntity<AuthResponseDTO> login(@Parameter(description = "JSON Object for user's credentials.") @Valid @RequestBody LoginDTO loginDTO) {
         if (!userRepository.existsByUsername(loginDTO.getUsername())) {
             throw new UserDoesntExistException("Username doesn't exist!");
         }

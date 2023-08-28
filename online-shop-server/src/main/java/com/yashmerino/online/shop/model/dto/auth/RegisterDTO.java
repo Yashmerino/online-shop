@@ -25,6 +25,10 @@ package com.yashmerino.online.shop.model.dto.auth;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.utils.Role;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
@@ -36,20 +40,40 @@ public class RegisterDTO {
     /**
      * User's role.
      */
+    @NotNull(message = "Roles are required.")
     private Role role;
 
     /**
      * User's email.
      */
+    @Email(message = "Email is invalid.", regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-z A-Z]{2,7}$")
+    @NotNull(message = "Email is required.")
+    @NotBlank(message = "Email is required.")
+    @Size.List({
+            @Size(min = 4, message = "Email is too short."),
+            @Size(max = 255, message = "Email is too long.")
+    })
     private String email;
 
     /**
      * User's username.
      */
+    @NotNull(message = "Username is required.")
+    @NotBlank(message = "Username is required.")
+    @Size.List({
+            @Size(min = 4, message = "Username is too short."),
+            @Size(max = 40, message = "Username is too long.")
+    })
     private String username;
 
     /**
      * User's password.
      */
+    @NotNull(message = "Password is required.")
+    @NotBlank(message = "Password is required.")
+    @Size.List({
+            @Size(min = 4, message = "Password is too short."),
+            @Size(max = 40, message = "Password is too long.")
+    })
     private String password;
 }

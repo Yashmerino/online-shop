@@ -43,9 +43,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ import java.util.Set;
 @SecurityRequirement(name = SwaggerConfig.SECURITY_SCHEME_NAME)
 @RestController
 @RequestMapping("/api/cartItem")
+@Validated
 public class CartItemController {
 
     /**
@@ -138,7 +141,7 @@ public class CartItemController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping("/{id}/quantity")
-    public ResponseEntity<SuccessDTO> changeQuantity(@PathVariable Long id, @RequestParam Integer quantity) {
+    public ResponseEntity<SuccessDTO> changeQuantity(@PathVariable Long id, @Min(value = 1, message = "Quantity should be greater or equal to 1.") @RequestParam Integer quantity) {
         cartItemService.changeQuantity(id, quantity);
 
         SuccessDTO successDTO = new SuccessDTO();

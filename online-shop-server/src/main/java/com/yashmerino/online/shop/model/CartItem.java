@@ -30,8 +30,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * JPA Entity for cart's item.
@@ -55,14 +57,11 @@ public class CartItem extends BaseEntity {
     /**
      * Cart Item's name.
      */
-    @NonNull
     private String name;
 
     /**
      * Cart Item's price.
      */
-    @NonNull
-    @Min(value = 0)
     private Double price;
 
     /**
@@ -76,7 +75,5 @@ public class CartItem extends BaseEntity {
     /**
      * Quantity of cart's item.
      */
-    @NonNull
-    @Min(value = 0)
     private Integer quantity;
 }

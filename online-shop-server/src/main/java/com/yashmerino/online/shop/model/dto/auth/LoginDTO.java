@@ -24,6 +24,8 @@ package com.yashmerino.online.shop.model.dto.auth;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -35,10 +37,14 @@ public class LoginDTO {
     /**
      * User's username.
      */
+    @NotNull(message = "Username is required.")
+    @NotBlank(message = "Username is required.")
     private String username;
 
     /**
      * User's password.
      */
+    @NotNull(message = "Password is required.")
+    @NotBlank(message = "Password is required.")
     private String password;
 }

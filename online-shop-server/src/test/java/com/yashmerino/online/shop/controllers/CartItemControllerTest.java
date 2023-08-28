@@ -108,4 +108,17 @@ class CartItemControllerTest {
 
         assertTrue(result.getResponse().getContentAsString().contains("[{\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":1}]"));
     }
+
+    /**
+     * Test change item's quantity to negative value.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "user", authorities = {"USER"})
+    void changeQuantityToNegativeTest() throws Exception {
+        MvcResult result = mvc.perform(post("/api/cartItem/1/quantity?quantity=-4")).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"changeQuantity.quantity\",\"message\":\"Quantity should be greater or equal to 1.\"}]}"));
+    }
 }
