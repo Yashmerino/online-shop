@@ -68,7 +68,6 @@ export const addProduct = async (token: string, name: string, categories: Catego
 }
 
 export const getSellerProducts = async (token: string, username: string) => {
-
     const response = await fetch(`${API_BASE_URL}/api/product/seller/${username}`, {
         headers: {
             Authorization: `Bearer ${token}`,
