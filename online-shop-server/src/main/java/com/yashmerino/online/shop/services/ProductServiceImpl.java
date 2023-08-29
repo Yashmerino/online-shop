@@ -84,8 +84,15 @@ public class ProductServiceImpl implements ProductService {
      * @return <code>Optional of Product</code>.
      */
     @Override
-    public Optional<Product> getProduct(Long id) {
-        return productRepository.findById(id);
+    public Product getProduct(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            return product;
+        } else {
+            throw new EntityNotFoundException("Product couldn't be found!");
+        }
     }
 
     /**
@@ -116,13 +123,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public void delete(Long id) {
-        Optional<Product> productOptional = this.getProduct(id);
+        Product product = this.getProduct(id);
 
-        if (productOptional.isPresent()) {
-            productRepository.deleteById(id);
-        } else {
-            throw new EntityNotFoundException("Product couldn't be found!");
-        }
+        productRepository.deleteById(product.getId());
     }
 
     /**
@@ -153,34 +156,28 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public void addProductToCart(final Long id, final Integer quantity) {
-        Optional<Product> productOptional = this.getProduct(id);
+        Product product = this.getProduct(id);
 
-        if (productOptional.isPresent()) {
-            Product product = productOptional.get();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> currentUserOptional = userRepository.findByUsername(userDetails.getUsername());
 
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Optional<User> currentUserOptional = userRepository.findByUsername(userDetails.getUsername());
+        if (currentUserOptional.isPresent()) {
+            User user = currentUserOptional.get();
+            Cart cart = user.getCart();
 
-            if (currentUserOptional.isPresent()) {
-                User user = currentUserOptional.get();
-                Cart cart = user.getCart();
+            CartItem cartItem = new CartItem();
+            cartItem.setCart(cart);
+            cartItem.setProduct(product);
+            cartItem.setQuantity(quantity);
+            cartItem.setName(product.getName());
+            cartItem.setPrice(product.getPrice());
+            cartItemRepository.save(cartItem);
 
-                CartItem cartItem = new CartItem();
-                cartItem.setCart(cart);
-                cartItem.setProduct(product);
-                cartItem.setQuantity(quantity);
-                cartItem.setName(product.getName());
-                cartItem.setPrice(product.getPrice());
-                cartItemRepository.save(cartItem);
+            product.linkCartItem(cartItem);
+            productRepository.save(product);
 
-                product.linkCartItem(cartItem);
-                productRepository.save(product);
-
-            } else {
-                throw new EntityNotFoundException("User couldn't be found!");
-            }
         } else {
-            throw new EntityNotFoundException("Product couldn't be found!");
+            throw new EntityNotFoundException("User couldn't be found!");
         }
     }
 

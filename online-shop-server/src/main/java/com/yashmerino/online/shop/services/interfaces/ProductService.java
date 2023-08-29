@@ -41,7 +41,7 @@ public interface ProductService {
      * @param id is the product's id.
      * @return <code>Product</code>
      */
-    Optional<Product> getProduct(final Long id);
+    Product getProduct(final Long id);
 
     /**
      * Returns all the products.

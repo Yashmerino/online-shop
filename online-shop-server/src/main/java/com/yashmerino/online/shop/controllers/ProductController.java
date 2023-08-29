@@ -50,7 +50,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Product's controller.
@@ -180,14 +179,10 @@ public class ProductController {
                     content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
-        Optional<Product> product = productService.getProduct(id);
+        Product product = productService.getProduct(id);
+        ProductDTO productDTO = RequestBodyToEntityConverter.convertToProductDTO(product);
 
-        if (product.isPresent()) {
-            ProductDTO productDTO = RequestBodyToEntityConverter.convertToProductDTO(product.get());
-            return new ResponseEntity<>(productDTO, HttpStatus.OK);
-        } else {
-            throw new EntityNotFoundException("Product couldn't be found!");
-        }
+        return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
 
     /**
