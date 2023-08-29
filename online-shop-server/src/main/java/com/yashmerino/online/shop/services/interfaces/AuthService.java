@@ -1,5 +1,4 @@
 package com.yashmerino.online.shop.services.interfaces;
-
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,20 +23,35 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Category;
-import com.yashmerino.online.shop.model.dto.CategoryDTO;
-
-import java.util.List;
+import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
+import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
+import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
 
 /**
- * Interface for category service.
+ * Interface for authentication/authorization service.
  */
-public interface CategoryService {
+public interface AuthService {
 
     /**
-     * Returns list of categories.
+     * Registers the user.
      *
-     * @return a list of categories.
+     * @param registerDTO is the register DTO.
      */
-    List<Category> getCategories();
+    void register(final RegisterDTO registerDTO);
+
+    /**
+     * Logins the user.
+     *
+     * @param loginDTO is the login DTO.
+     * @return JWT Token.
+     */
+    String login(final LoginDTO loginDTO);
+
+    /**
+     * Get information about a user by username.
+     *
+     * @param username is the user's username.
+     * @return <code>UserInfoDTO</code>
+     */
+    UserInfoDTO getUserInfo(final String username);
 }

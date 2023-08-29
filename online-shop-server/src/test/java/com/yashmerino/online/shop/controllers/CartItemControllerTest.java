@@ -76,7 +76,7 @@ class CartItemControllerTest {
     void deleteCartItemTest() throws Exception {
         MvcResult result = mvc.perform(delete("/api/cartItem/1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Item successfully deleted!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Cart item successfully deleted!\"}"));
     }
 
     /**

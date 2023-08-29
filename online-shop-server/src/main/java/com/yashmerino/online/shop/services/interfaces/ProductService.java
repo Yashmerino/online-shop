@@ -25,6 +25,7 @@ package com.yashmerino.online.shop.services.interfaces;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.Product;
+import com.yashmerino.online.shop.model.dto.ProductDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,4 +71,18 @@ public interface ProductService {
      * @return List of Products.
      */
     List<Product> getSellerProducts(String username);
+
+    /**
+     * Add product to the cart.
+     *
+     * @param id       is the product's id.
+     * @param quantity is the quantity.
+     */
+    void addProductToCart(final Long id, final Integer quantity);
+
+    /**
+     * Adds a new product.
+     * @param productDTO is the product DTO.
+     */
+    void addProduct(final ProductDTO productDTO);
 }

@@ -23,14 +23,10 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.model.CartItem;
-import com.yashmerino.online.shop.model.Product;
-import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.CartItemDTO;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
-import com.yashmerino.online.shop.services.interfaces.UserService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
@@ -52,7 +48,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -71,19 +66,12 @@ public class CartItemController {
     private final CartItemService cartItemService;
 
     /**
-     * Users' service.
-     */
-    private final UserService userService;
-
-    /**
      * Constructor.
      *
      * @param cartItemService is the cart items' service.
-     * @param userService     is the user's service.
      */
-    public CartItemController(CartItemService cartItemService, UserService userService) {
+    public CartItemController(CartItemService cartItemService) {
         this.cartItemService = cartItemService;
-        this.userService = userService;
     }
 
     /**
@@ -105,21 +93,14 @@ public class CartItemController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCartItem(@PathVariable Long id) {
-        Optional<CartItem> cartItemOptional = cartItemService.getCartItem(id);
-
-        if (cartItemOptional.isPresent()) {
-            CartItem cartItem = cartItemOptional.get();
-
-            Product product = cartItem.getProduct();
-            product.deleteCartItem(cartItem);
-        } else {
-            throw new EntityNotFoundException("Cart Item couldn't be found!");
-        }
-
+    public ResponseEntity<SuccessDTO> deleteCartItem(@PathVariable Long id) {
         cartItemService.deleteCartItem(id);
 
-        return new ResponseEntity<>("Item successfully deleted!", HttpStatus.OK);
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("Cart item successfully deleted!");
+
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
 
     /**
@@ -173,15 +154,10 @@ public class CartItemController {
                     content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<CartItemDTO> getCartItem(@PathVariable Long id) {
-        Optional<CartItem> cartItemOptional = cartItemService.getCartItem(id);
+        CartItem cartItem = cartItemService.getCartItem(id);
+        CartItemDTO cartItemDTO = RequestBodyToEntityConverter.convertToCartItemDTO(cartItem);
 
-        if (cartItemOptional.isPresent()) {
-            CartItem cartItem = cartItemOptional.get();
-            CartItemDTO cartItemDTO = RequestBodyToEntityConverter.convertToCartItemDTO(cartItem);
-            return new ResponseEntity<>(cartItemDTO, HttpStatus.OK);
-        } else {
-            throw new EntityNotFoundException("Cart Item couldn't be found!");
-        }
+        return new ResponseEntity<>(cartItemDTO, HttpStatus.OK);
     }
 
     /**
@@ -204,22 +180,13 @@ public class CartItemController {
                     content = @Content)})
     @GetMapping
     public List<CartItemDTO> getCartItems(@RequestParam String username) {
-        Optional<User> userOptional = userService.getByUsername(username);
+        Set<CartItem> cartItemsSet = cartItemService.getCartItems(username);
+        List<CartItemDTO> cartItems = new ArrayList<>();
 
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            Cart cart = user.getCart();
-
-            Set<CartItem> cartItemsSet = cart.getItems();
-            List<CartItemDTO> cartItems = new ArrayList<>();
-
-            for (CartItem cartItem : cartItemsSet) {
-                cartItems.add(RequestBodyToEntityConverter.convertToCartItemDTO(cartItem));
-            }
-
-            return cartItems;
-        } else {
-            throw new EntityNotFoundException("User not found!");
+        for (CartItem cartItem : cartItemsSet) {
+            cartItems.add(RequestBodyToEntityConverter.convertToCartItemDTO(cartItem));
         }
+
+        return cartItems;
     }
 }

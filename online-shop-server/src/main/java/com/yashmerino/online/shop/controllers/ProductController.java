@@ -23,10 +23,7 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.Cart;
-import com.yashmerino.online.shop.model.CartItem;
 import com.yashmerino.online.shop.model.Product;
-import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
@@ -48,8 +45,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -123,25 +118,13 @@ public class ProductController {
                     content = @Content)})
     @PostMapping
     public ResponseEntity<SuccessDTO> addProduct(@Validated @RequestBody ProductDTO productDTO) {
-        Product product = RequestBodyToEntityConverter.convertToProduct(productDTO);
+        productService.addProduct(productDTO);
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-        Optional<User> userOptional = userService.getByUsername(userDetails.getUsername());
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("Product successfully added!");
 
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            product.setUser(user);
-            productService.save(product);
-
-            SuccessDTO successDTO = new SuccessDTO();
-            successDTO.setStatus(200);
-            successDTO.setMessage("Product successfully added!");
-
-            return new ResponseEntity<>(successDTO, HttpStatus.OK);
-        } else {
-            throw new EntityNotFoundException("User couldn't be found!");
-        }
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
 
     /**
@@ -166,42 +149,13 @@ public class ProductController {
                     content = @Content)})
     @GetMapping("/{id}/add")
     public ResponseEntity<SuccessDTO> addProductToCart(@PathVariable Long id, @RequestParam Integer quantity) {
-        Optional<Product> productOptional = productService.getProduct(id);
+        productService.addProductToCart(id, quantity);
 
-        if (productOptional.isPresent()) {
-            Product product = productOptional.get();
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("Product successfully added to the cart!");
 
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
-            Optional<User> currentUserOptional = userService.getByUsername(userDetails.getUsername());
-
-            if (currentUserOptional.isPresent()) {
-                User user = currentUserOptional.get();
-                Cart cart = user.getCart();
-
-                CartItem cartItem = new CartItem();
-                cartItem.setCart(cart);
-                cartItem.setProduct(product);
-                cartItem.setQuantity(quantity);
-                cartItem.setName(product.getName());
-                cartItem.setPrice(product.getPrice());
-                cartItemService.save(cartItem);
-
-                SuccessDTO successDTO = new SuccessDTO();
-                successDTO.setStatus(200);
-                successDTO.setMessage("Product successfully added to the cart!");
-
-                product.linkCartItem(cartItem);
-                productService.save(product);
-
-                return new ResponseEntity<>(successDTO, HttpStatus.OK);
-
-            } else {
-                throw new EntityNotFoundException("User couldn't be found!");
-            }
-        } else {
-            throw new EntityNotFoundException("Product couldn't be found!");
-        }
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
 
     /**
@@ -286,19 +240,13 @@ public class ProductController {
                     content = @Content)})
     @DeleteMapping("/{id}")
     public ResponseEntity<SuccessDTO> deleteProduct(@PathVariable Long id) {
-        Optional<Product> productOptional = productService.getProduct(id);
+        productService.delete(id);
 
-        if (productOptional.isPresent()) {
-            productService.delete(id);
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("Product successfully deleted!");
 
-            SuccessDTO successDTO = new SuccessDTO();
-            successDTO.setStatus(200);
-            successDTO.setMessage("Product successfully deleted!");
-
-            return new ResponseEntity<>(successDTO, HttpStatus.OK);
-        } else {
-            throw new EntityNotFoundException("Product couldn't be found!");
-        }
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
 
     /**

@@ -206,7 +206,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isNotFound()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product couldn't be found!"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"Product couldn't be found!\"}"));
     }
 
     /**

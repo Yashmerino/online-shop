@@ -24,20 +24,12 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.exceptions.UserDoesntExistException;
-import com.yashmerino.online.shop.exceptions.UsernameAlreadyTakenException;
-import com.yashmerino.online.shop.model.Cart;
-import com.yashmerino.online.shop.model.Role;
-import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.model.dto.auth.AuthResponseDTO;
 import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
 import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
 import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
-import com.yashmerino.online.shop.repositories.RoleRepository;
-import com.yashmerino.online.shop.repositories.UserRepository;
-import com.yashmerino.online.shop.security.JwtProvider;
-import com.yashmerino.online.shop.services.interfaces.CartService;
+import com.yashmerino.online.shop.services.interfaces.AuthService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
@@ -54,17 +46,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Controller for authentication.
@@ -77,52 +60,17 @@ import java.util.Optional;
 public class AuthController {
 
     /**
-     * Authentication manager.
+     * Authentication/authorization service.
      */
-    private final AuthenticationManager authenticationManager;
-
-    /**
-     * Users' repository.
-     */
-    private final UserRepository userRepository;
-
-    /**
-     * Roles' repository.
-     */
-    private final RoleRepository roleRepository;
-
-    /**
-     * Password encoder.
-     */
-    private final PasswordEncoder passwordEncoder;
-
-    /**
-     * JWT Token generator.
-     */
-    private final JwtProvider jwtProvider;
-
-    /**
-     * Cart service.
-     */
-    private final CartService cartService;
+    private AuthService authService;
 
     /**
      * Constructor.
      *
-     * @param authenticationManager is the authentication manager.
-     * @param userRepository        is the users' repository.
-     * @param roleRepository        is the roles' repository.
-     * @param passwordEncoder       is the password encoder.
-     * @param jwtProvider           is the JWT token generator.
-     * @param cartService           is the cart service.
+     * @param authService is the auth service.
      */
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtProvider jwtProvider, CartService cartService) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtProvider = jwtProvider;
-        this.cartService = cartService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     /**
@@ -142,33 +90,7 @@ public class AuthController {
                     content = @Content)})
     @PostMapping("/register")
     public ResponseEntity<SuccessDTO> register(@Parameter(description = "JSON Object for user's credentials.") @Valid @RequestBody RegisterDTO registerDTO) {
-        if (userRepository.existsByUsername(registerDTO.getUsername())) { // NOSONAR - The user repository cannot be null.
-            throw new UsernameAlreadyTakenException("Username is already taken!");
-        }
-
-        User user = new User();
-        user.setUsername(registerDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-
-        Optional<Role> roleOptional = roleRepository.findByName(registerDTO.getRole().name());
-
-
-        if (roleOptional.isPresent()) {
-            Role role = roleOptional.get();
-            user.setRoles(new HashSet<>(List.of(role)));
-        } else {
-            throw new EntityNotFoundException("Role couldn't be found!");
-        }
-
-        Cart cart = new Cart();
-        cartService.save(cart);
-        userRepository.save(user);
-
-        user.setCart(cart);
-        userRepository.save(user);
-
-        cart.setUser(user);
-        cartService.save(cart);
+        authService.register(registerDTO);
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
@@ -194,14 +116,7 @@ public class AuthController {
                     content = @Content)})
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Parameter(description = "JSON Object for user's credentials.") @Valid @RequestBody LoginDTO loginDTO) {
-        if (!userRepository.existsByUsername(loginDTO.getUsername())) {
-            throw new UserDoesntExistException("Username doesn't exist!");
-        }
-
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = jwtProvider.generateToken(authentication);
+        String token = authService.login(loginDTO);
 
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
@@ -223,11 +138,7 @@ public class AuthController {
                     content = @Content)})
     @GetMapping("/{username}")
     public ResponseEntity<UserInfoDTO> getUserInfo(@Parameter(description = "User's username.") @PathVariable String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-
-        User user = userOptional.orElseThrow(() -> new EntityNotFoundException("Username not found."));
-        UserInfoDTO userInfoDTO = new UserInfoDTO();
-        userInfoDTO.setRoles(user.getRoles());
+        UserInfoDTO userInfoDTO = authService.getUserInfo(username);
 
         return new ResponseEntity<>(userInfoDTO, HttpStatus.OK);
     }

@@ -24,13 +24,18 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.model.CartItem;
+import com.yashmerino.online.shop.model.Product;
+import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.repositories.CartItemRepository;
+import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Implementation for cart item service.
@@ -44,12 +49,19 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
 
     /**
+     * User repository.
+     */
+    private final UserRepository userRepository;
+
+    /**
      * Constructor to inject dependencies.
      *
      * @param cartItemRepository is the cart item repository.
+     * @param userRepository     is the user repository.
      */
-    public CartItemServiceImpl(CartItemRepository cartItemRepository) {
+    public CartItemServiceImpl(CartItemRepository cartItemRepository, UserRepository userRepository) {
         this.cartItemRepository = cartItemRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -59,6 +71,17 @@ public class CartItemServiceImpl implements CartItemService {
      */
     @Override
     public void deleteCartItem(final Long id) {
+        Optional<CartItem> cartItemOptional = cartItemRepository.findById(id);
+
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+
+            Product product = cartItem.getProduct();
+            product.deleteCartItem(cartItem);
+        } else {
+            throw new EntityNotFoundException("Cart Item couldn't be found!");
+        }
+
         cartItemRepository.deleteById(id);
     }
 
@@ -69,7 +92,7 @@ public class CartItemServiceImpl implements CartItemService {
      * @param quantity is the cart item's quantity.
      */
     @Override
-    public void changeQuantity(Long id, Integer quantity) {
+    public void changeQuantity(final Long id, final Integer quantity) {
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(id);
 
         if (cartItemOptional.isPresent()) {
@@ -86,11 +109,39 @@ public class CartItemServiceImpl implements CartItemService {
      * Returns a cart item.
      *
      * @param id is the cart item's id.
-     * @return <code>Optional of CartItem</code>
+     * @return <code>CartItem</code>
      */
     @Override
-    public Optional<CartItem> getCartItem(Long id) {
-        return cartItemRepository.findById(id);
+    public CartItem getCartItem(final Long id) {
+        Optional<CartItem> cartItemOptional = cartItemRepository.findById(id);
+
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+            return cartItem;
+        } else {
+            throw new EntityNotFoundException("Cart Item couldn't be found!");
+        }
+    }
+
+    /**
+     * Returns all the cart items.
+     *
+     * @param username is the user's username.
+     * @return <code>Set of CartItem</code>
+     */
+    @Override
+    public Set<CartItem> getCartItems(final String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Cart cart = user.getCart();
+
+            Set<CartItem> cartItemsSet = cart.getItems();
+            return cartItemsSet;
+        } else {
+            throw new EntityNotFoundException("User not found!");
+        }
     }
 
     /**
@@ -99,7 +150,7 @@ public class CartItemServiceImpl implements CartItemService {
      * @param cartItem is the cart item.
      */
     @Override
-    public void save(CartItem cartItem) {
+    public void save(final CartItem cartItem) {
         cartItemRepository.save(cartItem);
     }
 }
