@@ -63,7 +63,7 @@ class CartItemControllerTest {
     void getCartItemTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/cartItem/1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":1}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":1,\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":1}"));
     }
 
     /**
@@ -93,7 +93,7 @@ class CartItemControllerTest {
 
         result = mvc.perform(get("/api/cartItem/1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":5}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":1,\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":5}"));
     }
 
     /**
@@ -106,7 +106,7 @@ class CartItemControllerTest {
     void getCartItemsTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/cartItem?username=user")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("[{\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":1}]"));
+        assertTrue(result.getResponse().getContentAsString().contains("[{\"id\":1,\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":1}]"));
     }
 
     /**

@@ -28,6 +28,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, CardActions } from '@mui/material';
+import Button from '@mui/material/Button';
+import { useAppSelector } from '../../hooks';
+import { deleteCartItem } from '../../api/CartItemsRequest';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 interface CartItemProps {
   id: number,
@@ -36,6 +41,24 @@ interface CartItemProps {
 }
 
 const CartItemCard = ({ id, title, price }: CartItemProps) => {
+  const [isDeleted, setDeleted] = React.useState<boolean>(false);
+
+  const jwt = useAppSelector(state => state.jwt);
+
+  const handleAlertClick = () => {
+    setDeleted(false);
+  };
+
+  const handleDeleteProduct = async () => {
+    setDeleted(false);
+
+    const response = await deleteCartItem(jwt.token, id);
+
+    if (response.status == 200) {
+      setDeleted(true);
+    }
+  }
+
   return (
     <Card sx={{ maxWidth: 400, marginTop: "5%" }}>
       <CardActionArea>
@@ -55,7 +78,14 @@ const CartItemCard = ({ id, title, price }: CartItemProps) => {
         </CardContent>
       </CardActionArea>
       <CardActions >
+        <Button variant="contained" onClick={handleDeleteProduct} data-testid={"delete-button-" + id}>Delete</Button>
       </CardActions>
+      {isDeleted &&
+        <Snackbar open={isDeleted} autoHideDuration={2000} onClose={handleAlertClick}>
+          <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+            The cart item has been deleted successfully!
+          </Alert>
+        </Snackbar>}
     </Card>
   );
 }

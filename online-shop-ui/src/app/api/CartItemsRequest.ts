@@ -30,3 +30,14 @@ export const getCartItems = async (token: string, username: string) => {
 
     return response.json();
 }
+
+export const deleteCartItem = async (token: string, id: number) => {
+    const response = await fetch(`${API_BASE_URL}/api/cartItem/${id}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+
+    return response.json();
+}

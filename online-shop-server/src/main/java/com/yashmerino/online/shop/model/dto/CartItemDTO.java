@@ -23,13 +23,8 @@ package com.yashmerino.online.shop.model.dto;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.yashmerino.online.shop.model.Cart;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -38,6 +33,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CartItemDTO {
+
+    /**
+     * Cart item's ID.
+     */
+    private Long id;
 
     /**
      * Product's id.

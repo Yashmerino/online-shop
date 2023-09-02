@@ -57,8 +57,6 @@ const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProp
   const handleAlertClick = () => {
     setAdded(false);
     setDeleted(false);
-
-    location.reload();
   };
 
   const handleAddProduct = async () => {

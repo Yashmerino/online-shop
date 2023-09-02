@@ -34,8 +34,6 @@ import Product from './Product';
 
 import { useAppSelector } from '../../../hooks';
 
-
-
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
 
