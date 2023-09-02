@@ -42,4 +42,31 @@ describe("Products Container Tests", () => {
             expect(productPrice).toBeInTheDocument();
         })
     });
+
+    it("Test delete product", () => {
+        store = mockStore(initialState)
+
+        const getSellerProducts = jest.spyOn(ProductRequest, 'getSellerProducts');
+        const result = [{ "name": "Apple", "price": 2.5, "categories": [], "userId": 2 }];
+        getSellerProducts.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+
+        const deleteProduct = jest.spyOn(ProductRequest, 'deleteProduct');
+        deleteProduct.mockReturnValue(Promise.resolve({ "status": 200, "message": "Product successfully deleted!" }));
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <MyProductsPage />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        waitFor(() => { // NOSONAR: No need to await.
+            const deleteButton = screen.getByTestId("delete-button-1");
+            deleteButton.click();
+
+            const successAlert = screen.getByAltText("Product successfully deleted!");
+            expect(successAlert).toBeInTheDocument();
+        })
+    });
 });
