@@ -64,4 +64,31 @@ describe("Cart Container Tests", () => {
             expect(productPrice).toBeInTheDocument();
         })
     });
+
+    it("Test delete cart item", () => {
+        store = mockStore(initialState)
+
+        const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');
+        const result = [{ "productId": 1, "name": "Apple", "price": 2.5, "cartId": 1, "quantity": 5 }];
+        getCartItems.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+
+        const deleteCartItem = jest.spyOn(CartItemsRequest, 'deleteCartItem');
+        deleteCartItem.mockReturnValue(Promise.resolve({ "status": 200, "message": "Cart item successfully deleted!" }));
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <CartContainer />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        waitFor(() => { // NOSONAR: No need to await.
+            const deleteButton = screen.getByTestId("delete-button-1");
+            deleteButton.click();
+
+            const successAlert = screen.getByAltText("Cart item successfully deleted!");
+            expect(successAlert).toBeInTheDocument();
+        })
+    });
 });
