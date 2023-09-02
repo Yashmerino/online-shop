@@ -30,7 +30,7 @@ import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import { addProductToCart } from '../../../api/ProductRequest';
+import { addProductToCart, deleteProduct } from '../../../api/ProductRequest';
 import { useAppSelector } from '../../../hooks';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -44,25 +44,40 @@ interface ProductCardProps {
   id: number,
   title: string,
   price: string,
+  shouldBeAbleToDelete: boolean
 }
 
-const ProductCard = ({ id, title, price }: ProductCardProps) => {
+const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProps) => {
   const roles = useAppSelector(state => state.roles);
   const [isAdded, setAdded] = React.useState<boolean>(false);
+  const [isDeleted, setDeleted] = React.useState<boolean>(false);
 
   const jwt = useAppSelector(state => state.jwt);
 
   const handleAlertClick = () => {
     setAdded(false);
+    setDeleted(false);
+
+    location.reload();
   };
 
-  const addProduct = async () => {
+  const handleAddProduct = async () => {
     setAdded(false);
 
     const response = await addProductToCart(jwt.token, id, 1);
 
     if (response.status == 200) {
       setAdded(true);
+    }
+  }
+
+  const handleDeleteProduct = async () => {
+    setDeleted(false);
+
+    const response = await deleteProduct(jwt.token, id);
+
+    if (response.status == 200) {
+      setDeleted(true);
     }
   }
 
@@ -86,13 +101,20 @@ const ProductCard = ({ id, title, price }: ProductCardProps) => {
       </CardActionArea>
       <CardActions >
         {// @ts-ignore 
-          roles.roles.roles[0].name == "USER" ? <Button size="small" color="primary" onClick={addProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/} Add To Cart</Button> : null
+          roles.roles.roles[0].name == "USER" ? <Button size="small" color="primary" onClick={handleAddProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/} Add To Cart</Button> : null
         }
+        {shouldBeAbleToDelete && <Button variant="contained" onClick={handleDeleteProduct}>Delete</Button>}
       </CardActions>
       {isAdded &&
         <Snackbar open={isAdded} autoHideDuration={2000} onClose={handleAlertClick}>
           <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
             The product has been successfully added to the cart!
+          </Alert>
+        </Snackbar>}
+      {isDeleted &&
+        <Snackbar open={isDeleted} autoHideDuration={2000} onClose={handleAlertClick}>
+          <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+            The product has been deleted successfully!
           </Alert>
         </Snackbar>}
     </Card>

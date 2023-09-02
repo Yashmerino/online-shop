@@ -77,3 +77,14 @@ export const getSellerProducts = async (token: string, username: string) => {
 
     return response.json();
 }
+
+export const deleteProduct = async (token: string, id: number) => {
+    const response = await fetch(`${API_BASE_URL}/api/product/${id}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+
+    return response.json();
+}
