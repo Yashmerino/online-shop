@@ -114,6 +114,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = new User();
         user.setUsername(registerDTO.getUsername());
+        user.setEmail(registerDTO.getEmail());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
         Optional<Role> roleOptional = roleRepository.findByName(registerDTO.getRole().name());
@@ -153,22 +154,5 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return jwtProvider.generateToken(authentication);
-    }
-
-    /**
-     * Get information about a user by username.
-     *
-     * @param username is the user's username.
-     * @return <code>UserInfoDTO</code>
-     */
-    @Override
-    public UserInfoDTO getUserInfo(String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-
-        User user = userOptional.orElseThrow(() -> new EntityNotFoundException("Username not found."));
-        UserInfoDTO userInfoDTO = new UserInfoDTO();
-        userInfoDTO.setRoles(user.getRoles());
-
-        return userInfoDTO;
     }
 }

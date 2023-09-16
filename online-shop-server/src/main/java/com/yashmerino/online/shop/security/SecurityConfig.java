@@ -83,7 +83,12 @@ public class SecurityConfig {
     /**
      * Regex for all the endpoints related to categories.
      */
-    private static final String CATEGORIES_ALL_ENDPOINTS = "api/categories/**";
+    private static final String CATEGORIES_ALL_ENDPOINTS = "/api/categories/**";
+
+    /**
+     * Regex for all the endpoints related to users.
+     */
+    private static final String USERS_ALL_ENDPOINTS = "/api/user/**";
 
     /**
      * Jwt Auth Entry Point to handle exceptions.
@@ -120,6 +125,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, AUTH_ALL_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, AUTH_ALL_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, USERS_ALL_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.POST, USERS_ALL_ENDPOINTS).hasAuthority(Role.USER.name())
                         .requestMatchers(CART_ITEMS_ALL_ENDPOINTS).hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
                         .requestMatchers(HttpMethod.POST, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())
                         .requestMatchers(HttpMethod.DELETE, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())

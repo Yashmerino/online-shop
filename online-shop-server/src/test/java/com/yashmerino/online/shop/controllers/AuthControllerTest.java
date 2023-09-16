@@ -245,30 +245,6 @@ class AuthControllerTest {
     }
 
     /**
-     * Tests get user info.
-     *
-     * @throws Exception if something goes wrong.
-     */
-    @Test
-    void getUserInfoTest() throws Exception {
-        MvcResult result = mvc.perform(get("/api/auth/seller")).andExpect(status().isOk()).andReturn();
-
-        assertTrue(result.getResponse().getContentAsString().contains("{\"roles\":[{\"id\":3,\"name\":\"SELLER\"}]}"));
-    }
-
-    /**
-     * Tests get user info with non-existing username.
-     *
-     * @throws Exception if something goes wrong.
-     */
-    @Test
-    void getUserInfoNonExistingUsernameTest() throws Exception {
-        MvcResult result = mvc.perform(get("/api/auth/error")).andExpect(status().isNotFound()).andReturn();
-
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"Username not found.\"}"));
-    }
-
-    /**
      * Tests /register with a username that is too long
      *
      * @throws Exception if something goes wrong.

@@ -30,6 +30,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import Copyright from '../../footer/Copyright';
 import UserInputFields from './UserInputFields';
+import * as UserRequest from '../../../api/UserRequest';
 import * as AuthRequest from '../../../api/AuthRequest';
 import { InputError } from '../../../utils/InputErrorUtils';
 
@@ -58,7 +59,7 @@ const LoginPage = () => {
     if (response.accessToken) {
       dispatch(updateJwt(response.accessToken));
       dispatch(updateUsername(parseJwt(response.accessToken).sub));
-      dispatch(updateRoles(await AuthRequest.getUserInfo(username ?? "")));
+      dispatch(updateRoles(await UserRequest.getUserInfo(username ?? "")));
       navigate("/products");
     } else {
       if (response.fieldErrors) {

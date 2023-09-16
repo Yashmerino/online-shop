@@ -25,7 +25,6 @@ package com.yashmerino.online.shop.services.interfaces;
 
 import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
 import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
-import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
 
 /**
  * Interface for authentication/authorization service.
@@ -46,12 +45,4 @@ public interface AuthService {
      * @return JWT Token.
      */
     String login(final LoginDTO loginDTO);
-
-    /**
-     * Get information about a user by username.
-     *
-     * @param username is the user's username.
-     * @return <code>UserInfoDTO</code>
-     */
-    UserInfoDTO getUserInfo(final String username);
 }

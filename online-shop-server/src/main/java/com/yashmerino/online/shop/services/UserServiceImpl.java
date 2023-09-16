@@ -24,11 +24,16 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.exceptions.CouldntUploadPhotoException;
 import com.yashmerino.online.shop.model.User;
+import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -58,8 +63,15 @@ public class UserServiceImpl implements UserService {
      * @return <code>Optional of User</code>.
      */
     @Override
-    public Optional<User> getById(Long id) {
-        return userRepository.findById(id);
+    public User getById(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user;
+        } else {
+            throw new EntityNotFoundException("User not found.");
+        }
     }
 
     /**
@@ -69,7 +81,50 @@ public class UserServiceImpl implements UserService {
      * @return <code>User</code>
      */
     @Override
-    public Optional<User> getByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User getByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user;
+        } else {
+            throw new EntityNotFoundException("User not found.");
+        }
+    }
+
+    /**
+     * Get information about a user by username.
+     *
+     * @param username is the user's username.
+     * @return <code>UserInfoDTO</code>
+     */
+    @Override
+    public UserInfoDTO getUserInfo(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        User user = userOptional.orElseThrow(() -> new EntityNotFoundException("Username not found."));
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
+        userInfoDTO.setRoles(user.getRoles());
+
+        return userInfoDTO;
+    }
+
+    /**
+     * Update photo for user.
+     *
+     * @param photo    is the user's photo.
+     * @param username is the user's username.
+     */
+    @Override
+    public void updatePhoto(String username, MultipartFile photo) {
+        User user = this.getByUsername(username);
+
+        try {
+            user.setPhoto(photo.getBytes());
+        } catch (IOException e) {
+            throw new CouldntUploadPhotoException("Photo couldn't be upload.");
+        }
+
+        userRepository.save(user);
     }
 }

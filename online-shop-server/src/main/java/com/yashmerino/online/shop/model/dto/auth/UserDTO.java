@@ -1,5 +1,4 @@
-package com.yashmerino.online.shop.services.interfaces;
-
+package com.yashmerino.online.shop.model.dto.auth;
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,44 +23,27 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.User;
-import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
-import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 /**
- * Interface for user service.
+ * User DTO.
  */
-public interface UserService {
+@Data
+public class UserDTO {
 
     /**
-     * Returns user by id.
-     *
-     * @param id is the user's id.
-     * @return <code>User</code>
+     * User's email.
      */
-    User getById(final Long id);
-
-    /**
-     * Returns user by username.
-     *
-     * @param username is the user's username.
-     * @return <code>User</code>
-     */
-    User getByUsername(final String username);
-
-    /**
-     * Get information about a user by username.
-     *
-     * @param username is the user's username.
-     * @return <code>UserInfoDTO</code>
-     */
-    UserInfoDTO getUserInfo(String username);
-
-    /**
-     * Update photo for user.
-     *
-     * @param photo    is the user's photo.
-     * @param username is the user's username.
-     */
-    void updatePhoto(String username, MultipartFile photo);
+    @Email(message = "Email is invalid.", regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-z A-Z]{2,7}$")
+    @NotNull(message = "Email is required.")
+    @NotBlank(message = "Email is required.")
+    @Size.List({
+            @Size(min = 4, message = "Email is too short."),
+            @Size(max = 255, message = "Email is too long.")
+    })
+    private String email;
 }

@@ -1,5 +1,4 @@
-package com.yashmerino.online.shop.services.interfaces;
-
+package com.yashmerino.online.shop.exceptions;
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,44 +23,15 @@ package com.yashmerino.online.shop.services.interfaces;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.model.User;
-import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
-import org.springframework.web.multipart.MultipartFile;
-
 /**
- * Interface for user service.
+ * Exception thrown when the photo for user couldn't be upload.
  */
-public interface UserService {
+public class CouldntUploadPhotoException extends RuntimeException {
 
     /**
-     * Returns user by id.
-     *
-     * @param id is the user's id.
-     * @return <code>User</code>
+     * Constructor;
      */
-    User getById(final Long id);
-
-    /**
-     * Returns user by username.
-     *
-     * @param username is the user's username.
-     * @return <code>User</code>
-     */
-    User getByUsername(final String username);
-
-    /**
-     * Get information about a user by username.
-     *
-     * @param username is the user's username.
-     * @return <code>UserInfoDTO</code>
-     */
-    UserInfoDTO getUserInfo(String username);
-
-    /**
-     * Update photo for user.
-     *
-     * @param photo    is the user's photo.
-     * @param username is the user's username.
-     */
-    void updatePhoto(String username, MultipartFile photo);
+    public CouldntUploadPhotoException(final String message) {
+        super(message);
+    }
 }

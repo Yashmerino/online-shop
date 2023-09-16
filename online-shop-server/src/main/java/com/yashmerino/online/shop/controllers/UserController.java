@@ -1,5 +1,4 @@
 package com.yashmerino.online.shop.controllers;
-
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,11 +23,12 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.exceptions.CouldntUploadPhotoException;
+import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
-import com.yashmerino.online.shop.model.dto.auth.AuthResponseDTO;
-import com.yashmerino.online.shop.model.dto.auth.LoginDTO;
-import com.yashmerino.online.shop.model.dto.auth.RegisterDTO;
+import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
 import com.yashmerino.online.shop.services.interfaces.AuthService;
+import com.yashmerino.online.shop.services.interfaces.UserService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
@@ -40,86 +40,86 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
- * Controller for authentication.
+ * Controller for users.
  */
-@Tag(name = "1. Authentication/Authorization", description = "These endpoints are used to register/login.")
+@Tag(name = "1. User", description = "These endpoints are used to manipulate users.")
 @SecurityRequirement(name = SwaggerConfig.SECURITY_SCHEME_NAME)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/user")
 @Validated
-public class AuthController {
+public class UserController {
 
     /**
-     * Authentication/authorization service.
+     * Users' service.
      */
-    private AuthService authService;
+    private UserService userService;
 
     /**
-     * Constructor.
+     * Controller.
      *
-     * @param authService is the auth service.
+     * @param userService is the user's service.
      */
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public UserController(UserService userService, AuthService authService) {
+        this.userService = userService;
     }
 
-    /**
-     * Registers a new user.
-     *
-     * @param registerDTO is the user's data.
-     * @return <code>ResponseEntity</code>
-     * @throws EntityNotFoundException if role couldn't be found.
-     */
-    @Operation(summary = "Registers a new user.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SUCCESSFULLY_REGISTERED,
-                    content = @Content),
-            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.USERNAME_IS_TAKEN,
-                    content = @Content),
-            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
-                    content = @Content)})
-    @PostMapping("/register")
-    public ResponseEntity<SuccessDTO> register(@Parameter(description = "JSON Object for user's credentials.") @Valid @RequestBody RegisterDTO registerDTO) {
-        authService.register(registerDTO);
-
-        SuccessDTO successDTO = new SuccessDTO();
-        successDTO.setStatus(200);
-        successDTO.setMessage("User registered successfully!");
-
-        return new ResponseEntity<>(successDTO, HttpStatus.OK);
-    }
 
     /**
-     * Login for user.
+     * Get user's information by username.
      *
-     * @param loginDTO is the user's data.
+     * @param username is the user's username.
      * @return <code>ResponseEntity</code>
      */
-    @Operation(summary = "Allows user to login and get his JWT Token.")
+    @Operation(summary = "Returns user info.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SIGNED_IN,
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_INFO_IS_RETURNED,
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = AuthResponseDTO.class))}),
+                            schema = @Schema(implementation = UserInfoDTO.class))}),
             @ApiResponse(responseCode = SwaggerHttpStatus.NOT_FOUND, description = SwaggerMessages.USER_DOES_NOT_EXIST,
                     content = @Content),
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@Parameter(description = "JSON Object for user's credentials.") @Valid @RequestBody LoginDTO loginDTO) {
-        String token = authService.login(loginDTO);
+    @GetMapping("/{username}")
+    public ResponseEntity<UserInfoDTO> getUserInfo(@Parameter(description = "User's username.") @PathVariable String username) {
+        UserInfoDTO userInfoDTO = userService.getUserInfo(username);
 
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        return new ResponseEntity<>(userInfoDTO, HttpStatus.OK);
+    }
+
+    /**
+     * Sets user's photo.
+     *
+     * @param username is the user's username.
+     * @param photo    is the user's photo.
+     * @return <code>ResponseEntity</code>
+     */
+    @Operation(summary = "Updates user photo.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_INFO_IS_UPDATED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessDTO.class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.NOT_FOUND, description = SwaggerMessages.USER_DOES_NOT_EXIST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @PostMapping(path = "/{username}", consumes = "multipart/form-data")
+    public ResponseEntity<SuccessDTO> setUserPhoto(@PathVariable String username, @Parameter(description = "User's photo.", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart("photo") MultipartFile photo) {
+        userService.updatePhoto(username, photo);
+
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("User photo was successfully updated.");
+
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
 }
