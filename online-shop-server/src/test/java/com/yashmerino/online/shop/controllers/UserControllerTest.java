@@ -58,12 +58,6 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    /**
-     * Object mapper.
-     */
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @BeforeEach
     void setup() {
 
@@ -135,5 +129,29 @@ public class UserControllerTest {
         );
 
         mvc.perform(multipart("/api/user/user").file(photo)).andExpect(status().isForbidden()).andReturn();
+    }
+
+    /**
+     * Tests get user's photo.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void getUserPhotoTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/user/user/photo")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().length() == 1647);
+    }
+
+    /**
+     * Tests get photo for non-existing user.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void getUserPhotoNonexistentUsernameTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/user/ERROR/photo")).andExpect(status().isNotFound()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"User not found.\"}"));
     }
 }

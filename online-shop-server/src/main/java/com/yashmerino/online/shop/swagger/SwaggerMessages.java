@@ -132,7 +132,12 @@ public class SwaggerMessages {
     public static final String CATEGORIES_SUCCESSFULLY_RETRIEVED = "Categories successfully retrieved.";
 
     /**
-     * Message when user info is successfully updated.
+     * Message when user photo is successfully updated.
      */
-    public static final String USER_INFO_IS_UPDATED = "User information was successfully updated.";
+    public static final String USER_PHOTO_IS_UPDATED = "User photo was successfully updated.";
+
+    /**
+     * Message when user photo is successfully returned.
+     */
+    public static final String USER_PHOTO_RETURNED = "User photo was successfully returned.";
 }

@@ -31,6 +31,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -94,7 +96,7 @@ public class Initializer implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
         Role adminRole = new Role();
         adminRole.setName("ADMIN");
 
@@ -110,8 +112,11 @@ public class Initializer implements CommandLineRunner {
 
         roleRepository.save(sellerRole);
 
+        byte[] photo = Files.readAllBytes(Path.of("src/test/resources/photos/photo.png"));
+
         User user = new User();
         user.setId(1L);
+        user.setPhoto(photo);
         user.setUsername("user");
         user.setPassword("user");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));

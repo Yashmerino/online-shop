@@ -23,8 +23,6 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.exceptions.CouldntUploadPhotoException;
-import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
 import com.yashmerino.online.shop.services.interfaces.AuthService;
@@ -46,8 +44,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 /**
  * Controller for users.
@@ -105,7 +101,7 @@ public class UserController {
      */
     @Operation(summary = "Updates user photo.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_INFO_IS_UPDATED,
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_PHOTO_IS_UPDATED,
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessDTO.class))}),
             @ApiResponse(responseCode = SwaggerHttpStatus.NOT_FOUND, description = SwaggerMessages.USER_DOES_NOT_EXIST,
@@ -121,5 +117,27 @@ public class UserController {
         successDTO.setMessage("User photo was successfully updated.");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
+    }
+
+    /**
+     * Returns user's photo as array of bytes.
+     *
+     * @param username is the user's username.
+     * @return <code>ResponseEntity</code>
+     */
+    @Operation(summary = "Returns user photo.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_PHOTO_RETURNED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = byte[].class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.NOT_FOUND, description = SwaggerMessages.USER_DOES_NOT_EXIST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @GetMapping(path = "/{username}/photo")
+    public ResponseEntity<byte[]> getUserPhoto(@PathVariable String username) {
+        byte[] photo = userService.getByUsername(username).getPhoto();
+
+        return new ResponseEntity<>(photo, HttpStatus.OK);
     }
 }
