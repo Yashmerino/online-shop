@@ -40,8 +40,8 @@ describe("Products Container Tests", () => {
             const username = screen.getByText("user");
             expect(username).toBeInTheDocument();
 
-            const saveButton = screen.getByText("Save");
-            expect(saveButton).toBeInTheDocument();
+            const saveButton = screen.getAllByText("Save");
+            expect(saveButton.length).toBe(2);
         })
     });
 
@@ -68,7 +68,35 @@ describe("Products Container Tests", () => {
             const saveButton = screen.getByText("Save");
             fireEvent.click(saveButton);
 
-            const successAlert = screen.getByText("The photo has been successfully updated!");
+            const successAlert = screen.getByText("The user information has been successfully updated!");
+            expect(successAlert).toBeInTheDocument();
+        })
+    });
+
+    it("Test My Profile update user information", () => {
+        store = mockStore(initialState)
+
+        const getUserPhoto = jest.spyOn(UserRequest, 'getUserPhoto');
+        getUserPhoto.mockReturnValue(Promise.resolve(new Blob([JSON.stringify("photo", null, 2)], {
+            type: "application/octet-stream",
+        })));
+
+        const updateUser = jest.spyOn(UserRequest, 'updateUser');
+        updateUser.mockReturnValue(Promise.resolve({ "status": 200, "message": "User information was successfully updated." }));
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <MyProfilePage />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        waitFor(() => { // NOSONAR: No need to await.
+            const saveButton = screen.getAllByText("Save");
+            fireEvent.click(saveButton[1]);
+
+            const successAlert = screen.getByText("The user information has been successfully updated!");
             expect(successAlert).toBeInTheDocument();
         })
     });
