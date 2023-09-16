@@ -60,11 +60,13 @@ class ProductControllerTest {
      * Product DTO to use in tests.
      */
     private final ProductDTO productDTO = new ProductDTO();
+
     /**
      * Mock mvc to perform requests.
      */
     @Autowired
     private MockMvc mvc;
+
     /**
      * Object mapper.
      */

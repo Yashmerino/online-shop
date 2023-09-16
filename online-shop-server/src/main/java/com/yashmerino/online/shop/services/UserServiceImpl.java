@@ -26,10 +26,14 @@ package com.yashmerino.online.shop.services;
 
 import com.yashmerino.online.shop.exceptions.CouldntUploadPhotoException;
 import com.yashmerino.online.shop.model.User;
+import com.yashmerino.online.shop.model.dto.auth.UserDTO;
 import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -119,6 +123,13 @@ public class UserServiceImpl implements UserService {
     public void updatePhoto(String username, MultipartFile photo) {
         User user = this.getByUsername(username);
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserUsername = auth.getName();
+
+        if (!user.getUsername().equals(currentUserUsername)) {
+            throw new AccessDeniedException("Access denied.");
+        }
+
         try {
             user.setPhoto(photo.getBytes());
         } catch (IOException e) {
@@ -126,5 +137,25 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.save(user);
+    }
+
+    /**
+     * Updates user information.
+     *
+     * @param username is the user's username.
+     * @param userDTO  is the user's updated information.
+     */
+    @Override
+    public void updateUser(String username, UserDTO userDTO) {
+        User user = this.getByUsername(username);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserUsername = auth.getName();
+
+        if (!user.getUsername().equals(currentUserUsername)) {
+            throw new AccessDeniedException("Access denied.");
+        }
+
+        user.setEmail(userDTO.getEmail());
     }
 }

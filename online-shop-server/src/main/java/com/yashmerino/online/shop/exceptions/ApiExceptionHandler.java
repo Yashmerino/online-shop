@@ -27,6 +27,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -209,5 +210,22 @@ public class ApiExceptionHandler {
         errors.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 
         return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Handles the {@link AccessDeniedException}
+     *
+     * @param e is the thrown exception.
+     * @return <code>ResponseEntity</code>
+     */
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public ResponseEntity<CustomErrorResponse> accessDeniedExceptionHandler(AccessDeniedException e) {
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(e.getMessage());
+        errors.setStatus(HttpStatus.FORBIDDEN.value());
+
+        return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
     }
 }

@@ -25,6 +25,7 @@ package com.yashmerino.online.shop.services.interfaces;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.User;
+import com.yashmerino.online.shop.model.dto.auth.UserDTO;
 import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,4 +65,12 @@ public interface UserService {
      * @param username is the user's username.
      */
     void updatePhoto(String username, MultipartFile photo);
+
+    /**
+     * Updates user information.
+     *
+     * @param username is the user's username.
+     * @param userDTO  is the user's updated information.
+     */
+    void updateUser(String username, UserDTO userDTO);
 }

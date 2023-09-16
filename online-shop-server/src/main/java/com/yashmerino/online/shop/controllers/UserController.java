@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.controllers;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
+import com.yashmerino.online.shop.model.dto.auth.UserDTO;
 import com.yashmerino.online.shop.model.dto.auth.UserInfoDTO;
 import com.yashmerino.online.shop.services.interfaces.AuthService;
 import com.yashmerino.online.shop.services.interfaces.UserService;
@@ -139,5 +140,32 @@ public class UserController {
         byte[] photo = userService.getByUsername(username).getPhoto();
 
         return new ResponseEntity<>(photo, HttpStatus.OK);
+    }
+
+    /**
+     * Updates user information.
+     *
+     * @param username is the user's username.
+     * @param userDTO  is the user's updated information.
+     * @return <code>ResponseEntity</code>
+     */
+    @Operation(summary = "Updates user information.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_INFO_UPDATED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessDTO.class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.NOT_FOUND, description = SwaggerMessages.USER_DOES_NOT_EXIST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @PutMapping(path = "/{username}")
+    public ResponseEntity<SuccessDTO> updateUser(@PathVariable String username, @Parameter(description = "User's updated information.") @RequestBody UserDTO userDTO) {
+        userService.updateUser(username, userDTO);
+
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("User information was successfully updated.");
+
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
 }

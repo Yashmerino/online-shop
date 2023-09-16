@@ -127,6 +127,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, AUTH_ALL_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, USERS_ALL_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.POST, USERS_ALL_ENDPOINTS).hasAuthority(Role.USER.name())
+                        .requestMatchers(HttpMethod.PUT, USERS_ALL_ENDPOINTS).hasAuthority(Role.USER.name())
                         .requestMatchers(CART_ITEMS_ALL_ENDPOINTS).hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
                         .requestMatchers(HttpMethod.POST, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())
                         .requestMatchers(HttpMethod.DELETE, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())

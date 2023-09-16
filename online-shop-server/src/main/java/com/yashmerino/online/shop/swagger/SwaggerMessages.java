@@ -140,4 +140,9 @@ public class SwaggerMessages {
      * Message when user photo is successfully returned.
      */
     public static final String USER_PHOTO_RETURNED = "User photo was successfully returned.";
+
+    /**
+     * Message when user information is successfully updated.
+     */
+    public static final String USER_INFO_UPDATED = "User information was successfully updated.";
 }
