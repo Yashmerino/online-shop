@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.controllers;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yashmerino.online.shop.model.dto.auth.UserDTO;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -57,6 +59,12 @@ public class UserControllerTest {
      */
     @Autowired
     private MockMvc mvc;
+
+    /**
+     * Object mapper.
+     */
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setup() {
@@ -116,7 +124,7 @@ public class UserControllerTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    @WithMockUser(username = "user", authorities = {"SELLER"})
     void setUserPhotoWrongRoleTest() throws Exception {
         Path photoPath = Path.of("src/test/resources/photos/photo.jpg");
 
@@ -129,6 +137,29 @@ public class UserControllerTest {
         );
 
         mvc.perform(multipart("/api/user/user/photo").file(photo)).andExpect(status().isForbidden()).andReturn();
+    }
+
+    /**
+     * Tests set user's photo with wrong username
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"USER"})
+    void setUserPhotoWithWrongUsernameTest() throws Exception {
+        Path photoPath = Path.of("src/test/resources/photos/photo.jpg");
+
+        MockMultipartFile photo
+                = new MockMultipartFile(
+                "photo",
+                "photo.jpg",
+                MediaType.MULTIPART_FORM_DATA_VALUE,
+                Files.readAllBytes(photoPath)
+        );
+
+        MvcResult result = mvc.perform(multipart("/api/user/user/photo").file(photo)).andExpect(status().isForbidden()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
     }
 
     /**
@@ -153,5 +184,71 @@ public class UserControllerTest {
         MvcResult result = mvc.perform(get("/api/user/ERROR/photo")).andExpect(status().isNotFound()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"User not found.\"}"));
+    }
+
+    /**
+     * Tests update user information.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "user", authorities = {"USER"})
+    void updateUserTest() throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("new@mail.com");
+
+        MvcResult result = mvc.perform(put("/api/user/user").content(objectMapper.writeValueAsString(userDTO)).contentType(
+                APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"User information was successfully updated.\"}"));
+    }
+
+    /**
+     * Tests update user information with wrong role.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "user", authorities = {"SELLER"})
+    void updateUserWrongRoleTest() throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("new@mail.com");
+
+        mvc.perform(put("/api/user/user").content(objectMapper.writeValueAsString(userDTO)).contentType(
+                APPLICATION_JSON)).andExpect(status().isForbidden()).andReturn();
+    }
+
+    /**
+     * Tests update user information for nonexistent user.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "user", authorities = {"USER"})
+    void updateNonexistentUserTest() throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("new@mail.com");
+
+        MvcResult result = mvc.perform(put("/api/user/ERROR").content(objectMapper.writeValueAsString(userDTO)).contentType(
+                APPLICATION_JSON)).andExpect(status().isNotFound()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"User not found.\"}"));
+    }
+
+    /**
+     * Tests update user information with wrong username.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "user", authorities = {"USER"})
+    void updateUserWithWrongUsernameTest() throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("new@mail.com");
+
+        MvcResult result = mvc.perform(put("/api/user/seller").content(objectMapper.writeValueAsString(userDTO)).contentType(
+                APPLICATION_JSON)).andExpect(status().isForbidden()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
     }
 }
