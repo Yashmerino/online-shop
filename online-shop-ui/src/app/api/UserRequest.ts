@@ -23,9 +23,29 @@
  */
 
 import { API_BASE_URL } from "../../env-config";
+
 export const getUserInfo = async (username: string) => {
     const response = await fetch(`${API_BASE_URL}/api/user/${username}`, {
         headers: { 'Content-Type': 'application/json' }
+    })
+
+    return response.json();
+}
+
+export const getUserPhoto = async (username: string) => {
+    const response = await fetch(`${API_BASE_URL}/api/user/${username}/photo`, {})
+
+    return response.blob();
+}
+
+export const setUserPhoto = async (token: string, username: string, photo: File | null) => {
+    const formData = new FormData();
+    formData.append("photo", photo ?? "");
+
+    const response = await fetch(`${API_BASE_URL}/api/user/${username}/photo`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
     })
 
     return response.json();

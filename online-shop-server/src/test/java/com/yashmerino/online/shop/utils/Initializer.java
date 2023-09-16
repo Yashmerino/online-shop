@@ -112,7 +112,7 @@ public class Initializer implements CommandLineRunner {
 
         roleRepository.save(sellerRole);
 
-        byte[] photo = Files.readAllBytes(Path.of("src/test/resources/photos/photo.png"));
+        byte[] photo = Files.readAllBytes(Path.of("src/test/resources/photos/photo.jpg"));
 
         User user = new User();
         user.setId(1L);

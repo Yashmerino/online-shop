@@ -92,4 +92,30 @@ describe("Login Page Tests", () => {
             expect(fieldErrorMessage).toBeInTheDocument();
         });
     });
+
+    it("Test login user doesn't exist", async () => {
+        store = mockStore(initialState)
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <LoginPage />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        const loginMock = jest.spyOn(AuthRequest, 'login');
+        loginMock.mockReturnValue(Promise.resolve({
+            "timestamp": "2023-09-16 06:39:30",
+            "status": 404,
+            "error": "Username doesn't exist!"
+        }));
+
+        clickSubmitButton();
+
+        await waitFor(async () => {
+            let errorAlert = screen.getByText("The user doesn't exist!");
+            expect(errorAlert).toBeInTheDocument();
+        });
+    });
 });

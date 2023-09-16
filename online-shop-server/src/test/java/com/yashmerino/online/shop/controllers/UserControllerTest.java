@@ -95,17 +95,17 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "user", authorities = {"USER"})
     void setUserPhotoTest() throws Exception {
-        Path photoPath = Path.of("src/test/resources/photos/photo.png");
+        Path photoPath = Path.of("src/test/resources/photos/photo.jpg");
 
         MockMultipartFile photo
                 = new MockMultipartFile(
                 "photo",
-                "photo.png",
+                "photo.jpg",
                 MediaType.MULTIPART_FORM_DATA_VALUE,
                 Files.readAllBytes(photoPath)
         );
 
-        MvcResult result = mvc.perform(multipart("/api/user/user").file(photo)).andExpect(status().isOk()).andReturn();
+        MvcResult result = mvc.perform(multipart("/api/user/user/photo").file(photo)).andExpect(status().isOk()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"User photo was successfully updated.\"}"));
     }
@@ -118,17 +118,17 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "seller", authorities = {"SELLER"})
     void setUserPhotoWrongRoleTest() throws Exception {
-        Path photoPath = Path.of("src/test/resources/photos/photo.png");
+        Path photoPath = Path.of("src/test/resources/photos/photo.jpg");
 
         MockMultipartFile photo
                 = new MockMultipartFile(
                 "photo",
-                "photo.png",
+                "photo.jpg",
                 MediaType.MULTIPART_FORM_DATA_VALUE,
                 Files.readAllBytes(photoPath)
         );
 
-        mvc.perform(multipart("/api/user/user").file(photo)).andExpect(status().isForbidden()).andReturn();
+        mvc.perform(multipart("/api/user/user/photo").file(photo)).andExpect(status().isForbidden()).andReturn();
     }
 
     /**
@@ -140,7 +140,7 @@ public class UserControllerTest {
     void getUserPhotoTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/user/user/photo")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().length() == 1647);
+        assertTrue(result.getResponse().getContentAsString().length() == 31163);
     }
 
     /**

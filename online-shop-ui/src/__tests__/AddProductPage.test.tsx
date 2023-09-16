@@ -9,6 +9,7 @@ import * as CategoryRequest from "../app/api/CategoryRequest";
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Store } from "redux";
+import "../app/utils/mockJsdom";
 
 describe("Add Product Page Tests", () => {
     const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } } };

@@ -30,6 +30,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -101,7 +103,10 @@ public class Initializer implements CommandLineRunner {
         Role userRole = roleRepository.findByName("USER").get();
         Role sellerRole = roleRepository.findByName("SELLER").get();
 
+        byte[] photo = Files.readAllBytes(Path.of("online-shop-server/src/main/resources/photos/photo.jpg"));
+
         User user = new User();
+        user.setPhoto(photo);
         user.setId(1L);
         user.setUsername("user");
         user.setPassword(passwordEncoder.encode("user"));

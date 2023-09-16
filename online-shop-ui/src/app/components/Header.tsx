@@ -11,13 +11,27 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useAppSelector } from '../hooks';
+import { getUserPhoto } from '../api/UserRequest';
 
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const roles = useAppSelector(state => state.roles);
+    const username = useAppSelector(state => state.username.sub);
+
+    const [photo, setPhoto] = React.useState("");
+
     const navigate = useNavigate();
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+    React.useEffect(() => {
+        const getUserPhotoRequest = async () => {
+            const photoBlob = await getUserPhoto(username);
+            setPhoto(URL.createObjectURL(photoBlob));
+        }
+
+        getUserPhotoRequest();
+    }, []);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -33,6 +47,10 @@ const Header = () => {
 
     const handleAddProduct = () => {
         navigate("/product/add");
+    }
+
+    const handleProfile = () => {
+        navigate("/profile");
     }
 
     return (
@@ -82,7 +100,7 @@ const Header = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="User" />
+                                <Avatar src={photo} />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -101,7 +119,7 @@ const Header = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={() => { }}>Profile</MenuItem>
+                            <MenuItem onClick={handleProfile}>Profile</MenuItem>
 
                             {// @ts-ignore 
                                 roles.roles.roles[0].name == "USER" ? <MenuItem onClick={handleMyCart}>My Cart</MenuItem> : null}

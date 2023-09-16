@@ -7,6 +7,7 @@ import MyProductsPage from "../app/components/pages/products/MyProductsPage";
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Store } from "redux";
+import "../app/utils/mockJsdom";
 
 describe("Products Container Tests", () => {
     const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } } };

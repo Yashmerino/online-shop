@@ -27,6 +27,7 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Snackbar, Alert } from '@mui/material';
 
 import Copyright from '../../footer/Copyright';
 import UserInputFields from './UserInputFields';
@@ -42,6 +43,7 @@ import { updateRoles } from '../../../slices/rolesSlice';
 
 const LoginPage = () => {
   const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
+  const [notFound, setNotFound] = React.useState(false);
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
@@ -64,12 +66,24 @@ const LoginPage = () => {
     } else {
       if (response.fieldErrors) {
         setInputErrors(response.fieldErrors);
+      } else if (response.status == 404) {
+        setNotFound(true);
       }
     }
   };
 
+  const handleAlertClick = () => {
+    setNotFound(false);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
+      {notFound &&
+        <Snackbar open={notFound} autoHideDuration={2000} onClose={handleAlertClick}>
+          <Alert onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
+            The user doesn't exist!
+          </Alert>
+        </Snackbar>}
       <Grid container>
         <Grid item>
           <UserInputFields title="Sign In" buttonText="Sign In" handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
