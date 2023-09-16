@@ -30,16 +30,9 @@ package com.yashmerino.online.shop.security;
 public class SecurityConstants {
 
     /**
-     * Private constructor to now allow instantiation.
-     */
-    private SecurityConstants() {
-
-    }
-
-    /**
      * Time after which JWT token expires.
      */
-    public static final long JWT_EXPIRATION = 70000;
+    public static final long JWT_EXPIRATION = 700000;
 
     /**
      * JWT Secret.
@@ -55,4 +48,11 @@ public class SecurityConstants {
      * Auth header.
      */
     public static final String AUTH_HEADER = "Authorization";
+
+    /**
+     * Private constructor to not allow instantiation.
+     */
+    private SecurityConstants() {
+
+    }
 }

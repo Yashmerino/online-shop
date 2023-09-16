@@ -159,7 +159,7 @@ public class UserController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PutMapping(path = "/{username}")
-    public ResponseEntity<SuccessDTO> updateUser(@PathVariable String username, @Parameter(description = "User's updated information.") @RequestBody UserDTO userDTO) {
+    public ResponseEntity<SuccessDTO> updateUser(@PathVariable String username, @Parameter(description = "User's updated information.") @Validated @RequestBody UserDTO userDTO) {
         userService.updateUser(username, userDTO);
 
         SuccessDTO successDTO = new SuccessDTO();

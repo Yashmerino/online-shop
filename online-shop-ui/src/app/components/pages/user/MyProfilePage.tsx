@@ -30,14 +30,18 @@ import { Box } from '@mui/material';
 import { Button } from '@mui/material';
 import { Input } from '@mui/material';
 import { InputError } from '../../../utils/InputErrorUtils';
+import { isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
+import { getFieldInputErrorMessage } from '../../../utils/InputErrorUtils';
+import InputFields from '../../../utils/InputFields';
 import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
+import { TextField } from '@mui/material';
 
 import Copyright from '../../footer/Copyright';
 import Header from '../../Header';
 
 import { useAppSelector } from '../../../hooks';
-import { getUserPhoto, setUserPhoto } from '../../../api/UserRequest';
+import { getUserPhoto, setUserPhoto, updateUser } from '../../../api/UserRequest';
 
 const MyProfilePage = () => {
     const jwt = useAppSelector(state => state.jwt.token);
@@ -45,6 +49,8 @@ const MyProfilePage = () => {
 
     const [photo, setPhoto] = React.useState("");
     const [file, setFile] = React.useState<File | null>(null);
+
+    const [email, setEmail] = React.useState("");
 
     const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
     const [isSuccess, setSuccess] = React.useState(false);
@@ -73,6 +79,19 @@ const MyProfilePage = () => {
         setSuccess(false);
     };
 
+    const handleSaveUser = async () => {
+        setSuccess(false);
+        setInputErrors([]);
+
+        const response = await updateUser(jwt, username, email);
+
+        if (response.fieldErrors) {
+            setInputErrors(response.fieldErrors);
+        } else {
+            setSuccess(true);
+        }
+    }
+
     React.useEffect(() => {
         const getUserPhotoRequest = async () => {
             const photoBlob = await getUserPhoto(username);
@@ -88,23 +107,44 @@ const MyProfilePage = () => {
             {isSuccess &&
                 <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
                     <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-                        The photo has been successfully updated!
+                        The user information has been successfully updated!
                     </Alert>
                 </Snackbar>}
             <Box className="my-profile-image-container">
-                <Paper sx={{ border: 0, boxShadow: "none" }}>
+                <Paper sx={{ border: 0, boxShadow: "none", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                     <img width="196" height="196" className="user-image" src={photo} />
                     <Box className="my-profile-image-information-container">
                         <Input id='file' type='file' onChange={handleFileChange}></Input>
-                        <Button variant="contained" sx={{ width: "82.5%" }} onClick={handleSavePhoto}>
+                        <Button variant="contained" sx={{ marginRight: "auto" }} onClick={handleSavePhoto}>
                             Save
                         </Button>
                     </Box>
                 </Paper>
                 <Typography variant="h4">{username}</Typography>
             </Box>
+            <Box className="my-profile-user-information-container">
+                <TextField
+                    error={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors)}
+                    helperText={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors) ? getFieldInputErrorMessage(InputFields.EMAIL, inputErrors) : null}
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="email"
+                    label="Email"
+                    type="email"
+                    id="email"
+                    data-testid="email"
+                    autoComplete="current-email"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setEmail(event.target.value);
+                    }}
+                />
+                <Button sx={{ marginLeft: "auto" }} variant="contained" onClick={handleSaveUser}>
+                    Save
+                </Button>
+            </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
-        </Container>
+        </Container >
     );
 }
 

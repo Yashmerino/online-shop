@@ -50,3 +50,17 @@ export const setUserPhoto = async (token: string, username: string, photo: File 
 
     return response.json();
 }
+
+export const updateUser = async (token: string, username: string, email: string) => {
+    const userDTO = {
+        email
+    };
+
+    const response = await fetch(`${API_BASE_URL}/api/user/${username}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(userDTO),
+    });
+
+    return response.json();
+}
