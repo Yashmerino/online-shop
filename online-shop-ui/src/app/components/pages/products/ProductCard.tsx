@@ -104,7 +104,9 @@ const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProp
           roles.roles.roles[0].name == "USER" ? <Button size="small" color="primary" onClick={handleAddProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/} Add To Cart</Button> : null
         }
         {shouldBeAbleToDelete && <Button variant="contained" onClick={handleDeleteProduct} data-testid={"delete-button-" + id}>Delete</Button>}
-        <QuantityInput id={`quantity-input-${id}`} defaultValue={1} />
+        {// @ts-ignore 
+          roles.roles.roles[0].name == "USER" ? <QuantityInput id={`quantity-input-${id}`} defaultValue={1} /> : null
+        }
       </CardActions>
       {isAdded &&
         <Snackbar open={isAdded} autoHideDuration={2000} onClose={handleAlertClick}>
