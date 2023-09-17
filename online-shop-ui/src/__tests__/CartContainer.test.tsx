@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import CartContainer from "../app/components/cart/CartContainer";
 import * as CartItemsRequest from "../app/api/CartItemsRequest";
@@ -118,6 +118,24 @@ describe("Cart Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
+            const incrementButton = screen.getByTestId("AddIcon");
+            const decrementButton = screen.getByTestId("RemoveIcon");
+
+            let quantity = document.getElementById("quantity-input-1");
+            expect(quantity).toBe(1);
+
+            fireEvent.click(incrementButton);
+            quantity = document.getElementById("quantity-input-1");
+            expect(quantity).toBe(2);
+
+            fireEvent.click(decrementButton);
+            quantity = document.getElementById("quantity-input-1");
+            expect(quantity).toBe(1);
+
+            fireEvent.click(decrementButton);
+            quantity = document.getElementById("quantity-input-1");
+            expect(quantity).toBe(1);
+
             const saveButton = screen.getByTestId("save-button-1");
             saveButton.click();
 
