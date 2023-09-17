@@ -24,7 +24,7 @@
             src/env-config.ts,
             src/__tests__/*,
             src/app/api/AuthRequest.ts,
-            src/app/api/CartItemRequest.ts,
+            src/app/api/CartItemsRequest.ts,
             src/app/api/CategoryRequest.ts,
             src/app/api/ProductRequest.ts,
             src/app/api/UserRequest.ts
