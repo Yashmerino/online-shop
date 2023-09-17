@@ -18,7 +18,7 @@ describe("Products Container Tests", () => {
         store = mockStore(initialState)
 
         const getAllProductsMock = jest.spyOn(ProductRequest, 'getProducts');
-        const result = [{ "name": "Apple", "price": 2.5, "categories": [], "userId": 2 }];
+        const result = [{ id: 1, "name": "Apple", "price": 2.5, "categories": [], "userId": 2 }];
         getAllProductsMock.mockReturnValue(Promise.resolve(JSON.stringify(result)));
 
         render(
@@ -44,6 +44,9 @@ describe("Products Container Tests", () => {
 
             const addToCartButton = screen.getByText("Add To Cart");
             expect(addToCartButton).toBeInTheDocument();
+
+            const quantityInput = screen.getByTestId("quantity-input-1");
+            expect(quantityInput).toBeInTheDocument();
         })
     });
 

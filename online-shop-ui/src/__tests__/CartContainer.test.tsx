@@ -18,7 +18,7 @@ describe("Cart Container Tests", () => {
         store = mockStore(initialState)
 
         const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');
-        const result = [{ "productId": 1, "name": "Apple", "price": 2.5, "cartId": 1, "quantity": 5 }];
+        const result = [{ id: 1, "productId": 1, "name": "Apple", "price": 2.5, "cartId": 1, "quantity": 5 }];
         getCartItems.mockReturnValue(Promise.resolve(JSON.stringify(result)));
 
         render(
@@ -41,6 +41,12 @@ describe("Cart Container Tests", () => {
 
             const productPrice = screen.getByText("Price: 2.5");
             expect(productPrice).toBeInTheDocument();
+
+            const quantityInput = screen.getByTestId("quantity-input-1");
+            expect(quantityInput).toBeInTheDocument();
+
+            const saveCartItemButton = screen.getByText("Save");
+            expect(saveCartItemButton).toBeInTheDocument();
         })
     });
 
@@ -89,6 +95,33 @@ describe("Cart Container Tests", () => {
             deleteButton.click();
 
             const successAlert = screen.getByAltText("Cart item successfully deleted!");
+            expect(successAlert).toBeInTheDocument();
+        })
+    });
+
+    it("Test save cart item", () => {
+        store = mockStore(initialState)
+
+        const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');
+        const result = [{ id: 1, "productId": 1, "name": "Apple", "price": 2.5, "cartId": 1, "quantity": 5 }];
+        getCartItems.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+
+        const changeQuantity = jest.spyOn(CartItemsRequest, 'changeQuantity');
+        changeQuantity.mockReturnValue(Promise.resolve({ "status": 200, "message": "Cart item successfully updated!" }));
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <CartContainer />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        waitFor(() => { // NOSONAR: No need to await.
+            const saveButton = screen.getByTestId("save-button-1");
+            saveButton.click();
+
+            const successAlert = screen.getByAltText("Cart item successfully updated!");
             expect(successAlert).toBeInTheDocument();
         })
     });
