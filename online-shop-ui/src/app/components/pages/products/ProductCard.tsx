@@ -32,6 +32,7 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import { addProductToCart, deleteProduct } from '../../../api/ProductRequest';
 import { useAppSelector } from '../../../hooks';
+import QuantityInput from '../../QuantityInput';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -62,7 +63,8 @@ const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProp
   const handleAddProduct = async () => {
     setAdded(false);
 
-    const response = await addProductToCart(jwt.token, id, 1);
+    const quantity = (document.getElementById(`quantity-input-${id}`) as HTMLInputElement).value;
+    const response = await addProductToCart(jwt.token, id, parseInt(quantity));
 
     if (response.status == 200) {
       setAdded(true);
@@ -102,6 +104,7 @@ const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProp
           roles.roles.roles[0].name == "USER" ? <Button size="small" color="primary" onClick={handleAddProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/} Add To Cart</Button> : null
         }
         {shouldBeAbleToDelete && <Button variant="contained" onClick={handleDeleteProduct} data-testid={"delete-button-" + id}>Delete</Button>}
+        <QuantityInput id={`quantity-input-${id}`} defaultValue={1} />
       </CardActions>
       {isAdded &&
         <Snackbar open={isAdded} autoHideDuration={2000} onClose={handleAlertClick}>

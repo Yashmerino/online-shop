@@ -39,6 +39,7 @@ interface CartItem {
     productId: number,
     name: string,
     price: string,
+    quantity: number
 }
 
 const CartContainer = () => {
@@ -63,11 +64,11 @@ const CartContainer = () => {
             <Header />
             {// @ts-ignore 
                 roles.roles.roles[0].name == "USER" ?
-                <Grid container justifyContent="center" alignItems="center" columnGap={2}>
-                    {cartItems.length > 0 && cartItems.map(cartItem => {
-                        return (<CartItemCard key={cartItem.id} id={cartItem.id} title={cartItem.name} price={cartItem.price} />);
-                    })}
-                </Grid>
+                    <Grid container justifyContent="center" alignItems="center" columnGap={2}>
+                        {cartItems.length > 0 && cartItems.map(cartItem => {
+                            return (<CartItemCard key={cartItem.id} id={cartItem.id} title={cartItem.name} price={cartItem.price} quantity={cartItem.quantity} />);
+                        })}
+                    </Grid>
                     : <Typography align='center' marginTop={10}>You don't have rights to access this page.</Typography>}
             <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>

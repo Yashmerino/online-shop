@@ -41,3 +41,14 @@ export const deleteCartItem = async (token: string, id: number) => {
 
     return response.json();
 }
+
+export const changeQuantity = async (token: string, id: number, quantity: number) => {
+    const response = await fetch(`${API_BASE_URL}/api/cartItem/${id}/quantity?quantity=${quantity}`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+
+    return response.json();
+}

@@ -30,32 +30,49 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea, CardActions } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useAppSelector } from '../../hooks';
-import { deleteCartItem } from '../../api/CartItemsRequest';
+import { deleteCartItem, changeQuantity } from '../../api/CartItemsRequest';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import QuantityInput from '../QuantityInput';
 
 interface CartItemProps {
   id: number,
   title: string,
   price: string,
+  quantity: number
 }
 
-const CartItemCard = ({ id, title, price }: CartItemProps) => {
+const CartItemCard = ({ id, title, price, quantity }: CartItemProps) => {
   const [isDeleted, setDeleted] = React.useState<boolean>(false);
+  const [isSuccess, setSuccess] = React.useState<boolean>(false);
 
   const jwt = useAppSelector(state => state.jwt);
 
   const handleAlertClick = () => {
     setDeleted(false);
+    setSuccess(false);
   };
 
   const handleDeleteProduct = async () => {
     setDeleted(false);
+    setSuccess(false);
 
     const response = await deleteCartItem(jwt.token, id);
 
     if (response.status == 200) {
       setDeleted(true);
+    }
+  }
+
+  const handleSaveProduct = async () => {
+    setDeleted(false);
+    setSuccess(false);
+
+    const updatedQuantity = (document.getElementById(`quantity-input-${id}`) as HTMLInputElement).value;
+    const response = await changeQuantity(jwt.token, id, parseInt(updatedQuantity));
+
+    if (response.status == 200) {
+      setSuccess(true);
     }
   }
 
@@ -79,11 +96,19 @@ const CartItemCard = ({ id, title, price }: CartItemProps) => {
       </CardActionArea>
       <CardActions >
         <Button variant="contained" onClick={handleDeleteProduct} data-testid={"delete-button-" + id}>Delete</Button>
+        <QuantityInput id={`quantity-input-${id}`} defaultValue={quantity} />
+        <Button variant="contained" onClick={handleSaveProduct} data-testid={"save-button-" + id}>Save</Button>
       </CardActions>
       {isDeleted &&
         <Snackbar open={isDeleted} autoHideDuration={2000} onClose={handleAlertClick}>
           <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
             The cart item has been deleted successfully!
+          </Alert>
+        </Snackbar>}
+      {isSuccess &&
+        <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
+          <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+            The cart item has been updated successfully!
           </Alert>
         </Snackbar>}
     </Card>
