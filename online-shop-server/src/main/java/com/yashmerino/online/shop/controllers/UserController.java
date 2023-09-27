@@ -109,7 +109,7 @@ public class UserController {
                     content = @Content),
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
-    @PostMapping(path = "/{username}/photo")
+    @PostMapping(path = "/{username}/photo", consumes = "multipart/form-data")
     public ResponseEntity<SuccessDTO> setUserPhoto(@PathVariable String username, @Parameter(description = "User's photo.", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart("photo") MultipartFile photo) {
         userService.updatePhoto(username, photo);
 

@@ -124,7 +124,7 @@ public class UserControllerTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    @WithMockUser(username = "user", authorities = {"SELLER"})
+    @WithMockUser(username = "user", authorities = {"ERROR"})
     void setUserPhotoWrongRoleTest() throws Exception {
         Path photoPath = Path.of("src/test/resources/photos/photo.jpg");
 
@@ -137,6 +137,29 @@ public class UserControllerTest {
         );
 
         mvc.perform(multipart("/api/user/user/photo").file(photo)).andExpect(status().isForbidden()).andReturn();
+    }
+
+    /**
+     * Tests set user's photo with seller role.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void setUserPhotoAsSellerTest() throws Exception {
+        Path photoPath = Path.of("src/test/resources/photos/photo.jpg");
+
+        MockMultipartFile photo
+                = new MockMultipartFile(
+                "photo",
+                "photo.jpg",
+                MediaType.MULTIPART_FORM_DATA_VALUE,
+                Files.readAllBytes(photoPath)
+        );
+
+        MvcResult result = mvc.perform(multipart("/api/user/seller/photo").file(photo)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"User photo was successfully updated.\"}"));
     }
 
     /**
@@ -169,6 +192,18 @@ public class UserControllerTest {
      */
     @Test
     void getUserPhotoTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/user/user/photo")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().length() == 31163);
+    }
+
+    /**
+     * Tests get seller's photo.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void getUserPhotoWithSellerRoleTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/user/user/photo")).andExpect(status().isOk()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().length() == 31163);
@@ -209,13 +244,30 @@ public class UserControllerTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    @WithMockUser(username = "user", authorities = {"SELLER"})
+    @WithMockUser(username = "user", authorities = {"ERROR"})
     void updateUserWrongRoleTest() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail("new@mail.com");
 
         mvc.perform(put("/api/user/user").content(objectMapper.writeValueAsString(userDTO)).contentType(
                 APPLICATION_JSON)).andExpect(status().isForbidden()).andReturn();
+    }
+
+    /**
+     * Tests update user information as seller.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void updateUserWithSellerRoleTest() throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("new@mail.com");
+
+        MvcResult result = mvc.perform(put("/api/user/seller").content(objectMapper.writeValueAsString(userDTO)).contentType(
+                APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"User information was successfully updated.\"}"));
     }
 
     /**
