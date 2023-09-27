@@ -38,7 +38,7 @@ import Chip from '@mui/material/Chip';
 import { InputError } from '../../../utils/InputErrorUtils';
 import { getFieldInputErrorMessage, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import InputFields from '../../../utils/InputFields';
-import { Paper, Input } from '@mui/material';
+import { Paper, Input, Snackbar } from '@mui/material';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
@@ -82,6 +82,10 @@ const AddProductPage = () => {
 
     const [photo, setPhoto] = React.useState("");
     const [file, setFile] = React.useState<File | null>(null);
+
+    const handleAlertClick = () => {
+        setSuccess(false);
+    };
 
     React.useEffect(() => {
         const token = jwt.token;
@@ -165,12 +169,17 @@ const AddProductPage = () => {
                         <Stack
                             alignItems="center"
                             justifyContent="center">
-                            {isSuccess && <Alert id="alert-success" data-testid="alert-success" severity='success' sx={{ width: '100%', marginBottom: '5%' }}>Product added successfully!</Alert>}
+                            {isSuccess &&
+                                <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
+                                    <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+                                        The product has been added successfully!
+                                    </Alert>
+                                </Snackbar>}
                             <Box className="my-profile-image-container">
                                 <Paper sx={{ border: 0, boxShadow: "none", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                                    <img width="196" height="196" className="user-image" src={photo} />
+                                    <img width="196" height="196" className="user-image" src={photo} data-testid="photo" />
                                     <Box className="my-profile-image-information-container">
-                                        <Input id='file' type='file' onChange={handleFileChange}></Input>
+                                        <Input id='file' type='file' onChange={handleFileChange} data-testid="photo-selector"></Input>
                                     </Box>
                                 </Paper>
                             </Box>

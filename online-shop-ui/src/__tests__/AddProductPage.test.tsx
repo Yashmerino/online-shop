@@ -44,6 +44,12 @@ describe("Add Product Page Tests", () => {
 
         const categoriesInput = screen.getByTestId("categories-field");
         expect(categoriesInput).toBeInTheDocument();
+        
+        const photo = screen.getByTestId("photo");
+        expect(photo).toBeInTheDocument();
+
+        const photoSelector = screen.getByTestId("photo-selector");
+        expect(photoSelector).toBeInTheDocument();
 
         const header = screen.getByTestId("header");
         expect(header).toBeInTheDocument();
@@ -56,7 +62,7 @@ describe("Add Product Page Tests", () => {
         await waitFor(() => {
             const alertSuccess = screen.getByTestId("alert-success");
             expect(alertSuccess).toBeInTheDocument();
-            expect(alertSuccess).toHaveTextContent("Product added successfully!");
+            expect(alertSuccess).toHaveTextContent("The product has been added successfully!");
         });
     });
 
