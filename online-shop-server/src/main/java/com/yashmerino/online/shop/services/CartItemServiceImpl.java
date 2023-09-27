@@ -32,6 +32,9 @@ import com.yashmerino.online.shop.repositories.CartItemRepository;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -76,6 +79,13 @@ public class CartItemServiceImpl implements CartItemService {
         if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
 
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String currentUserUsername = auth.getName();
+
+            if (!cartItem.getCart().getUser().getUsername().equals(currentUserUsername)) {
+                throw new AccessDeniedException("Access denied.");
+            }
+
             Product product = cartItem.getProduct();
             product.deleteCartItem(cartItem);
         } else {
@@ -98,6 +108,13 @@ public class CartItemServiceImpl implements CartItemService {
         if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
 
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String currentUserUsername = auth.getName();
+
+            if (!cartItem.getCart().getUser().getUsername().equals(currentUserUsername)) {
+                throw new AccessDeniedException("Access denied.");
+            }
+
             cartItem.setQuantity(quantity);
             cartItemRepository.save(cartItem);
         } else {
@@ -117,6 +134,14 @@ public class CartItemServiceImpl implements CartItemService {
 
         if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String currentUserUsername = auth.getName();
+
+            if (!cartItem.getCart().getUser().getUsername().equals(currentUserUsername)) {
+                throw new AccessDeniedException("Access denied.");
+            }
+
             return cartItem;
         } else {
             throw new EntityNotFoundException("Cart Item couldn't be found!");
@@ -136,6 +161,13 @@ public class CartItemServiceImpl implements CartItemService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             Cart cart = user.getCart();
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String currentUserUsername = auth.getName();
+
+            if (!user.getUsername().equals(currentUserUsername)) {
+                throw new AccessDeniedException("Access denied.");
+            }
 
             Set<CartItem> cartItemsSet = cart.getItems();
             return cartItemsSet;

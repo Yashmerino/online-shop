@@ -67,6 +67,19 @@ class CartItemControllerTest {
     }
 
     /**
+     * Test get cart item with wrong user.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "anotherUser", authorities = {"USER"})
+    void getCartItemWrongUserTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/cartItem/1")).andExpect(status().isForbidden()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
+    }
+
+    /**
      * Test delete cart item.
      *
      * @throws Exception if something goes wrong.
@@ -77,6 +90,19 @@ class CartItemControllerTest {
         MvcResult result = mvc.perform(delete("/api/cartItem/1")).andExpect(status().isOk()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Cart item successfully deleted!\"}"));
+    }
+
+    /**
+     * Test delete cart item as wrong user.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "anotherUser", authorities = {"USER"})
+    void deleteCartItemWrongUserTest() throws Exception {
+        MvcResult result = mvc.perform(delete("/api/cartItem/1")).andExpect(status().isForbidden()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
     }
 
     /**
@@ -97,6 +123,19 @@ class CartItemControllerTest {
     }
 
     /**
+     * Test change item's quantity as wrong user.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "anotherUser", authorities = {"USER"})
+    void changeQuantityWrongUserTest() throws Exception {
+        MvcResult result = mvc.perform(post("/api/cartItem/1/quantity?quantity=5")).andExpect(status().isForbidden()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
+    }
+
+    /**
      * Test get cart items.
      *
      * @throws Exception if something goes wrong.
@@ -107,6 +146,19 @@ class CartItemControllerTest {
         MvcResult result = mvc.perform(get("/api/cartItem?username=user")).andExpect(status().isOk()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("[{\"id\":1,\"productId\":1,\"name\":\"Phone\",\"price\":5.0,\"cartId\":1,\"quantity\":1}]"));
+    }
+
+    /**
+     * Test get cart items with wrong user.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "anotherUser", authorities = {"USER"})
+    void getCartItemsWrongUserTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/cartItem?username=user")).andExpect(status().isForbidden()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
     }
 
     /**

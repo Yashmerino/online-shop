@@ -370,8 +370,8 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "seller", authorities = {"SELLER"})
     void getAllSellerProductsNonexistentUsernameTest() throws Exception {
-        MvcResult result = mvc.perform(get("/api/product/seller/ERROR")).andExpect(status().isBadRequest()).andReturn();
+        MvcResult result = mvc.perform(get("/api/product/seller/ERROR")).andExpect(status().isNotFound()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("\"status\":400,\"error\":\"Bad credentials.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"User not found.\"}"));
     }
 }
