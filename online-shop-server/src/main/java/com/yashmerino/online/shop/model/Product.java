@@ -27,6 +27,7 @@ package com.yashmerino.online.shop.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yashmerino.online.shop.model.base.BaseEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -77,6 +78,14 @@ public class Product extends BaseEntity {
     @JsonManagedReference
     @OneToMany(orphanRemoval = true)
     private Set<CartItem> cartItems = new HashSet<>();
+
+    /**
+     * Product's photo.
+     */
+    @Lob
+    @Column(name = "photo", length = 100000)
+    @Nullable
+    private byte[] photo;
 
     /**
      * Links a cart item to the product.

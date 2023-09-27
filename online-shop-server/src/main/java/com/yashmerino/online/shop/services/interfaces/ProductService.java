@@ -26,9 +26,9 @@ package com.yashmerino.online.shop.services.interfaces;
 
 import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Interface for product service.
@@ -82,7 +82,16 @@ public interface ProductService {
 
     /**
      * Adds a new product.
+     *
      * @param productDTO is the product DTO.
      */
     void addProduct(final ProductDTO productDTO);
+
+    /**
+     * Updates product photo.
+     *
+     * @param id    is the product's id.
+     * @param photo is the product's photo.
+     */
+    void updatePhoto(Long id, MultipartFile photo);
 }

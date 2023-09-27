@@ -57,6 +57,11 @@ public class SwaggerMessages {
     public static final String USER_DOES_NOT_EXIST = "User doesn't exist.";
 
     /**
+     * Message when a product does not exist.
+     */
+    public static final String PRODUCT_DOES_NOT_EXIST = "Product doesn't exist.";
+
+    /**
      * Message when a problem occurred on the server.
      */
     public static final String INTERNAL_SERVER_ERROR = "Internal Server Error.";
@@ -137,9 +142,19 @@ public class SwaggerMessages {
     public static final String USER_PHOTO_IS_UPDATED = "User photo was successfully updated.";
 
     /**
+     * Message when product photo is successfully updated.
+     */
+    public static final String PRODUCT_PHOTO_IS_UPDATED = "Product photo was successfully updated.";
+
+    /**
      * Message when user photo is successfully returned.
      */
     public static final String USER_PHOTO_RETURNED = "User photo was successfully returned.";
+
+    /**
+     * Message when product photo is successfully returned.
+     */
+    public static final String PRODUCT_PHOTO_RETURNED = "Product photo was successfully returned.";
 
     /**
      * Message when user information is successfully updated.

@@ -35,6 +35,7 @@ import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
 import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -47,6 +48,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -272,5 +274,54 @@ public class ProductController {
         }
 
         return new ResponseEntity<>(productsDTO, HttpStatus.OK);
+    }
+
+    /**
+     * Sets product's photo.
+     *
+     * @param id    is the product's id.
+     * @param photo is the product's photo.
+     * @return <code>ResponseEntity</code>
+     */
+    @Operation(summary = "Updates product photo.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.PRODUCT_PHOTO_IS_UPDATED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessDTO.class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.NOT_FOUND, description = SwaggerMessages.PRODUCT_DOES_NOT_EXIST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @PostMapping(path = "/{id}/photo", consumes = "multipart/form-data")
+    public ResponseEntity<SuccessDTO> setProductPhoto(@PathVariable Long id, @Parameter(description = "Product's photo.", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart("photo") MultipartFile photo) {
+        productService.updatePhoto(id, photo);
+
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("Product photo was successfully updated.");
+
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
+    }
+
+    /**
+     * Returns product's photo as array of bytes.
+     *
+     * @param id is the product's id.
+     * @return <code>ResponseEntity</code>
+     */
+    @Operation(summary = "Returns product photo.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.PRODUCT_PHOTO_RETURNED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = byte[].class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.NOT_FOUND, description = SwaggerMessages.PRODUCT_DOES_NOT_EXIST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @GetMapping(path = "/{id}/photo")
+    public ResponseEntity<byte[]> getProductPhoto(@PathVariable Long id) {
+        byte[] photo = productService.getProduct(id).getPhoto();
+
+        return new ResponseEntity<>(photo, HttpStatus.OK);
     }
 }

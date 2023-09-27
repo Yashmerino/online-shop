@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.services;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.exceptions.CouldntUploadPhotoException;
 import com.yashmerino.online.shop.model.Cart;
 import com.yashmerino.online.shop.model.CartItem;
 import com.yashmerino.online.shop.model.Product;
@@ -31,15 +32,18 @@ import com.yashmerino.online.shop.model.User;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
 import com.yashmerino.online.shop.repositories.CartItemRepository;
 import com.yashmerino.online.shop.repositories.ProductRepository;
-import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
+import com.yashmerino.online.shop.services.interfaces.UserService;
 import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,9 +59,9 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     /**
-     * User repository.
+     * User service.
      */
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     /**
      * Cart item repository.
@@ -68,12 +72,12 @@ public class ProductServiceImpl implements ProductService {
      * Constructor to inject dependencies.
      *
      * @param productRepository  is the product repository.
-     * @param userRepository     is the user repository.
+     * @param userService        is the user service.
      * @param cartItemRepository is the cart item repository.
      */
-    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository, CartItemRepository cartItemRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, UserService userService, CartItemRepository cartItemRepository) {
         this.productRepository = productRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.cartItemRepository = cartItemRepository;
     }
 
@@ -136,16 +140,10 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<Product> getSellerProducts(String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
+        User user = userService.getByUsername(username);
 
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            Long userId = user.getId();
-
-            return productRepository.getProductsBySellerId(userId);
-        } else {
-            throw new BadCredentialsException("Bad credentials.");
-        }
+        Long userId = user.getId();
+        return productRepository.getProductsBySellerId(userId);
     }
 
     /**
@@ -159,26 +157,20 @@ public class ProductServiceImpl implements ProductService {
         Product product = this.getProduct(id);
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<User> currentUserOptional = userRepository.findByUsername(userDetails.getUsername());
+        User user = userService.getByUsername(userDetails.getUsername());
 
-        if (currentUserOptional.isPresent()) {
-            User user = currentUserOptional.get();
-            Cart cart = user.getCart();
+        Cart cart = user.getCart();
 
-            CartItem cartItem = new CartItem();
-            cartItem.setCart(cart);
-            cartItem.setProduct(product);
-            cartItem.setQuantity(quantity);
-            cartItem.setName(product.getName());
-            cartItem.setPrice(product.getPrice());
-            cartItemRepository.save(cartItem);
+        CartItem cartItem = new CartItem();
+        cartItem.setCart(cart);
+        cartItem.setProduct(product);
+        cartItem.setQuantity(quantity);
+        cartItem.setName(product.getName());
+        cartItem.setPrice(product.getPrice());
+        cartItemRepository.save(cartItem);
 
-            product.linkCartItem(cartItem);
-            productRepository.save(product);
-
-        } else {
-            throw new EntityNotFoundException("User couldn't be found!");
-        }
+        product.linkCartItem(cartItem);
+        productRepository.save(product);
     }
 
     /**
@@ -191,14 +183,36 @@ public class ProductServiceImpl implements ProductService {
         Product product = RequestBodyToEntityConverter.convertToProduct(productDTO);
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<User> userOptional = userRepository.findByUsername(userDetails.getUsername());
 
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            product.setUser(user);
-            productRepository.save(product);
-        } else {
-            throw new EntityNotFoundException("User couldn't be found!");
+        User user = userService.getByUsername(userDetails.getUsername());
+        product.setUser(user);
+        productRepository.save(product);
+    }
+
+    /**
+     * Updates product photo.
+     *
+     * @param id    is the product's id.
+     * @param photo is the product's photo.
+     */
+    @Override
+    public void updatePhoto(Long id, MultipartFile photo) {
+        Product product = this.getProduct(id);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        User user = userService.getByUsername(username);
+
+        if(product.getUser().getId().equals(user.getId())){
+            throw new AccessDeniedException("Access denied.");
         }
+
+        try {
+            product.setPhoto(photo.getBytes());
+        } catch (IOException e) {
+            throw new CouldntUploadPhotoException("Photo couldn't be upload.");
+        }
+
+        productRepository.save(product);
     }
 }
