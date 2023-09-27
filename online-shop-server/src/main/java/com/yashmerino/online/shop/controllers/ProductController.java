@@ -26,6 +26,7 @@ package com.yashmerino.online.shop.controllers;
 import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
+import com.yashmerino.online.shop.model.dto.SuccessWithIdDTO;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import com.yashmerino.online.shop.services.interfaces.CartService;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
@@ -118,12 +119,13 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PostMapping
-    public ResponseEntity<SuccessDTO> addProduct(@Validated @RequestBody ProductDTO productDTO) {
-        productService.addProduct(productDTO);
+    public ResponseEntity<SuccessWithIdDTO> addProduct(@Validated @RequestBody ProductDTO productDTO) {
+        Long productId = productService.addProduct(productDTO);
 
-        SuccessDTO successDTO = new SuccessDTO();
+        SuccessWithIdDTO successDTO = new SuccessWithIdDTO();
         successDTO.setStatus(200);
         successDTO.setMessage("Product successfully added!");
+        successDTO.setId(productId);
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }

@@ -103,10 +103,10 @@ public class Initializer implements CommandLineRunner {
         Role userRole = roleRepository.findByName("USER").get();
         Role sellerRole = roleRepository.findByName("SELLER").get();
 
-        byte[] photo = Files.readAllBytes(Path.of("online-shop-server/src/main/resources/photos/photo.jpg"));
+        byte[] userPhoto = Files.readAllBytes(Path.of("online-shop-server/src/main/resources/photos/photo.jpg"));
 
         User user = new User();
-        user.setPhoto(photo);
+        user.setPhoto(userPhoto);
         user.setId(1L);
         user.setUsername("user");
         user.setPassword(passwordEncoder.encode("user"));
@@ -130,8 +130,11 @@ public class Initializer implements CommandLineRunner {
         seller.setRoles(new HashSet<>(Arrays.asList(sellerRole)));
         userRepository.save(seller);
 
+        byte[] applePhoto = Files.readAllBytes(Path.of("online-shop-server/src/main/resources/photos/apple.jpg"));
+
         Product product = new Product();
         product.setId(1L);
+        product.setPhoto(applePhoto);
         product.setName("Apple");
         product.setPrice(2.50);
         product.setUser(seller);

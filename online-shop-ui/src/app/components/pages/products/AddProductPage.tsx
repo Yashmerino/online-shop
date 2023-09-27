@@ -28,7 +28,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import { addProduct } from '../../../api/ProductRequest';
+import { addProduct, setProductPhoto } from '../../../api/ProductRequest';
 import Alert from '@mui/material/Alert';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
@@ -38,6 +38,7 @@ import Chip from '@mui/material/Chip';
 import { InputError } from '../../../utils/InputErrorUtils';
 import { getFieldInputErrorMessage, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import InputFields from '../../../utils/InputFields';
+import { Paper, Input } from '@mui/material';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
@@ -79,6 +80,9 @@ const AddProductPage = () => {
     const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
     const [isSuccess, setSuccess] = React.useState(false);
 
+    const [photo, setPhoto] = React.useState("");
+    const [file, setFile] = React.useState<File | null>(null);
+
     React.useEffect(() => {
         const token = jwt.token;
 
@@ -115,6 +119,10 @@ const AddProductPage = () => {
         if (response.fieldErrors) {
             setInputErrors(response.fieldErrors);
         } else {
+            if (file != null) {
+                await setProductPhoto(jwt.token, response.id, file);
+            }
+
             setSuccess(true);
         }
     }
@@ -122,6 +130,18 @@ const AddProductPage = () => {
     const handleCategoriesChange = (event: SelectChangeEvent<typeof categories>) => {
         const { target: { value }, } = event;
         setCategories(typeof value === 'string' ? value.split(',') : value);
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+
+            let reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0] as Blob);
+            reader.onload = function () {
+                setPhoto(reader.result as string);
+            };
+        }
     };
 
     return (
@@ -146,6 +166,14 @@ const AddProductPage = () => {
                             alignItems="center"
                             justifyContent="center">
                             {isSuccess && <Alert id="alert-success" data-testid="alert-success" severity='success' sx={{ width: '100%', marginBottom: '5%' }}>Product added successfully!</Alert>}
+                            <Box className="my-profile-image-container">
+                                <Paper sx={{ border: 0, boxShadow: "none", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                                    <img width="196" height="196" className="user-image" src={photo} />
+                                    <Box className="my-profile-image-information-container">
+                                        <Input id='file' type='file' onChange={handleFileChange}></Input>
+                                    </Box>
+                                </Paper>
+                            </Box>
                             <TextField
                                 error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}
                                 helperText={isFieldPresentInInputErrors(InputFields.NAME, inputErrors) ? getFieldInputErrorMessage(InputFields.NAME, inputErrors) : null}

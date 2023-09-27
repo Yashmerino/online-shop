@@ -84,8 +84,9 @@ public interface ProductService {
      * Adds a new product.
      *
      * @param productDTO is the product DTO.
+     * @return the product's id.
      */
-    void addProduct(final ProductDTO productDTO);
+    Long addProduct(final ProductDTO productDTO);
 
     /**
      * Updates product photo.

@@ -177,9 +177,10 @@ public class ProductServiceImpl implements ProductService {
      * Adds a new product.
      *
      * @param productDTO is the product DTO.
+     * @return the product's id.
      */
     @Override
-    public void addProduct(ProductDTO productDTO) {
+    public Long addProduct(ProductDTO productDTO) {
         Product product = RequestBodyToEntityConverter.convertToProduct(productDTO);
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -187,6 +188,8 @@ public class ProductServiceImpl implements ProductService {
         User user = userService.getByUsername(userDetails.getUsername());
         product.setUser(user);
         productRepository.save(product);
+
+        return product.getId();
     }
 
     /**
@@ -203,7 +206,7 @@ public class ProductServiceImpl implements ProductService {
         String username = auth.getName();
         User user = userService.getByUsername(username);
 
-        if(!product.getUser().getUsername().equals(user.getUsername())){
+        if (!product.getUser().getUsername().equals(user.getUsername())) {
             throw new AccessDeniedException("Access denied.");
         }
 

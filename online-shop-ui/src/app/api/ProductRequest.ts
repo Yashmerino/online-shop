@@ -88,3 +88,22 @@ export const deleteProduct = async (token: string, id: number) => {
 
     return response.json();
 }
+
+export const getProductPhoto = async (id: number) => {
+    const response = await fetch(`${API_BASE_URL}/api/product/${id}/photo`, {})
+
+    return response.blob();
+}
+
+export const setProductPhoto = async (token: string, id: number, photo: File | null) => {
+    const formData = new FormData();
+    formData.append("photo", photo ?? "");
+
+    const response = await fetch(`${API_BASE_URL}/api/product/${id}/photo`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
+    })
+
+    return response.json();
+}

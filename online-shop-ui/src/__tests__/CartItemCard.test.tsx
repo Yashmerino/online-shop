@@ -20,7 +20,7 @@ describe("Cart Item Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <CartItemCard id={1} price="2.5" quantity={1} title="Apple" key={1} />
+                    <CartItemCard id={1} productId={1} price="2.5" quantity={1} title="Apple" key={1} />
                 </MemoryRouter>
             </Provider>
         );
@@ -49,7 +49,7 @@ describe("Cart Item Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <CartItemCard id={1} price="2.5" quantity={1} title="Apple" key={1} />
+                    <CartItemCard id={1} productId={1} price="2.5" quantity={1} title="Apple" key={1} />
                 </MemoryRouter>
             </Provider>
         );
@@ -72,7 +72,7 @@ describe("Cart Item Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <CartItemCard id={1} price="2.5" quantity={1} title="Apple" key={1} />
+                    <CartItemCard id={1} productId={1} price="2.5" quantity={1} title="Apple" key={1} />
                 </MemoryRouter>
             </Provider>
         );

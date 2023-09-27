@@ -66,7 +66,7 @@ const CartContainer = () => {
                 roles.roles.roles[0].name == "USER" ?
                     <Grid container justifyContent="center" alignItems="center" columnGap={2}>
                         {cartItems.length > 0 && cartItems.map(cartItem => {
-                            return (<CartItemCard key={cartItem.id} id={cartItem.id} title={cartItem.name} price={cartItem.price} quantity={cartItem.quantity} />);
+                            return (<CartItemCard key={cartItem.id} id={cartItem.id} productId={cartItem.productId} title={cartItem.name} price={cartItem.price} quantity={cartItem.quantity} />);
                         })}
                     </Grid>
                     : <Typography align='center' marginTop={10}>You don't have rights to access this page.</Typography>}

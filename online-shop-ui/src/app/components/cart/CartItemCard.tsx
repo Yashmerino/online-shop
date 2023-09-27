@@ -34,17 +34,20 @@ import { deleteCartItem, changeQuantity } from '../../api/CartItemsRequest';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import QuantityInput from '../QuantityInput';
+import { getProductPhoto } from '../../api/ProductRequest';
 
 interface CartItemProps {
   id: number,
+  productId: number,
   title: string,
   price: string,
   quantity: number
 }
 
-const CartItemCard = ({ id, title, price, quantity }: CartItemProps) => {
+const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) => {
   const [isDeleted, setDeleted] = React.useState<boolean>(false);
   const [isSuccess, setSuccess] = React.useState<boolean>(false);
+  const [photo, setPhoto] = React.useState("");
 
   const jwt = useAppSelector(state => state.jwt);
 
@@ -76,14 +79,25 @@ const CartItemCard = ({ id, title, price, quantity }: CartItemProps) => {
     }
   }
 
+  React.useEffect(() => {
+    const getProductPhotoRequest = async () => {
+      const photoBlob = await getProductPhoto(productId);
+      setPhoto(URL.createObjectURL(photoBlob));
+    }
+
+    getProductPhotoRequest();
+  }, []);
+
   return (
-    <Card sx={{ maxWidth: 400, marginTop: "5%" }}>
+    <Card sx={{ maxWidth: 400, minWidth: 320, marginTop: "5%" }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
           alt="product"
           width="320"
+          src={photo}
+          sx={{ objectFit: 'contain' }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

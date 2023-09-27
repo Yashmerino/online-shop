@@ -30,7 +30,7 @@ import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import { addProductToCart, deleteProduct } from '../../../api/ProductRequest';
+import { addProductToCart, deleteProduct, getProductPhoto } from '../../../api/ProductRequest';
 import { useAppSelector } from '../../../hooks';
 import QuantityInput from '../../QuantityInput';
 
@@ -52,6 +52,7 @@ const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProp
   const roles = useAppSelector(state => state.roles);
   const [isAdded, setAdded] = React.useState<boolean>(false);
   const [isDeleted, setDeleted] = React.useState<boolean>(false);
+  const [photo, setPhoto] = React.useState("");
 
   const jwt = useAppSelector(state => state.jwt);
 
@@ -81,14 +82,25 @@ const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProp
     }
   }
 
+  React.useEffect(() => {
+    const getProductPhotoRequest = async () => {
+      const photoBlob = await getProductPhoto(id);
+      setPhoto(URL.createObjectURL(photoBlob));
+    }
+
+    getProductPhotoRequest();
+  }, []);
+
   return (
-    <Card sx={{ maxWidth: 400, marginTop: "5%" }}>
+    <Card sx={{ maxWidth: 400, minWidth: 320, marginTop: "5%" }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
           alt="product"
           width="320"
+          src={photo}
+          sx={{ objectFit: 'contain' }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
