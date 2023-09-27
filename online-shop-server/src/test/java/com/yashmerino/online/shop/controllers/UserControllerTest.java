@@ -191,6 +191,7 @@ public class UserControllerTest {
      * @throws Exception if something goes wrong.
      */
     @Test
+    @WithMockUser(username = "user", authorities = {"USER"})
     void getUserPhotoTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/user/user/photo")).andExpect(status().isOk()).andReturn();
 
@@ -203,6 +204,7 @@ public class UserControllerTest {
      * @throws Exception if something goes wrong.
      */
     @Test
+    @WithMockUser(username = "user", authorities = {"SELLER"})
     void getUserPhotoWithSellerRoleTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/user/user/photo")).andExpect(status().isOk()).andReturn();
 

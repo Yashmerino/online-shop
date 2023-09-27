@@ -148,6 +148,7 @@ public class Initializer implements CommandLineRunner {
 
         Product product = new Product();
         product.setId(1L);
+        product.setPhoto(photo);
         product.setUser(seller);
         product.setName("Phone");
         product.setPrice(5.0);

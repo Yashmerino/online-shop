@@ -31,12 +31,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -373,5 +377,111 @@ class ProductControllerTest {
         MvcResult result = mvc.perform(get("/api/product/seller/ERROR")).andExpect(status().isNotFound()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"User not found.\"}"));
+    }
+
+    /**
+     * Tests set product's photo.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void setProductPhotoTest() throws Exception {
+        Path photoPath = Path.of("src/test/resources/photos/photo.jpg");
+
+        MockMultipartFile photo
+                = new MockMultipartFile(
+                "photo",
+                "photo.jpg",
+                MediaType.MULTIPART_FORM_DATA_VALUE,
+                Files.readAllBytes(photoPath)
+        );
+
+        MvcResult result = mvc.perform(multipart("/api/product/1/photo").file(photo)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Product photo was successfully updated.\"}"));
+    }
+
+    /**
+     * Tests set product's photo with wrong role.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"ERROR"})
+    void setProductPhotoWrongRoleTest() throws Exception {
+        Path photoPath = Path.of("src/test/resources/photos/photo.jpg");
+
+        MockMultipartFile photo
+                = new MockMultipartFile(
+                "photo",
+                "photo.jpg",
+                MediaType.MULTIPART_FORM_DATA_VALUE,
+                Files.readAllBytes(photoPath)
+        );
+
+        mvc.perform(multipart("/api/product/1/photo").file(photo)).andExpect(status().isForbidden()).andReturn();
+    }
+
+    /**
+     * Tests set product's photo with user role.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void setProductPhotoAsUserTest() throws Exception {
+        Path photoPath = Path.of("src/test/resources/photos/photo.jpg");
+
+        MockMultipartFile photo
+                = new MockMultipartFile(
+                "photo",
+                "photo.jpg",
+                MediaType.MULTIPART_FORM_DATA_VALUE,
+                Files.readAllBytes(photoPath)
+        );
+
+        MvcResult result = mvc.perform(multipart("/api/product/1/photo").file(photo)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Product photo was successfully updated.\"}"));
+    }
+
+    /**
+     * Tests get product's photo.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void getProductPhotoTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/product/1/photo")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().length() == 31163);
+    }
+
+    /**
+     * Tests get seller's photo.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "user", authorities = {"USER"})
+    void getUserPhotoWithUserRoleTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/product/1/photo")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().length() == 31163);
+    }
+
+    /**
+     * Tests get photo for non-existing product.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void getProductPhotoNonexistentProductTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/product/9999/photo")).andExpect(status().isNotFound()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"Product couldn't be found!\"}"));
     }
 }

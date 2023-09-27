@@ -203,7 +203,7 @@ public class ProductServiceImpl implements ProductService {
         String username = auth.getName();
         User user = userService.getByUsername(username);
 
-        if(product.getUser().getId().equals(user.getId())){
+        if(!product.getUser().getUsername().equals(user.getUsername())){
             throw new AccessDeniedException("Access denied.");
         }
 
