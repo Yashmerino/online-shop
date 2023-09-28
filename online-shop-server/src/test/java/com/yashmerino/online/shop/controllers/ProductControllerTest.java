@@ -484,4 +484,109 @@ class ProductControllerTest {
 
         assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"Product couldn't be found!\"}"));
     }
+
+    /**
+     * Test update product.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void updateProductTest() throws Exception {
+        MvcResult result = mvc.perform(get("/api/product/1")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]}"));
+
+        productDTO.setName("Android");
+        productDTO.setPrice(2.5);
+
+        Category digitalServicesCategory = new Category();
+        digitalServicesCategory.setId(1L);
+        digitalServicesCategory.setName("Digital Services");
+        productDTO.setCategories(new HashSet<>(Arrays.asList(digitalServicesCategory)));
+
+        result = mvc.perform(put("/api/product/1")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("Product successfully updated!"));
+
+        result = mvc.perform(get("/api/product/1")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":1,\"name\":\"Android\",\"price\":2.5,\"categories\":[{\"id\":1,\"name\":\"Digital Services\"}]}"));
+    }
+
+    /**
+     * Update product with invalid DTO.
+     *
+     * @throws Exception
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void updateProductInvalidDTOTest() throws Exception {
+        productDTO.setName("");
+        productDTO.setPrice(-5.2);
+
+        MvcResult result = mvc.perform(put("/api/product/1")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is required.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"price\",\"message\":\"Price should be greater than or equal to 0.01.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is too short.\"}"));
+
+        result = mvc.perform(get("/api/product/1")).andExpect(status().isOk()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("{\"id\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]}"));
+    }
+
+    /**
+     * Test update product with user role.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"USER"})
+    void updateProductWithUserRoleTest() throws Exception {
+        productDTO.setName("Android");
+        productDTO.setPrice(2.5);
+
+        mvc.perform(put("/api/product/1")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isForbidden()).andReturn();
+    }
+
+    /**
+     * Test update product with wrong role.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"ERROR"})
+    void updateProductWithWrongRoleTest() throws Exception {
+        productDTO.setName("Android");
+        productDTO.setPrice(2.5);
+
+        mvc.perform(put("/api/product/1")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isForbidden()).andReturn();
+    }
+
+    /**
+     * Test update product with another seller.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    @WithMockUser(username = "anotherSeller", authorities = {"SELLER"})
+    void updateProductWithWrongSellerTest() throws Exception {
+        productDTO.setName("Android");
+        productDTO.setPrice(2.5);
+
+        MvcResult result = mvc.perform(put("/api/product/1")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isForbidden()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("\"status\":403,\"error\":\"Access denied.\"}"));
+    }
 }

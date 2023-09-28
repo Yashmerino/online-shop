@@ -229,6 +229,14 @@ public class ProductServiceImpl implements ProductService {
     public void updateProduct(Long id, ProductDTO productDTO) {
         Product product = this.getProduct(id);
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserUsername = auth.getName();
+        String productSellerUsername = product.getUser().getUsername();
+
+        if (!currentUserUsername.equals(productSellerUsername)) {
+            throw new AccessDeniedException("Access denied.");
+        }
+
         product.setName(productDTO.getName());
         product.setCategories(productDTO.getCategories());
         product.setPrice(productDTO.getPrice());

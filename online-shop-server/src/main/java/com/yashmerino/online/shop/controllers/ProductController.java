@@ -348,7 +348,7 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @PutMapping("/{id}")
-    public ResponseEntity<SuccessDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<SuccessDTO> updateProduct(@PathVariable Long id, @Validated @RequestBody ProductDTO productDTO) {
         productService.updateProduct(id, productDTO);
 
         SuccessDTO successDTO = new SuccessDTO();
