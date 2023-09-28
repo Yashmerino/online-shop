@@ -95,4 +95,12 @@ public interface ProductService {
      * @param photo is the product's photo.
      */
     void updatePhoto(Long id, MultipartFile photo);
+
+    /**
+     * Updates product.
+     *
+     * @param id         is the product's id.
+     * @param productDTO is the product DTO.
+     */
+    void updateProduct(Long id, ProductDTO productDTO);
 }

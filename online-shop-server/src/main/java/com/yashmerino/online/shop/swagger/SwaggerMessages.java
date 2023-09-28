@@ -112,6 +112,11 @@ public class SwaggerMessages {
     public static final String ITEM_SUCCESSFULLY_ADDED = "Item was successfully added!";
 
     /**
+     * Message when a product was successfully updated.
+     */
+    public static final String PRODUCT_SUCCESSFULLY_UPDATED = "Product was successfully updated!";
+
+    /**
      * Message when a product was returned.
      */
     public static final String RETURN_PRODUCT = "Returns the product.";

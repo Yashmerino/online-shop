@@ -218,4 +218,21 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(product);
     }
+
+    /**
+     * Updates product.
+     *
+     * @param id         is the product's id.
+     * @param productDTO is the product DTO.
+     */
+    @Override
+    public void updateProduct(Long id, ProductDTO productDTO) {
+        Product product = this.getProduct(id);
+
+        product.setName(productDTO.getName());
+        product.setCategories(productDTO.getCategories());
+        product.setPrice(productDTO.getPrice());
+
+        productRepository.save(product);
+    }
 }

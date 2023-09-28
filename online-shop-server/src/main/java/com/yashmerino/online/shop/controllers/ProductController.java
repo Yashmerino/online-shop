@@ -326,4 +326,35 @@ public class ProductController {
 
         return new ResponseEntity<>(photo, HttpStatus.OK);
     }
+
+    /**
+     * Updates a product.
+     *
+     * @param id         is the product's id.
+     * @param productDTO is the product DTO.
+     * @return <code>ResponseEntity</code>
+     * @throws EntityNotFoundException if product couldn't be found.
+     */
+    @Operation(summary = "Updates a product.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.PRODUCT_SUCCESSFULLY_UPDATED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @PutMapping("/{id}")
+    public ResponseEntity<SuccessDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        productService.updateProduct(id, productDTO);
+
+        SuccessDTO successDTO = new SuccessDTO();
+        successDTO.setStatus(200);
+        successDTO.setMessage("Product successfully updated!");
+
+        return new ResponseEntity<>(successDTO, HttpStatus.OK);
+    }
 }
