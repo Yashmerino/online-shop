@@ -32,12 +32,14 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * Configuration class to enable swagger documentation for
  * the REST API.
  */
 @Configuration
+@Profile({"!prod && swagger"})
 public class SwaggerConfig {
 
     /**
