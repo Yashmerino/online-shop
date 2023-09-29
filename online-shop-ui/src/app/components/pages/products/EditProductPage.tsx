@@ -71,9 +71,9 @@ const AddProductPage = () => {
     const roles = useAppSelector(state => state.roles);
     const jwt = useAppSelector(state => state.jwt);
 
-    const [name, setName] = React.useState(location.state.title || "default");
-    const [price, setPrice] = React.useState(location.state.price || 0.01);
-    const [categories, setCategories] = React.useState<string[]>(location.state.categories ? location.state.categories.map((category: Category) => category.name) : []);
+    const [name, setName] = React.useState(location.state ? location.state.title : "default");
+    const [price, setPrice] = React.useState(location.state ? location.state.price : 0.01);
+    const [categories, setCategories] = React.useState<string[]>(location.state ? location.state.categories ? location.state.categories.map((category: Category) => category.name) : [] : []);
     const [fetchedCategories, setFetchedCategories] = React.useState<Category[]>([]);
 
     const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
@@ -97,7 +97,7 @@ const AddProductPage = () => {
         fetchCategories(); // NOSONAR: It should not await.
 
         const getProductPhotoRequest = async () => {
-            const photoBlob = await getProductPhoto(location.state.id);
+            const photoBlob = await getProductPhoto(location.state ? location.state.id : "1");
             setPhoto(URL.createObjectURL(photoBlob));
             setFile(photoBlob as File);
         }
@@ -126,12 +126,12 @@ const AddProductPage = () => {
             )
         })
 
-        const response = await updateProduct(jwt.token, location.state.id, name, categoriesDTO, price);
+        const response = await updateProduct(jwt.token, location.state ? location.state.id : 1, name, categoriesDTO, price);
         if (response.fieldErrors) {
             setInputErrors(response.fieldErrors);
         } else {
             if (file != null) {
-                await setProductPhoto(jwt.token, location.state.id, file);
+                await setProductPhoto(jwt.token, location.state ? location.state.id : 1, file);
             }
 
             setSuccess(true);
