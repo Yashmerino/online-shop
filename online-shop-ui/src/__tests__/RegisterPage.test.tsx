@@ -43,7 +43,7 @@ describe("Register Page Tests", () => {
         await waitFor(() => {
             const alertSuccess = screen.getByTestId("alert-success");
             expect(alertSuccess).toBeInTheDocument();
-            expect(alertSuccess).toHaveTextContent("User registered successfully!");
+            expect(alertSuccess).toHaveTextContent("The user has been registered successfully!");
         });
     });
 
@@ -83,6 +83,29 @@ describe("Register Page Tests", () => {
 
             fieldErrorMessage = document.getElementById("email-helper-text");
             expect(fieldErrorMessage).toBeInTheDocument();
+        });
+    });
+
+    it("Test register username is taken", async () => {
+        render(
+            <MemoryRouter>
+                <RegisterPage />
+            </MemoryRouter>
+        );
+
+        const loginMock = jest.spyOn(AuthRequest, 'register');
+        loginMock.mockReturnValue(Promise.resolve({
+            "timestamp": "2023-09-29 07:30:10",
+            "status": 409,
+            "error": "Username is already taken!"
+        }));
+
+        clickSubmitButton();
+
+        await waitFor(() => {
+            const alertError = screen.getByTestId("alert-error");
+            expect(alertError).toBeInTheDocument();
+            expect(alertError).toHaveTextContent("Username is already taken!");
         });
     });
 });

@@ -94,4 +94,31 @@ describe("Update Product Page Tests", () => {
             expect(alertError).toBeInTheDocument();
         });
     });
+
+    it("Test update product wrong seller", async () => {
+        store = mockStore(initialState)
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <EditProductPage />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        const productMock = jest.spyOn(ProductRequest, 'updateProduct');
+        productMock.mockReturnValue(Promise.resolve({
+            "timestamp": "2023-09-29 07:30:10",
+            "status": 409,
+            "error": "Access denied!"
+        }));
+
+        clickSubmitButton();
+
+        await waitFor(() => {
+            const alertError = screen.getByTestId("alert-error");
+            expect(alertError).toBeInTheDocument();
+            expect(alertError).toHaveTextContent("Access denied!");
+        });
+    });
 });

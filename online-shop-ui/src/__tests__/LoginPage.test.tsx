@@ -114,7 +114,7 @@ describe("Login Page Tests", () => {
         clickSubmitButton();
 
         await waitFor(async () => {
-            let errorAlert = screen.getByText("The user doesn't exist!");
+            let errorAlert = screen.getByText("Username doesn't exist!");
             expect(errorAlert).toBeInTheDocument();
         });
     });
