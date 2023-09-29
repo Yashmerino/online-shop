@@ -29,6 +29,10 @@ export const getProducts = async (token: string) => {
         headers: { Authorization: `Bearer ${token}` },
     })
 
+    if(response.status == 401) {
+        return response;
+    }
+
     return response.json();
 }
 
@@ -37,6 +41,10 @@ export const getProduct = async (token: string, id: number) => {
         headers: { Authorization: `Bearer ${token}` },
     })
 
+    if(response.status == 401) {
+        return response;
+    }
+
     return response.json();
 }
 
@@ -44,6 +52,10 @@ export const addProductToCart = async (token: string, id: number, quantity: numb
     const response = await fetch(`${API_BASE_URL}/api/product/${id}/add?quantity=${quantity}`, {
         headers: { Authorization: `Bearer ${token}` },
     })
+
+    if(response.status == 401) {
+        return response;
+    }
 
     return response.json();
 }
@@ -64,6 +76,10 @@ export const addProduct = async (token: string, name: string, categories: Catego
         },
     })
 
+    if(response.status == 401) {
+        return response;
+    }
+
     return response.json();
 }
 
@@ -75,6 +91,10 @@ export const getSellerProducts = async (token: string, username: string) => {
         },
     })
 
+    if(response.status == 401) {
+        return response;
+    }
+
     return response.json();
 }
 
@@ -85,6 +105,10 @@ export const deleteProduct = async (token: string, id: number) => {
             Authorization: `Bearer ${token}`,
         },
     })
+
+    if(response.status == 401) {
+        return response;
+    }
 
     return response.json();
 }
@@ -105,6 +129,10 @@ export const setProductPhoto = async (token: string, id: number, photo: File | n
         body: formData
     })
 
+    if(response.status == 401) {
+        return response;
+    }
+
     return response.json();
 }
 
@@ -123,6 +151,10 @@ export const updateProduct = async (token: string, id: number, name: string, cat
             'Content-Type': "application/json"
         },
     })
+
+    if(response.status == 401) {
+        return response;
+    }
 
     return response.json();
 }

@@ -42,10 +42,12 @@ import Header from '../../Header';
 
 import { useAppSelector } from '../../../hooks';
 import { getUserPhoto, setUserPhoto, updateUser } from '../../../api/UserRequest';
+import { useNavigate } from 'react-router-dom';
 
 const MyProfilePage = () => {
     const jwt = useAppSelector(state => state.jwt.token);
     const username = useAppSelector(state => state.username.sub);
+    const navigate = useNavigate();
 
     const [photo, setPhoto] = React.useState("");
     const [file, setFile] = React.useState<File | null>(null);
@@ -67,6 +69,12 @@ const MyProfilePage = () => {
 
         const response = await setUserPhoto(jwt, username, file);
 
+        if (response.status) {
+            if (response.status == 401) {
+                navigate("/login");
+            }
+        }
+
         if (response.fieldErrors) {
             setInputErrors(response.fieldErrors);
         } else {
@@ -85,6 +93,12 @@ const MyProfilePage = () => {
 
         const response = await updateUser(jwt, username, email);
 
+        if (response.status) {
+            if (response.status == 401) {
+                navigate("/login");
+            }
+        }
+
         if (response.fieldErrors) {
             setInputErrors(response.fieldErrors);
         } else {
@@ -95,7 +109,14 @@ const MyProfilePage = () => {
     React.useEffect(() => {
         const getUserPhotoRequest = async () => {
             const photoBlob = await getUserPhoto(username);
-            setPhoto(URL.createObjectURL(photoBlob));
+
+            if ((photoBlob as Response).status) {
+                if ((photoBlob as Response).status == 401) {
+                    navigate("/login");
+                }
+            }
+
+            setPhoto(URL.createObjectURL(photoBlob as Blob));
         }
 
         getUserPhotoRequest();

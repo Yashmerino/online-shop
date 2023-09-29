@@ -28,6 +28,10 @@ export const getCartItems = async (token: string, username: string) => {
         headers: { Authorization: `Bearer ${token}` },
     })
 
+    if(response.status == 401) {
+        return response;
+    }
+
     return response.json();
 }
 
@@ -39,6 +43,10 @@ export const deleteCartItem = async (token: string, id: number) => {
         },
     })
 
+    if(response.status == 401) {
+        return response;
+    }
+
     return response.json();
 }
 
@@ -49,6 +57,10 @@ export const changeQuantity = async (token: string, id: number, quantity: number
             Authorization: `Bearer ${token}`,
         },
     })
+
+    if(response.status == 401) {
+        return response;
+    }
 
     return response.json();
 }

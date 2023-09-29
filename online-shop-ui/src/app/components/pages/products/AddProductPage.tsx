@@ -46,6 +46,7 @@ import Copyright from '../../footer/Copyright';
 import { useAppSelector } from '../../../hooks'
 import { Stack, Typography } from '@mui/material';
 import { getCategories } from '../../../api/CategoryRequest';
+import { useNavigate } from 'react-router-dom';
 
 const MenuProps = {
     PaperProps: {
@@ -71,6 +72,7 @@ const currencies = [
 const AddProductPage = () => {
     const roles = useAppSelector(state => state.roles);
     const jwt = useAppSelector(state => state.jwt);
+    const navigate = useNavigate();
 
     const [name, setName] = React.useState("");
     const [price, setPrice] = React.useState(0);
@@ -92,6 +94,13 @@ const AddProductPage = () => {
 
         const fetchCategories = async () => {
             const categoriesRequest = await getCategories(token);
+
+            if (categoriesRequest.status) {
+                if (categoriesRequest.status == 401) {
+                    navigate("/login");
+                }
+            }
+
             setFetchedCategories(categoriesRequest);
         }
 

@@ -58,6 +58,7 @@ const LoginPage = () => {
     let password = data.get('password')?.toString();
 
     const response = await AuthRequest.login(username ?? "", password ?? "");
+
     if (response.accessToken) {
       dispatch(updateJwt(response.accessToken));
       dispatch(updateUsername(parseJwt(response.accessToken).sub));

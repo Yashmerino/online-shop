@@ -35,6 +35,10 @@ export const getUserInfo = async (username: string) => {
 export const getUserPhoto = async (username: string) => {
     const response = await fetch(`${API_BASE_URL}/api/user/${username}/photo`, {})
 
+    if(response.status == 401) {
+        return response;
+    }
+
     return response.blob();
 }
 
@@ -47,6 +51,10 @@ export const setUserPhoto = async (token: string, username: string, photo: File 
         headers: { Authorization: `Bearer ${token}` },
         body: formData
     })
+
+    if(response.status == 401) {
+        return response;
+    }
 
     return response.json();
 }
@@ -61,6 +69,10 @@ export const updateUser = async (token: string, username: string, email: string)
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(userDTO),
     });
+
+    if(response.status == 401) {
+        return response;
+    }
 
     return response.json();
 }

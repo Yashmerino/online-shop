@@ -34,6 +34,7 @@ import { getSellerProducts } from '../../../api/ProductRequest';
 import Product from './Product';
 
 import { useAppSelector } from '../../../hooks';
+import { useNavigate } from 'react-router-dom';
 
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
@@ -41,12 +42,20 @@ const ProductsContainer = () => {
   const username = useAppSelector(state => state.username.sub);
 
   const [products, setProducts] = React.useState<Product[]>([]);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const token = jwt.token;
 
     const fetchProducts = async () => {
       const productsResponse = await getSellerProducts(token, username);
+
+      if(productsResponse.status) {
+        if(productsResponse.status == 401) {
+          navigate("/login");
+        }
+      }
+
       setProducts(productsResponse);
     }
 

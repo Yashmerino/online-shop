@@ -28,5 +28,9 @@ export const getCategories = async (token: string) => {
         headers: { Authorization: `Bearer ${token}` },
     })
 
+    if(response.status == 401) {
+        return response;
+    }
+
     return response.json();
 }

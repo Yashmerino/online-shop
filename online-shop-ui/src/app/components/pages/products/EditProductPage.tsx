@@ -39,7 +39,7 @@ import { InputError } from '../../../utils/InputErrorUtils';
 import { getFieldInputErrorMessage, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import InputFields from '../../../utils/InputFields';
 import { Paper, Input, Snackbar } from '@mui/material';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Category } from './AddProductPage';
 
 import Header from '../../Header';
@@ -67,6 +67,7 @@ const currencies = [
 
 const AddProductPage = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const roles = useAppSelector(state => state.roles);
     const jwt = useAppSelector(state => state.jwt);
@@ -91,6 +92,13 @@ const AddProductPage = () => {
 
         const fetchCategories = async () => {
             const categoriesRequest = await getCategories(token);
+
+            if (categoriesRequest.status) {
+                if (categoriesRequest.status == 401) {
+                    navigate("/login");
+                }
+            }
+
             setFetchedCategories(categoriesRequest);
         }
 

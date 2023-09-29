@@ -27,7 +27,14 @@ const Header = () => {
     React.useEffect(() => {
         const getUserPhotoRequest = async () => {
             const photoBlob = await getUserPhoto(username);
-            setPhoto(URL.createObjectURL(photoBlob));
+
+            if((photoBlob as Response).status) {
+                if((photoBlob as Response).status == 401) {
+                  navigate("/login");
+                }
+              }
+
+            setPhoto(URL.createObjectURL(photoBlob as Blob));
         }
 
         getUserPhotoRequest();

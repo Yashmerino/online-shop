@@ -33,6 +33,7 @@ import CartItemCard from './CartItemCard';
 
 import { useAppSelector } from '../../hooks';
 import { Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface CartItem {
     id: number,
@@ -47,12 +48,20 @@ const CartContainer = () => {
     const roles = useAppSelector(state => state.roles);
     const username = useAppSelector(state => state.username);
     const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const token = jwt.token;
 
         const fetchCartItems = async () => {
             const cartItems = await getCartItems(token, username.sub);
+
+            if (cartItems.status) {
+                if (cartItems.status == 401) {
+                    navigate("/login");
+                }
+            }
+
             setCartItems(cartItems);
         }
 
