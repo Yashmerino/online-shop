@@ -10,14 +10,16 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { getUserPhoto } from '../api/UserRequest';
+import { updateJwt } from '../slices/jwtSlice';
 
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const roles = useAppSelector(state => state.roles);
     const username = useAppSelector(state => state.username.sub);
+    const dispatch = useAppDispatch();
 
     const [photo, setPhoto] = React.useState("");
 
@@ -28,11 +30,11 @@ const Header = () => {
         const getUserPhotoRequest = async () => {
             const photoBlob = await getUserPhoto(username);
 
-            if((photoBlob as Response).status) {
-                if((photoBlob as Response).status == 401) {
-                  navigate("/login");
+            if ((photoBlob as Response).status) {
+                if ((photoBlob as Response).status == 401) {
+                    navigate("/login");
                 }
-              }
+            }
 
             setPhoto(URL.createObjectURL(photoBlob as Blob));
         }
@@ -58,6 +60,11 @@ const Header = () => {
 
     const handleProfile = () => {
         navigate("/profile");
+    }
+
+    const handleLogout = () => {
+        dispatch(updateJwt(""));
+        navigate("/login");
     }
 
     return (
@@ -132,7 +139,7 @@ const Header = () => {
                                 roles.roles.roles[0].name == "USER" ? <MenuItem onClick={handleMyCart}>My Cart</MenuItem> : null}
                             {// @ts-ignore 
                                 roles.roles.roles[0].name == "SELLER" ? <MenuItem onClick={handleAddProduct}>Add Product</MenuItem> : null}
-                            <MenuItem onClick={() => { }}>Logout</MenuItem>
+                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>
