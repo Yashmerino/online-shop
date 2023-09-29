@@ -43,7 +43,7 @@ import { updateRoles } from '../../../slices/rolesSlice';
 
 const LoginPage = () => {
   const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
-  const [notFound, setNotFound] = React.useState(false);
+  const [error, setError] = React.useState("");
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
@@ -52,14 +52,16 @@ const LoginPage = () => {
     event.preventDefault();
 
     setInputErrors([]);
+    setError("");
 
     const data = new FormData(event.currentTarget);
     let username = data.get('username')?.toString();
     let password = data.get('password')?.toString();
 
     const response = await AuthRequest.login(username ?? "", password ?? "");
-
-    if (response.accessToken) {
+    if (response.error) {
+      setError(response.error);
+    } else if (response.accessToken) {
       dispatch(updateJwt(response.accessToken));
       dispatch(updateUsername(parseJwt(response.accessToken).sub));
       dispatch(updateRoles(await UserRequest.getUserInfo(username ?? "")));
@@ -67,22 +69,20 @@ const LoginPage = () => {
     } else {
       if (response.fieldErrors) {
         setInputErrors(response.fieldErrors);
-      } else if (response.status == 404) {
-        setNotFound(true);
       }
     }
   };
 
   const handleAlertClick = () => {
-    setNotFound(false);
+    setError("");
   };
 
   return (
     <Container component="main" maxWidth="xs">
-      {notFound &&
-        <Snackbar open={notFound} autoHideDuration={2000} onClose={handleAlertClick}>
-          <Alert onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
-            The user doesn't exist!
+      {error.length > 0 &&
+        <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
+          <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
+            {error}
           </Alert>
         </Snackbar>}
       <Grid container>

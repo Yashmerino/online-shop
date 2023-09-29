@@ -78,6 +78,7 @@ const AddProductPage = () => {
     const [fetchedCategories, setFetchedCategories] = React.useState<Category[]>([]);
 
     const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
+    const [error, setError] = React.useState("");
     const [isSuccess, setSuccess] = React.useState(false);
 
     const [photo, setPhoto] = React.useState("");
@@ -85,6 +86,7 @@ const AddProductPage = () => {
 
     const handleAlertClick = () => {
         setSuccess(false);
+        setError("");
     };
 
     React.useEffect(() => {
@@ -118,6 +120,7 @@ const AddProductPage = () => {
 
         setSuccess(false);
         setInputErrors([]);
+        setError("");
 
         let categoriesDTO: Category[] = [];
         categories.forEach((category) => {
@@ -135,7 +138,10 @@ const AddProductPage = () => {
         })
 
         const response = await updateProduct(jwt.token, location.state ? location.state.id : 1, name, categoriesDTO, price);
-        if (response.fieldErrors) {
+
+        if (response.error) {
+            setError(response.error);
+        } else if (response.fieldErrors) {
             setInputErrors(response.fieldErrors);
         } else {
             if (file != null) {
@@ -188,6 +194,12 @@ const AddProductPage = () => {
                                 <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
                                     <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
                                         The product has been updated successfully!
+                                    </Alert>
+                                </Snackbar>}
+                            {error.length > 0 &&
+                                <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
+                                    <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
+                                        {error}
                                     </Alert>
                                 </Snackbar>}
                             <Box className="my-profile-image-container">

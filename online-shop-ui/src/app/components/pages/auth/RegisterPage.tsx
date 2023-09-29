@@ -29,6 +29,7 @@ import Container from '@mui/material/Container';
 import { Alert } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { InputError } from '../../../utils/InputErrorUtils';
+import { Snackbar } from '@mui/material';
 
 import Copyright from '../../footer/Copyright';
 import UserInputFields from './UserInputFields';
@@ -37,12 +38,14 @@ import * as AuthRequest from '../../../api/AuthRequest';
 const RegisterPage = () => {
     const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
     const [isSuccess, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState("");
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         setSuccess(false);
         setInputErrors([]);
+        setError("");
 
         const data = new FormData(event.currentTarget);
         const username = data.get('username')?.toString();
@@ -52,7 +55,9 @@ const RegisterPage = () => {
 
         const response = await AuthRequest.register(role.innerHTML.toUpperCase() ?? "", email ?? "", username ?? "", password ?? "");
 
-        if (response.status == 200) {
+        if (response.error) {
+            setError(response.error);
+        } else if (response.status == 200) {
             setSuccess(true);
         } else {
             if (response.fieldErrors) {
@@ -61,11 +66,27 @@ const RegisterPage = () => {
         }
     };
 
+    const handleAlertClick = () => {
+        setSuccess(false);
+        setError("");
+    };
+
     return (
         <Container component="main" maxWidth="xs">
             <Grid container>
                 <Grid item>
-                    {isSuccess && <Alert id="alert-success" data-testid="alert-success" severity='success' sx={{ width: '100%' }}>User registered successfully!</Alert>}
+                    {isSuccess &&
+                        <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
+                            <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+                                The user has been registered successfully!
+                            </Alert>
+                        </Snackbar>}
+                    {error.length > 0 &&
+                        <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
+                            <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
+                                {error}
+                            </Alert>
+                        </Snackbar>}
                     <UserInputFields title="Sign Up" buttonText="Sign Up" handleSubmit={handleSubmit} isEmailAndRoleMandatory={true} inputErrors={inputErrors} />
                 </Grid>
                 <Grid item>
