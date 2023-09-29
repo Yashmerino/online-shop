@@ -8,6 +8,7 @@ import CartContainer from './components/cart/CartContainer';
 import AddProductPage from './components/pages/products/AddProductPage';
 import MyProductsPage from './components/pages/products/MyProductsPage';
 import MyProfilePage from './components/pages/user/MyProfilePage';
+import EditProductPage from './components/pages/products/EditProductPage';
 
 const Main = () => {
     return (
@@ -19,6 +20,7 @@ const Main = () => {
             <Route path='/product/add' element={<AddProductPage />} />
             <Route path='/profile/products' element={<MyProductsPage />} />
             <Route path='/profile' element={<MyProfilePage />} />
+            <Route path='/product/edit' element={<EditProductPage />} />
         </Routes>
     );
 }

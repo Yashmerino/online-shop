@@ -61,7 +61,7 @@ public class Product extends BaseEntity {
     /**
      * Product's categories.
      */
-    @OneToMany
+    @ManyToMany
     private Set<Category> categories;
 
     /**

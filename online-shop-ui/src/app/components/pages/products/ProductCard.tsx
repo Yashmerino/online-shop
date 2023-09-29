@@ -33,6 +33,7 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import { addProductToCart, deleteProduct, getProductPhoto } from '../../../api/ProductRequest';
 import { useAppSelector } from '../../../hooks';
 import QuantityInput from '../../QuantityInput';
+import { useNavigate } from 'react-router-dom';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -45,10 +46,13 @@ interface ProductCardProps {
   id: number,
   title: string,
   price: string,
+  categories: string[],
   shouldBeAbleToDelete: boolean
 }
 
-const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProps) => {
+const ProductCard = ({ id, title, price, categories, shouldBeAbleToDelete }: ProductCardProps) => {
+  const navigate = useNavigate();
+
   const roles = useAppSelector(state => state.roles);
   const [isAdded, setAdded] = React.useState<boolean>(false);
   const [isDeleted, setDeleted] = React.useState<boolean>(false);
@@ -82,6 +86,22 @@ const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProp
     }
   }
 
+  const handleEditProduct = async () => {
+    // @ts-ignore 
+    if (roles.roles.roles[0].name == "USER") {
+      return;
+    }
+
+    navigate("/product/edit", {
+      state: {
+        id: id,
+        title: title,
+        categories: categories,
+        price: price,
+      }
+    })
+  }
+
   React.useEffect(() => {
     const getProductPhotoRequest = async () => {
       const photoBlob = await getProductPhoto(id);
@@ -93,7 +113,7 @@ const ProductCard = ({ id, title, price, shouldBeAbleToDelete }: ProductCardProp
 
   return (
     <Card sx={{ maxWidth: 400, minWidth: 320, marginTop: "5%" }}>
-      <CardActionArea>
+      <CardActionArea onClick={handleEditProduct}>
         <CardMedia
           component="img"
           height="140"

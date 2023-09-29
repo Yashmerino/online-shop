@@ -107,3 +107,22 @@ export const setProductPhoto = async (token: string, id: number, photo: File | n
 
     return response.json();
 }
+
+export const updateProduct = async (token: string, id: number, name: string, categories: Category[], price: number) => {
+    const productDTO = {
+        name,
+        price,
+        categories
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/product/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(productDTO),
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': "application/json"
+        },
+    })
+
+    return response.json();
+}
