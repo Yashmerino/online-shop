@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
             User user = userOptional.get();
             return user;
         } else {
-            throw new EntityNotFoundException("User not found.");
+            throw new EntityNotFoundException("username_not_found");
         }
     }
 
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
     public UserInfoDTO getUserInfo(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
 
-        User user = userOptional.orElseThrow(() -> new EntityNotFoundException("Username not found."));
+        User user = userOptional.orElseThrow(() -> new EntityNotFoundException("username_not_found"));
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         userInfoDTO.setRoles(user.getRoles());
 
@@ -127,13 +127,13 @@ public class UserServiceImpl implements UserService {
         String currentUserUsername = auth.getName();
 
         if (!user.getUsername().equals(currentUserUsername)) {
-            throw new AccessDeniedException("Access denied.");
+            throw new AccessDeniedException("access_denied");
         }
 
         try {
             user.setPhoto(photo.getBytes());
         } catch (IOException e) {
-            throw new CouldntUploadPhotoException("Photo couldn't be upload.");
+            throw new CouldntUploadPhotoException("user_photo_not_uploaded");
         }
 
         userRepository.save(user);
@@ -153,7 +153,7 @@ public class UserServiceImpl implements UserService {
         String currentUserUsername = auth.getName();
 
         if (!user.getUsername().equals(currentUserUsername)) {
-            throw new AccessDeniedException("Access denied.");
+            throw new AccessDeniedException("access_denied");
         }
 
         user.setEmail(userDTO.getEmail());

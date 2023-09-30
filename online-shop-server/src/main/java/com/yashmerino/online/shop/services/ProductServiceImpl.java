@@ -207,13 +207,13 @@ public class ProductServiceImpl implements ProductService {
         User user = userService.getByUsername(username);
 
         if (!product.getUser().getUsername().equals(user.getUsername())) {
-            throw new AccessDeniedException("Access denied.");
+            throw new AccessDeniedException("access_denied");
         }
 
         try {
             product.setPhoto(photo.getBytes());
         } catch (IOException e) {
-            throw new CouldntUploadPhotoException("Photo couldn't be upload.");
+            throw new CouldntUploadPhotoException("product_photo_not_uploaded");
         }
 
         productRepository.save(product);
@@ -234,7 +234,7 @@ public class ProductServiceImpl implements ProductService {
         String productSellerUsername = product.getUser().getUsername();
 
         if (!currentUserUsername.equals(productSellerUsername)) {
-            throw new AccessDeniedException("Access denied.");
+            throw new AccessDeniedException("access_denied");
         }
 
         product.setName(productDTO.getName());

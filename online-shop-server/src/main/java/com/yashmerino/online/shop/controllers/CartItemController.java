@@ -98,7 +98,7 @@ public class CartItemController {
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("Cart item successfully deleted!");
+        successDTO.setMessage("cartitem_deleted_successfully");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
@@ -127,7 +127,7 @@ public class CartItemController {
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("Quantity of the item successfully changed!");
+        successDTO.setMessage("quantity_changed_successfully");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }

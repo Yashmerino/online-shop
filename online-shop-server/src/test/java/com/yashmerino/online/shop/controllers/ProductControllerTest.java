@@ -96,7 +96,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_added_successfully\",\"id\":3}"));
     }
 
     /**
@@ -124,7 +124,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_added_successfully\",\"id\":3}"));
 
         result = mvc.perform(get("/api/product/3")).andExpect(status().isOk()).andReturn();
 
@@ -143,7 +143,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_added_successfully\",\"id\":3}"));
 
         productDTO.setName("Banana");
         productDTO.setPrice(1.25);
@@ -152,7 +152,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_added_successfully\",\"id\":4}"));
 
         result = mvc.perform(get("/api/product")).andExpect(status().isOk()).andReturn();
 
@@ -169,7 +169,7 @@ class ProductControllerTest {
     void addProductToCartTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/product/1/add?cartId=1&quantity=1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Product successfully added to the cart!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_added_to_cart_successfully\"}"));
     }
 
     /**
@@ -197,7 +197,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product successfully deleted!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_deleted_successfully\"}"));
     }
 
     /**
@@ -291,7 +291,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_added_successfully\",\"id\":3}"));
 
         result = mvc.perform(get("/api/product/3")).andExpect(status().isOk()).andReturn();
 
@@ -346,7 +346,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_added_successfully\",\"id\":3}"));
 
         productDTO.setName("Banana");
         productDTO.setPrice(1.25);
@@ -355,7 +355,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product successfully added!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_added_successfully\",\"id\":4}"));
 
         result = mvc.perform(get("/api/product/seller/seller")).andExpect(status().isOk()).andReturn();
 
@@ -376,7 +376,7 @@ class ProductControllerTest {
     void getAllSellerProductsNonexistentUsernameTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/product/seller/ERROR")).andExpect(status().isNotFound()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"User not found.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"username_not_found\"}"));
     }
 
     /**
@@ -399,7 +399,7 @@ class ProductControllerTest {
 
         MvcResult result = mvc.perform(multipart("/api/product/1/photo").file(photo)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Product photo was successfully updated.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_photo_updated_successfully\"}"));
     }
 
     /**
@@ -443,7 +443,7 @@ class ProductControllerTest {
 
         MvcResult result = mvc.perform(multipart("/api/product/1/photo").file(photo)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Product photo was successfully updated.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_photo_updated_successfully\"}"));
     }
 
     /**
@@ -509,7 +509,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("Product successfully updated!"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"product_updated_successfully\"}"));
 
         result = mvc.perform(get("/api/product/1")).andExpect(status().isOk()).andReturn();
 
@@ -587,6 +587,6 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isForbidden()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("\"status\":403,\"error\":\"Access denied.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"access_denied\"}"));
     }
 }

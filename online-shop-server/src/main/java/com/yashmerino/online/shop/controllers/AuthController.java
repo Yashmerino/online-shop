@@ -96,7 +96,7 @@ public class AuthController {
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("User registered successfully!");
+        successDTO.setMessage("user_registered_successfully");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }

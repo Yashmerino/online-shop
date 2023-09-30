@@ -76,7 +76,7 @@ class CartItemControllerTest {
     void getCartItemWrongUserTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/cartItem/1")).andExpect(status().isForbidden()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"access_denied\"}"));
     }
 
     /**
@@ -89,7 +89,7 @@ class CartItemControllerTest {
     void deleteCartItemTest() throws Exception {
         MvcResult result = mvc.perform(delete("/api/cartItem/1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Cart item successfully deleted!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"cartitem_deleted_successfully\"}"));
     }
 
     /**
@@ -102,7 +102,7 @@ class CartItemControllerTest {
     void deleteCartItemWrongUserTest() throws Exception {
         MvcResult result = mvc.perform(delete("/api/cartItem/1")).andExpect(status().isForbidden()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"access_denied\"}"));
     }
 
     /**
@@ -115,7 +115,7 @@ class CartItemControllerTest {
     void changeQuantityTest() throws Exception {
         MvcResult result = mvc.perform(post("/api/cartItem/1/quantity?quantity=5")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"Quantity of the item successfully changed!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"quantity_changed_successfully\"}"));
 
         result = mvc.perform(get("/api/cartItem/1")).andExpect(status().isOk()).andReturn();
 
@@ -132,7 +132,7 @@ class CartItemControllerTest {
     void changeQuantityWrongUserTest() throws Exception {
         MvcResult result = mvc.perform(post("/api/cartItem/1/quantity?quantity=5")).andExpect(status().isForbidden()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"access_denied\"}"));
     }
 
     /**
@@ -158,7 +158,7 @@ class CartItemControllerTest {
     void getCartItemsWrongUserTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/cartItem?username=user")).andExpect(status().isForbidden()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"access_denied\"}"));
     }
 
     /**

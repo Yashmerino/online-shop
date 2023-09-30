@@ -124,7 +124,7 @@ public class ProductController {
 
         SuccessWithIdDTO successDTO = new SuccessWithIdDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("Product successfully added!");
+        successDTO.setMessage("product_added_successfully");
         successDTO.setId(productId);
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
@@ -156,7 +156,7 @@ public class ProductController {
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("Product successfully added to the cart!");
+        successDTO.setMessage("product_added_to_cart_successfully");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
@@ -243,7 +243,7 @@ public class ProductController {
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("Product successfully deleted!");
+        successDTO.setMessage("product_deleted_successfully");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
@@ -300,7 +300,7 @@ public class ProductController {
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("Product photo was successfully updated.");
+        successDTO.setMessage("product_photo_updated_successfully");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
@@ -353,7 +353,7 @@ public class ProductController {
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("Product successfully updated!");
+        successDTO.setMessage("product_updated_successfully");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }

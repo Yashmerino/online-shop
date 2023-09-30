@@ -115,7 +115,7 @@ public class UserController {
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("User photo was successfully updated.");
+        successDTO.setMessage("user_photo_updated_successfully");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
@@ -164,7 +164,7 @@ public class UserController {
 
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
-        successDTO.setMessage("User information was successfully updated.");
+        successDTO.setMessage("user_information_updated_successfully");
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }

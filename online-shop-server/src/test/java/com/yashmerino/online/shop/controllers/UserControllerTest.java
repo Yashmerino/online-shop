@@ -92,7 +92,7 @@ public class UserControllerTest {
     void getUserInfoNonExistingUsernameTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/user/error")).andExpect(status().isNotFound()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"Username not found.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"username_not_found\"}"));
     }
 
     /**
@@ -115,7 +115,7 @@ public class UserControllerTest {
 
         MvcResult result = mvc.perform(multipart("/api/user/user/photo").file(photo)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"User photo was successfully updated.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"user_photo_updated_successfully\"}"));
     }
 
     /**
@@ -159,7 +159,7 @@ public class UserControllerTest {
 
         MvcResult result = mvc.perform(multipart("/api/user/seller/photo").file(photo)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"User photo was successfully updated.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"user_photo_updated_successfully\"}"));
     }
 
     /**
@@ -182,7 +182,7 @@ public class UserControllerTest {
 
         MvcResult result = mvc.perform(multipart("/api/user/user/photo").file(photo)).andExpect(status().isForbidden()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"access_denied\"}"));
     }
 
     /**
@@ -220,7 +220,7 @@ public class UserControllerTest {
     void getUserPhotoNonexistentUsernameTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/user/ERROR/photo")).andExpect(status().isNotFound()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"User not found.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"username_not_found\"}"));
     }
 
     /**
@@ -237,7 +237,7 @@ public class UserControllerTest {
         MvcResult result = mvc.perform(put("/api/user/user").content(objectMapper.writeValueAsString(userDTO)).contentType(
                 APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"User information was successfully updated.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"user_information_updated_successfully\"}"));
     }
 
     /**
@@ -269,7 +269,7 @@ public class UserControllerTest {
         MvcResult result = mvc.perform(put("/api/user/seller").content(objectMapper.writeValueAsString(userDTO)).contentType(
                 APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"User information was successfully updated.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"status\":200,\"message\":\"user_information_updated_successfully\"}"));
     }
 
     /**
@@ -286,7 +286,7 @@ public class UserControllerTest {
         MvcResult result = mvc.perform(put("/api/user/ERROR").content(objectMapper.writeValueAsString(userDTO)).contentType(
                 APPLICATION_JSON)).andExpect(status().isNotFound()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"User not found.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"username_not_found\"}"));
     }
 
     /**
@@ -303,6 +303,6 @@ public class UserControllerTest {
         MvcResult result = mvc.perform(put("/api/user/seller").content(objectMapper.writeValueAsString(userDTO)).contentType(
                 APPLICATION_JSON)).andExpect(status().isForbidden()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"Access denied.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"access_denied\"}"));
     }
 }

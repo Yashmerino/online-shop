@@ -103,7 +103,7 @@ class AuthControllerTest {
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isOk()).andReturn();
 
         String content = result.getResponse().getContentAsString();
-        assertTrue(content.contains("User registered successfully!"));
+        assertTrue(content.contains("{\"status\":200,\"message\":\"user_registered_successfully\"}"));
     }
 
     /**
@@ -119,7 +119,7 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isConflict()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("\"status\":409,\"error\":\"Username is already taken!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":409,\"error\":\"username_taken\"}"));
     }
 
     /**
@@ -205,7 +205,7 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/login").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isNotFound()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("\"status\":404,\"error\":\"Username doesn't exist!\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains(",\"status\":404,\"error\":\"username_not_found\"}"));
     }
 
     /**

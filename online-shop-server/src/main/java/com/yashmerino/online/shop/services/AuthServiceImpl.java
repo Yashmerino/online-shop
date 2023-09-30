@@ -109,7 +109,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void register(RegisterDTO registerDTO) {
         if (userRepository.existsByUsername(registerDTO.getUsername())) { // NOSONAR - The user repository cannot be null.
-            throw new UsernameAlreadyTakenException("Username is already taken!");
+            throw new UsernameAlreadyTakenException("username_taken");
         }
 
         User user = new User();
@@ -124,7 +124,7 @@ public class AuthServiceImpl implements AuthService {
             Role role = roleOptional.get();
             user.setRoles(new HashSet<>(List.of(role)));
         } else {
-            throw new EntityNotFoundException("Role couldn't be found!");
+            throw new EntityNotFoundException("role_not_found");
         }
 
         Cart cart = new Cart();
@@ -147,7 +147,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String login(LoginDTO loginDTO) {
         if (!userRepository.existsByUsername(loginDTO.getUsername())) {
-            throw new UserDoesntExistException("Username doesn't exist!");
+            throw new UserDoesntExistException("username_not_found");
         }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
