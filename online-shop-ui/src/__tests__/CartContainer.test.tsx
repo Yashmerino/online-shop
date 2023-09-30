@@ -10,7 +10,7 @@ import { Store } from "redux";
 import "../app/utils/mockJsdom";
 
 describe("Cart Container Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" } };
     const mockStore = configureStore();
     let store: Store;
 
@@ -30,7 +30,7 @@ describe("Cart Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const title = screen.getByText("Online Shop");
+            const title = screen.getByText("online_shop");
             expect(title).toBeInTheDocument();
 
             const copyright = screen.getByText("Copyright");
@@ -45,13 +45,13 @@ describe("Cart Container Tests", () => {
             const quantityInput = screen.getByTestId("quantity-input-1");
             expect(quantityInput).toBeInTheDocument();
 
-            const saveCartItemButton = screen.getByText("Save");
+            const saveCartItemButton = screen.getByText("save");
             expect(saveCartItemButton).toBeInTheDocument();
         })
     });
 
     it("Test no rights to access page as Seller", () => {
-        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } } };
+        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } }, lang: { lang: "ENG" } };
         store = mockStore(newState)
 
         const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');
@@ -67,7 +67,7 @@ describe("Cart Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const productPrice = screen.getByText("You don't have rights to access this page.");
+            const productPrice = screen.getByText("no_rights_to_access");
             expect(productPrice).toBeInTheDocument();
         })
     });

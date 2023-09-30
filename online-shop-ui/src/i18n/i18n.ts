@@ -4,6 +4,10 @@ import Lang from "./LangEnum";
 export const getTranslation = (lang: Lang, key: string) => {
     let translatedMessage = key;
 
+    if(!i18n.i18n) {
+        return key;
+    }
+
     // @ts-ignore
     i18n.i18n.key.forEach(element => {
         if (element.$.value.localeCompare(key) == 0) {

@@ -10,9 +10,10 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Store } from "redux";
 import "../app/utils/mockJsdom";
+import i18n from "../i18n/i18n.xml";
 
 describe("Update Product Page Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } }, lang: { lang: "ENG" } };
     const mockStore = configureStore()
 
     let store: Store;
@@ -66,7 +67,7 @@ describe("Update Product Page Tests", () => {
         await waitFor(() => {
             const alertSuccess = screen.getByTestId("alert-success");
             expect(alertSuccess).toBeInTheDocument();
-            expect(alertSuccess).toHaveTextContent("The product has been updated successfully!");
+            expect(alertSuccess).toHaveTextContent("product_updated_successfully");
         });
     });
 

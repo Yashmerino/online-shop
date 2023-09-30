@@ -10,7 +10,7 @@ import "../app/utils/mockJsdom";
 import ProductCard from "../app/components/pages/products/ProductCard";
 
 describe("Product Card Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" } };
     const mockStore = configureStore()
     let store: Store;
 
@@ -29,7 +29,7 @@ describe("Product Card Tests", () => {
             const productPrice = screen.getByText("Price: 2.5");
             expect(productPrice).toBeInTheDocument();
 
-            const addToCartButton = screen.getByText("Add To Cart");
+            const addToCartButton = screen.getByText("add_to_cart");
             expect(addToCartButton).toBeInTheDocument();
 
             const deleteButton = screen.getByTestId("delete-button-1");
@@ -56,7 +56,7 @@ describe("Product Card Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const addToCartButton = screen.getByText("Add To Cart");
+            const addToCartButton = screen.getByText("add_to_cart");
             expect(addToCartButton).toBeInTheDocument();
             addToCartButton.click();
 

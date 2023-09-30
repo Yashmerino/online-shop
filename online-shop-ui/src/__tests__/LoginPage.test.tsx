@@ -11,7 +11,7 @@ import configureStore from 'redux-mock-store';
 import { Store } from "redux";
 
 describe("Login Page Tests", () => {
-    const initialState = { token: "" }
+    const initialState = { token: "", lang: { lang: "ENG" } }
     const mockStore = configureStore()
     let store: Store;
 
@@ -37,18 +37,18 @@ describe("Login Page Tests", () => {
 
         const title = screen.getByTestId("title");
         expect(title).toBeInTheDocument();
-        expect(title).toHaveTextContent("Sign In");
+        expect(title).toHaveTextContent("sign_in");
 
-        const usernameInput = screen.getByText("Username");
+        const usernameInput = screen.getByText("username");
         expect(usernameInput).toBeInTheDocument();
 
-        const passwordInput = screen.getByText("Password");
+        const passwordInput = screen.getByText("password");
         expect(passwordInput).toBeInTheDocument();
 
-        const copyright = screen.getByText("Online Shop");
+        const copyright = screen.getByText("online_shop");
         expect(copyright).toBeInTheDocument();
 
-        const registerHref = screen.getByText("Don't have an account? Sign Up");
+        const registerHref = screen.getByText("create_account_message");
         expect(registerHref).toBeInTheDocument();
 
         await act(async () => {

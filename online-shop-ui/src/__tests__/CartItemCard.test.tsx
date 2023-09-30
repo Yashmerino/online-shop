@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import CartItemCard from "../app/components/cart/CartItemCard";
 import * as CartItemsRequest from "../app/api/CartItemsRequest";
+import i18n from "../i18n/i18n.xml";
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -10,7 +11,7 @@ import { Store } from "redux";
 import "../app/utils/mockJsdom";
 
 describe("Cart Item Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" } };
     const mockStore = configureStore();
     let store: Store;
 
@@ -35,7 +36,7 @@ describe("Cart Item Tests", () => {
             const quantityInput = screen.getByTestId("quantity-input-1");
             expect(quantityInput).toBeInTheDocument();
 
-            const saveCartItemButton = screen.getByText("Save");
+            const saveCartItemButton = screen.getByText("save");
             expect(saveCartItemButton).toBeInTheDocument();
         })
     });

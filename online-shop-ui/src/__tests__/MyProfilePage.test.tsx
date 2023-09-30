@@ -10,7 +10,7 @@ import "../app/utils/mockJsdom";
 import MyProfilePage from "../app/components/pages/user/MyProfilePage";
 
 describe("Products Container Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" } };
     const mockStore = configureStore()
     let store: Store;
 
@@ -31,7 +31,7 @@ describe("Products Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const title = screen.getByText("Online Shop");
+            const title = screen.getByText("online_shop");
             expect(title).toBeInTheDocument();
 
             const copyright = screen.getByText("Copyright");
@@ -65,10 +65,10 @@ describe("Products Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const saveButton = screen.getByText("Save");
+            const saveButton = screen.getByText("save");
             fireEvent.click(saveButton);
 
-            const successAlert = screen.getByText("The user information has been successfully updated!");
+            const successAlert = screen.getByText("user_information_updated_successfully");
             expect(successAlert).toBeInTheDocument();
         })
     });

@@ -10,7 +10,7 @@ import { Store } from "redux";
 import "../app/utils/mockJsdom";
 
 describe("Products Container Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } }, lang: { lang: "ENG" } };
     const mockStore = configureStore()
     let store: Store;
 
@@ -30,7 +30,7 @@ describe("Products Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const title = screen.getByText("Online Shop");
+            const title = screen.getByText("online_shop");
             expect(title).toBeInTheDocument();
 
             const copyright = screen.getByText("Copyright");
@@ -39,7 +39,7 @@ describe("Products Container Tests", () => {
             const productTitle = screen.getByText("Apple");
             expect(productTitle).toBeInTheDocument();
 
-            const productPrice = screen.getByText("Price: 2.5");
+            const productPrice = screen.getByText("price 2.5");
             expect(productPrice).toBeInTheDocument();
         })
     });

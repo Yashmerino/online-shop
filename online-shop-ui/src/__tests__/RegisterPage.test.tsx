@@ -4,13 +4,24 @@ import { MemoryRouter } from "react-router-dom";
 import RegisterPage from "../app/components/pages/auth/RegisterPage";
 import * as AuthRequest from "../app/api/AuthRequest";
 import { clickSubmitButton } from "../app/utils/TestUtils";
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { Store } from "redux";
 
 describe("Register Page Tests", () => {
+    const initialState = { lang: { lang: "ENG" } }
+    const mockStore = configureStore()
+    let store: Store;
+
     it("Test register success", async () => {
+        store = mockStore(initialState)
+
         render(
-            <MemoryRouter>
-                <RegisterPage />
-            </MemoryRouter>
+            <Provider store={store}>
+                <MemoryRouter>
+                    <RegisterPage />
+                </MemoryRouter>
+            </Provider>
         );
 
         const loginMock = jest.spyOn(AuthRequest, 'register');
@@ -18,24 +29,24 @@ describe("Register Page Tests", () => {
 
         const title = screen.getByTestId("title");
         expect(title).toBeInTheDocument();
-        expect(title).toHaveTextContent("Sign Up");
+        expect(title).toHaveTextContent("sign_up");
 
-        const roleSelection = screen.getByDisplayValue("USER");
+        const roleSelection = screen.getByText("user");
         expect(roleSelection).toBeInTheDocument();
 
-        const emailInput = screen.getByText("Email");
+        const emailInput = screen.getByText("email");
         expect(emailInput).toBeInTheDocument();
 
-        const usernameInput = screen.getByText("Username");
+        const usernameInput = screen.getByText("username");
         expect(usernameInput).toBeInTheDocument();
 
-        const passwordInput = screen.getByText("Password");
+        const passwordInput = screen.getByText("password");
         expect(passwordInput).toBeInTheDocument();
 
-        const copyright = screen.getByText("Online Shop");
+        const copyright = screen.getByText("online_shop");
         expect(copyright).toBeInTheDocument();
 
-        const loginHref = screen.getByText("Have already an account? Log in");
+        const loginHref = screen.getByText("have_account_message");
         expect(loginHref).toBeInTheDocument();
 
         clickSubmitButton();
@@ -43,15 +54,19 @@ describe("Register Page Tests", () => {
         await waitFor(() => {
             const alertSuccess = screen.getByTestId("alert-success");
             expect(alertSuccess).toBeInTheDocument();
-            expect(alertSuccess).toHaveTextContent("The user has been registered successfully!");
+            expect(alertSuccess).toHaveTextContent("user_registered_successfully");
         });
     });
 
     it("Test register fail", async () => {
+        store = mockStore(initialState)
+
         render(
-            <MemoryRouter>
-                <RegisterPage />
-            </MemoryRouter>
+            <Provider store={store}>
+                <MemoryRouter>
+                    <RegisterPage />
+                </MemoryRouter>
+            </Provider>
         );
 
         const loginMock = jest.spyOn(AuthRequest, 'register');
@@ -87,10 +102,14 @@ describe("Register Page Tests", () => {
     });
 
     it("Test register username is taken", async () => {
+        store = mockStore(initialState)
+
         render(
-            <MemoryRouter>
-                <RegisterPage />
-            </MemoryRouter>
+            <Provider store={store}>
+                <MemoryRouter>
+                    <RegisterPage />
+                </MemoryRouter>
+            </Provider>
         );
 
         const loginMock = jest.spyOn(AuthRequest, 'register');

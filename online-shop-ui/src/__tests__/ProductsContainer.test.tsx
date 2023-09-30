@@ -10,7 +10,7 @@ import { Store } from "redux";
 import "../app/utils/mockJsdom";
 
 describe("Products Container Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" } };
     const mockStore = configureStore()
     let store: Store;
 
@@ -30,7 +30,7 @@ describe("Products Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const title = screen.getByText("Online Shop");
+            const title = screen.getByText("online_shop");
             expect(title).toBeInTheDocument();
 
             const copyright = screen.getByText("Copyright");
@@ -70,17 +70,17 @@ describe("Products Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const addToCartButton = screen.getByText("Add To Cart");
+            const addToCartButton = screen.getByText("add_to_cart");
             expect(addToCartButton).toBeInTheDocument();
             addToCartButton.click();
 
-            const successAlert = screen.getByText("The product has been successfully added to the cart!");
+            const successAlert = screen.getByText("Product successfully added to the cart!");
             expect(successAlert).toBeInTheDocument();
         })
     });
 
     it("Test no add product to the cart button as Seller", () => {
-        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } } };
+        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } }, lang: { lang: "ENG" } };
         store = mockStore(newState)
 
         const getAllProductsMock = jest.spyOn(ProductRequest, 'getProducts');
@@ -96,7 +96,7 @@ describe("Products Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const addToCartButton = screen.getByText("Add To Cart");
+            const addToCartButton = screen.getByText("add_to_cart");
             expect(addToCartButton).toBeNull();
         })
     });

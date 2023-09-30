@@ -12,7 +12,7 @@ import { Store } from "redux";
 import "../app/utils/mockJsdom";
 
 describe("Add Product Page Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } }, lang: { lang: "ENG" } };
     const mockStore = configureStore()
     let store: Store;
 
@@ -44,7 +44,7 @@ describe("Add Product Page Tests", () => {
 
         const categoriesInput = screen.getByTestId("categories-field");
         expect(categoriesInput).toBeInTheDocument();
-        
+
         const photo = screen.getByTestId("photo");
         expect(photo).toBeInTheDocument();
 
@@ -62,7 +62,7 @@ describe("Add Product Page Tests", () => {
         await waitFor(() => {
             const alertSuccess = screen.getByTestId("alert-success");
             expect(alertSuccess).toBeInTheDocument();
-            expect(alertSuccess).toHaveTextContent("The product has been added successfully!");
+            expect(alertSuccess).toHaveTextContent("product_added_successfully");
         });
     });
 
