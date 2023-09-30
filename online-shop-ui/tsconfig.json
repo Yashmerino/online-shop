@@ -2,11 +2,8 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "typeRoots": ["src/@types", "node_modules/@types"],
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
@@ -25,7 +22,5 @@
     "esModuleInterop": true,
     "jsx": "react"
   },
-  "include": [
-    "src"
-, "setupTests.ts"  ]
+  "include": ["src", "setupTests.ts"]
 }
