@@ -34,6 +34,7 @@ import { addProductToCart, deleteProduct, getProductPhoto } from '../../../api/P
 import { useAppSelector } from '../../../hooks';
 import QuantityInput from '../../QuantityInput';
 import { useNavigate } from 'react-router-dom';
+import { getTranslation } from '../../../../i18n/i18n';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -54,6 +55,7 @@ const ProductCard = ({ id, title, price, categories, shouldBeAbleToDelete }: Pro
   const navigate = useNavigate();
 
   const roles = useAppSelector(state => state.roles);
+  const lang = useAppSelector(state => state.lang.lang);
   const [isAdded, setAdded] = React.useState<boolean>(false);
   const [isDeleted, setDeleted] = React.useState<boolean>(false);
   const [photo, setPhoto] = React.useState("");
@@ -127,15 +129,15 @@ const ProductCard = ({ id, title, price, categories, shouldBeAbleToDelete }: Pro
             {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Price: {price}
+            {getTranslation(lang, "price") + price}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions >
         {// @ts-ignore 
-          roles.roles.roles[0].name == "USER" ? <Button size="small" color="primary" onClick={handleAddProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/} Add To Cart</Button> : null
+          roles.roles.roles[0].name == "USER" ? <Button size="small" color="primary" onClick={handleAddProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/}{getTranslation(lang, "add_to_cart")}</Button> : null
         }
-        {shouldBeAbleToDelete && <Button variant="contained" onClick={handleDeleteProduct} data-testid={"delete-button-" + id}>Delete</Button>}
+        {shouldBeAbleToDelete && <Button variant="contained" onClick={handleDeleteProduct} data-testid={"delete-button-" + id}>{getTranslation(lang, "delete")}</Button>}
         {// @ts-ignore 
           roles.roles.roles[0].name == "USER" ? <QuantityInput id={`quantity-input-${id}`} defaultValue={1} /> : null
         }
@@ -143,13 +145,13 @@ const ProductCard = ({ id, title, price, categories, shouldBeAbleToDelete }: Pro
       {isAdded &&
         <Snackbar open={isAdded} autoHideDuration={2000} onClose={handleAlertClick}>
           <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-            The product has been successfully added to the cart!
+            {getTranslation(lang, "product_added_to_cart_successfully")}
           </Alert>
         </Snackbar>}
       {isDeleted &&
         <Snackbar open={isDeleted} autoHideDuration={2000} onClose={handleAlertClick}>
           <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-            The product has been deleted successfully!
+            {getTranslation(lang, "product_deleted_successfully")}
           </Alert>
         </Snackbar>}
     </Card>

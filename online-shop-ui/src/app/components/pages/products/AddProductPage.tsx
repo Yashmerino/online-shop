@@ -47,6 +47,7 @@ import { useAppSelector } from '../../../hooks'
 import { Stack, Typography } from '@mui/material';
 import { getCategories } from '../../../api/CategoryRequest';
 import { useNavigate } from 'react-router-dom';
+import { getTranslation } from '../../../../i18n/i18n';
 
 const MenuProps = {
     PaperProps: {
@@ -70,6 +71,7 @@ const currencies = [
 ];
 
 const AddProductPage = () => {
+    const lang = useAppSelector(state => state.lang.lang);
     const roles = useAppSelector(state => state.roles);
     const jwt = useAppSelector(state => state.jwt);
     const navigate = useNavigate();
@@ -181,7 +183,7 @@ const AddProductPage = () => {
                             {isSuccess &&
                                 <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
                                     <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-                                        The product has been added successfully!
+                                    {getTranslation(lang, "product_added_successfully")}
                                     </Alert>
                                 </Snackbar>}
                             <Box className="my-profile-image-container">
@@ -200,15 +202,15 @@ const AddProductPage = () => {
                                 required
                                 id="name-field"
                                 data-testid="name-field"
-                                label="Name"
+                                label={getTranslation(lang, "name")}
                                 sx={{ width: "75%" }} />
                             <TextField
                                 id="currency-field"
                                 data-testid="currency-field"
                                 select
-                                label="Currency"
+                                label={getTranslation(lang, "currency")}
                                 defaultValue="EUR"
-                                helperText="Select your currency"
+                                helperText={getTranslation(lang, "select_currency")}
                             >
                                 {currencies.map((option) => (
                                     <MenuItem key={option.value} value={option.value}>
@@ -221,13 +223,13 @@ const AddProductPage = () => {
                                 data-testid="categories-field"
                                 displayEmpty
                                 multiple
-                                label="Categories"
+                                label={getTranslation(lang, "categories")}
                                 value={categories}
                                 onChange={handleCategoriesChange}
                                 input={<OutlinedInput />}
                                 renderValue={(selected) => (
                                     selected.length === 0
-                                        ? (<em>Categories</em>)
+                                        ? (<em>{getTranslation(lang, "categories")}</em>)
                                         : (<Box sx={{ display: 'grid', flexWrap: 'wrap', gap: 0.5, maxWidth: "100%" }}>
                                             {selected.map((value) => (
                                                 <Chip key={value} label={value} />
@@ -253,7 +255,7 @@ const AddProductPage = () => {
                                 required
                                 id="price-field"
                                 data-testid="price-field"
-                                label="Price"
+                                label={getTranslation(lang, "price")}
                                 type="number"
                                 inputProps={{ min: 0 }} />
                             <Button
@@ -263,11 +265,11 @@ const AddProductPage = () => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Add
+                                {getTranslation(lang, "add")}
                             </Button>
                         </Stack>
                     </Box>)
-                    : (<Typography align='center' marginTop={10}>You don't have rights to access this page.</Typography>)}
+                    : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)}
             <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
     );

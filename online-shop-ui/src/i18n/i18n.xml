@@ -31,6 +31,26 @@
 		<val lang="RU">Сохранить</val>
 		<val lang="RO">Salvează</val>
 	</key>
+	<key value="language">
+		<val lang="ENG">Language</val>
+		<val lang="RU">Язык</val>
+		<val lang="RO">Limba</val>
+	</key>
+	<key value="english">
+		<val lang="ENG">English</val>
+		<val lang="RU">Английский</val>
+		<val lang="RO">Engleza</val>
+	</key>
+	<key value="russian">
+		<val lang="ENG">Russian</val>
+		<val lang="RU">Русский</val>
+		<val lang="RO">Rusă</val>
+	</key>
+	<key value="romanian">
+		<val lang="ENG">Romanian</val>
+		<val lang="RU">Румынский</val>
+		<val lang="RO">Română</val>
+	</key>
 	<key value="cartitem_deleted_successfully">
 		<val lang="ENG">The cart item has been deleted successfully!</val>
 		<val lang="RU">Товар из корзины успешно удален!</val>
@@ -57,7 +77,7 @@
 		<val lang="RO">Ai deja un cont? Intră in el</val>
 	</key>
 	<key value="sign_up">
-		<val lang="ENG">Sign Un</val>
+		<val lang="ENG">Sign Up</val>
 		<val lang="RU">Зарегистрироваться</val>
 		<val lang="RO">Înscrie-te</val>
 	</key>
@@ -168,8 +188,13 @@
 	</key>
 	<key value="add_product">
 		<val lang="ENG">Add product</val>
-		<val lang="RU">Добавтить продукт</val>
+		<val lang="RU">Добавить продукт</val>
 		<val lang="RO">Adaugă produs</val>
+	</key>
+	<key value="add_to_cart">
+		<val lang="ENG">Add to cart</val>
+		<val lang="RU">Добавить в корзику</val>
+		<val lang="RO">Adaugă în coș</val>
 	</key>
 	<key value="logout">
 		<val lang="ENG">Logout</val>

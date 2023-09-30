@@ -30,12 +30,15 @@ import { Alert } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { InputError } from '../../../utils/InputErrorUtils';
 import { Snackbar } from '@mui/material';
+import { getTranslation } from '../../../../i18n/i18n';
+import { useAppSelector } from '../../../hooks';
 
 import Copyright from '../../footer/Copyright';
 import UserInputFields from './UserInputFields';
 import * as AuthRequest from '../../../api/AuthRequest';
 
 const RegisterPage = () => {
+    const lang = useAppSelector(state => state.lang.lang);
     const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
     const [isSuccess, setSuccess] = React.useState(false);
     const [error, setError] = React.useState("");
@@ -78,20 +81,20 @@ const RegisterPage = () => {
                     {isSuccess &&
                         <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
                             <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-                                The user has been registered successfully!
+                                {getTranslation(lang, "user_registered_successfully")}
                             </Alert>
                         </Snackbar>}
                     {error.length > 0 &&
                         <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
                             <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
-                                {error}
+                                {getTranslation(lang, error)}
                             </Alert>
                         </Snackbar>}
-                    <UserInputFields title="Sign Up" buttonText="Sign Up" handleSubmit={handleSubmit} isEmailAndRoleMandatory={true} inputErrors={inputErrors} />
+                    <UserInputFields title={getTranslation(lang, "sign_up")} buttonText={getTranslation(lang, "sign_up")} handleSubmit={handleSubmit} isEmailAndRoleMandatory={true} inputErrors={inputErrors} />
                 </Grid>
                 <Grid item>
                     <Link component={RouterLink} to={'/login'} variant="body2">
-                        {"Have already an account? Log in"}
+                        {getTranslation(lang, "have_account_message")}
                     </Link>
                 </Grid>
             </Grid>

@@ -40,8 +40,12 @@ import { updateJwt } from '../../../slices/jwtSlice';
 import { updateUsername } from '../../../slices/usernameSlice';
 import { parseJwt } from '../../../utils/Utils';
 import { updateRoles } from '../../../slices/rolesSlice';
+import { getTranslation } from '../../../../i18n/i18n';
+import { useAppSelector } from '../../../hooks';
 
 const LoginPage = () => {
+  const lang = useAppSelector(state => state.lang.lang);
+
   const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
@@ -82,16 +86,16 @@ const LoginPage = () => {
       {error.length > 0 &&
         <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
           <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
-            {error}
+            {getTranslation(lang, error)}
           </Alert>
         </Snackbar>}
       <Grid container>
         <Grid item>
-          <UserInputFields title="Sign In" buttonText="Sign In" handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
+          <UserInputFields title={getTranslation(lang, "sign_in")} buttonText={getTranslation(lang, "sign_in")} handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
         </Grid>
         <Grid item>
           <Link component={RouterLink} to={'/register'} variant="body2">
-            {"Don't have an account? Sign Up"}
+            {getTranslation(lang, "create_account_message")}
           </Link>
         </Grid>
       </Grid>

@@ -43,8 +43,10 @@ import Header from '../../Header';
 import { useAppSelector } from '../../../hooks';
 import { getUserPhoto, setUserPhoto, updateUser } from '../../../api/UserRequest';
 import { useNavigate } from 'react-router-dom';
+import { getTranslation } from '../../../../i18n/i18n';
 
 const MyProfilePage = () => {
+    const lang = useAppSelector(state => state.lang.lang);
     const jwt = useAppSelector(state => state.jwt.token);
     const username = useAppSelector(state => state.username.sub);
     const navigate = useNavigate();
@@ -128,7 +130,7 @@ const MyProfilePage = () => {
             {isSuccess &&
                 <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
                     <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-                        The user information has been successfully updated!
+                        {getTranslation(lang, "user_information_updated_successfully")}
                     </Alert>
                 </Snackbar>}
             <Box className="my-profile-image-container">
@@ -137,7 +139,7 @@ const MyProfilePage = () => {
                     <Box className="my-profile-image-information-container">
                         <Input id='file' type='file' onChange={handleFileChange}></Input>
                         <Button variant="contained" sx={{ marginRight: "auto" }} onClick={handleSavePhoto}>
-                            Save
+                            {getTranslation(lang, "save")}
                         </Button>
                     </Box>
                 </Paper>
@@ -151,7 +153,7 @@ const MyProfilePage = () => {
                     required
                     fullWidth
                     name="email"
-                    label="Email"
+                    label={getTranslation(lang, "email")}
                     type="email"
                     id="email"
                     data-testid="email"
@@ -161,7 +163,7 @@ const MyProfilePage = () => {
                     }}
                 />
                 <Button sx={{ marginLeft: "auto" }} variant="contained" onClick={handleSaveUser}>
-                    Save
+                    {getTranslation(lang, "save")}
                 </Button>
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />

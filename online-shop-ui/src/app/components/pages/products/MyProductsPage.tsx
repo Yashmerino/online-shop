@@ -35,10 +35,12 @@ import Product from './Product';
 
 import { useAppSelector } from '../../../hooks';
 import { useNavigate } from 'react-router-dom';
+import { getTranslation } from '../../../../i18n/i18n';
 
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
   const roles = useAppSelector(state => state.roles);
+  const lang = useAppSelector(state => state.lang.lang);
   const username = useAppSelector(state => state.username.sub);
 
   const [products, setProducts] = React.useState<Product[]>([]);
@@ -71,7 +73,7 @@ const ProductsContainer = () => {
             {products.length > 0 && products.map(product => {
               return (<ProductCard key={product.id} id={product.id} title={product.name} price={product.price} categories={product.categories} shouldBeAbleToDelete={true} />);
             })}
-          </Grid>) : (<Typography align='center' marginTop={10}>You don't have rights to access this page.</Typography>)
+          </Grid>) : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)
       }
       <Copyright sx={{ mt: 8, mb: 4 }} />
 

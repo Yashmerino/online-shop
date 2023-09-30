@@ -38,6 +38,8 @@ import InputFields from '../../../utils/InputFields';
 import { InputError } from '../../../utils/InputErrorUtils';
 import { isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import { getFieldInputErrorMessage } from '../../../utils/InputErrorUtils';
+import { useAppSelector } from '../../../hooks';
+import { getTranslation } from '../../../../i18n/i18n';
 
 interface UserInputProps {
     title: string,
@@ -49,6 +51,7 @@ interface UserInputProps {
 
 const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandatory, inputErrors }: UserInputProps) => {
     const [role, setRole] = React.useState('USER');
+    const lang = useAppSelector(state => state.lang.lang);
 
     const handleRoleChange = (event: SelectChangeEvent) => {
         setRole(event.target.value as string);
@@ -81,11 +84,11 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                                     id="role"
                                     data-testid="role"
                                     value={role}
-                                    label="Role"
+                                    label={getTranslation(lang, "role")}
                                     onChange={handleRoleChange}
                                 >
-                                    <MenuItem value={"USER"}>User</MenuItem>
-                                    <MenuItem value={"SELLER"}>Seller</MenuItem>
+                                    <MenuItem value={"USER"}>{getTranslation(lang, "user")}</MenuItem>
+                                    <MenuItem value={"SELLER"}>{getTranslation(lang, "seller")}</MenuItem>
                                 </Select>
                             </FormControl>
                             <TextField
@@ -95,7 +98,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                                 required
                                 fullWidth
                                 name="email"
-                                label="Email"
+                                label={getTranslation(lang, "email")}
                                 type="email"
                                 id="email"
                                 data-testid="email"
@@ -110,7 +113,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         fullWidth
                         id="username"
                         data-testid="username"
-                        label="Username"
+                        label={getTranslation(lang, "username")}
                         name="username"
                         autoComplete="username"
                         autoFocus
@@ -122,7 +125,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         required
                         fullWidth
                         name="password"
-                        label="Password"
+                        label={getTranslation(lang, "password")}
                         type="password"
                         id="password"
                         data-testid="password"

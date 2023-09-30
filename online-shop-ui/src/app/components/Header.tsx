@@ -17,12 +17,13 @@ import { Select, InputLabel, SelectChangeEvent } from '@mui/material';
 
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Lang from '../../i18n/LangEnum';
+import { getTranslation } from '../../i18n/i18n';
 import { updateLang } from '../slices/langSlice';
 import { setCookie } from '../utils/Utils';
 
 const Header = () => {
     const roles = useAppSelector(state => state.roles);
-    const lang = useAppSelector(state => state.lang);
+    const lang = useAppSelector(state => state.lang.lang);
     const username = useAppSelector(state => state.username.sub);
     const dispatch = useAppDispatch();
 
@@ -102,7 +103,7 @@ const Header = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        Online Shop
+                        {getTranslation(lang, "online_shop")}
                     </Typography>
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
@@ -121,12 +122,12 @@ const Header = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        Online Shop
+                        {getTranslation(lang, "online_shop")}
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
+                        <Tooltip title={getTranslation(lang, "open_settings")}>
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar src={photo} />
                             </IconButton>
@@ -147,25 +148,25 @@ const Header = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                            <MenuItem onClick={handleProfile}>{getTranslation(lang, "profile")}</MenuItem>
 
                             {// @ts-ignore 
-                                roles.roles.roles[0].name == "USER" ? <MenuItem onClick={handleMyCart}>My Cart</MenuItem> : null}
+                                roles.roles.roles[0].name == "USER" ? <MenuItem onClick={handleMyCart}>{getTranslation(lang, "my_cart")}</MenuItem> : null}
                             {// @ts-ignore 
-                                roles.roles.roles[0].name == "SELLER" ? <MenuItem onClick={handleAddProduct}>Add Product</MenuItem> : null}
+                                roles.roles.roles[0].name == "SELLER" ? <MenuItem onClick={handleAddProduct}>{getTranslation(lang, "add_product")}</MenuItem> : null}
                             <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                            <InputLabel sx={{ textAlign: "center", fontSize: "15px" }} id="select-language-label">Language</InputLabel>
+                            <InputLabel sx={{ textAlign: "center", fontSize: "15px" }} id="select-language-label">{getTranslation(lang, "language")}</InputLabel>
                             <Select
                                 sx={{ width: '150px', margin: "0 15px" }}
                                 labelId="select-language-label"
                                 id="select-language"
-                                value={lang.lang.toString()}
-                                label="Language"
+                                value={lang.toString()}
+                                label={getTranslation(lang, "language")}
                                 onChange={(value) => { handleLanguageSelection(value) }}
                             >
-                                <MenuItem value={Lang.ENG.toString()}>English</MenuItem>
-                                <MenuItem value={Lang.RU.toString()}>Russian</MenuItem>
-                                <MenuItem value={Lang.RO.toString()}>Romanian</MenuItem>
+                                <MenuItem value={Lang.ENG.toString()}>{getTranslation(lang, "english")}</MenuItem>
+                                <MenuItem value={Lang.RU.toString()}>{getTranslation(lang, "russian")}</MenuItem>
+                                <MenuItem value={Lang.RO.toString()}>{getTranslation(lang, "romanian")}</MenuItem>
                             </Select>
                         </Menu>
                     </Box>

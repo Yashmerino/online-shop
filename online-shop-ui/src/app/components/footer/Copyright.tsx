@@ -25,13 +25,17 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { getTranslation } from '../../../i18n/i18n';
+import { useAppSelector } from '../../hooks';
 
 const Copyright = (props: any) => {
+    const lang = useAppSelector(state => state.lang.lang);
+
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props} data-testid="footer">
             {'Copyright © '}
             <Link color="inherit" href="#">
-                Online Shop
+            {getTranslation(lang, "online_shop")}
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
