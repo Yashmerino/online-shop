@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<i18n>
+	<languages>
+		<language description="English" lang="ENG" />
+		<language description="Russian" lang="RU" />
+		<language description="Romanian" lang="RO" />
+	</languages>
+	<key value="online_shop">
+		<val lang="ENG">Online Shop</val>
+		<val lang="RU">Интернет Магазин</val>
+		<val lang="RO">Magazin Online</val>
+	</key>
+	<key value="no_rights_to_access">
+		<val lang="ENG">You don't have rights to access this page.</val>
+		<val lang="RU">У вас нет доступа к этой странице.</val>
+		<val lang="RO">Nu aveți drepturi pentru a accesa această pagină.</val>
+	</key>
+	<key value="price">
+		<val lang="ENG">Price: </val>
+		<val lang="RU">Цена: </val>
+		<val lang="RO">Preț: </val>
+	</key>
+	<key value="delete">
+		<val lang="ENG">Delete</val>
+		<val lang="RU">Удалить</val>
+		<val lang="RO">Sterge</val>
+	</key>
+	<key value="save">
+		<val lang="ENG">Save</val>
+		<val lang="RU">Сохранить</val>
+		<val lang="RO">Salvează</val>
+	</key>
+	<key value="cartitem_deleted_successfully">
+		<val lang="ENG">The cart item has been deleted successfully!</val>
+		<val lang="RU">Товар из корзины успешно удален!</val>
+		<val lang="RO">Produsul din coș a fost șters cu succes!</val>
+	</key>
+	<key value="cartitem_updated_successfully">
+		<val lang="ENG">The cart item has been updated successfully!</val>
+		<val lang="RU">Товар из корзины успешно обновлен!</val>
+		<val lang="RO">Produsul din coș a fost actualizat cu succes!</val>
+	</key>
+	<key value="create_account_message">
+		<val lang="ENG">Don't have an account? Sign Up</val>
+		<val lang="RU">У вас нет учетной записи? Зарегистрируйся</val>
+		<val lang="RO">Nu ai un cont? Înscrie-te</val>
+	</key>
+	<key value="user_registered_successfully">
+		<val lang="ENG">The user has been registered successfully!</val>
+		<val lang="RU">Пользователь успешно зарегистрирован!</val>
+		<val lang="RO">Utilizatorul a fost înregistrat cu succes!</val>
+	</key>
+	<key value="have_account_message">
+		<val lang="ENG">Have already an account? Log in</val>
+		<val lang="RU">Уже есть аккаунт? Авторизируйся</val>
+		<val lang="RO">Ai deja un cont? Intră in el</val>
+	</key>
+	<key value="sign_up">
+		<val lang="ENG">Sign Un</val>
+		<val lang="RU">Зарегистрироваться</val>
+		<val lang="RO">Înscrie-te</val>
+	</key>
+	<key value="sign_in">
+		<val lang="ENG">Sign In</val>
+		<val lang="RU">Войти</val>
+		<val lang="RO">Intră</val>
+	</key>
+	<key value="email">
+		<val lang="ENG">Email</val>
+		<val lang="RU">Электронная почта</val>
+		<val lang="RO">Email</val>
+	</key>
+	<key value="username">
+		<val lang="ENG">Username</val>
+		<val lang="RU">Имя пользователя</val>
+		<val lang="RO">Nume de utilizator</val>
+	</key>
+	<key value="password">
+		<val lang="ENG">Password</val>
+		<val lang="RU">Пароль</val>
+		<val lang="RO">Parolă</val>
+	</key>
+	<key value="role">
+		<val lang="ENG">Role</val>
+		<val lang="RU">Роль</val>
+		<val lang="RO">Rol</val>
+	</key>
+	<key value="user">
+		<val lang="ENG">User</val>
+		<val lang="RU">Покупатель</val>
+		<val lang="RO">Cumpărător</val>
+	</key>
+	<key value="seller">
+		<val lang="ENG">Seller</val>
+		<val lang="RU">Продавец</val>
+		<val lang="RO">Vânzător</val>
+	</key>
+	<key value="user_updated_successfully">
+		<val lang="ENG">The user information has been successfully updated!</val>
+		<val lang="RU">Информация о пользователе успешно обновлена!</val>
+		<val lang="RO">Informațiile utilizatorului au fost actualizate cu succes!</val>
+	</key>
+	<key value="product_added_successfully">
+		<val lang="ENG">The product has been added successfully!</val>
+		<val lang="RU">Товар успешно добавлен!</val>
+		<val lang="RO">Produsul a fost adăugat cu succes!</val>
+	</key>
+	<key value="product_deleted_successfully">
+		<val lang="ENG">The product has been deleted successfully!</val>
+		<val lang="RU">Товар успешно стёрт!</val>
+		<val lang="RO">Produsul a fost sterș cu succes!</val>
+	</key>
+	<key value="product_added_to_cart_successfully">
+		<val lang="ENG">The product has been successfully added to the cart!</val>
+		<val lang="RU">Товар успешно добавлен в корзину!</val>
+		<val lang="RO">Produsul a fost adăugat cu succes în coș!</val>
+	</key>
+	<key value="product_updated_successfully">
+		<val lang="ENG">The product has been updated successfully!</val>
+		<val lang="RU">Товар успешно обновлен!</val>
+		<val lang="RO">Produsul a fost actualizat cu succes!</val>
+	</key>
+	<key value="name">
+		<val lang="ENG">Name</val>
+		<val lang="RU">Название</val>
+		<val lang="RO">Denumire</val>
+	</key>
+	<key value="currency">
+		<val lang="ENG">Currency</val>
+		<val lang="RU">Валюта</val>
+		<val lang="RO">Valuta</val>
+	</key>
+	<key value="categories">
+		<val lang="ENG">Categories</val>
+		<val lang="RU">Категории</val>
+		<val lang="RO">Categorii</val>
+	</key>
+	<key value="add">
+		<val lang="ENG">Add</val>
+		<val lang="RU">Добавить</val>
+		<val lang="RO">Adaugă</val>
+	</key>
+	<key value="select_currency">
+		<val lang="ENG">Select your currency</val>
+		<val lang="RU">Выберите валюту</val>
+		<val lang="RO">Selectați moneda dvs</val>
+	</key>
+	<key value="update">
+		<val lang="ENG">Update</val>
+		<val lang="RU">Обновить</val>
+		<val lang="RO">Actualizează</val>
+	</key>
+	<key value="open_settings">
+		<val lang="ENG">Open settings</val>
+		<val lang="RU">Открыть настройки</val>
+		<val lang="RO">Deschide setările</val>
+	</key>
+	<key value="profile">
+		<val lang="ENG">Profile</val>
+		<val lang="RU">Учётная запись</val>
+		<val lang="RO">Profil</val>
+	</key>
+	<key value="my_cart">
+		<val lang="ENG">My cart</val>
+		<val lang="RU">Моя корзина</val>
+		<val lang="RO">Coșul meu</val>
+	</key>
+	<key value="add_product">
+		<val lang="ENG">Add product</val>
+		<val lang="RU">Добавтить продукт</val>
+		<val lang="RO">Adaugă produs</val>
+	</key>
+	<key value="logout">
+		<val lang="ENG">Logout</val>
+		<val lang="RU">Выйти</val>
+		<val lang="RO">Ieși</val>
+	</key>
+	<key value="username_taken">
+		<val lang="ENG">Username is taken!</val>
+		<val lang="RU">Имя пользователя занято!</val>
+		<val lang="RO">Numele de utilizator este deja folosit!</val>
+	</key>
+	<key value="username_not_found">
+		<val lang="ENG">Username is not found!</val>
+		<val lang="RU">Имя пользователя не найдено!</val>
+		<val lang="RO">Numele de utilizator nu a fost găsit!</val>
+	</key>
+	<key value="access_denied">
+		<val lang="ENG">Access denied.</val>
+		<val lang="RU">Доступ запрещен.</val>
+		<val lang="RO">Acces interzis.</val>
+	</key>
+</i18n>
+	

@@ -208,7 +208,7 @@ const AddProductPage = () => {
                                 select
                                 label="Currency"
                                 defaultValue="EUR"
-                                helperText="Please select your currency"
+                                helperText="Select your currency"
                             >
                                 {currencies.map((option) => (
                                     <MenuItem key={option.value} value={option.value}>
