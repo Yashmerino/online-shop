@@ -93,7 +93,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                             </FormControl>
                             <TextField
                                 error={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors)}
-                                helperText={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors) ? getFieldInputErrorMessage(InputFields.EMAIL, inputErrors) : null}
+                                helperText={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors) ? getFieldInputErrorMessage(InputFields.EMAIL, inputErrors, lang) : null}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -107,7 +107,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         </>}
                     <TextField
                         error={isFieldPresentInInputErrors(InputFields.USERNAME, inputErrors)}
-                        helperText={isFieldPresentInInputErrors(InputFields.USERNAME, inputErrors) ? getFieldInputErrorMessage(InputFields.USERNAME, inputErrors) : null}
+                        helperText={isFieldPresentInInputErrors(InputFields.USERNAME, inputErrors) ? getFieldInputErrorMessage(InputFields.USERNAME, inputErrors, lang) : null}
                         margin="normal"
                         required
                         fullWidth
@@ -120,7 +120,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                     />
                     <TextField
                         error={isFieldPresentInInputErrors(InputFields.PASSWORD, inputErrors)}
-                        helperText={isFieldPresentInInputErrors(InputFields.PASSWORD, inputErrors) ? getFieldInputErrorMessage(InputFields.PASSWORD, inputErrors) : null}
+                        helperText={isFieldPresentInInputErrors(InputFields.PASSWORD, inputErrors) ? getFieldInputErrorMessage(InputFields.PASSWORD, inputErrors, lang) : null}
                         margin="normal"
                         required
                         fullWidth

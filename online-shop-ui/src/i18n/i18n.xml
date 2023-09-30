@@ -216,5 +216,90 @@
 		<val lang="RU">Доступ запрещен.</val>
 		<val lang="RO">Acces interzis.</val>
 	</key>
+	<key value="username_is_required">
+		<val lang="ENG">Username is required.</val>
+		<val lang="RU">Имя пользователя обязательно.</val>
+		<val lang="RO">Numele de utilizator este necesar.</val>
+	</key>
+	<key value="username_too_long">
+		<val lang="ENG">Username is too long.</val>
+		<val lang="RU">Имя пользователя слишком длинное.</val>
+		<val lang="RO">Numele de utilizator este prea lung.</val>
+	</key>
+	<key value="username_too_short">
+		<val lang="ENG">Username is too short.</val>
+		<val lang="RU">Имя пользователя слишком короткое.</val>
+		<val lang="RO">Numele de utilizator este prea scurt.</val>
+	</key>
+	<key value="password_is_required">
+		<val lang="ENG">Password is required.</val>
+		<val lang="RU">Пароль обязательно.</val>
+		<val lang="RO">Parola este necesară.</val>
+	</key>
+	<key value="password_too_short">
+		<val lang="ENG">Password is too short.</val>
+		<val lang="RU">Пароль слишком короткий.</val>
+		<val lang="RO">Parola este prea scurtă.</val>
+	</key>
+	<key value="password_too_long">
+		<val lang="ENG">Password is too long.</val>
+		<val lang="RU">Пароль слишком длинный.</val>
+		<val lang="RO">Parola este prea lungă.</val>
+	</key>
+	<key value="email_is_required">
+		<val lang="ENG">Email is required.</val>
+		<val lang="RU">Электронная почта обязательно.</val>
+		<val lang="RO">Email este necesar.</val>
+	</key>
+	<key value="email_is_invalid">
+		<val lang="ENG">Email is invalid.</val>
+		<val lang="RU">Электронная почта инвалидна.</val>
+		<val lang="RO">Email este invalid.</val>
+	</key>
+	<key value="email_too_short">
+		<val lang="ENG">Email is too short.</val>
+		<val lang="RU">Электронная почта слишком короткая.</val>
+		<val lang="RO">Email este prea scurt.</val>
+	</key>
+	<key value="email_too_long">
+		<val lang="ENG">Email is too long.</val>
+		<val lang="RU">Электронная почта слишком длинная.</val>
+		<val lang="RO">Email este prea lung.</val>
+	</key>
+	<key value="name_is_required">
+		<val lang="ENG">Name is required.</val>
+		<val lang="RU">Имя обязательно.</val>
+		<val lang="RO">Numele este necesar.</val>
+	</key>
+	<key value="name_too_long">
+		<val lang="ENG">Name is too long.</val>
+		<val lang="RU">Имя слишком длинное.</val>
+		<val lang="RO">Numele este prea lung.</val>
+	</key>
+	<key value="name_too_short">
+		<val lang="ENG">Name is too short.</val>
+		<val lang="RU">Имя слишком короткое.</val>
+		<val lang="RO">Numele este prea scurt.</val>
+	</key>
+	<key value="price_is_required">
+		<val lang="ENG">Price is required.</val>
+		<val lang="RU">Требуется цена.</val>
+		<val lang="RO">Prețul este obligatoriu.</val>
+	</key>
+	<key value="price_value_error">
+		<val lang="ENG">Price should be greater than or equal to 0.01.</val>
+		<val lang="RU">Цена должна быть больше или равна 0,01.</val>
+		<val lang="RO">Prețul ar trebui să fie mai mare sau egal cu 0,01.</val>
+	</key>
+	<key value="quantity_is_required">
+		<val lang="ENG">Quantity is required.</val>
+		<val lang="RU">Требуется количество.</val>
+		<val lang="RO">Cantitatea este obligatoriu.</val>
+	</key>
+	<key value="quantity_value_error">
+		<val lang="ENG">Quanity should be greater than or equal to 1.</val>
+		<val lang="RU">Количество должна быть больше или равна 1.</val>
+		<val lang="RO">Cantitatea ar trebui să fie mai mare sau egal cu 1.</val>
+	</key>
 </i18n>
 	

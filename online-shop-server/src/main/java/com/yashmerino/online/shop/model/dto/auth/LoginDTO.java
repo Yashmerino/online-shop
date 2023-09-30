@@ -37,14 +37,14 @@ public class LoginDTO {
     /**
      * User's username.
      */
-    @NotNull(message = "Username is required.")
-    @NotBlank(message = "Username is required.")
+    @NotNull(message = "username_is_required")
+    @NotBlank(message = "username_is_required")
     private String username;
 
     /**
      * User's password.
      */
-    @NotNull(message = "Password is required.")
-    @NotBlank(message = "Password is required.")
+    @NotNull(message = "password_is_required")
+    @NotBlank(message = "password_is_required")
     private String password;
 }

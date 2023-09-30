@@ -45,19 +45,19 @@ public class ProductDTO {
     /**
      * Product's name;
      */
-    @NotNull(message = "Name is required.")
-    @NotBlank(message = "Name is required.")
+    @NotNull(message = "name_is_required")
+    @NotBlank(message = "name_is_required")
     @Size.List({
-            @Size(min = 4, message = "Name is too short."),
-            @Size(max = 40, message = "Name is too long.")
+            @Size(min = 4, message = "name_too_short"),
+            @Size(max = 40, message = "name_too_long")
     })
     private String name;
 
     /**
      * Product's Price.
      */
-    @NotNull(message = "Price is required.")
-    @DecimalMin(value = "0.01", message = "Price should be greater than or equal to 0.01.")
+    @NotNull(message = "price_is_required")
+    @DecimalMin(value = "0.01", message = "price_value_error")
     private Double price;
 
     /**

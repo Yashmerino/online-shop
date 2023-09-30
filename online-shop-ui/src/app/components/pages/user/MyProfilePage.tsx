@@ -148,7 +148,7 @@ const MyProfilePage = () => {
             <Box className="my-profile-user-information-container">
                 <TextField
                     error={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors)}
-                    helperText={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors) ? getFieldInputErrorMessage(InputFields.EMAIL, inputErrors) : null}
+                    helperText={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors) ? getFieldInputErrorMessage(InputFields.EMAIL, inputErrors, lang) : null}
                     margin="normal"
                     required
                     fullWidth

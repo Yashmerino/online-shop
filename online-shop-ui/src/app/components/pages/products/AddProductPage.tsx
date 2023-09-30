@@ -196,7 +196,7 @@ const AddProductPage = () => {
                             </Box>
                             <TextField
                                 error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}
-                                helperText={isFieldPresentInInputErrors(InputFields.NAME, inputErrors) ? getFieldInputErrorMessage(InputFields.NAME, inputErrors) : null}
+                                helperText={isFieldPresentInInputErrors(InputFields.NAME, inputErrors) ? getFieldInputErrorMessage(InputFields.NAME, inputErrors, lang) : null}
                                 value={name}
                                 onChange={(event) => { setName(event.target.value) }}
                                 required
@@ -249,7 +249,7 @@ const AddProductPage = () => {
                             </Select>
                             <TextField
                                 error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
-                                helperText={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors) ? getFieldInputErrorMessage(InputFields.PRICE, inputErrors) : null}
+                                helperText={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors) ? getFieldInputErrorMessage(InputFields.PRICE, inputErrors, lang) : null}
                                 value={price}
                                 onChange={(event) => { setPrice(Number(event.target.value)) }}
                                 required

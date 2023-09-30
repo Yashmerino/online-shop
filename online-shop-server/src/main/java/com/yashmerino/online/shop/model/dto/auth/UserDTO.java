@@ -38,12 +38,12 @@ public class UserDTO {
     /**
      * User's email.
      */
-    @Email(message = "Email is invalid.", regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-z A-Z]{2,7}$")
-    @NotNull(message = "Email is required.")
-    @NotBlank(message = "Email is required.")
+    @Email(message = "email_is_invalid", regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-z A-Z]{2,7}$")
+    @NotNull(message = "email_is_required")
+    @NotBlank(message = "email_is_required")
     @Size.List({
-            @Size(min = 4, message = "Email is too short."),
-            @Size(max = 255, message = "Email is too long.")
+            @Size(min = 4, message = "email_too_short"),
+            @Size(max = 255, message = "email_too_long")
     })
     private String email;
 }
