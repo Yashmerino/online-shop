@@ -133,7 +133,7 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"email\",\"message\":\"Email is invalid.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"email\",\"message\":\"email_is_invalid\"}]}"));
     }
 
     /**
@@ -148,8 +148,8 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"username\",\"message\":\"Username is required.\"}"));
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"username\",\"message\":\"Username is too short.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"username\",\"message\":\"username_is_required\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"username\",\"message\":\"username_too_short\"}"));
     }
 
     /**
@@ -174,8 +174,8 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"password\",\"message\":\"Password is too short.\"}"));
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"password\",\"message\":\"Password is required.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"password\",\"message\":\"password_too_short\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"password\",\"message\":\"password_is_required\"}"));
     }
 
     /**
@@ -223,7 +223,7 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/login").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"username\",\"message\":\"Username is required.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"username\",\"message\":\"username_is_required\"}]}"));
     }
 
     /**
@@ -241,7 +241,7 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/login").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"password\",\"message\":\"Password is required.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"password\",\"message\":\"password_is_required\"}]}"));
     }
 
     /**
@@ -256,7 +256,7 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"username\",\"message\":\"Username is too long.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"username\",\"message\":\"username_too_long\"}]}"));
     }
 
     /**
@@ -271,6 +271,6 @@ class AuthControllerTest {
         MvcResult result = mvc.perform(post("/api/auth/register").contentType(
                 APPLICATION_JSON).content(objectMapper.writeValueAsString(registerDTO))).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"username\",\"message\":\"Username is too short.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"username\",\"message\":\"username_too_short\"}]}"));
     }
 }

@@ -229,8 +229,8 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is too short.\"}"));
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is required.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_too_short\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_is_required\"}"));
     }
 
     /**
@@ -247,7 +247,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"price\",\"message\":\"Price should be greater than or equal to 0.01.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"price\",\"message\":\"price_value_error\"}]}"));
     }
 
     /**
@@ -265,8 +265,8 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"price\",\"message\":\"Price should be greater than or equal to 0.01.\"}"));
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is required.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"price\",\"message\":\"price_value_error\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_is_required\"}"));
     }
 
     /**
@@ -314,7 +314,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"Name is too long.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"name_too_long\"}]}"));
     }
 
     /**
@@ -331,7 +331,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"Name is too short.\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"name_too_short\"}]}"));
     }
 
     /**
@@ -531,9 +531,9 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is required.\"}"));
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"price\",\"message\":\"Price should be greater than or equal to 0.01.\"}"));
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"Name is too short.\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_is_required\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"price\",\"message\":\"price_value_error\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_too_short\"}"));
 
         result = mvc.perform(get("/api/product/1")).andExpect(status().isOk()).andReturn();
 

@@ -28,7 +28,8 @@
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.6",
     "terser-webpack-plugin": "^5.3.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xml-loader": "^1.2.1"
   },
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --open",
