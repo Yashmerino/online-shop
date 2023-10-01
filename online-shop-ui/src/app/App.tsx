@@ -27,8 +27,25 @@ import './../main.scss';
 
 import { Link } from 'react-router-dom';
 import Main from './Main';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { useAppSelector } from './hooks';
 
 function App() {
+    const theme = useAppSelector(state => state.theme.theme);
+
+    const lightTheme = createTheme({
+        palette: {
+            mode: 'light',
+        },
+    });
+
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+        },
+    });
+
     return (
         <div>
             <ul>
@@ -41,7 +58,10 @@ function App() {
                 <li><Link to='/profile'>My Profile page</Link></li>
             </ul>
             <hr />
-            <Main />
+            <ThemeProvider theme={theme ? darkTheme : lightTheme}>
+                <CssBaseline />
+                <Main />
+            </ThemeProvider>
         </div>
     );
 }

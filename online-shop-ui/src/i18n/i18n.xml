@@ -192,7 +192,7 @@
 	</key>
 	<key value="add_to_cart">
 		<val lang="ENG">Add to cart</val>
-		<val lang="RU">Добавить в корзику</val>
+		<val lang="RU">Добавить в корзину</val>
 		<val lang="RO">Adaugă în coș</val>
 	</key>
 	<key value="logout">
@@ -344,6 +344,21 @@
 		<val lang="ENG">Office Equipment</val>
 		<val lang="RU">Оргтехника</val>
 		<val lang="RO">Echipamente de birou</val>
+	</key>
+	<key value="theme">
+		<val lang="ENG">Theme</val>
+		<val lang="RU">Тема</val>
+		<val lang="RO">Tema</val>
+	</key>
+	<key value="light_theme">
+		<val lang="ENG">Light</val>
+		<val lang="RU">Светлая</val>
+		<val lang="RO">Deschisă</val>
+	</key>
+	<key value="dark_theme">
+		<val lang="ENG">Dark</val>
+		<val lang="RU">Темная</val>
+		<val lang="RO">Închisă</val>
 	</key>
 </i18n>
 	

@@ -20,10 +20,12 @@ import Lang from '../../i18n/LangEnum';
 import { getTranslation } from '../../i18n/i18n';
 import { updateLang } from '../slices/langSlice';
 import { setCookie } from '../utils/Utils';
+import { updateTheme } from '../slices/themeSlice';
 
 const Header = () => {
     const roles = useAppSelector(state => state.roles);
     const lang = useAppSelector(state => state.lang.lang);
+    const theme = useAppSelector(state => state.theme.theme);
     const username = useAppSelector(state => state.username.sub);
     const dispatch = useAppDispatch();
 
@@ -81,6 +83,14 @@ const Header = () => {
                 dispatch(updateLang(lang as Lang));
             }
         });
+    }
+
+    const handleChangeTheme = (e: SelectChangeEvent<string>) => {
+        const isDark = e.target.value.localeCompare(getTranslation(lang, "dark_theme")) == 0 ? "true" : "false";
+
+        setCookie("online-shop-dark-theme", isDark);
+        dispatch(updateTheme(isDark == "true"));
+        console.log(theme);
     }
 
     return (
@@ -167,6 +177,18 @@ const Header = () => {
                                 <MenuItem value={Lang.ENG.toString()}>{getTranslation(lang, "english")}</MenuItem>
                                 <MenuItem value={Lang.RU.toString()}>{getTranslation(lang, "russian")}</MenuItem>
                                 <MenuItem value={Lang.RO.toString()}>{getTranslation(lang, "romanian")}</MenuItem>
+                            </Select>
+                            <InputLabel sx={{ textAlign: "center", fontSize: "15px" }} id="select-theme-label">{getTranslation(lang, "theme")}</InputLabel>
+                            <Select
+                                sx={{ width: '150px', margin: "0 15px" }}
+                                labelId="select-theme-label"
+                                id="select-theme"
+                                value={theme ? getTranslation(lang, "dark_theme") : getTranslation(lang, "light_theme")}
+                                label={getTranslation(lang, "theme")}
+                                onChange={(value) => { handleChangeTheme(value) }}
+                            >
+                                <MenuItem value={getTranslation(lang, "light_theme")}>{getTranslation(lang, "light_theme")}</MenuItem>
+                                <MenuItem value={getTranslation(lang, "dark_theme")}>{getTranslation(lang, "dark_theme")}</MenuItem>
                             </Select>
                         </Menu>
                     </Box>
