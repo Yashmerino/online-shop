@@ -3,7 +3,6 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import CartItemCard from "../app/components/cart/CartItemCard";
 import * as CartItemsRequest from "../app/api/CartItemsRequest";
-import i18n from "../i18n/i18n.xml";
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';

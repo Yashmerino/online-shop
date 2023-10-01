@@ -13,7 +13,7 @@ import "../app/utils/mockJsdom";
 import i18n from "../i18n/i18n.xml";
 
 describe("Update Product Page Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } }, lang: { lang: "ENG" } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, roles: { roles: { roles: [{ id: 1, name: "SELLER" }] } }, lang: { lang: "ENG" }, theme: { theme: "false" } };
     const mockStore = configureStore()
 
     let store: Store;

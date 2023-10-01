@@ -10,7 +10,7 @@ import "../app/utils/mockJsdom";
 import MyProfilePage from "../app/components/pages/user/MyProfilePage";
 
 describe("Products Container Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" }, theme: { theme: "false" } };
     const mockStore = configureStore()
     let store: Store;
 

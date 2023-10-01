@@ -10,7 +10,7 @@ import { Store } from "redux";
 import "../app/utils/mockJsdom";
 
 describe("Cart Container Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" }, theme: { theme: "false" } };
     const mockStore = configureStore();
     let store: Store;
 
@@ -51,7 +51,7 @@ describe("Cart Container Tests", () => {
     });
 
     it("Test no rights to access page as Seller", () => {
-        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } }, lang: { lang: "ENG" } };
+        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } }, lang: { lang: "ENG" }, theme: { theme: "false" } };
         store = mockStore(newState)
 
         const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');

@@ -10,7 +10,7 @@ import { Store } from "redux";
 import "../app/utils/mockJsdom";
 
 describe("Products Container Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" }, theme: { theme: "false" } };
     const mockStore = configureStore()
     let store: Store;
 
@@ -80,7 +80,7 @@ describe("Products Container Tests", () => {
     });
 
     it("Test no add product to the cart button as Seller", () => {
-        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } }, lang: { lang: "ENG" } };
+        const newState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 2, name: "SELLER" }] } }, lang: { lang: "ENG" }, theme: { theme: "false" } };
         store = mockStore(newState)
 
         const getAllProductsMock = jest.spyOn(ProductRequest, 'getProducts');
