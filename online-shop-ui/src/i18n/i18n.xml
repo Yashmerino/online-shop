@@ -300,5 +300,50 @@
 		<val lang="RU">Количество должна быть больше или равна 1.</val>
 		<val lang="RO">Cantitatea ar trebui să fie mai mare sau egal cu 1.</val>
 	</key>
+	<key value="Digital Services">
+		<val lang="ENG">Digital Services</val>
+		<val lang="RU">Цифровые услуги</val>
+		<val lang="RO">Servicii digitale</val>
+	</key>
+	<key value="Cosmetics and Body Care">
+		<val lang="ENG">Cosmetics and Body Care</val>
+		<val lang="RU">Косметика и уход за телом</val>
+		<val lang="RO">Cosmetice și îngrijire corporală</val>
+	</key>
+	<key value="Food and Beverage">
+		<val lang="ENG">Cosmetics and Body Care</val>
+		<val lang="RU">Еда и напитки</val>
+		<val lang="RO">Mancare și bautură</val>
+	</key>
+	<key value="Furniture and Decor">
+		<val lang="ENG">Furniture and Decor</val>
+		<val lang="RU">Мебель и Декор</val>
+		<val lang="RO">Mobilă și Decor</val>
+	</key>
+	<key value="Health and Wellness">
+		<val lang="ENG">Health and Wellness</val>
+		<val lang="RU">Здоровье и благополучие</val>
+		<val lang="RO">Sănătate și bunăstare</val>
+	</key>
+	<key value="Household Items">
+		<val lang="ENG">Household Items</val>
+		<val lang="RU">Домашняя утварь</val>
+		<val lang="RO">Articole de uz casnic​</val>
+	</key>
+	<key value="Media">
+		<val lang="ENG">Media</val>
+		<val lang="RU">Медия</val>
+		<val lang="RO">Media</val>
+	</key>
+	<key value="Pet Care">
+		<val lang="ENG">Pet Care</val>
+		<val lang="RU">Забота о животных</val>
+		<val lang="RO">Îngrijirea animalelor de companie</val>
+	</key>
+	<key value="Office Equipment">
+		<val lang="ENG">Office Equipment</val>
+		<val lang="RU">Оргтехника</val>
+		<val lang="RO">Echipamente de birou</val>
+	</key>
 </i18n>
 	

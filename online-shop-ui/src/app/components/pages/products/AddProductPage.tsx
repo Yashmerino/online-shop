@@ -232,7 +232,7 @@ const AddProductPage = () => {
                                         ? (<em>{getTranslation(lang, "categories")}</em>)
                                         : (<Box sx={{ display: 'grid', flexWrap: 'wrap', gap: 0.5, maxWidth: "100%" }}>
                                             {selected.map((value) => (
-                                                <Chip key={value} label={value} />
+                                                <Chip key={value} label={getTranslation(lang, value)} />
                                             ))}
                                         </Box>)
                                 )}
@@ -243,7 +243,7 @@ const AddProductPage = () => {
                                 {fetchedCategories.map((fetchedCategory) => (
                                     <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
                                         <Checkbox checked={categories.indexOf(fetchedCategory.name) > -1} />
-                                        <ListItemText primary={fetchedCategory.name} />
+                                        <ListItemText primary={getTranslation(lang, fetchedCategory.name)} />
                                     </MenuItem>
                                 ))}
                             </Select>
