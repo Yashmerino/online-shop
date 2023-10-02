@@ -113,6 +113,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.algolia</groupId>
+            <artifactId>algoliasearch-core</artifactId>
+            <version>3.16.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.algolia</groupId>
+            <artifactId>algoliasearch-java-net</artifactId>
+            <version>3.16.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>
