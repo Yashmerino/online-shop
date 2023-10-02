@@ -24,6 +24,7 @@ package com.yashmerino.online.shop.security;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.utils.ApplicationProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -36,7 +37,6 @@ import java.security.Key;
 import java.util.Date;
 
 import static com.yashmerino.online.shop.security.SecurityConstants.JWT_EXPIRATION;
-import static com.yashmerino.online.shop.security.SecurityConstants.JWT_SECRET;
 import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 
 /**
@@ -45,6 +45,20 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 @Component
 @SuppressWarnings("java:S6437")
 public class JwtProvider {
+
+    /**
+     * Application properties.
+     */
+    private ApplicationProperties applicationProperties;
+
+    /**
+     * Constructor.
+     *
+     * @param applicationProperties is the application's properties.
+     */
+    public JwtProvider(ApplicationProperties applicationProperties) {
+        this.applicationProperties = applicationProperties;
+    }
 
     /**
      * Generates a token.
@@ -102,7 +116,7 @@ public class JwtProvider {
      * @return <code>Key</code>.
      */
     private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(applicationProperties.JWT_SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

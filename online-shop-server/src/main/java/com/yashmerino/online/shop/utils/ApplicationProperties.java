@@ -1,5 +1,4 @@
-package com.yashmerino.online.shop.security;
-
+package com.yashmerino.online.shop.utils;
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + MIT License
  +
@@ -24,30 +23,41 @@ package com.yashmerino.online.shop.security;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 /**
- * Constant values for security configuration.
+ * Class that stores properties.
  */
-public class SecurityConstants {
+@Component
+public class ApplicationProperties {
+    /**
+     * JWT Secret.
+     */
+    @Value("${jwt.secret}")
+    public String JWT_SECRET;
 
     /**
-     * Time after which JWT token expires.
+     * Algolia private API key.
      */
-    public static final long JWT_EXPIRATION = 700000;
+    @Value("${algolia.usage}")
+    public Boolean ALGOLIA_USAGE;
 
     /**
-     * Bearer part from the auth header.
+     * Algolia private API key.
      */
-    public static final String JWT_HEADER = "Bearer ";
+    @Value("${algolia.api.key}")
+    public String ALGOLIA_API_KEY;
 
     /**
-     * Auth header.
+     * Algolia application id.
      */
-    public static final String AUTH_HEADER = "Authorization";
+    @Value("${algolia.app.id}")
+    public String ALGOLIA_APPLICATION_ID;
 
     /**
-     * Private constructor to not allow instantiation.
+     * Algolia index's name.
      */
-    private SecurityConstants() {
-
-    }
+    @Value("${algolia.index.name}")
+    public String ALGOLIA_INDEX_NAME;
 }
