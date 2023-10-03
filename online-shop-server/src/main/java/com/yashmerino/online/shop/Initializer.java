@@ -36,6 +36,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Initializer to initialize data.
@@ -161,8 +162,8 @@ public class Initializer implements CommandLineRunner {
         product.linkCartItem(cartItem);
         productRepository.save(product);
 
-        algoliaService.populateIndex(new ArrayList<>() {{
-            add(product);
-        }});
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+        algoliaService.populateIndex(products);
     }
 }
