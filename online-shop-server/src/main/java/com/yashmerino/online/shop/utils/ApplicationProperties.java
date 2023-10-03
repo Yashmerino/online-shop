@@ -41,7 +41,7 @@ public class ApplicationProperties {
      * Algolia private API key.
      */
     @Value("${algolia.usage}")
-    public Boolean ALGOLIA_USAGE;
+    public Boolean IS_ALGOLIA_USED;
 
     /**
      * Algolia private API key.

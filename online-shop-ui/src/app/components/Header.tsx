@@ -90,7 +90,6 @@ const Header = () => {
 
         setCookie("online-shop-dark-theme", isDark);
         dispatch(updateTheme(isDark == "true"));
-        console.log(theme);
     }
 
     return (

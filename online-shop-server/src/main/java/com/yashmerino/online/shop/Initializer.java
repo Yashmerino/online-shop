@@ -25,6 +25,7 @@ package com.yashmerino.online.shop;
 
 import com.yashmerino.online.shop.model.*;
 import com.yashmerino.online.shop.repositories.*;
+import com.yashmerino.online.shop.services.AlgoliaService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -73,6 +75,11 @@ public class Initializer implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
 
     /**
+     * Algolia service.
+     */
+    private final AlgoliaService algoliaService;
+
+    /**
      * Constructor.
      *
      * @param roleRepository     is the role repository.
@@ -81,14 +88,16 @@ public class Initializer implements CommandLineRunner {
      * @param cartItemRepository is the cart item repository.
      * @param cartRepository     is the cart repository.
      * @param passwordEncoder    is the password encoder.
+     * @param algoliaService     is the Algolia service.
      */
-    public Initializer(RoleRepository roleRepository, UserRepository userRepository, ProductRepository productRepository, CartItemRepository cartItemRepository, CartRepository cartRepository, PasswordEncoder passwordEncoder) {
+    public Initializer(RoleRepository roleRepository, UserRepository userRepository, ProductRepository productRepository, CartItemRepository cartItemRepository, CartRepository cartRepository, PasswordEncoder passwordEncoder, AlgoliaService algoliaService) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.cartItemRepository = cartItemRepository;
         this.cartRepository = cartRepository;
         this.passwordEncoder = passwordEncoder;
+        this.algoliaService = algoliaService;
     }
 
     /**
@@ -151,5 +160,9 @@ public class Initializer implements CommandLineRunner {
 
         product.linkCartItem(cartItem);
         productRepository.save(product);
+
+        algoliaService.populateIndex(new ArrayList<>() {{
+            add(product);
+        }});
     }
 }

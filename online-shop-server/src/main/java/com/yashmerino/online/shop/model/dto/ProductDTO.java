@@ -23,8 +23,13 @@ package com.yashmerino.online.shop.model.dto;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.yashmerino.online.shop.model.Category;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,11 +40,13 @@ import java.util.Set;
  */
 @Getter
 @Setter
+@JsonPropertyOrder({"objectID", "name", "price", "categories"})
 public class ProductDTO {
 
     /**
      * Product's id.
      */
+    @JsonProperty("objectID")
     private Long id;
 
     /**

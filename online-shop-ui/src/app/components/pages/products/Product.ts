@@ -1,5 +1,5 @@
 export default interface Product {
-    id: number,
+    objectID: number,
     name: string,
     price: string,
     categories: string[]

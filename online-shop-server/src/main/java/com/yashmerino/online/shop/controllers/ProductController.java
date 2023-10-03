@@ -27,6 +27,7 @@ import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.model.dto.SuccessWithIdDTO;
+import com.yashmerino.online.shop.services.AlgoliaService;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import com.yashmerino.online.shop.services.interfaces.CartService;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
@@ -34,7 +35,7 @@ import com.yashmerino.online.shop.services.interfaces.UserService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
-import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
+import com.yashmerino.online.shop.utils.ApplicationProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -53,6 +54,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.yashmerino.online.shop.utils.RequestBodyToEntityConverter.convertToProductDTO;
 
 /**
  * Product's controller.
@@ -85,18 +88,32 @@ public class ProductController {
     private final UserService userService;
 
     /**
+     * Algolia service.
+     */
+    private final AlgoliaService algoliaService;
+
+    /**
+     * Application's properties.
+     */
+    private final ApplicationProperties applicationProperties;
+
+    /**
      * Constructor.
      *
-     * @param productService  is the products' service.
-     * @param cartItemService is the cart items' service.
-     * @param cartService     is the carts' service.
-     * @param userService     is the users' service
+     * @param productService        is the products' service.
+     * @param cartItemService       is the cart items' service.
+     * @param cartService           is the carts' service.
+     * @param userService           is the users' service
+     * @param algoliaService        is the Algolia service.
+     * @param applicationProperties is the application's properties.
      */
-    public ProductController(ProductService productService, CartItemService cartItemService, CartService cartService, UserService userService) {
+    public ProductController(ProductService productService, CartItemService cartItemService, CartService cartService, UserService userService, AlgoliaService algoliaService, ApplicationProperties applicationProperties) {
         this.productService = productService;
         this.cartItemService = cartItemService;
         this.cartService = cartService;
         this.userService = userService;
+        this.algoliaService = algoliaService;
+        this.applicationProperties = applicationProperties;
     }
 
     /**
@@ -126,6 +143,10 @@ public class ProductController {
         successDTO.setStatus(200);
         successDTO.setMessage("product_added_successfully");
         successDTO.setId(productId);
+
+        if (applicationProperties.IS_ALGOLIA_USED) {
+            algoliaService.addProductToIndex(convertToProductDTO(productService.getProduct(productId)));
+        }
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
@@ -184,7 +205,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
         Product product = productService.getProduct(id);
-        ProductDTO productDTO = RequestBodyToEntityConverter.convertToProductDTO(product);
+        ProductDTO productDTO = convertToProductDTO(product);
 
         return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
@@ -212,7 +233,7 @@ public class ProductController {
         List<ProductDTO> productsDTO = new ArrayList<>();
 
         for (Product product : products) {
-            productsDTO.add(RequestBodyToEntityConverter.convertToProductDTO(product));
+            productsDTO.add(convertToProductDTO(product));
         }
 
         return new ResponseEntity<>(productsDTO, HttpStatus.OK);
@@ -245,6 +266,10 @@ public class ProductController {
         successDTO.setStatus(200);
         successDTO.setMessage("product_deleted_successfully");
 
+        if (applicationProperties.IS_ALGOLIA_USED) {
+            algoliaService.deleteProductFromIndex(id);
+        }
+
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
 
@@ -272,7 +297,7 @@ public class ProductController {
         List<ProductDTO> productsDTO = new ArrayList<>();
 
         for (Product product : products) {
-            productsDTO.add(RequestBodyToEntityConverter.convertToProductDTO(product));
+            productsDTO.add(convertToProductDTO(product));
         }
 
         return new ResponseEntity<>(productsDTO, HttpStatus.OK);
@@ -354,6 +379,10 @@ public class ProductController {
         SuccessDTO successDTO = new SuccessDTO();
         successDTO.setStatus(200);
         successDTO.setMessage("product_updated_successfully");
+
+        if (applicationProperties.IS_ALGOLIA_USED) {
+            algoliaService.addProductToIndex(convertToProductDTO(productService.getProduct(id)));
+        }
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
     }
