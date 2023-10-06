@@ -21,6 +21,7 @@
             src/main/java/com/yashmerino/online/shop/model/dto/auth/*.java,
             src/main/java/com/yashmerino/online/shop/security/*.java,
             src/main/java/com/yashmerino/online/shop/swagger/*.java,
+            src/main/java/com/yashmerino/online/shop/services/AlgoliaService.java,
             src/main/java/com/yashmerino/online/shop/Initializer.java,
             src/main/java/com/yashmerino/online/shop/OnlineShopServerApplication.java
         </sonar.coverage.exclusions>

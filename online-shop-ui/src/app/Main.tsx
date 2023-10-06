@@ -10,6 +10,7 @@ import MyProductsPage from './components/pages/products/MyProductsPage';
 import MyProfilePage from './components/pages/user/MyProfilePage';
 import EditProductPage from './components/pages/products/EditProductPage';
 import { useAppSelector } from './hooks';
+import SearchPage from './components/pages/search/SearchPage';
 
 const Main = () => {
     const jwt = useAppSelector(state => state.jwt.token);
@@ -24,6 +25,7 @@ const Main = () => {
             <Route path='/profile/products' element={jwt.length > 0 ? <MyProductsPage /> : <Navigate to='/login' />} />
             <Route path='/profile' element={jwt.length > 0 ? <MyProfilePage /> : <Navigate to='/login' />} />
             <Route path='/product/edit' element={jwt.length > 0 ? <EditProductPage /> : <Navigate to='/login' />} />
+            <Route path='/search' element={jwt.length > 0 ? <SearchPage /> : <Navigate to='/login' />} />
         </Routes>
     );
 }

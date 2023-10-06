@@ -56,6 +56,7 @@ function App() {
                 <li><Link to='/product/add'>Add Product page</Link></li>
                 <li><Link to='/profile/products'>My Products page</Link></li>
                 <li><Link to='/profile'>My Profile page</Link></li>
+                <li><Link to='/search'>Search page</Link></li>
             </ul>
             <hr />
             <ThemeProvider theme={theme ? darkTheme : lightTheme}>

@@ -162,8 +162,26 @@ public class Initializer implements CommandLineRunner {
         product.linkCartItem(cartItem);
         productRepository.save(product);
 
+        Product product2 = new Product();
+        product2.setId(2L);
+        product2.setPhoto(applePhoto);
+        product2.setName("Pear");
+        product2.setPrice(2.50);
+        product2.setUser(seller);
+        productRepository.save(product2);
+
+        Product product3 = new Product();
+        product3.setId(3L);
+        product3.setPhoto(applePhoto);
+        product3.setName("Banana");
+        product3.setPrice(2.50);
+        product3.setUser(seller);
+        productRepository.save(product3);
+
         List<Product> products = new ArrayList<>();
         products.add(product);
+        products.add(product2);
+        products.add(product3);
         algoliaService.populateIndex(products);
     }
 }

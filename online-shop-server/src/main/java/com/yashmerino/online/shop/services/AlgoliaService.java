@@ -78,7 +78,8 @@ public class AlgoliaService {
         this.index.setSettings(new IndexSettings()
                 .setSearchableAttributes(Arrays.asList("name"))
                 .setCustomRanking(Arrays.asList("desc(name)"))
-                .setAttributesForFaceting(Arrays.asList("categories")));
+                .setAttributesForFaceting(Arrays.asList("categories"))
+                .setAttributesToHighlight(new ArrayList<>()));
 
         this.index.clearObjects();
     }
