@@ -61,6 +61,14 @@ public class ProductDTO {
     private String name;
 
     /**
+     * Product's description;
+     */
+    @Size.List({
+            @Size(max = 100, message = "description_too_long")
+    })
+    private String description;
+
+    /**
      * Product's Price.
      */
     @NotNull(message = "price_is_required")

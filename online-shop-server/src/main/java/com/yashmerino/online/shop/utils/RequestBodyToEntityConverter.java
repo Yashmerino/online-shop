@@ -51,6 +51,7 @@ public class RequestBodyToEntityConverter {
     public static Product convertToProduct(final ProductDTO productDTO) {
         Product product = new Product();
         product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setCategories(productDTO.getCategories());
 
@@ -67,6 +68,7 @@ public class RequestBodyToEntityConverter {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(product.getId());
         productDTO.setName(product.getName());
+        productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice());
         productDTO.setCategories(product.getCategories());
 

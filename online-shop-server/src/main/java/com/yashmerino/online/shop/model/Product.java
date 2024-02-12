@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yashmerino.online.shop.model.base.BaseEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +59,11 @@ public class Product extends BaseEntity {
      * Product's price.
      */
     private Double price;
+
+    /**
+     * Product's description;
+     */
+    private String description;
 
     /**
      * Product's categories.
