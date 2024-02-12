@@ -46,6 +46,7 @@ public class RegisterDTO {
     /**
      * User's email.
      */
+    //NOSONAR: The size of email is limited so no stack overflow is possible.
     @Email(message = "email_is_invalid", regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-z A-Z]{2,7}$")
     @NotNull(message = "email_is_required")
     @NotBlank(message = "email_is_required")
