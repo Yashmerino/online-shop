@@ -128,7 +128,7 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product/3")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"objectID\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"objectID\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[],\"description\":null}"));
     }
 
     /**
@@ -156,7 +156,7 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("[{\"objectID\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]},{\"objectID\":2,\"name\":\"Laptop\",\"price\":3.0,\"categories\":[]},{\"objectID\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[]},{\"objectID\":4,\"name\":\"Banana\",\"price\":1.25,\"categories\":[]}]"));
+        assertTrue(result.getResponse().getContentAsString().contains("[{\"objectID\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[],\"description\":null},{\"objectID\":2,\"name\":\"Laptop\",\"price\":3.0,\"categories\":[],\"description\":null},{\"objectID\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[],\"description\":null},{\"objectID\":4,\"name\":\"Banana\",\"price\":1.25,\"categories\":[],\"description\":null}]"));
     }
 
     /**
@@ -359,11 +359,11 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product/seller/seller")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("[{\"objectID\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]},{\"objectID\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[]},{\"objectID\":4,\"name\":\"Banana\",\"price\":1.25,\"categories\":[]}]"));
+        assertTrue(result.getResponse().getContentAsString().contains("[{\"objectID\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[],\"description\":null},{\"objectID\":3,\"name\":\"Product\",\"price\":2.5,\"categories\":[],\"description\":null},{\"objectID\":4,\"name\":\"Banana\",\"price\":1.25,\"categories\":[],\"description\":null}]"));
 
         result = mvc.perform(get("/api/product/seller/anotherSeller")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("[{\"objectID\":2,\"name\":\"Laptop\",\"price\":3.0,\"categories\":[]}]"));
+        assertTrue(result.getResponse().getContentAsString().contains("[{\"objectID\":2,\"name\":\"Laptop\",\"price\":3.0,\"categories\":[],\"description\":null}]"));
     }
 
     /**
@@ -495,7 +495,7 @@ class ProductControllerTest {
     void updateProductTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/product/1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"objectID\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"objectID\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[],\"description\":null}"));
 
         productDTO.setName("Android");
         productDTO.setPrice(2.5);
@@ -513,7 +513,7 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product/1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"objectID\":1,\"name\":\"Android\",\"price\":2.5,\"categories\":[{\"id\":1,\"name\":\"Digital Services\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"objectID\":1,\"name\":\"Android\",\"price\":2.5,\"categories\":[{\"id\":1,\"name\":\"Digital Services\"}],\"description\":null}"));
     }
 
     /**
@@ -537,7 +537,7 @@ class ProductControllerTest {
 
         result = mvc.perform(get("/api/product/1")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"objectID\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"objectID\":1,\"name\":\"Phone\",\"price\":5.0,\"categories\":[],\"description\":null}"));
     }
 
     /**
@@ -588,5 +588,26 @@ class ProductControllerTest {
                         APPLICATION_JSON)).andExpect(status().isForbidden()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains(",\"status\":403,\"error\":\"access_denied\"}"));
+    }
+
+    /**
+     * Update product with too long description.
+     *
+     * @throws Exception
+     */
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void updateProductTooLongDescriptionTest() throws Exception {
+        productDTO.setDescription("123123123123123123123123123123123123123123123123123123123123123123123123123123123123123" +
+                "1231231231231231231231231231231231231231231231231231231231231231231231231231231231231231231231231231231231" +
+                "23123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123" +
+                "123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123" +
+                "123123123123123123123123123123123123123123");
+
+        MvcResult result = mvc.perform(put("/api/product/1")
+                .content(objectMapper.writeValueAsString(productDTO)).contentType(
+                        APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("\"field\":\"description\",\"message\":\"description_too_long\""));
     }
 }
