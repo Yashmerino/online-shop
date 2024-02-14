@@ -43,9 +43,6 @@ describe("Register Page Tests", () => {
         const passwordInput = screen.getByText("password");
         expect(passwordInput).toBeInTheDocument();
 
-        const copyright = screen.getByText("online_shop");
-        expect(copyright).toBeInTheDocument();
-
         const loginHref = screen.getByText("have_account_message");
         expect(loginHref).toBeInTheDocument();
 

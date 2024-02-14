@@ -270,7 +270,7 @@ const AddProductPage = () => {
                         </Stack>
                     </Box>)
                     : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)}
-            <Copyright sx={{ mt: 8, mb: 4 }} />
+            <Copyright />
         </Container>
     );
 }

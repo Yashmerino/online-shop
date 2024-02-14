@@ -23,23 +23,30 @@
  */
 
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import { Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material';
 import { getTranslation } from '../../../i18n/i18n';
 import { useAppSelector } from '../../hooks';
 
 const Copyright = (props: any) => {
     const lang = useAppSelector(state => state.lang.lang);
+    const theme = useTheme();
 
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props} data-testid="footer">
-            {'Copyright © '}
-            <Link color="inherit" href="#">
-            {getTranslation(lang, "online_shop")}
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
+        <Grid container direction="row" style={{ marginTop: "50px" }} sx={{ mt: "4%", p: "1%", bottom: 0, position: "absolute" }} bgcolor={theme.palette.mode === "light" ? "#1976d2" : "#272727"} data-testid="footer">
+            <Grid item width="34%" ml="16%">
+                <Typography variant="h5" color="#FFF" align="left" sx={{ lineHeight: "1" }}>{getTranslation(lang, "online_shop")}</Typography>
+                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }} marginTop="4%">example@shop.com</Typography>
+                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }}>+40 336 772 413</Typography>
+                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }} marginTop="2%">Strada Alexandru Ioan Cuza 13, Craiova 200585</Typography>
+            </Grid>
+            <Grid item width="34%" mr="16%">
+                <Typography variant="subtitle2" color="#FFF" align="right" sx={{ lineHeight: "1", textAlign: "justify" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum iaculis lacus sit amet ipsum finibus blandit. Nam ac nibh et ante varius fermentum sed et turpis. Sed nibh felis, accumsan vel erat in, facilisis vulputate velit. Phasellus ac iaculis eros. Praesent porttitor neque non augue porta facilisis. Nunc hendrerit massa dui, non auctor enim placerat vitae. Aliquam at diam neque.
+                    Nam vitae porta nunc. Quisque a nisi nec felis sagittis condimentum. Ut mollis lectus magna, eget maximus turpis rutrum venenatis, odit rutrum.</Typography>
+                <Typography variant="subtitle2" color="#FFF" align="right" sx={{ lineHeight: "1" }} marginTop="4%">© 2023</Typography>
+            </Grid>
+        </Grid>
     );
 }
 

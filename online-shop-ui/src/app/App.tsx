@@ -48,17 +48,6 @@ function App() {
 
     return (
         <div>
-            <ul>
-                <li><Link to='/login'>Login page</Link></li>
-                <li><Link to='/register'>Register page</Link></li>
-                <li><Link to='/products'>Products page</Link></li>
-                <li><Link to='/cart'>My Cart page</Link></li>
-                <li><Link to='/product/add'>Add Product page</Link></li>
-                <li><Link to='/profile/products'>My Products page</Link></li>
-                <li><Link to='/profile'>My Profile page</Link></li>
-                <li><Link to='/search'>Search page</Link></li>
-            </ul>
-            <hr />
             <ThemeProvider theme={theme ? darkTheme : lightTheme}>
                 <CssBaseline />
                 <Main />

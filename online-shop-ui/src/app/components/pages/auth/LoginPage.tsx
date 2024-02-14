@@ -29,7 +29,6 @@ import Container from '@mui/material/Container';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Snackbar, Alert } from '@mui/material';
 
-import Copyright from '../../footer/Copyright';
 import UserInputFields from './UserInputFields';
 import * as UserRequest from '../../../api/UserRequest';
 import * as AuthRequest from '../../../api/AuthRequest';
@@ -82,25 +81,24 @@ const LoginPage = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      {error.length > 0 &&
-        <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
-          <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
-            {getTranslation(lang, error)}
-          </Alert>
-        </Snackbar>}
-      <Grid container>
-        <Grid item>
-          <UserInputFields title={getTranslation(lang, "sign_in")} buttonText={getTranslation(lang, "sign_in")} handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
+      <Container component="main" maxWidth="xs" sx={{pt: 26}}>
+        {error.length > 0 &&
+          <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
+            <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
+              {getTranslation(lang, error)}
+            </Alert>
+          </Snackbar>}
+        <Grid container>
+          <Grid item>
+            <UserInputFields title={getTranslation(lang, "sign_in")} buttonText={getTranslation(lang, "sign_in")} handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
+          </Grid>
+          <Grid item>
+            <Link component={RouterLink} to={'/register'} variant="body2">
+              {getTranslation(lang, "create_account_message")}
+            </Link>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Link component={RouterLink} to={'/register'} variant="body2">
-            {getTranslation(lang, "create_account_message")}
-          </Link>
-        </Grid>
-      </Grid>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
-    </Container>
+      </Container>
   );
 }
 

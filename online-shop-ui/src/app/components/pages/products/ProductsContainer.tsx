@@ -67,7 +67,7 @@ const ProductsContainer = () => {
           return (<ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories} shouldBeAbleToDelete={false} />);
         })}
       </Grid>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
+      <Copyright />
     </Container>
   );
 }

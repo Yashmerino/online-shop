@@ -75,7 +75,7 @@ const RegisterPage = () => {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" sx={{ pt: 26 }}>
             <Grid container>
                 <Grid item>
                     {isSuccess &&
@@ -98,7 +98,6 @@ const RegisterPage = () => {
                     </Link>
                 </Grid>
             </Grid>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
     );
 }
