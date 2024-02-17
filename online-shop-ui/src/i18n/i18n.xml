@@ -6,9 +6,9 @@
 		<language description="Romanian" lang="RO" />
 	</languages>
 	<key value="online_shop">
-		<val lang="ENG">Online Shop</val>
-		<val lang="RU">Интернет Магазин</val>
-		<val lang="RO">Magazin Online</val>
+		<val lang="ENG">ONLINE SHOP</val>
+		<val lang="RU">ИНТЕРНЕТ МАГАЗИН</val>
+		<val lang="RO">MAGAZIN ONLINE</val>
 	</key>
 	<key value="no_rights_to_access">
 		<val lang="ENG">You don't have rights to access this page.</val>
@@ -180,10 +180,20 @@
 		<val lang="RU">Учётная запись</val>
 		<val lang="RO">Profil</val>
 	</key>
+	<key value="search">
+		<val lang="ENG">Search</val>
+		<val lang="RU">Поиск</val>
+		<val lang="RO">Căutare</val>
+	</key>
 	<key value="my_cart">
 		<val lang="ENG">My cart</val>
 		<val lang="RU">Моя корзина</val>
 		<val lang="RO">Coșul meu</val>
+	</key>
+	<key value="my_products">
+		<val lang="ENG">My products</val>
+		<val lang="RU">Мои продукты</val>
+		<val lang="RO">Produsele mele</val>
 	</key>
 	<key value="add_product">
 		<val lang="ENG">Add product</val>

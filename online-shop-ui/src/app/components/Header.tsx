@@ -9,11 +9,12 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { getUserPhoto } from '../api/UserRequest';
 import { updateJwt } from '../slices/jwtSlice';
 import { Select, InputLabel, SelectChangeEvent } from '@mui/material';
+import { Button } from '@mui/material';
 
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Lang from '../../i18n/LangEnum';
@@ -69,6 +70,14 @@ const Header = () => {
     const handleProfile = () => {
         navigate("/profile");
     }
+    
+    const handleSearch = () => {
+        navigate("/search");
+    }
+
+    const handleMyProducts = () => {
+        navigate("/profile/products");
+    }
 
     const handleLogout = () => {
         dispatch(updateJwt(""));
@@ -86,27 +95,28 @@ const Header = () => {
     }
 
     const handleChangeTheme = (e: SelectChangeEvent<string>) => {
-        const isDark = e.target.value.localeCompare(getTranslation(lang, "dark_theme")) == 0 ? "true" : "false";
+        const isLight = e.target.value.localeCompare(getTranslation(lang, "light_theme")) == 0 ? "true" : "false";
 
-        setCookie("online-shop-dark-theme", isDark);
-        dispatch(updateTheme(isDark == "true"));
+        setCookie("online-shop-light-theme", isLight);
+        dispatch(updateTheme(isLight == "true"));
     }
 
     return (
         <AppBar position="static" sx={{ width: "100%" }}>
             <Container maxWidth={false} data-testid="header">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <LocalMallIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
                         variant="h6"
                         noWrap
                         component="a"
-                        href="/"
+                        href="#/products"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
+                            fontFamily: 'Roboto',
+                            fontWeight: "Bold",
+                            fontSize: 28,
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
@@ -114,12 +124,12 @@ const Header = () => {
                     >
                         {getTranslation(lang, "online_shop")}
                     </Typography>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    <LocalMallIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
                         component="a"
-                        href=""
+                        href="#/products"
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -134,6 +144,23 @@ const Header = () => {
                         {getTranslation(lang, "online_shop")}
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        <Button key={1} onClick={handleProfile} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "profile")}</Button>
+                        {// @ts-ignore 
+                            roles.roles.roles[0].name == "USER" ?
+                                <Button key={2} onClick={handleMyCart} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "my_cart")}</Button> :
+                                null
+                        }
+                        {// @ts-ignore 
+                            roles.roles.roles[0].name == "SELLER" ?
+                            <Button key={3} onClick={handleAddProduct} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "add_product")}</Button> :
+                            null         
+                        }
+                        {// @ts-ignore 
+                            roles.roles.roles[0].name == "SELLER" ?
+                            <Button key={4} onClick={handleMyProducts} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "my_products")}</Button> :
+                            null
+                        }
+                        <Button key={1} onClick={handleSearch} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "search")}</Button>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title={getTranslation(lang, "open_settings")}>
@@ -158,11 +185,6 @@ const Header = () => {
                             onClose={handleCloseUserMenu}
                         >
                             <MenuItem onClick={handleProfile}>{getTranslation(lang, "profile")}</MenuItem>
-
-                            {// @ts-ignore 
-                                roles.roles.roles[0].name == "USER" ? <MenuItem onClick={handleMyCart}>{getTranslation(lang, "my_cart")}</MenuItem> : null}
-                            {// @ts-ignore 
-                                roles.roles.roles[0].name == "SELLER" ? <MenuItem onClick={handleAddProduct}>{getTranslation(lang, "add_product")}</MenuItem> : null}
                             <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             <InputLabel sx={{ textAlign: "center", fontSize: "15px" }} id="select-language-label">{getTranslation(lang, "language")}</InputLabel>
                             <Select
@@ -182,12 +204,12 @@ const Header = () => {
                                 sx={{ width: '150px', margin: "0 15px" }}
                                 labelId="select-theme-label"
                                 id="select-theme"
-                                value={theme ? getTranslation(lang, "dark_theme") : getTranslation(lang, "light_theme")}
+                                value={theme ? getTranslation(lang, "light_theme") : getTranslation(lang, "dark_theme")}
                                 label={getTranslation(lang, "theme")}
                                 onChange={(value) => { handleChangeTheme(value) }}
                             >
-                                <MenuItem value={getTranslation(lang, "light_theme")}>{getTranslation(lang, "light_theme")}</MenuItem>
                                 <MenuItem value={getTranslation(lang, "dark_theme")}>{getTranslation(lang, "dark_theme")}</MenuItem>
+                                <MenuItem value={getTranslation(lang, "light_theme")}>{getTranslation(lang, "light_theme")}</MenuItem>
                             </Select>
                         </Menu>
                     </Box>

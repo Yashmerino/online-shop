@@ -17,6 +17,7 @@ const Main = () => {
 
     return (
         <Routes>
+            <Route path='/' element={<LoginPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/products' element={jwt.length > 0 ? <ProductsContainer /> : <Navigate to='/login' />} />

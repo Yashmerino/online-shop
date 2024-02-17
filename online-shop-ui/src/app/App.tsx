@@ -48,7 +48,7 @@ function App() {
 
     return (
         <div>
-            <ThemeProvider theme={theme ? darkTheme : lightTheme}>
+            <ThemeProvider theme={theme ? lightTheme : darkTheme}>
                 <CssBaseline />
                 <Main />
             </ThemeProvider>

@@ -8,7 +8,6 @@ const SearchPage = () => {
     return (
         <Container component="main" maxWidth={false} id="search-container" disableGutters>
             <Header />
-            <Search />
             <Copyright />
         </Container>
     );

@@ -3,7 +3,7 @@ import type { RootState } from '../../store/store'
 import { getCookie } from '../utils/Utils';
 
 const initialState = {
-    theme: getCookie("online-shop-dark-theme") == "true" || false
+    theme: getCookie("online-shop-light-theme") == "true" || false
 }
 
 export const themeSlice = createSlice({

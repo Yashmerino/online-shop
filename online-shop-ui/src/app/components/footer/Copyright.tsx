@@ -36,7 +36,7 @@ const Copyright = (props: any) => {
     return (
         <Grid container direction="row" style={{ marginTop: "50px" }} sx={{ mt: "4%", p: "1%", bottom: 0, position: "absolute" }} bgcolor={theme.palette.mode === "light" ? "#1976d2" : "#272727"} data-testid="footer">
             <Grid item width="34%" ml="16%">
-                <Typography variant="h5" color="#FFF" align="left" sx={{ lineHeight: "1" }}>{getTranslation(lang, "online_shop")}</Typography>
+                <Typography variant="h5" color="#FFF" align="left" sx={{ lineHeight: "1", fontWeight: 600 }}>{getTranslation(lang, "online_shop")}</Typography>
                 <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }} marginTop="4%">example@shop.com</Typography>
                 <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }}>+40 336 772 413</Typography>
                 <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }} marginTop="2%">Strada Alexandru Ioan Cuza 13, Craiova 200585</Typography>
