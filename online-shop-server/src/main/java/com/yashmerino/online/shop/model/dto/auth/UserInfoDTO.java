@@ -38,5 +38,10 @@ public class UserInfoDTO {
      * User's roles.
      */
     private Set<Role> roles;
+
+    /**
+     * User's email.
+     */
+    private String email;
 }
 

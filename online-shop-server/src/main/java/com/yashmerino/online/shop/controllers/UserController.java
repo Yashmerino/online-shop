@@ -59,7 +59,7 @@ public class UserController {
     /**
      * Users' service.
      */
-    private UserService userService;
+    private final UserService userService;
 
     /**
      * Controller.

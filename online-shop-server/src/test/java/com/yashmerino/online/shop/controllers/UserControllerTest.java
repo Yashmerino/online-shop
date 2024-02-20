@@ -80,7 +80,7 @@ public class UserControllerTest {
     void getUserInfoTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/user/seller")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"roles\":[{\"id\":3,\"name\":\"SELLER\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"roles\":[{\"id\":3,\"name\":\"SELLER\"}],\"email\":null}"));
     }
 
     /**

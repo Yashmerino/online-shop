@@ -71,8 +71,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findById(id);
 
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return user;
+            return userOptional.get();
         } else {
             throw new EntityNotFoundException("User not found.");
         }
@@ -89,8 +88,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findByUsername(username);
 
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return user;
+            return userOptional.get();
         } else {
             throw new EntityNotFoundException("username_not_found");
         }
@@ -109,6 +107,7 @@ public class UserServiceImpl implements UserService {
         User user = userOptional.orElseThrow(() -> new EntityNotFoundException("username_not_found"));
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         userInfoDTO.setRoles(user.getRoles());
+        userInfoDTO.setEmail(user.getEmail());
 
         return userInfoDTO;
     }
@@ -157,5 +156,6 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setEmail(userDTO.getEmail());
+        userRepository.save(user);
     }
 }
