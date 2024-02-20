@@ -90,6 +90,16 @@
 		<val lang="RU">Электронная почта</val>
 		<val lang="RO">Email</val>
 	</key>
+	<key value="address">
+		<val lang="ENG">Address</val>
+		<val lang="RU">Адрес</val>
+		<val lang="RO">Adresa</val>
+	</key>
+	<key value="phone">
+		<val lang="ENG">Phone</val>
+		<val lang="RU">Телефон</val>
+		<val lang="RO">Telefon</val>
+	</key>
 	<key value="username">
 		<val lang="ENG">Username</val>
 		<val lang="RU">Имя пользователя</val>
@@ -189,6 +199,11 @@
 		<val lang="ENG">My cart</val>
 		<val lang="RU">Моя корзина</val>
 		<val lang="RO">Coșul meu</val>
+	</key>
+	<key value="my_profile">
+		<val lang="ENG">My profile</val>
+		<val lang="RU">Мой профиль</val>
+		<val lang="RO">Contul meu</val>
 	</key>
 	<key value="my_products">
 		<val lang="ENG">My products</val>

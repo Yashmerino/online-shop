@@ -54,7 +54,7 @@ interface ProductCardProps {
 const ProductCard = ({ id, title, price, categories, shouldBeAbleToDelete }: ProductCardProps) => {
   const navigate = useNavigate();
 
-  const roles = useAppSelector(state => state.roles);
+  const roles = useAppSelector(state => state.info.info.roles);
   const lang = useAppSelector(state => state.lang.lang);
   const [isAdded, setAdded] = React.useState<boolean>(false);
   const [isDeleted, setDeleted] = React.useState<boolean>(false);
@@ -90,7 +90,7 @@ const ProductCard = ({ id, title, price, categories, shouldBeAbleToDelete }: Pro
 
   const handleEditProduct = async () => {
     // @ts-ignore 
-    if (roles.roles.roles[0].name == "USER") {
+    if (roles[0].name == "USER") {
       return;
     }
 
@@ -135,11 +135,11 @@ const ProductCard = ({ id, title, price, categories, shouldBeAbleToDelete }: Pro
       </CardActionArea>
       <CardActions >
         {// @ts-ignore 
-          roles.roles.roles[0].name == "USER" ? <Button size="small" color="primary" onClick={handleAddProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/}{getTranslation(lang, "add_to_cart")}</Button> : null
+          roles[0].name == "USER" ? <Button size="small" color="primary" onClick={handleAddProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/}{getTranslation(lang, "add_to_cart")}</Button> : null
         }
         {shouldBeAbleToDelete && <Button variant="contained" onClick={handleDeleteProduct} data-testid={"delete-button-" + id}>{getTranslation(lang, "delete")}</Button>}
         {// @ts-ignore 
-          roles.roles.roles[0].name == "USER" ? <QuantityInput id={`quantity-input-${id}`} defaultValue={1} /> : null
+          roles[0].name == "USER" ? <QuantityInput id={`quantity-input-${id}`} defaultValue={1} /> : null
         }
       </CardActions>
       {isAdded &&

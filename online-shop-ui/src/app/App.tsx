@@ -47,12 +47,10 @@ function App() {
     });
 
     return (
-        <div>
-            <ThemeProvider theme={theme ? lightTheme : darkTheme}>
-                <CssBaseline />
-                <Main />
-            </ThemeProvider>
-        </div>
+        <ThemeProvider theme={theme ? lightTheme : darkTheme}>
+            <CssBaseline />
+            <Main />
+        </ThemeProvider>
     );
 }
 

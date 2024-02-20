@@ -45,7 +45,7 @@ interface CartItem {
 
 const CartContainer = () => {
     const jwt = useAppSelector(state => state.jwt);
-    const roles = useAppSelector(state => state.roles);
+    const roles = useAppSelector(state => state.info.info.roles);
     const username = useAppSelector(state => state.username);
     const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
     const navigate = useNavigate();
@@ -69,10 +69,10 @@ const CartContainer = () => {
     }, []);
 
     return (
-        <Container component="main" maxWidth={false} id="main-container" disableGutters>
+        <Container component="main" maxWidth={false} id="main-container" sx={{height: "100vh"}} disableGutters>
             <Header />
             {// @ts-ignore 
-                roles.roles.roles[0].name == "USER" ?
+                roles[0].name == "USER" ?
                     <Grid container justifyContent="center" alignItems="center" columnGap={2}>
                         {cartItems.length > 0 && cartItems.map(cartItem => {
                             return (<CartItemCard key={cartItem.id} id={cartItem.id} productId={cartItem.productId} title={cartItem.name} price={cartItem.price} quantity={cartItem.quantity} />);

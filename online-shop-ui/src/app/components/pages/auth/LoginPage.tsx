@@ -38,7 +38,7 @@ import { useAppDispatch } from '../../../hooks';
 import { updateJwt } from '../../../slices/jwtSlice';
 import { updateUsername } from '../../../slices/usernameSlice';
 import { parseJwt } from '../../../utils/Utils';
-import { updateRoles } from '../../../slices/rolesSlice';
+import { updateInfo } from '../../../slices/infoSlice';
 import { getTranslation } from '../../../../i18n/i18n';
 import { useAppSelector } from '../../../hooks';
 
@@ -67,7 +67,7 @@ const LoginPage = () => {
     } else if (response.accessToken) {
       dispatch(updateJwt(response.accessToken));
       dispatch(updateUsername(parseJwt(response.accessToken).sub));
-      dispatch(updateRoles(await UserRequest.getUserInfo(username ?? "")));
+      dispatch(updateInfo(await UserRequest.getUserInfo(username ?? "")));
       navigate("/products");
     } else {
       if (response.fieldErrors) {

@@ -24,7 +24,7 @@ import { setCookie } from '../utils/Utils';
 import { updateTheme } from '../slices/themeSlice';
 
 const Header = () => {
-    const roles = useAppSelector(state => state.roles);
+    const roles = useAppSelector(state => state.info.info.roles);
     const lang = useAppSelector(state => state.lang.lang);
     const theme = useAppSelector(state => state.theme.theme);
     const username = useAppSelector(state => state.username.sub);
@@ -146,21 +146,21 @@ const Header = () => {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         <Button key={1} onClick={handleProfile} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "profile")}</Button>
                         {// @ts-ignore 
-                            roles.roles.roles[0].name == "USER" ?
+                            roles[0].name == "USER" ?
                                 <Button key={2} onClick={handleMyCart} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "my_cart")}</Button> :
                                 null
                         }
                         {// @ts-ignore 
-                            roles.roles.roles[0].name == "SELLER" ?
+                            roles[0].name == "SELLER" ?
                             <Button key={3} onClick={handleAddProduct} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "add_product")}</Button> :
                             null         
                         }
                         {// @ts-ignore 
-                            roles.roles.roles[0].name == "SELLER" ?
+                            roles[0].name == "SELLER" ?
                             <Button key={4} onClick={handleMyProducts} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "my_products")}</Button> :
                             null
                         }
-                        <Button key={1} onClick={handleSearch} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "search")}</Button>
+                        <Button key={5} onClick={handleSearch} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "search")}</Button>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title={getTranslation(lang, "open_settings")}>

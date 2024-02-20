@@ -39,7 +39,7 @@ import { getTranslation } from '../../../../i18n/i18n';
 
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
-  const roles = useAppSelector(state => state.roles);
+  const roles = useAppSelector(state => state.info.info.roles);
   const lang = useAppSelector(state => state.lang.lang);
   const username = useAppSelector(state => state.username.sub);
 
@@ -65,10 +65,10 @@ const ProductsContainer = () => {
   }, []);
 
   return (
-    <Container component="main" maxWidth={false} id="my-products-container" disableGutters>
+    <Container component="main" maxWidth={false} id="my-products-container" sx={{height: "100vh"}}  disableGutters>
       <Header />
       {// @ts-ignore 
-        roles.roles.roles[0].name == "SELLER" ?
+        roles[0].name == "SELLER" ?
           (<Grid container justifyContent="center" alignItems="center" columnGap={2}>
             {products.length > 0 && products.map(product => {
               return (<ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories} shouldBeAbleToDelete={true} />);

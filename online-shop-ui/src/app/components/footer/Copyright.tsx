@@ -34,7 +34,7 @@ const Copyright = (props: any) => {
     const theme = useTheme();
 
     return (
-        <Grid container direction="row" style={{ marginTop: "50px" }} sx={{ mt: "4%", p: "1%", bottom: 0, position: "absolute" }} bgcolor={theme.palette.mode === "light" ? "#1976d2" : "#272727"} data-testid="footer">
+        <Grid container direction="row" style={{ marginTop: "50px" }} sx={{ mt: "4%", p: "1%", bottom: 0, top: "100vh", position: "sticky" }} bgcolor={theme.palette.mode === "light" ? "#1976d2" : "#272727"} data-testid="footer">
             <Grid item width="34%" ml="16%">
                 <Typography variant="h5" color="#FFF" align="left" sx={{ lineHeight: "1", fontWeight: 600 }}>{getTranslation(lang, "online_shop")}</Typography>
                 <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }} marginTop="4%">example@shop.com</Typography>

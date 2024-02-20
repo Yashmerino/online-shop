@@ -71,7 +71,7 @@ const AddProductPage = () => {
     const navigate = useNavigate();
 
     const lang = useAppSelector(state => state.lang.lang);
-    const roles = useAppSelector(state => state.roles);
+    const roles = useAppSelector(state => state.info.info.roles);
     const jwt = useAppSelector(state => state.jwt);
 
     const [name, setName] = React.useState(location.state ? location.state.title : "default");
@@ -172,10 +172,10 @@ const AddProductPage = () => {
     };
 
     return (
-        <Container component="main" maxWidth={false} id="main-container" disableGutters>
+        <Container component="main" maxWidth={false} id="main-container" sx={{height: "100vh"}} disableGutters>
             <Header />
             {// @ts-ignore 
-                roles.roles.roles[0].name == "SELLER"
+                roles[0].name == "SELLER"
                     ? (<Box
                         onSubmit={event => handleSubmit(event)}
                         display="flex"

@@ -10,7 +10,7 @@ import "../app/utils/mockJsdom";
 import MyProfilePage from "../app/components/pages/user/MyProfilePage";
 
 describe("Products Container Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" }, theme: { theme: "false" } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, info: { info: { roles: [{ id: 2, name: "SELLER" }], email: null }}, lang: { lang: "ENG" }, theme: { theme: "false" } };
     const mockStore = configureStore()
     let store: Store;
 
@@ -41,35 +41,7 @@ describe("Products Container Tests", () => {
             expect(username).toBeInTheDocument();
 
             const saveButton = screen.getAllByText("Save");
-            expect(saveButton.length).toBe(2);
-        })
-    });
-
-    it("Test My Profile update photo", () => {
-        store = mockStore(initialState)
-
-        const getUserPhoto = jest.spyOn(UserRequest, 'getUserPhoto');
-        getUserPhoto.mockReturnValue(Promise.resolve(new Blob([JSON.stringify("photo", null, 2)], {
-            type: "application/octet-stream",
-        })));
-
-        const setUserPhoto = jest.spyOn(UserRequest, 'setUserPhoto');
-        setUserPhoto.mockReturnValue(Promise.resolve({ "status": 200, "message": "User photo was successfully updated." }));
-
-        render(
-            <Provider store={store}>
-                <MemoryRouter>
-                    <MyProfilePage />
-                </MemoryRouter>
-            </Provider>
-        );
-
-        waitFor(() => { // NOSONAR: No need to await.
-            const saveButton = screen.getByText("save");
-            fireEvent.click(saveButton);
-
-            const successAlert = screen.getByText("user_information_updated_successfully");
-            expect(successAlert).toBeInTheDocument();
+            expect(saveButton.length).toBe(1);
         })
     });
 
@@ -84,6 +56,9 @@ describe("Products Container Tests", () => {
         const updateUser = jest.spyOn(UserRequest, 'updateUser');
         updateUser.mockReturnValue(Promise.resolve({ "status": 200, "message": "User information was successfully updated." }));
 
+        const updatePhoto = jest.spyOn(UserRequest, 'setUserPhoto');
+        updatePhoto.mockReturnValue(Promise.resolve({ "status": 200, "message": "User photo was successfully updated." }));
+
         render(
             <Provider store={store}>
                 <MemoryRouter>
@@ -93,8 +68,8 @@ describe("Products Container Tests", () => {
         );
 
         waitFor(() => { // NOSONAR: No need to await.
-            const saveButton = screen.getAllByText("Save");
-            fireEvent.click(saveButton[1]);
+            const saveButton = screen.getByText("Save");
+            fireEvent.click(saveButton);
 
             const successAlert = screen.getByText("The user information has been successfully updated!");
             expect(successAlert).toBeInTheDocument();

@@ -12,7 +12,7 @@ import {
     REGISTER,
 } from 'redux-persist';
 import usernameSlice from "../app/slices/usernameSlice";
-import rolesSlice from "../app/slices/rolesSlice";
+import infoSlice from "../app/slices/infoSlice";
 import langSlice from "../app/slices/langSlice";
 import themeSlice from "../app/slices/themeSlice";
 
@@ -21,7 +21,7 @@ const persistConfig = {
     storage,
 };
 
-const reducers = combineReducers({ jwt: jwtReducer, username: usernameSlice, roles: rolesSlice, lang: langSlice, theme: themeSlice });
+const reducers = combineReducers({ jwt: jwtReducer, username: usernameSlice, info: infoSlice, lang: langSlice, theme: themeSlice });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 

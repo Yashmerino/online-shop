@@ -60,7 +60,7 @@ const ProductsContainer = () => {
   }, []);
 
   return (
-    <Container component="main" maxWidth={false} id="main-container" disableGutters>
+    <Container component="main" maxWidth={false} id="main-container" sx={{height: "100vh"}} disableGutters>
       <Header />
       <Grid container justifyContent="center" alignItems="center" columnGap={2}>
         {products.length > 0 && products.map(product => {
