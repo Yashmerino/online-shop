@@ -4,7 +4,8 @@ enum InputFields {
     NAME = "name",
     EMAIL = "email",
     PRICE = "price",
-    QUANTITY = "quantity"
+    QUANTITY = "quantity",
+    DESCRIPTION = "description"
 }
 
 export default InputFields;

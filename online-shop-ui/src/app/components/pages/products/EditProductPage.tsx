@@ -75,6 +75,7 @@ const AddProductPage = () => {
     const jwt = useAppSelector(state => state.jwt);
 
     const [name, setName] = React.useState(location.state ? location.state.title : "default");
+    const [description, setDescription] = React.useState(location.state ? location.state.description : "default");
     const [price, setPrice] = React.useState(location.state ? location.state.price : 0.01);
     const [categories, setCategories] = React.useState<string[]>(location.state ? location.state.categories ? location.state.categories.map((category: Category) => category.name) : [] : []);
     const [fetchedCategories, setFetchedCategories] = React.useState<Category[]>([]);
@@ -139,7 +140,7 @@ const AddProductPage = () => {
             )
         })
 
-        const response = await updateProduct(jwt.token, location.state ? location.state.id : 1, name, categoriesDTO, price);
+        const response = await updateProduct(jwt.token, location.state ? location.state.id : 1, name, categoriesDTO, price, description);
 
         if (response.error) {
             setError(response.error);

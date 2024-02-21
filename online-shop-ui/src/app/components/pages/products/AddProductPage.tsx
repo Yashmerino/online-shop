@@ -22,32 +22,30 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import { addProduct, setProductPhoto } from '../../../api/ProductRequest';
+import { Paper, Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import ListItemText from '@mui/material/ListItemText';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import Chip from '@mui/material/Chip';
-import { InputError } from '../../../utils/InputErrorUtils';
-import { getFieldInputErrorMessage, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
+import Container from '@mui/material/Container';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import * as React from 'react';
+import { addProduct, setProductPhoto } from '../../../api/ProductRequest';
+import { InputError, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import InputFields from '../../../utils/InputFields';
-import { Paper, Input, Snackbar } from '@mui/material';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
 
-import { useAppSelector } from '../../../hooks'
-import { Stack, Typography } from '@mui/material';
-import { getCategories } from '../../../api/CategoryRequest';
+import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../../../../i18n/i18n';
+import { getCategories } from '../../../api/CategoryRequest';
+import { useAppSelector } from '../../../hooks';
 
 const MenuProps = {
     PaperProps: {
@@ -77,6 +75,7 @@ const AddProductPage = () => {
     const navigate = useNavigate();
 
     const [name, setName] = React.useState("");
+    const [description, setDescription] = React.useState("");
     const [price, setPrice] = React.useState(0);
     const [categories, setCategories] = React.useState<string[]>([]);
     const [fetchedCategories, setFetchedCategories] = React.useState<Category[]>([]);
@@ -109,9 +108,7 @@ const AddProductPage = () => {
         fetchCategories(); // NOSONAR: It should not await.
     }, [categories]);
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
+    const handleSubmit = async () => {
         setSuccess(false);
         setInputErrors([]);
 
@@ -130,7 +127,7 @@ const AddProductPage = () => {
             )
         })
 
-        const response = await addProduct(jwt.token, name, categoriesDTO, price);
+        const response = await addProduct(jwt.token, name, categoriesDTO, price, description);
         if (response.fieldErrors) {
             setInputErrors(response.fieldErrors);
         } else {
@@ -160,115 +157,120 @@ const AddProductPage = () => {
     };
 
     return (
-        <Container component="main" maxWidth={false} id="main-container" sx={{height: "100vh"}} disableGutters>
+        <Container component="main" maxWidth={false} id="main-container" sx={{ height: "80vh" }} disableGutters>
             <Header />
+            <Paper square elevation={3} sx={{ width: "60%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
+                <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "add_product")}</Typography>
+            </Paper>
+            {isSuccess &&
+                <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
+                    <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+                        {getTranslation(lang, "product_added_successfully")}
+                    </Alert>
+                </Snackbar>}
             {// @ts-ignore 
                 roles[0].name == "SELLER"
-                    ? (<Box
-                        onSubmit={event => handleSubmit(event)}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        component="form"
-                        sx={{
-                            '& .MuiTextField-root': { m: 1, width: '50ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                        margin="2%"
-                    >
-                        <Stack
-                            alignItems="center"
-                            justifyContent="center">
-                            {isSuccess &&
-                                <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
-                                    <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-                                    {getTranslation(lang, "product_added_successfully")}
-                                    </Alert>
-                                </Snackbar>}
-                            <Box className="my-profile-image-container">
-                                <Paper sx={{ border: 0, boxShadow: "none", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                                    <img width="196" height="196" className="user-image" src={photo} data-testid="photo" />
-                                    <Box className="my-profile-image-information-container">
-                                        <Input id='file' type='file' onChange={handleFileChange} data-testid="photo-selector"></Input>
+                    ? (
+                        <Paper square elevation={3} sx={{ width: "60%", height: "40%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <Box width={"62.5%"} sx={{ aspectRatio: "1/1" }} ml={"2%"} mt={"2%"} mb={"2%"}>
+                                <input
+                                    accept="image/*"
+                                    style={{ display: 'none' }}
+                                    id="photo-upload-button"
+                                    type="file"
+                                    onChange={handleFileChange}
+                                />
+                                <label htmlFor="photo-upload-button">
+                                    <Button component="span" sx={{ width: "100%", height: "100%" }}>
+                                        <img width={"100%"} height={"100%"} className="user-image" src={photo} data-testid="photo" />
+                                    </Button>
+                                </label>
+                            </Box>
+                            <Paper square elevation={6} sx={{ height: "80%", width: "100%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", mr: "2.5%", ml: "2%", mb: "4%", mt: "4%" }}>
+                                <Box margin={"4%"}>
+                                    <TextField
+                                        error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}
+                                        required
+                                        fullWidth
+                                        name="name"
+                                        label={getTranslation(lang, "name")}
+                                        type="name"
+                                        id="name-field"
+                                        data-testid="name-field"
+                                        autoComplete="current-name"
+                                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                            setName(event.target.value);
+                                        }}
+                                    />
+                                    <TextField
+                                        sx={{ marginTop: "4%" }}
+                                        multiline
+                                        rows={5}
+                                        error={isFieldPresentInInputErrors(InputFields.DESCRIPTION, inputErrors)}
+                                        fullWidth
+                                        name="description"
+                                        label={getTranslation(lang, "description")}
+                                        type="description"
+                                        id="description"
+                                        data-testid="description"
+                                        autoComplete="current-description"
+                                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                            setDescription(event.target.value);
+                                        }}
+                                    />
+                                </Box>
+                            </Paper>
+                            <Box sx={{ width: "100%", height: "80%", display: "flex", flexDirection: "column", mr: "3%" }}>
+                                <Paper square elevation={6} sx={{ width: "100%" }}>
+                                    <Box sx={{ margin: "4%" }}>
+                                        <TextField
+                                            sx={{ width: "100%" }}
+                                            error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
+                                            value={price}
+                                            onChange={(event) => { setPrice(Number(event.target.value)) }}
+                                            required
+                                            id="price-field"
+                                            data-testid="price-field"
+                                            label={getTranslation(lang, "price")}
+                                            type="number"
+                                            inputProps={{ min: 0 }} />
+                                        <Select
+                                            id="categories-field"
+                                            data-testid="categories-field"
+                                            displayEmpty
+                                            multiple
+                                            label={getTranslation(lang, "categories")}
+                                            value={categories}
+                                            onChange={handleCategoriesChange}
+                                            input={<OutlinedInput />}
+                                            renderValue={(selected) => (
+                                                selected.length === 0
+                                                    ? (<em>{getTranslation(lang, "categories")}</em>)
+                                                    : (<em>{getTranslation(lang, "categories")}</em>)
+                                            )}
+                                            MenuProps={MenuProps}
+                                            sx={{ width: "100%", mb: "3%", mt: "6%", maxWidth: "100%" }}
+                                        >
+                                            {fetchedCategories.map((fetchedCategory) => (
+                                                <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
+                                                    <Checkbox checked={categories.indexOf(fetchedCategory.name) > -1} />
+                                                    <ListItemText primary={getTranslation(lang, fetchedCategory.name)} />
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
                                     </Box>
                                 </Paper>
+                                <Button
+                                    type="submit"
+                                    data-testid="submit-button"
+                                    variant="contained"
+                                    sx={{ width: "16%", mt: "8%", ml: "auto" }}
+                                    onClick={handleSubmit}
+                                >
+                                    {getTranslation(lang, "add")}
+                                </Button>
                             </Box>
-                            <TextField
-                                error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}
-                                helperText={isFieldPresentInInputErrors(InputFields.NAME, inputErrors) ? getFieldInputErrorMessage(InputFields.NAME, inputErrors, lang) : null}
-                                value={name}
-                                onChange={(event) => { setName(event.target.value) }}
-                                required
-                                id="name-field"
-                                data-testid="name-field"
-                                label={getTranslation(lang, "name")}
-                                sx={{ width: "75%" }} />
-                            <TextField
-                                id="currency-field"
-                                data-testid="currency-field"
-                                select
-                                label={getTranslation(lang, "currency")}
-                                defaultValue="EUR"
-                                helperText={getTranslation(lang, "select_currency")}
-                            >
-                                {currencies.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                            <Select
-                                id="categories-field"
-                                data-testid="categories-field"
-                                displayEmpty
-                                multiple
-                                label={getTranslation(lang, "categories")}
-                                value={categories}
-                                onChange={handleCategoriesChange}
-                                input={<OutlinedInput />}
-                                renderValue={(selected) => (
-                                    selected.length === 0
-                                        ? (<em>{getTranslation(lang, "categories")}</em>)
-                                        : (<Box sx={{ display: 'grid', flexWrap: 'wrap', gap: 0.5, maxWidth: "100%" }}>
-                                            {selected.map((value) => (
-                                                <Chip key={value} label={getTranslation(lang, value)} />
-                                            ))}
-                                        </Box>)
-                                )}
-                                MenuProps={MenuProps}
-                                sx={{ width: "95%", mb: "3%", maxWidth: "95%" }}
-                            >
-
-                                {fetchedCategories.map((fetchedCategory) => (
-                                    <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
-                                        <Checkbox checked={categories.indexOf(fetchedCategory.name) > -1} />
-                                        <ListItemText primary={getTranslation(lang, fetchedCategory.name)} />
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            <TextField
-                                error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
-                                helperText={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors) ? getFieldInputErrorMessage(InputFields.PRICE, inputErrors, lang) : null}
-                                value={price}
-                                onChange={(event) => { setPrice(Number(event.target.value)) }}
-                                required
-                                id="price-field"
-                                data-testid="price-field"
-                                label={getTranslation(lang, "price")}
-                                type="number"
-                                inputProps={{ min: 0 }} />
-                            <Button
-                                type="submit"
-                                data-testid="submit-button"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                {getTranslation(lang, "add")}
-                            </Button>
-                        </Stack>
-                    </Box>)
+                        </Paper>)
                     : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)}
             <Copyright />
         </Container>

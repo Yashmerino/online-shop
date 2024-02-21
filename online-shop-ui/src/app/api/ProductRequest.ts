@@ -60,11 +60,12 @@ export const addProductToCart = async (token: string, id: number, quantity: numb
     return response.json();
 }
 
-export const addProduct = async (token: string, name: string, categories: Category[], price: number) => {
+export const addProduct = async (token: string, name: string, categories: Category[], price: number, description: string) => {
     const productDTO = {
         name,
         price,
-        categories
+        categories,
+        description
     }
 
     const response = await fetch(`${API_BASE_URL}/api/product`, {
@@ -136,11 +137,12 @@ export const setProductPhoto = async (token: string, id: number, photo: File | n
     return response.json();
 }
 
-export const updateProduct = async (token: string, id: number, name: string, categories: Category[], price: number) => {
+export const updateProduct = async (token: string, id: number, name: string, categories: Category[], price: number, description: string) => {
     const productDTO = {
         name,
         price,
-        categories
+        categories,
+        description
     }
 
     const response = await fetch(`${API_BASE_URL}/api/product/${id}`, {

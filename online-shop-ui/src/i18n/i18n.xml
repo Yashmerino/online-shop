@@ -155,6 +155,11 @@
 		<val lang="RU">Название</val>
 		<val lang="RO">Denumire</val>
 	</key>
+	<key value="description">
+		<val lang="ENG">Description</val>
+		<val lang="RU">Описание</val>
+		<val lang="RO">Descrierea</val>
+	</key>
 	<key value="currency">
 		<val lang="ENG">Currency</val>
 		<val lang="RU">Валюта</val>

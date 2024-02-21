@@ -124,10 +124,10 @@ const MyProfilePage = () => {
                         {getTranslation(lang, "user_updated_successfully")}
                     </Alert>
                 </Snackbar>}
-            <Paper square elevation={3} sx={{ width: "80%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
+            <Paper square elevation={3} sx={{ width: "60%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
                 <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "my_profile")}</Typography>
             </Paper>
-            <Paper square elevation={3} sx={{ width: "80%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
+            <Paper square elevation={3} sx={{ width: "60%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
                 <Box width={"50%"} sx={{ aspectRatio: "1/1" }} ml={"2%"} mt={"2%"} mb={"2%"}>
                     <input
                         accept="image/*"

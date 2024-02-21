@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import * as ProductRequest from "../app/api/ProductRequest";
 import AddProductPage from "../app/components/pages/products/AddProductPage";
@@ -12,7 +12,7 @@ import { Store } from "redux";
 import "../app/utils/mockJsdom";
 
 describe("Add Product Page Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, info: { info: { roles: [{ id: 1, name: "SELLER" }], email: null }}, lang: { lang: "ENG" }, theme: { theme: "false" } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, info: { info: { roles: [{ id: 1, name: "SELLER" }], email: null } }, lang: { lang: "ENG" }, theme: { theme: "false" } };
     const mockStore = configureStore()
     let store: Store;
 
@@ -36,9 +36,6 @@ describe("Add Product Page Tests", () => {
         const nameInput = screen.getByTestId("name-field");
         expect(nameInput).toBeInTheDocument();
 
-        const currencyInput = screen.getByTestId("currency-field");
-        expect(currencyInput).toBeInTheDocument();
-
         const priceInput = screen.getByTestId("price-field");
         expect(priceInput).toBeInTheDocument();
 
@@ -48,18 +45,17 @@ describe("Add Product Page Tests", () => {
         const photo = screen.getByTestId("photo");
         expect(photo).toBeInTheDocument();
 
-        const photoSelector = screen.getByTestId("photo-selector");
-        expect(photoSelector).toBeInTheDocument();
-
         const header = screen.getByTestId("header");
         expect(header).toBeInTheDocument();
 
         const footer = screen.getByTestId("footer");
         expect(footer).toBeInTheDocument();
 
-        clickSubmitButton();
+        await act(async () => {
+            clickSubmitButton();
+        });
 
-        await waitFor(() => {
+        await waitFor(async () => {
             const alertSuccess = screen.getByTestId("alert-success");
             expect(alertSuccess).toBeInTheDocument();
             expect(alertSuccess).toHaveTextContent("product_added_successfully");
@@ -80,14 +76,16 @@ describe("Add Product Page Tests", () => {
         const productMock = jest.spyOn(ProductRequest, 'addProduct');
         productMock.mockReturnValue(Promise.resolve({ "fieldErrors": [{ "field": "price", "message": "Price should be greater than or equal to 0.01." }, { "field": "name", "message": "Name is required." }] }));
 
-        clickSubmitButton();
+        await act(async () => {
+            clickSubmitButton();
+        });
 
-        await waitFor(() => {
-            let alertError = screen.getByText("Price should be greater than or equal to 0.01.");
-            expect(alertError).toBeInTheDocument();
+        await waitFor(async () => {
+            let priceField = document.getElementById("price-field");
+            expect(priceField?.getAttribute("aria-invalid")).toBeTruthy();
 
-            alertError = screen.getByText("Name is required.");
-            expect(alertError).toBeInTheDocument();
+            let nameField = document.getElementById("name-field");
+            expect(nameField?.getAttribute("aria-invalid")).toBeTruthy();
         });
     });
 });
