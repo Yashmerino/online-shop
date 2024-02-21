@@ -35,11 +35,10 @@ const Copyright = (props: any) => {
 
     return (
         <Grid container direction="row" style={{ marginTop: "50px" }} sx={{ mt: "4%", p: "1%", bottom: 0, top: "100vh", position: "sticky" }} bgcolor={theme.palette.mode === "light" ? "#1976d2" : "#272727"} data-testid="footer">
-            <Grid item width="34%" ml="16%">
+            <Grid item width="34%" ml="16%" sx={{display: 'flex', flexDirection: "column", justifyContent: "space-between"}}>
                 <Typography variant="h5" color="#FFF" align="left" sx={{ lineHeight: "1", fontWeight: 600 }}>{getTranslation(lang, "online_shop")}</Typography>
-                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }} marginTop="4%">example@shop.com</Typography>
-                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }}>+40 336 772 413</Typography>
-                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }} marginTop="2%">Strada Alexandru Ioan Cuza 13, Craiova 200585</Typography>
+                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }}>example@shop.com<br />+40 336 772 413</Typography>
+                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }}>Strada Alexandru Ioan Cuza 13, Craiova 200585</Typography>
             </Grid>
             <Grid item width="34%" mr="16%">
                 <Typography variant="subtitle2" color="#FFF" align="right" sx={{ lineHeight: "1", textAlign: "justify" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum iaculis lacus sit amet ipsum finibus blandit. Nam ac nibh et ante varius fermentum sed et turpis. Sed nibh felis, accumsan vel erat in, facilisis vulputate velit. Phasellus ac iaculis eros. Praesent porttitor neque non augue porta facilisis. Nunc hendrerit massa dui, non auctor enim placerat vitae. Aliquam at diam neque.

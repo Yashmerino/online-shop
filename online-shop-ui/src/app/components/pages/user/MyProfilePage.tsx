@@ -32,6 +32,7 @@ import InputFields from '../../../utils/InputFields';
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
 import { updateInfo } from '../../../slices/infoSlice';
+import NoPhoto from "../../../../img/no_photo.jpg";
 
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../../../../i18n/i18n';
@@ -46,7 +47,7 @@ const MyProfilePage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const [photo, setPhoto] = React.useState("");
+    const [photo, setPhoto] = React.useState(NoPhoto);
     const [file, setFile] = React.useState<File | null>(null);
 
     const [email, setEmail] = React.useState(useAppSelector(state => state.info.info.email));
@@ -109,7 +110,9 @@ const MyProfilePage = () => {
                 }
             }
 
-            setPhoto(URL.createObjectURL(photoBlob as Blob));
+            if ((photoBlob as Blob).size > 0) {
+                setPhoto(URL.createObjectURL(photoBlob as Blob));
+            }
         }
 
         getUserPhotoRequest();
@@ -124,11 +127,11 @@ const MyProfilePage = () => {
                         {getTranslation(lang, "user_updated_successfully")}
                     </Alert>
                 </Snackbar>}
-            <Paper square elevation={3} sx={{ width: "60%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
+            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
                 <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "my_profile")}</Typography>
             </Paper>
-            <Paper square elevation={3} sx={{ width: "60%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
-                <Box width={"50%"} sx={{ aspectRatio: "1/1" }} ml={"2%"} mt={"2%"} mb={"2%"}>
+            <Paper square elevation={3} sx={{ width: "70%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
+                <Box width={"47%"} sx={{ aspectRatio: "1/1", boxShadow: 12 }} ml={"2%"} mt={"2%"} mb={"2%"}>
                     <input
                         accept="image/*"
                         style={{ display: 'none' }}
@@ -144,11 +147,11 @@ const MyProfilePage = () => {
                 </Box>
                 <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "end", justifyContent: "flex-end", margin: "2.5%" }}>
                     <Paper square elevation={6} sx={{ width: "100%", p: "2.5%", display: "flex", flexDirection: 'row' }}>
-                        <Box width={"15%"}>
-                            <Typography sx={{ fontSize: 20, mt: "22.5%", fontWeight: "200" }} textAlign={"right"} lineHeight={1}>{getTranslation(lang, "username")}</Typography>
-                            <Typography sx={{ fontSize: 20, mt: "45%", fontWeight: "200" }} textAlign={"right"} lineHeight={1}>{getTranslation(lang, "email")}</Typography>
-                            <Typography sx={{ fontSize: 20, mt: "40%", fontWeight: "200" }} textAlign={"right"} lineHeight={1}>{getTranslation(lang, "address")}</Typography>
-                            <Typography sx={{ fontSize: 20, mt: "45%", fontWeight: "200" }} textAlign={"right"} lineHeight={1}>{getTranslation(lang, "phone")}</Typography>
+                        <Box maxWidth={"30%"} sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                            <Typography sx={{ fontSize: 20, mt: "35%", fontWeight: "200", wordWrap: "break-word" }} textAlign={"right"} lineHeight={1}>{getTranslation(lang, "username")}</Typography>
+                            <Typography sx={{ fontSize: 20, fontWeight: "200", wordWrap: "break-word" }} textAlign={"right"} lineHeight={1}>{getTranslation(lang, "email")}</Typography>
+                            <Typography sx={{ fontSize: 20, fontWeight: "200", wordWrap: "break-word" }} textAlign={"right"} lineHeight={1}>{getTranslation(lang, "address")}</Typography>
+                            <Typography sx={{ fontSize: 20, mb: "35%", fontWeight: "200", wordWrap: "break-word" }} textAlign={"right"} lineHeight={1}>{getTranslation(lang, "phone")}</Typography>
                         </Box>
                         <Box width={"5%"}>
                             <Divider orientation="vertical" />

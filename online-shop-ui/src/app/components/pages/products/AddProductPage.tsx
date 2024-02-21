@@ -37,6 +37,7 @@ import * as React from 'react';
 import { addProduct, setProductPhoto } from '../../../api/ProductRequest';
 import { InputError, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import InputFields from '../../../utils/InputFields';
+import NoPhoto from "../../../../img/no_photo.jpg";
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
@@ -61,13 +62,6 @@ export interface Category {
     name: string
 }
 
-const currencies = [
-    {
-        value: 'EUR',
-        label: '€',
-    },
-];
-
 const AddProductPage = () => {
     const lang = useAppSelector(state => state.lang.lang);
     const roles = useAppSelector(state => state.info.info.roles);
@@ -83,7 +77,7 @@ const AddProductPage = () => {
     const [inputErrors, setInputErrors] = React.useState<InputError[]>([]);
     const [isSuccess, setSuccess] = React.useState(false);
 
-    const [photo, setPhoto] = React.useState("");
+    const [photo, setPhoto] = React.useState(NoPhoto);
     const [file, setFile] = React.useState<File | null>(null);
 
     const handleAlertClick = () => {
@@ -157,9 +151,9 @@ const AddProductPage = () => {
     };
 
     return (
-        <Container component="main" maxWidth={false} id="main-container" sx={{ height: "80vh" }} disableGutters>
+        <Container component="main" maxWidth={false} id="main-container" sx={{ height: "100vh" }} disableGutters>
             <Header />
-            <Paper square elevation={3} sx={{ width: "60%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
+            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
                 <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "add_product")}</Typography>
             </Paper>
             {isSuccess &&
@@ -171,8 +165,8 @@ const AddProductPage = () => {
             {// @ts-ignore 
                 roles[0].name == "SELLER"
                     ? (
-                        <Paper square elevation={3} sx={{ width: "60%", height: "40%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center" }}>
-                            <Box width={"62.5%"} sx={{ aspectRatio: "1/1" }} ml={"2%"} mt={"2%"} mb={"2%"}>
+                        <Paper square elevation={3} sx={{ width: "70%", height: "40%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <Box width={"65%"} sx={{ aspectRatio: "1/1", boxShadow: 12 }} ml={"2%"} mt={"2%"} mb={"2%"}>
                                 <input
                                     accept="image/*"
                                     style={{ display: 'none' }}
@@ -186,8 +180,8 @@ const AddProductPage = () => {
                                     </Button>
                                 </label>
                             </Box>
-                            <Paper square elevation={6} sx={{ height: "80%", width: "100%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", mr: "2.5%", ml: "2%", mb: "4%", mt: "4%" }}>
-                                <Box margin={"4%"}>
+                            <Paper square elevation={6} sx={{ height: "80%", width: "100%", display: "flex", flexDirection: "row",  mr: "2.5%", ml: "2%", mb: "4%", mt: "4%" }}>
+                                <Box margin={"4%"} sx={{ width: "100%" }}>
                                     <TextField
                                         error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}
                                         required
@@ -203,11 +197,10 @@ const AddProductPage = () => {
                                         }}
                                     />
                                     <TextField
-                                        sx={{ marginTop: "4%" }}
+                                        sx={{ marginTop: "6%", marginBottom: "4%", width: "100%" }}
                                         multiline
-                                        rows={5}
+                                        rows={7}
                                         error={isFieldPresentInInputErrors(InputFields.DESCRIPTION, inputErrors)}
-                                        fullWidth
                                         name="description"
                                         label={getTranslation(lang, "description")}
                                         type="description"
@@ -220,7 +213,7 @@ const AddProductPage = () => {
                                     />
                                 </Box>
                             </Paper>
-                            <Box sx={{ width: "100%", height: "80%", display: "flex", flexDirection: "column", mr: "3%" }}>
+                            <Box sx={{ width: "100%", height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-between", mr: "3%" }}>
                                 <Paper square elevation={6} sx={{ width: "100%" }}>
                                     <Box sx={{ margin: "4%" }}>
                                         <TextField
@@ -249,7 +242,7 @@ const AddProductPage = () => {
                                                     : (<em>{getTranslation(lang, "categories")}</em>)
                                             )}
                                             MenuProps={MenuProps}
-                                            sx={{ width: "100%", mb: "3%", mt: "6%", maxWidth: "100%" }}
+                                            sx={{ width: "100%", mb: "0", mt: "6%", maxWidth: "100%" }}
                                         >
                                             {fetchedCategories.map((fetchedCategory) => (
                                                 <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
@@ -264,7 +257,7 @@ const AddProductPage = () => {
                                     type="submit"
                                     data-testid="submit-button"
                                     variant="contained"
-                                    sx={{ width: "16%", mt: "8%", ml: "auto" }}
+                                    sx={{ width: "16%", ml: "auto" }}
                                     onClick={handleSubmit}
                                 >
                                     {getTranslation(lang, "add")}

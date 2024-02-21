@@ -19,7 +19,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "esModuleInterop": true,
     "jsx": "react"
   },
   "include": ["src", "setupTests.ts"]

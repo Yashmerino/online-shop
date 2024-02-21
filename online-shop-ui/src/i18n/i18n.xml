@@ -87,7 +87,7 @@
 	</key>
 	<key value="email">
 		<val lang="ENG">Email</val>
-		<val lang="RU">Электронная почта</val>
+		<val lang="RU">Почта</val>
 		<val lang="RO">Email</val>
 	</key>
 	<key value="address">
@@ -102,8 +102,8 @@
 	</key>
 	<key value="username">
 		<val lang="ENG">Username</val>
-		<val lang="RU">Имя пользователя</val>
-		<val lang="RO">Nume de utilizator</val>
+		<val lang="RU">Имя</val>
+		<val lang="RO">Nume</val>
 	</key>
 	<key value="password">
 		<val lang="ENG">Password</val>
