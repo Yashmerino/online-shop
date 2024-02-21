@@ -20,7 +20,7 @@ describe("Product Card Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <ProductCard id={1} title="Apple" price="2.5" categories={[]} shouldBeAbleToDelete={true} key={1} />
+                    <ProductCard id={1} title="Apple" price="2.5" categories={[]} description={""} shouldBeAbleToDelete={true} key={1} />
                 </MemoryRouter>
             </Provider>
         );
@@ -50,7 +50,7 @@ describe("Product Card Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <ProductCard id={1} title="Apple" price="2.5" categories={[]} shouldBeAbleToDelete={true} key={1} />
+                    <ProductCard id={1} title="Apple" price="2.5" categories={[]} description={""} shouldBeAbleToDelete={true} key={1} />
                 </MemoryRouter>
             </Provider>
         );

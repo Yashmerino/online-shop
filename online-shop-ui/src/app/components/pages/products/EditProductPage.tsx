@@ -59,14 +59,7 @@ const MenuProps = {
     },
 };
 
-const currencies = [
-    {
-        value: 'EUR',
-        label: '€',
-    },
-];
-
-const AddProductPage = () => {
+const EditProductPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -118,9 +111,7 @@ const AddProductPage = () => {
         getProductPhotoRequest();
     }, []);
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
+    const handleSubmit = async () => {
         setSuccess(false);
         setInputErrors([]);
         setError("");
@@ -152,6 +143,7 @@ const AddProductPage = () => {
             }
 
             setSuccess(true);
+            navigate("/profile/products");
         }
     }
 
@@ -173,125 +165,130 @@ const AddProductPage = () => {
     };
 
     return (
-        <Container component="main" maxWidth={false} id="main-container" sx={{height: "100vh"}} disableGutters>
+        <Container component="main" maxWidth={false} id="main-container" sx={{ height: "100vh" }} disableGutters>
             <Header />
+            {isSuccess &&
+                <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
+                    <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+                        {getTranslation(lang, "product_updated_successfully")}
+                    </Alert>
+                </Snackbar>}
+            {error.length > 0 &&
+                <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
+                    <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
+                        {getTranslation(lang, error)}
+                    </Alert>
+                </Snackbar>}
+            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
+                <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "update_product")}</Typography>
+            </Paper>
             {// @ts-ignore 
                 roles[0].name == "SELLER"
-                    ? (<Box
-                        onSubmit={event => handleSubmit(event)}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        component="form"
-                        sx={{
-                            '& .MuiTextField-root': { m: 1, width: '50ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                        margin="2%"
-                    >
-                        <Stack
-                            alignItems="center"
-                            justifyContent="center">
-                            {isSuccess &&
-                                <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
-                                    <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-                                        {getTranslation(lang, "product_updated_successfully")}
-                                    </Alert>
-                                </Snackbar>}
-                            {error.length > 0 &&
-                                <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
-                                    <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
-                                        {getTranslation(lang, error)}
-                                    </Alert>
-                                </Snackbar>}
-                            <Box className="my-profile-image-container">
-                                <Paper sx={{ border: 0, boxShadow: "none", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                                    <img width="196" height="196" className="user-image" src={photo} data-testid="photo" />
-                                    <Box className="my-profile-image-information-container">
-                                        <Input id='file' type='file' onChange={handleFileChange} data-testid="photo-selector"></Input>
-                                    </Box>
-                                </Paper>
+                    ? (<Paper square elevation={3} sx={{ width: "70%", height: "40%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center" }}>
+                        <Box width={"65%"} sx={{ aspectRatio: "1/1", boxShadow: 12 }} ml={"2%"} mt={"2%"} mb={"2%"}>
+                            <input
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                id="photo-upload-button"
+                                type="file"
+                                onChange={handleFileChange}
+                            />
+                            <label htmlFor="photo-upload-button">
+                                <Button component="span" sx={{ width: "100%", height: "100%" }}>
+                                    <img width={"100%"} height={"100%"} className="user-image" src={photo} data-testid="photo" />
+                                </Button>
+                            </label>
+                        </Box>
+                        <Paper square elevation={6} sx={{ height: "80%", width: "100%", display: "flex", flexDirection: "row", mr: "2.5%", ml: "2%", mb: "4%", mt: "4%" }}>
+                            <Box margin={"4%"} sx={{ width: "100%" }}>
+                                <TextField
+                                    defaultValue={name}
+                                    error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}
+                                    required
+                                    fullWidth
+                                    name="name"
+                                    label={getTranslation(lang, "name")}
+                                    type="name"
+                                    id="name-field"
+                                    data-testid="name-field"
+                                    autoComplete="current-name"
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                        setName(event.target.value);
+                                    }}
+                                />
+                                <TextField
+                                    defaultValue={description}
+                                    sx={{ marginTop: "6%", marginBottom: "4%", width: "100%" }}
+                                    multiline
+                                    rows={7}
+                                    error={isFieldPresentInInputErrors(InputFields.DESCRIPTION, inputErrors)}
+                                    name="description"
+                                    label={getTranslation(lang, "description")}
+                                    type="description"
+                                    id="description"
+                                    data-testid="description"
+                                    autoComplete="current-description"
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                        setDescription(event.target.value);
+                                    }}
+                                />
                             </Box>
-                            <TextField
-                                error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}
-                                helperText={isFieldPresentInInputErrors(InputFields.NAME, inputErrors) ? getFieldInputErrorMessage(InputFields.NAME, inputErrors, lang) : null}
-                                value={name}
-                                onChange={(event) => { setName(event.target.value) }}
-                                required
-                                id="name-field"
-                                data-testid="name-field"
-                                label={getTranslation(lang, "name")}
-                                sx={{ width: "75%" }} />
-                            <TextField
-                                id="currency-field"
-                                data-testid="currency-field"
-                                select
-                                label={getTranslation(lang, "currency")}
-                                defaultValue="EUR"
-                                helperText={getTranslation(lang, "select_currency")}
-                            >
-                                {currencies.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                            <Select
-                                id="categories-field"
-                                data-testid="categories-field"
-                                displayEmpty
-                                multiple
-                                label={getTranslation(lang, "categories")}
-                                value={categories}
-                                onChange={handleCategoriesChange}
-                                input={<OutlinedInput />}
-                                renderValue={(selected) => (
-                                    selected.length === 0
-                                        ? (<em>{getTranslation(lang, "categories")}</em>)
-                                        : (<Box sx={{ display: 'grid', flexWrap: 'wrap', gap: 0.5, maxWidth: "100%" }}>
-                                            {selected.map((value) => (
-                                                <Chip key={value} label={getTranslation(lang, value)} />
-                                            ))}
-                                        </Box>)
-                                )}
-                                MenuProps={MenuProps}
-                                sx={{ width: "95%", mb: "3%", maxWidth: "95%" }}
-                            >
-
-                                {fetchedCategories.map((fetchedCategory) => (
-                                    <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
-                                        <Checkbox checked={categories.indexOf(fetchedCategory.name) > -1} />
-                                        <ListItemText primary={getTranslation(lang, fetchedCategory.name)} />
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            <TextField
-                                error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
-                                helperText={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors) ? getFieldInputErrorMessage(InputFields.PRICE, inputErrors, lang) : null}
-                                value={price}
-                                onChange={(event) => { setPrice(Number(event.target.value)) }}
-                                required
-                                id="price-field"
-                                data-testid="price-field"
-                                label={getTranslation(lang, "price")}
-                                type="number"
-                                inputProps={{ min: 0 }} />
+                        </Paper>
+                        <Box sx={{ width: "100%", height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-between", mr: "3%" }}>
+                            <Paper square elevation={6} sx={{ width: "100%" }}>
+                                <Box sx={{ margin: "4%" }}>
+                                    <TextField
+                                        defaultValue={price}
+                                        sx={{ width: "100%" }}
+                                        error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
+                                        onChange={(event) => { setPrice(Number(event.target.value)) }}
+                                        required
+                                        id="price-field"
+                                        data-testid="price-field"
+                                        label={getTranslation(lang, "price")}
+                                        type="number"
+                                        inputProps={{ min: 0 }} />
+                                    <Select
+                                        id="categories-field"
+                                        data-testid="categories-field"
+                                        displayEmpty
+                                        multiple
+                                        label={getTranslation(lang, "categories")}
+                                        value={categories}
+                                        onChange={handleCategoriesChange}
+                                        input={<OutlinedInput />}
+                                        renderValue={(selected) => (
+                                            selected.length === 0
+                                                ? (<em>{getTranslation(lang, "categories")}</em>)
+                                                : (<em>{getTranslation(lang, "categories")}</em>)
+                                        )}
+                                        MenuProps={MenuProps}
+                                        sx={{ width: "100%", mb: "0", mt: "6%", maxWidth: "100%" }}
+                                    >
+                                        {fetchedCategories.map((fetchedCategory) => (
+                                            <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
+                                                <Checkbox checked={categories.indexOf(fetchedCategory.name) > -1} />
+                                                <ListItemText primary={getTranslation(lang, fetchedCategory.name)} />
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </Box>
+                            </Paper>
                             <Button
                                 type="submit"
                                 data-testid="submit-button"
-                                fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{ width: "16%", ml: "auto" }}
+                                onClick={handleSubmit}
                             >
                                 {getTranslation(lang, "update")}
                             </Button>
-                        </Stack>
-                    </Box>)
+                        </Box>
+                    </Paper>)
                     : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)}
             <Copyright />
         </Container>
     );
 }
 
-export default AddProductPage;
+export default EditProductPage;

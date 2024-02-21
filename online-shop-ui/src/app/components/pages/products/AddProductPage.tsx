@@ -153,15 +153,15 @@ const AddProductPage = () => {
     return (
         <Container component="main" maxWidth={false} id="main-container" sx={{ height: "100vh" }} disableGutters>
             <Header />
-            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
-                <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "add_product")}</Typography>
-            </Paper>
             {isSuccess &&
                 <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
                     <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
                         {getTranslation(lang, "product_added_successfully")}
                     </Alert>
                 </Snackbar>}
+            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
+                <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "add_product")}</Typography>
+            </Paper>
             {// @ts-ignore 
                 roles[0].name == "SELLER"
                     ? (
@@ -180,7 +180,7 @@ const AddProductPage = () => {
                                     </Button>
                                 </label>
                             </Box>
-                            <Paper square elevation={6} sx={{ height: "80%", width: "100%", display: "flex", flexDirection: "row",  mr: "2.5%", ml: "2%", mb: "4%", mt: "4%" }}>
+                            <Paper square elevation={6} sx={{ height: "80%", width: "100%", display: "flex", flexDirection: "row", mr: "2.5%", ml: "2%", mb: "4%", mt: "4%" }}>
                                 <Box margin={"4%"} sx={{ width: "100%" }}>
                                     <TextField
                                         error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}

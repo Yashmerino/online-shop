@@ -71,7 +71,7 @@ const ProductsContainer = () => {
         roles[0].name == "SELLER" ?
           (<Grid container justifyContent="center" alignItems="center" columnGap={2}>
             {products.length > 0 && products.map(product => {
-              return (<ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories} shouldBeAbleToDelete={true} />);
+              return (<ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories} description={product.description} shouldBeAbleToDelete={true} />);
             })}
           </Grid>) : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)
       }

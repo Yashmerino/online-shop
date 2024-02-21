@@ -48,10 +48,11 @@ interface ProductCardProps {
   title: string,
   price: string,
   categories: string[],
+  description: string,
   shouldBeAbleToDelete: boolean
 }
 
-const ProductCard = ({ id, title, price, categories, shouldBeAbleToDelete }: ProductCardProps) => {
+const ProductCard = ({ id, title, price, categories, description, shouldBeAbleToDelete }: ProductCardProps) => {
   const navigate = useNavigate();
 
   const roles = useAppSelector(state => state.info.info.roles);
@@ -100,6 +101,7 @@ const ProductCard = ({ id, title, price, categories, shouldBeAbleToDelete }: Pro
         title: title,
         categories: categories,
         price: price,
+        description: description
       }
     })
   }

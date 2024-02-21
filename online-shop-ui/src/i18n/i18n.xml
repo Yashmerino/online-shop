@@ -220,6 +220,11 @@
 		<val lang="RU">Добавить продукт</val>
 		<val lang="RO">Adaugă produs</val>
 	</key>
+	<key value="update_product">
+		<val lang="ENG">Update product</val>
+		<val lang="RU">Обновить продукт</val>
+		<val lang="RO">Actualizează produs</val>
+	</key>
 	<key value="add_to_cart">
 		<val lang="ENG">Add to cart</val>
 		<val lang="RU">Добавить в корзину</val>

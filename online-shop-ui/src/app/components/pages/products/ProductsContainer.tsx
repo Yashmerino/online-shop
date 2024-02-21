@@ -64,7 +64,7 @@ const ProductsContainer = () => {
       <Header />
       <Grid container justifyContent="center" alignItems="center" columnGap={2}>
         {products.length > 0 && products.map(product => {
-          return (<ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories} shouldBeAbleToDelete={false} />);
+          return (<ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories} description={product.description} shouldBeAbleToDelete={false} />);
         })}
       </Grid>
       <Copyright />
