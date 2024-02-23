@@ -15,6 +15,11 @@ import { getUserPhoto } from '../api/UserRequest';
 import { updateJwt } from '../slices/jwtSlice';
 import { Select, InputLabel, SelectChangeEvent } from '@mui/material';
 import { Button } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SearchIcon from '@mui/icons-material/Search';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AddIcon from '@mui/icons-material/Add';
+import SellIcon from '@mui/icons-material/Sell';
 
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Lang from '../../i18n/LangEnum';
@@ -70,7 +75,7 @@ const Header = () => {
     const handleProfile = () => {
         navigate("/profile");
     }
-    
+
     const handleSearch = () => {
         navigate("/search");
     }
@@ -144,23 +149,23 @@ const Header = () => {
                         {getTranslation(lang, "online_shop")}
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <Button key={1} onClick={handleProfile} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "profile")}</Button>
+                        <Button key={1} startIcon={<AccountCircleIcon />} onClick={handleProfile} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "profile")}</Button>
                         {// @ts-ignore 
                             roles[0].name == "USER" ?
-                                <Button key={2} onClick={handleMyCart} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "my_cart")}</Button> :
+                                <Button key={2} startIcon={<ShoppingCartIcon />} onClick={handleMyCart} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "my_cart")}</Button> :
                                 null
                         }
                         {// @ts-ignore 
                             roles[0].name == "SELLER" ?
-                            <Button key={3} onClick={handleAddProduct} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "add_product")}</Button> :
-                            null         
+                                <Button key={3} startIcon={<AddIcon />} onClick={handleAddProduct} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "add_product")}</Button> :
+                                null
                         }
                         {// @ts-ignore 
                             roles[0].name == "SELLER" ?
-                            <Button key={4} onClick={handleMyProducts} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "my_products")}</Button> :
-                            null
+                                <Button key={4} startIcon={<SellIcon />} onClick={handleMyProducts} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "my_products")}</Button> :
+                                null
                         }
-                        <Button key={5} onClick={handleSearch} sx={{ my: 2, color: 'white', display: 'block', fontWeight: "Bold" }}>{getTranslation(lang, "search")}</Button>
+                        <Button key={5} startIcon={<SearchIcon />} onClick={handleSearch} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "search")}</Button>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title={getTranslation(lang, "open_settings")}>

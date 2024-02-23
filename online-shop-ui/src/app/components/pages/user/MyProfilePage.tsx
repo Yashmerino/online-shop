@@ -33,6 +33,7 @@ import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
 import { updateInfo } from '../../../slices/infoSlice';
 import NoPhoto from "../../../../img/no_photo.jpg";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../../../../i18n/i18n';
@@ -127,7 +128,8 @@ const MyProfilePage = () => {
                         {getTranslation(lang, "user_updated_successfully")}
                     </Alert>
                 </Snackbar>}
-            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
+            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%", display: "flex" }}>
+                <AccountCircleIcon fontSize='large' sx={{ marginRight: "1.5%" }} />
                 <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "my_profile")}</Typography>
             </Paper>
             <Paper square elevation={3} sx={{ width: "70%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>

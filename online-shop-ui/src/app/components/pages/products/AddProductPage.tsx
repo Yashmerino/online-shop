@@ -38,6 +38,7 @@ import { addProduct, setProductPhoto } from '../../../api/ProductRequest';
 import { InputError, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import InputFields from '../../../utils/InputFields';
 import NoPhoto from "../../../../img/no_photo.jpg";
+import AddIcon from '@mui/icons-material/Add';
 
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
@@ -159,7 +160,8 @@ const AddProductPage = () => {
                         {getTranslation(lang, "product_added_successfully")}
                     </Alert>
                 </Snackbar>}
-            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%" }}>
+            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%", display: "flex" }}>
+                <AddIcon fontSize='large' sx={{ marginRight: "1.5%" }} />
                 <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "add_product")}</Typography>
             </Paper>
             {// @ts-ignore 
@@ -219,7 +221,7 @@ const AddProductPage = () => {
                                         <TextField
                                             sx={{ width: "100%" }}
                                             error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
-                                            value={price}
+                                            value={price + "€"}
                                             onChange={(event) => { setPrice(Number(event.target.value)) }}
                                             required
                                             id="price-field"

@@ -35,6 +35,10 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import QuantityInput from '../QuantityInput';
 import { getProductPhoto } from '../../api/ProductRequest';
+import { Box } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface CartItemProps {
   id: number,
@@ -65,12 +69,11 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
     if (response.status == 200) {
       setDeleted(true);
     }
+
+    location.reload();
   }
 
   const handleSaveProduct = async () => {
-    setDeleted(false);
-    setSuccess(false);
-
     const updatedQuantity = (document.getElementById(`quantity-input-${id}`) as HTMLInputElement).value;
     const response = await changeQuantity(jwt.token, id, parseInt(updatedQuantity));
 
@@ -88,44 +91,23 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
     getProductPhotoRequest();
   }, []);
 
-  return (
-    <Card sx={{ maxWidth: 400, minWidth: 320, marginTop: "5%" }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          alt="product"
-          width="320"
-          src={photo}
-          sx={{ objectFit: 'contain' }}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Price: {price}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions >
-        <Button variant="contained" onClick={handleDeleteProduct} data-testid={"delete-button-" + id}>Delete</Button>
-        <QuantityInput id={`quantity-input-${id}`} defaultValue={quantity} />
-        <Button variant="contained" onClick={handleSaveProduct} data-testid={"save-button-" + id}>Save</Button>
-      </CardActions>
-      {isDeleted &&
-        <Snackbar open={isDeleted} autoHideDuration={2000} onClose={handleAlertClick}>
-          <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-            The cart item has been deleted successfully!
-          </Alert>
-        </Snackbar>}
-      {isSuccess &&
-        <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
-          <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-            The cart item has been updated successfully!
-          </Alert>
-        </Snackbar>}
-    </Card>
+  return (<>
+    {isDeleted &&
+      <Snackbar open={isDeleted} autoHideDuration={2000} onClose={handleAlertClick}>
+        <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+          The cart item has been deleted successfully!
+        </Alert>
+      </Snackbar>}
+    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%" }}>
+      <img width={"5%"} height={"5%"} className="card-image" src={photo} data-testid={"card-image-" + id} />
+      <Typography variant="h6" sx={{ fontWeight: 200, marginLeft: "2%", marginRight: "2%", width: "25%", overflow: "hidden", lineHeight: "1" }}>{title}</Typography>
+      <QuantityInput id={id} defaultValue={quantity} handleSaveProduct={handleSaveProduct} />
+      <Typography variant="h6" sx={{ fontWeight: 400, marginLeft: "2%" }}>{price + "€"}</Typography>
+      <IconButton color="error" aria-label="delete from shopping cart" sx={{ border: "1px solid", marginLeft: "2%", width: "3.5vh", height: "3.5vh" }} onClick={handleDeleteProduct}>
+        <DeleteIcon />
+      </IconButton>
+    </Box>
+  </>
   );
 }
 

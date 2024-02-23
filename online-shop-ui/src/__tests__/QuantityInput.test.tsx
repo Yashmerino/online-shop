@@ -5,7 +5,7 @@ import QuantityInput from "../app/components/QuantityInput";
 describe("Quantity input Tests", () => {
     it("Test quantity input functional", () => {
         render(
-            <QuantityInput defaultValue={1} id={"quantity-input"} />
+            <QuantityInput id={1} defaultValue={1} handleSaveProduct={null} />
         );
 
         waitFor(() => { // NOSONAR: No need to await.

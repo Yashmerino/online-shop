@@ -131,7 +131,7 @@ const ProductCard = ({ id, title, price, categories, description, shouldBeAbleTo
             {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {getTranslation(lang, "price") + price}
+            {getTranslation(lang, "price") + price + "€"}
           </Typography>
         </CardContent>
       </CardActionArea>

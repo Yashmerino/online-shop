@@ -238,7 +238,7 @@ const EditProductPage = () => {
                             <Paper square elevation={6} sx={{ width: "100%" }}>
                                 <Box sx={{ margin: "4%" }}>
                                     <TextField
-                                        defaultValue={price}
+                                        defaultValue={price + "€"}
                                         sx={{ width: "100%" }}
                                         error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
                                         onChange={(event) => { setPrice(Number(event.target.value)) }}
