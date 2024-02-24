@@ -395,5 +395,40 @@
 		<val lang="RU">Темная</val>
 		<val lang="RO">Închisă</val>
 	</key>
+	<key value="total">
+		<val lang="ENG">Total</val>
+		<val lang="RU">Цена</val>
+		<val lang="RO">Total</val>
+	</key>
+	<key value="products_price">
+		<val lang="ENG">Products price</val>
+		<val lang="RU">Цена продуктов</val>
+		<val lang="RO">Prețul articolelor</val>
+	</key>
+	<key value="delivery_price">
+		<val lang="ENG">Delivery price</val>
+		<val lang="RU">Цена доставки</val>
+		<val lang="RO">Prețul livrării</val>
+	</key>
+	<key value="discount">
+		<val lang="ENG">Discount (%)</val>
+		<val lang="RU">Скидка (%)</val>
+		<val lang="RO">Reducere (%)</val>
+	</key>
+	<key value="cash">
+		<val lang="ENG">Cash</val>
+		<val lang="RU">Наличные</val>
+		<val lang="RO">Cash</val>
+	</key>
+	<key value="card">
+		<val lang="ENG">Card</val>
+		<val lang="RU">Карта</val>
+		<val lang="RO">Card</val>
+	</key>
+	<key value="crypto">
+		<val lang="ENG">Crypto</val>
+		<val lang="RU">Криптовалюта</val>
+		<val lang="RO">Crypto</val>
+	</key>
 </i18n>
 	

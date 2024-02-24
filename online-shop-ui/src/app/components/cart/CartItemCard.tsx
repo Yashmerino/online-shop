@@ -98,9 +98,11 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
           The cart item has been deleted successfully!
         </Alert>
       </Snackbar>}
-    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%" }}>
-      <img width={"5%"} height={"5%"} className="card-image" src={photo} data-testid={"card-image-" + id} />
-      <Typography variant="h6" sx={{ fontWeight: 200, marginLeft: "2%", marginRight: "2%", width: "25%", overflow: "hidden", lineHeight: "1" }}>{title}</Typography>
+    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+      <Box height={"5vh"}>
+        <img width={"100%"} height={"100%"} className="card-image" src={photo} data-testid={"card-image-" + id} />
+      </Box>
+      <Typography variant="h6" sx={{ fontWeight: 200, width: "35%", ml: "1.5%", overflow: "hidden", lineHeight: "1", textOverflow: "ellipsis" }}>{title}</Typography>
       <QuantityInput id={id} defaultValue={quantity} handleSaveProduct={handleSaveProduct} />
       <Typography variant="h6" sx={{ fontWeight: 400, marginLeft: "2%" }}>{price + "€"}</Typography>
       <IconButton color="error" aria-label="delete from shopping cart" sx={{ border: "1px solid", marginLeft: "2%", width: "3.5vh", height: "3.5vh" }} onClick={handleDeleteProduct}>
