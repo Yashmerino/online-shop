@@ -35,8 +35,8 @@ describe("Cart Item Tests", () => {
             const quantityInput = screen.getByTestId("quantity-input-1");
             expect(quantityInput).toBeInTheDocument();
 
-            const saveCartItemButton = screen.getByText("save");
-            expect(saveCartItemButton).toBeInTheDocument();
+            const deleteIcon = screen.getByTestId("delete-icon");
+            expect(deleteIcon).toBeInTheDocument();
         })
     });
 

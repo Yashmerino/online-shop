@@ -32,10 +32,13 @@ import Header from '../../Header';
 import ProductCard from './ProductCard';
 import { getSellerProducts } from '../../../api/ProductRequest';
 import Product from './Product';
+import SellIcon from '@mui/icons-material/Sell';
 
 import { useAppSelector } from '../../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../../../../i18n/i18n';
+import MyProductCard from './MyProductCard';
+import { Paper } from '@mui/material';
 
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
@@ -52,8 +55,8 @@ const ProductsContainer = () => {
     const fetchProducts = async () => {
       const productsResponse = await getSellerProducts(token, username);
 
-      if(productsResponse.status) {
-        if(productsResponse.status == 401) {
+      if (productsResponse.status) {
+        if (productsResponse.status == 401) {
           navigate("/login");
         }
       }
@@ -65,15 +68,19 @@ const ProductsContainer = () => {
   }, []);
 
   return (
-    <Container component="main" maxWidth={false} id="my-products-container" sx={{height: "100vh"}}  disableGutters>
+    <Container component="main" maxWidth={false} id="my-products-container" sx={{ height: "100vh" }} disableGutters>
       <Header />
+      <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%", display: "flex" }}>
+        <SellIcon fontSize='large' sx={{ marginRight: "1.5%" }} />
+        <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "my_products")}</Typography>
+      </Paper>
       {// @ts-ignore 
         roles[0].name == "SELLER" ?
-          (<Grid container justifyContent="center" alignItems="center" columnGap={2}>
+          (<Paper square elevation={3} sx={{ width: "70%", height: "50%", paddingBottom: "2.5%", pl: "2.5%", pr: "2.5%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "column", overflowY: "scroll" }}>
             {products.length > 0 && products.map(product => {
-              return (<ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories} description={product.description} shouldBeAbleToDelete={true} />);
+              return (<div key={product.objectID} style={{ marginTop: "3.5%" }}><MyProductCard key={product.objectID} objectID={product.objectID} name={product.name} price={product.price} categories={product.categories} description={product.description} /></div>);
             })}
-          </Grid>) : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)
+          </Paper>) : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)
       }
       <Copyright />
 

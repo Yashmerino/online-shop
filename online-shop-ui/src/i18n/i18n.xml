@@ -125,6 +125,11 @@
 		<val lang="RU">Продавец</val>
 		<val lang="RO">Vânzător</val>
 	</key>
+	<key value="my_products">
+		<val lang="ENG">My products</val>
+		<val lang="RU">Мои продукты</val>
+		<val lang="RO">Articolele mele</val>
+	</key>
 	<key value="user_updated_successfully">
 		<val lang="ENG">The user information has been successfully updated!</val>
 		<val lang="RU">Информация о пользователе успешно обновлена!</val>
