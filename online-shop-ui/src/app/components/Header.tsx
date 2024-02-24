@@ -27,6 +27,7 @@ import { getTranslation } from '../../i18n/i18n';
 import { updateLang } from '../slices/langSlice';
 import { setCookie } from '../utils/Utils';
 import { updateTheme } from '../slices/themeSlice';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const Header = () => {
     const roles = useAppSelector(state => state.info.info.roles);
@@ -39,6 +40,7 @@ const Header = () => {
 
     const navigate = useNavigate();
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
     React.useEffect(() => {
         const getUserPhotoRequest = async () => {
@@ -62,6 +64,14 @@ const Header = () => {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElNav(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
     };
 
     const handleMyCart = () => {
@@ -110,9 +120,49 @@ const Header = () => {
         <AppBar position="static" sx={{ width: "100%" }}>
             <Container maxWidth={false} data-testid="header">
                 <Toolbar disableGutters>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            {// @ts-ignore 
+                                roles[0].name == "USER" ? <MenuItem key={1} onClick={handleMyCart}><Typography textAlign="center" >{getTranslation(lang, "my_cart")}</Typography></MenuItem> : null}
+                            {// @ts-ignore 
+                                roles[0].name == "SELLER" ? <MenuItem key={2} onClick={handleAddProduct}><Typography textAlign="center" >{getTranslation(lang, "add_product")}</Typography></MenuItem> : null}
+                            {// @ts-ignore 
+                                roles[0].name == "SELLER" ? <MenuItem key={3} onClick={handleMyProducts}><Typography textAlign="center" >{getTranslation(lang, "my_products")}</Typography></MenuItem> : null}
+                            <MenuItem key={4} onClick={handleSearch}>
+                                <Typography textAlign="center" >{getTranslation(lang, "search")}</Typography>
+                            </MenuItem>
+                        </Menu>
+                    </Box>
                     <LocalMallIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
-                        variant="h6"
+                        variant="h5"
                         noWrap
                         component="a"
                         href="#/products"
@@ -220,7 +270,7 @@ const Header = () => {
                     </Box>
                 </Toolbar>
             </Container>
-        </AppBar>
+        </AppBar >
     );
 }
 export default Header;
