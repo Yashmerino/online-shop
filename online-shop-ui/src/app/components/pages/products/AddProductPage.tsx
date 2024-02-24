@@ -71,7 +71,7 @@ const AddProductPage = () => {
 
     const [name, setName] = React.useState("");
     const [description, setDescription] = React.useState("");
-    const [price, setPrice] = React.useState(0);
+    const [price, setPrice] = React.useState(0.1);
     const [categories, setCategories] = React.useState<string[]>([]);
     const [fetchedCategories, setFetchedCategories] = React.useState<Category[]>([]);
 
@@ -221,14 +221,14 @@ const AddProductPage = () => {
                                         <TextField
                                             sx={{ width: "100%" }}
                                             error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
-                                            value={price + "€"}
+                                            value={price}
                                             onChange={(event) => { setPrice(Number(event.target.value)) }}
                                             required
                                             id="price-field"
                                             data-testid="price-field"
-                                            label={getTranslation(lang, "price")}
+                                            label={getTranslation(lang, "price") + '€'}
                                             type="number"
-                                            inputProps={{ min: 0 }} />
+                                            inputProps={{ min: 1 }} />
                                         <Select
                                             id="categories-field"
                                             data-testid="categories-field"

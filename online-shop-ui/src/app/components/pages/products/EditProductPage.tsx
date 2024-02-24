@@ -238,16 +238,16 @@ const EditProductPage = () => {
                             <Paper square elevation={6} sx={{ width: "100%" }}>
                                 <Box sx={{ margin: "4%" }}>
                                     <TextField
-                                        defaultValue={price + "€"}
+                                        value={price}
                                         sx={{ width: "100%" }}
                                         error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
                                         onChange={(event) => { setPrice(Number(event.target.value)) }}
                                         required
                                         id="price-field"
                                         data-testid="price-field"
-                                        label={getTranslation(lang, "price")}
+                                        label={getTranslation(lang, "price") + '€'}
                                         type="number"
-                                        inputProps={{ min: 0 }} />
+                                        inputProps={{ min: 1 }} />
                                     <Select
                                         id="categories-field"
                                         data-testid="categories-field"
