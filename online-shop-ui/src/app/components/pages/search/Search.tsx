@@ -8,7 +8,7 @@ import { Grid } from "@mui/material";
 const searchClient = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_API_KEY);
 
 function Hit(hit: any) {
-    return <ProductCard key={hit.hit.objectID} id={parseInt(hit.hit.objectID)} title={hit.hit.name} price={hit.hit.price} categories={hit.hit.categories} description={hit.hit.description} shouldBeAbleToDelete={false} />
+    return <ProductCard key={hit.hit.objectID} id={parseInt(hit.hit.objectID)} title={hit.hit.name} price={hit.hit.price} categories={hit.hit.categories} description={hit.hit.description} />
 }
 
 function Search() {

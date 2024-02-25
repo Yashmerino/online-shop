@@ -29,12 +29,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { Box, Button, CardActionArea, CardActions, IconButton } from '@mui/material';
 import { addProductToCart, deleteProduct, getProductPhoto } from '../../../api/ProductRequest';
 import { useAppSelector } from '../../../hooks';
 import QuantityInput from '../../QuantityInput';
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../../../../i18n/i18n';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -49,10 +50,9 @@ interface ProductCardProps {
   price: string,
   categories: string[],
   description: string,
-  shouldBeAbleToDelete: boolean
 }
 
-const ProductCard = ({ id, title, price, categories, description, shouldBeAbleToDelete }: ProductCardProps) => {
+const ProductCard = ({ id, title, price, categories, description }: ProductCardProps) => {
   const navigate = useNavigate();
 
   const roles = useAppSelector(state => state.info.info.roles);
@@ -71,21 +71,10 @@ const ProductCard = ({ id, title, price, categories, description, shouldBeAbleTo
   const handleAddProduct = async () => {
     setAdded(false);
 
-    const quantity = (document.getElementById(`quantity-input-${id}`) as HTMLInputElement).value;
-    const response = await addProductToCart(jwt.token, id, parseInt(quantity));
+    const response = await addProductToCart(jwt.token, id, 1);
 
     if (response.status == 200) {
       setAdded(true);
-    }
-  }
-
-  const handleDeleteProduct = async () => {
-    setDeleted(false);
-
-    const response = await deleteProduct(jwt.token, id);
-
-    if (response.status == 200) {
-      setDeleted(true);
     }
   }
 
@@ -109,54 +98,43 @@ const ProductCard = ({ id, title, price, categories, description, shouldBeAbleTo
   React.useEffect(() => {
     const getProductPhotoRequest = async () => {
       const photoBlob = await getProductPhoto(id);
-      setPhoto(URL.createObjectURL(photoBlob));
+
+      if (photoBlob.size > 0) {
+        setPhoto(URL.createObjectURL(photoBlob));
+      }
     }
 
     getProductPhotoRequest();
   }, []);
 
   return (
-    <Card sx={{ maxWidth: 400, minWidth: 320, marginTop: "5%" }}>
-      <CardActionArea onClick={handleEditProduct}>
-        <CardMedia
-          component="img"
-          height="140"
-          alt="product"
-          width="320"
-          src={photo}
-          sx={{ objectFit: 'contain' }}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {getTranslation(lang, "price") + price + "€"}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions >
-        {// @ts-ignore 
-          roles[0].name == "USER" ? <Button size="small" color="primary" onClick={handleAddProduct}> {/* NOSONAR: Function addProduct doesn't return Promise.*/}{getTranslation(lang, "add_to_cart")}</Button> : null
-        }
-        {shouldBeAbleToDelete && <Button variant="contained" onClick={handleDeleteProduct} data-testid={"delete-button-" + id}>{getTranslation(lang, "delete")}</Button>}
-        {// @ts-ignore 
-          roles[0].name == "USER" ? <QuantityInput id={`quantity-input-${id}`} defaultValue={1} /> : null
-        }
-      </CardActions>
+    <>
       {isAdded &&
         <Snackbar open={isAdded} autoHideDuration={2000} onClose={handleAlertClick}>
           <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
             {getTranslation(lang, "product_added_to_cart_successfully")}
           </Alert>
         </Snackbar>}
-      {isDeleted &&
-        <Snackbar open={isDeleted} autoHideDuration={2000} onClose={handleAlertClick}>
-          <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
-            {getTranslation(lang, "product_deleted_successfully")}
-          </Alert>
-        </Snackbar>}
-    </Card>
+      <div onClick={handleEditProduct} className={roles[0].name == "SELLER" ? "my-product-card" : ""}>
+        <Box sx={{ display: "flex", flexDirection: "column", }}>
+          <Box height={"20vh"} width={"32vh"}>
+            <img width={"100%"} height={"100%"} src={photo} data-testid={"card-image-" + id} style={{ objectFit: "cover", borderRadius: "15px" }} />
+            {// @ts-ignore 
+              roles[0].name == "USER" ? (
+                <IconButton color="primary" aria-label="add to shopping cart" onClick={handleAddProduct} sx={{ marginLeft: "83%", border: "1px solid", width: "15%", height: "25%" }}>
+                  {/* NOSONAR: Function addProduct doesn't return Promise.*/}
+                  <AddShoppingCartIcon />
+                </IconButton>) : null
+            }
+          </Box>
+          <Box margin="0 5%" width="22vh">
+            <Typography variant="body2" fontSize={10} sx={{ marginTop: "3%", lineHeight: "1", overflow: "hidden", overflowWrap: "break-word" }}>{categories[0] || getTranslation(lang, "no_category")}</Typography>
+            <Typography variant="body1" sx={{ marginTop: "2.5%", height: "3.3vh", lineHeight: "1", overflow: "hidden", overflowWrap: "break-word" }}>{title}</Typography>
+            <Typography variant="body1" fontWeight={800} sx={{ marginTop: "2.5%", height: "3vh", lineHeight: "1", overflow: "hidden", overflowWrap: "break-word" }}>{price + "€"}</Typography>
+          </Box>
+        </Box>
+      </div>
+    </>
   );
 }
 

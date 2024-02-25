@@ -130,6 +130,11 @@
 		<val lang="RU">Мои продукты</val>
 		<val lang="RO">Articolele mele</val>
 	</key>
+	<key value="no_category">
+		<val lang="ENG">No Category</val>
+		<val lang="RU">Нет категории</val>
+		<val lang="RO">Nu are categorie</val>
+	</key>
 	<key value="user_updated_successfully">
 		<val lang="ENG">The user information has been successfully updated!</val>
 		<val lang="RU">Информация о пользователе успешно обновлена!</val>
@@ -380,7 +385,7 @@
 		<val lang="RU">Забота о животных</val>
 		<val lang="RO">Îngrijirea animalelor de companie</val>
 	</key>
-	<key value="Office Equipment">
+	<key value="Office equipment">
 		<val lang="ENG">Office Equipment</val>
 		<val lang="RU">Оргтехника</val>
 		<val lang="RO">Echipamente de birou</val>

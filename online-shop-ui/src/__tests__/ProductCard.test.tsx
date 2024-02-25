@@ -10,7 +10,7 @@ import "../app/utils/mockJsdom";
 import ProductCard from "../app/components/pages/products/ProductCard";
 
 describe("Product Card Tests", () => {
-    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, info: { info: { roles: [{ id: 2, name: "SELLER" }], email: null }}, lang: { lang: "ENG" } };
+    const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, info: { info: { roles: [{ id: 2, name: "SELLER" }], email: null } }, lang: { lang: "ENG" } };
     const mockStore = configureStore()
     let store: Store;
 
@@ -20,7 +20,7 @@ describe("Product Card Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <ProductCard id={1} title="Apple" price="2.5" categories={[]} description={""} shouldBeAbleToDelete={true} key={1} />
+                    <ProductCard id={1} title="Apple" price="2.5" categories={[]} description={""} key={1} />
                 </MemoryRouter>
             </Provider>
         );
@@ -50,7 +50,7 @@ describe("Product Card Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <ProductCard id={1} title="Apple" price="2.5" categories={[]} description={""} shouldBeAbleToDelete={true} key={1} />
+                    <ProductCard id={1} title="Apple" price="2.5" categories={[]} description={""} key={1} />
                 </MemoryRouter>
             </Provider>
         );
