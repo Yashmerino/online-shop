@@ -85,7 +85,7 @@ public class CategoryController {
         List<CategoryDTO> categoriesDTO = new ArrayList<>();
 
         for (Category category : categories) {
-            categoriesDTO.add(RequestBodyToEntityConverter.converToCategoryDTO(category));
+            categoriesDTO.add(RequestBodyToEntityConverter.convertToCategoryDTO(category));
         }
 
         return new ResponseEntity<>(categoriesDTO, HttpStatus.OK);

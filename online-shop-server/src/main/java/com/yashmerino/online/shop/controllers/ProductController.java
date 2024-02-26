@@ -381,7 +381,7 @@ public class ProductController {
         successDTO.setMessage("product_updated_successfully");
 
         if (applicationProperties.IS_ALGOLIA_USED) {
-            algoliaService.addProductToIndex(convertToProductDTO(productService.getProduct(id)));
+            algoliaService.updateProduct(convertToProductDTO(productService.getProduct(id)));
         }
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);

@@ -47,7 +47,7 @@ public class ProductDTO {
      * Product's id.
      */
     @JsonProperty("objectID")
-    private Long id;
+    private String id;
 
     /**
      * Product's name;

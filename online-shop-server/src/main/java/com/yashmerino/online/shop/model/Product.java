@@ -68,7 +68,7 @@ public class Product extends BaseEntity {
     /**
      * Product's categories.
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Category> categories;
 
     /**

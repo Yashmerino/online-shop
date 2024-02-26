@@ -32,6 +32,8 @@ import com.yashmerino.online.shop.model.dto.ProductDTO;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
 import com.yashmerino.online.shop.utils.ApplicationProperties;
 import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ import java.util.List;
  * Algolia service that uses Algolia's services to manipulate search index.
  */
 @Service
+@Slf4j
 public class AlgoliaService {
 
     /**
@@ -57,12 +60,12 @@ public class AlgoliaService {
     /**
      * Products' service.
      */
-    private ProductService productService;
+    private final ProductService productService;
 
     /**
      * Application's properties.
      */
-    private ApplicationProperties applicationProperties;
+    private final ApplicationProperties applicationProperties;
 
     /**
      * Constructor.

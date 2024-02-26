@@ -66,7 +66,7 @@ public class RequestBodyToEntityConverter {
      */
     public static ProductDTO convertToProductDTO(final Product product) {
         ProductDTO productDTO = new ProductDTO();
-        productDTO.setId(product.getId());
+        productDTO.setId(product.getId().toString());
         productDTO.setName(product.getName());
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice());
@@ -99,7 +99,7 @@ public class RequestBodyToEntityConverter {
      * @param category is the category entity.
      * @return <code>CategoryDTO</code>
      */
-    public static CategoryDTO converToCategoryDTO(Category category) {
+    public static CategoryDTO convertToCategoryDTO(Category category) {
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setId(category.getId());
         categoryDTO.setName(category.getName());
