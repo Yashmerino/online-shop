@@ -74,6 +74,7 @@ const ProductsContainer = () => {
         <SellIcon fontSize='large' sx={{ marginRight: "1.5%" }} />
         <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "my_products")}</Typography>
       </Paper>
+
       {// @ts-ignore 
         roles[0].name == "SELLER" ?
           (<Paper square elevation={3} sx={{ width: "70%", height: "50%", paddingBottom: "2.5%", pl: "2.5%", pr: "2.5%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "column", overflowY: "scroll" }}>

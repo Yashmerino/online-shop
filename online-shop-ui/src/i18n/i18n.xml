@@ -140,6 +140,11 @@
 		<val lang="RU">Информация о пользователе успешно обновлена!</val>
 		<val lang="RO">Informațiile utilizatorului au fost actualizate cu succes!</val>
 	</key>
+	<key value="no_products_found">
+		<val lang="ENG">No products found</val>
+		<val lang="RU">Не найдено продуктов</val>
+		<val lang="RO">Articole nu au fost găsite</val>
+	</key>
 	<key value="product_added_successfully">
 		<val lang="ENG">The product has been added successfully!</val>
 		<val lang="RU">Товар успешно добавлен!</val>

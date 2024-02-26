@@ -30,6 +30,8 @@
             src/app/api/UserRequest.ts,
             src/app/components/pages/search/Search.tsx,
             src/app/components/pages/search/SearchPage.tsx
+            src/app/components/pages/search/SearchHits.tsx
+            src/app/components/pages/search/SearchBar.tsx
         </sonar.coverage.exclusions>
         <sonar.javascript.lcov.reportPaths>coverage/lcov.info</sonar.javascript.lcov.reportPaths>
         <maven.compiler.source>19</maven.compiler.source>

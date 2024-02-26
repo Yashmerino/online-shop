@@ -36,6 +36,7 @@ import QuantityInput from '../../QuantityInput';
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../../../../i18n/i18n';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import NoPhoto from "../../../../img/no_photo.jpg";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -59,7 +60,7 @@ const ProductCard = ({ id, title, price, categories, description }: ProductCardP
   const lang = useAppSelector(state => state.lang.lang);
   const [isAdded, setAdded] = React.useState<boolean>(false);
   const [isDeleted, setDeleted] = React.useState<boolean>(false);
-  const [photo, setPhoto] = React.useState("");
+  const [photo, setPhoto] = React.useState(NoPhoto);
 
   const jwt = useAppSelector(state => state.jwt);
 
@@ -128,7 +129,7 @@ const ProductCard = ({ id, title, price, categories, description }: ProductCardP
             }
           </Box>
           <Box margin="0 5%" width="22vh">
-            <Typography variant="body2" fontSize={10} sx={{ marginTop: "3%", lineHeight: "1", overflow: "hidden", overflowWrap: "break-word" }}>{categories[0] || getTranslation(lang, "no_category")}</Typography>
+            <Typography variant="body2" fontSize={10} sx={{ marginTop: "3%", lineHeight: "1", overflow: "hidden", overflowWrap: "break-word" }}>{categories && categories.length > 0 ? categories[0] : getTranslation(lang, "no_category")}</Typography>
             <Typography variant="body1" sx={{ marginTop: "2.5%", height: "3.3vh", lineHeight: "1", overflow: "hidden", overflowWrap: "break-word" }}>{title}</Typography>
             <Typography variant="body1" fontWeight={800} sx={{ marginTop: "2.5%", height: "3vh", lineHeight: "1", overflow: "hidden", overflowWrap: "break-word" }}>{price + "€"}</Typography>
           </Box>

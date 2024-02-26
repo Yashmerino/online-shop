@@ -41,6 +41,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getTranslation } from '../../../i18n/i18n';
 import NoPhoto from "../../../img/no_photo.jpg";
+import { useNavigate } from 'react-router';
 
 interface CartItemProps {
   id: number,
@@ -54,6 +55,7 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
   const [isDeleted, setDeleted] = React.useState<boolean>(false);
   const [isSuccess, setSuccess] = React.useState<boolean>(false);
   const [photo, setPhoto] = React.useState(NoPhoto);
+  const navigate = useNavigate();
   const lang = useAppSelector(state => state.lang.lang);
 
   const jwt = useAppSelector(state => state.jwt);
@@ -69,6 +71,12 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
 
     const response = await deleteCartItem(jwt.token, id);
 
+    if (response.status) {
+      if (response.status == 401) {
+        navigate("/login");
+      }
+    }
+
     if (response.status == 200) {
       setDeleted(true);
     }
@@ -80,6 +88,12 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
     const updatedQuantity = (document.getElementById(`quantity-input-${id}`) as HTMLInputElement).value;
     const response = await changeQuantity(jwt.token, id, parseInt(updatedQuantity));
 
+    if (response.status) {
+      if (response.status == 401) {
+        navigate("/login");
+      }
+    }
+
     if (response.status == 200) {
       setSuccess(true);
     }
@@ -88,6 +102,12 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
   React.useEffect(() => {
     const getProductPhotoRequest = async () => {
       const photoBlob = await getProductPhoto(productId);
+
+      if ((photoBlob as unknown as Response).status) {
+        if ((photoBlob as unknown as Response).status == 401) {
+          navigate("/login");
+        }
+      }
 
       if (photoBlob.size > 0) {
         setPhoto(URL.createObjectURL(photoBlob));

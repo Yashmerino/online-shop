@@ -28,6 +28,7 @@ import { updateLang } from '../slices/langSlice';
 import { setCookie } from '../utils/Utils';
 import { updateTheme } from '../slices/themeSlice';
 import MenuIcon from '@mui/icons-material/Menu';
+import { ALGOLIA_USAGE } from '../../env-config';
 
 const Header = () => {
     const roles = useAppSelector(state => state.info.info.roles);
@@ -155,9 +156,8 @@ const Header = () => {
                                 roles[0].name == "SELLER" ? <MenuItem key={2} onClick={handleAddProduct}><Typography textAlign="center" >{getTranslation(lang, "add_product")}</Typography></MenuItem> : null}
                             {// @ts-ignore 
                                 roles[0].name == "SELLER" ? <MenuItem key={3} onClick={handleMyProducts}><Typography textAlign="center" >{getTranslation(lang, "my_products")}</Typography></MenuItem> : null}
-                            <MenuItem key={4} onClick={handleSearch}>
-                                <Typography textAlign="center" >{getTranslation(lang, "search")}</Typography>
-                            </MenuItem>
+                            {// @ts-ignore 
+                                roles[0].name == "USER" ? ALGOLIA_USAGE && <MenuItem key={4} onClick={handleSearch}><Typography textAlign="center" >{getTranslation(lang, "search")}</Typography></MenuItem> : null}
                         </Menu>
                     </Box>
                     <LocalMallIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -215,7 +215,10 @@ const Header = () => {
                                 <Button key={4} startIcon={<SellIcon />} onClick={handleMyProducts} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "my_products")}</Button> :
                                 null
                         }
-                        <Button key={5} startIcon={<SearchIcon />} onClick={handleSearch} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "search")}</Button>
+                        {// @ts-ignore 
+                            roles[0].name == "USER" ? ALGOLIA_USAGE && <Button key={5} startIcon={<SearchIcon />} onClick={handleSearch} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "search")}</Button> :
+                                null
+                        }
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title={getTranslation(lang, "open_settings")}>
