@@ -23,7 +23,6 @@
  */
 
 import * as React from 'react';
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 
 import Copyright from '../footer/Copyright';
@@ -42,7 +41,6 @@ import Divider from '@mui/material/Divider';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { CurrencyBitcoin } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
 
 interface CartItem {
     id: number,

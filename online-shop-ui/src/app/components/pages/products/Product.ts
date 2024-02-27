@@ -1,3 +1,6 @@
+/**
+ * Product's type.
+ */
 export default interface Product {
     objectID: number,
     name: string,
