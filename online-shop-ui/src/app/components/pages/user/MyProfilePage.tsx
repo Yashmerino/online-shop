@@ -124,7 +124,7 @@ const MyProfilePage = () => {
             <Header />
             {isSuccess &&
                 <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
-                    <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+                    <Alert onClose={handleAlertClick} id="alert-success" severity="success" sx={{ width: '100%' }}>
                         {getTranslation(lang, "user_updated_successfully")}
                     </Alert>
                 </Snackbar>}

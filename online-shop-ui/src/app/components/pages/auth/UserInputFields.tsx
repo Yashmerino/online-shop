@@ -87,8 +87,8 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                                     label={getTranslation(lang, "role")}
                                     onChange={handleRoleChange}
                                 >
-                                    <MenuItem value={"USER"}>{getTranslation(lang, "user")}</MenuItem>
-                                    <MenuItem value={"SELLER"}>{getTranslation(lang, "seller")}</MenuItem>
+                                    <MenuItem value={"USER"} id="user-role">{getTranslation(lang, "user")}</MenuItem>
+                                    <MenuItem value={"SELLER"} id="seller-role">{getTranslation(lang, "seller")}</MenuItem>
                                 </Select>
                             </FormControl>
                             <TextField
@@ -136,6 +136,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         data-testid="submit-button"
                         fullWidth
                         variant="contained"
+                        id="submit"
                         sx={{ mt: 3, mb: 2 }}
                     >
                         {buttonText}

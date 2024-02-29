@@ -84,7 +84,7 @@ const LoginPage = () => {
       <Container component="main" maxWidth="xs" sx={{pt: 26}}>
         {error.length > 0 &&
           <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
-            <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
+            <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }} id="alert-error">
               {getTranslation(lang, error)}
             </Alert>
           </Snackbar>}
@@ -93,7 +93,7 @@ const LoginPage = () => {
             <UserInputFields title={getTranslation(lang, "sign_in")} buttonText={getTranslation(lang, "sign_in")} handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
           </Grid>
           <Grid item>
-            <Link component={RouterLink} to={'/register'} variant="body2">
+            <Link component={RouterLink} to={'/register'} variant="body2" id="dont-have-account">
               {getTranslation(lang, "create_account_message")}
             </Link>
           </Grid>

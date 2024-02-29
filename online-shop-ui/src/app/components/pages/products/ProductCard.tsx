@@ -112,7 +112,7 @@ const ProductCard = ({ id, title, price, categories, description }: ProductCardP
     <>
       {isAdded &&
         <Snackbar open={isAdded} autoHideDuration={2000} onClose={handleAlertClick}>
-          <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+          <Alert onClose={handleAlertClick} id="alert-success" severity="success" sx={{ width: '100%' }}>
             {getTranslation(lang, "product_added_to_cart_successfully")}
           </Alert>
         </Snackbar>}

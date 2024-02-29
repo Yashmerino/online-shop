@@ -156,7 +156,7 @@ const AddProductPage = () => {
             <Header />
             {isSuccess &&
                 <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
-                    <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+                    <Alert data-testid="alert-success" id="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
                         {getTranslation(lang, "product_added_successfully")}
                     </Alert>
                 </Snackbar>}

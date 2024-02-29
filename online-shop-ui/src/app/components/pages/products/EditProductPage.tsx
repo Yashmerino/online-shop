@@ -169,13 +169,13 @@ const EditProductPage = () => {
             <Header />
             {isSuccess &&
                 <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
-                    <Alert data-testid="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+                    <Alert data-testid="alert-success" id="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
                         {getTranslation(lang, "product_updated_successfully")}
                     </Alert>
                 </Snackbar>}
             {error.length > 0 &&
                 <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
-                    <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
+                    <Alert data-testid="alert-error" id="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
                         {getTranslation(lang, error)}
                     </Alert>
                 </Snackbar>}

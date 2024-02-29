@@ -120,7 +120,7 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
   return (<>
     {isDeleted &&
       <Snackbar open={isDeleted} autoHideDuration={2000} onClose={handleAlertClick}>
-        <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+        <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }} id="alert-success">
           {getTranslation(lang, "cartitem_deleted_successfully")}
         </Alert>
       </Snackbar>}
