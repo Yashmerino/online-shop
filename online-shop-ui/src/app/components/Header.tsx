@@ -199,20 +199,20 @@ const Header = () => {
                         {getTranslation(lang, "online_shop")}
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <Button key={1} startIcon={<AccountCircleIcon />} onClick={handleProfile} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "profile")}</Button>
+                        <Button key={1} startIcon={<AccountCircleIcon />} onClick={handleProfile} id="profile-button" sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "profile")}</Button>
                         {// @ts-ignore 
                             roles[0].name == "USER" ?
-                                <Button key={2} startIcon={<ShoppingCartIcon />} onClick={handleMyCart} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "my_cart")}</Button> :
+                                <Button key={2} startIcon={<ShoppingCartIcon />} onClick={handleMyCart} id="my-cart-button" sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "my_cart")}</Button> :
                                 null
                         }
                         {// @ts-ignore 
                             roles[0].name == "SELLER" ?
-                                <Button key={3} startIcon={<AddIcon />} onClick={handleAddProduct} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "add_product")}</Button> :
+                                <Button key={3} startIcon={<AddIcon />} onClick={handleAddProduct} id="add-product-button" sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "add_product")}</Button> :
                                 null
                         }
                         {// @ts-ignore 
                             roles[0].name == "SELLER" ?
-                                <Button key={4} startIcon={<SellIcon />} onClick={handleMyProducts} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "my_products")}</Button> :
+                                <Button key={4} startIcon={<SellIcon />} onClick={handleMyProducts} id="my-products-button" sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "my_products")}</Button> :
                                 null
                         }
                         {// @ts-ignore 

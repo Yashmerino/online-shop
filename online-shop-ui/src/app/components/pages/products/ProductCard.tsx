@@ -122,7 +122,7 @@ const ProductCard = ({ id, title, price, categories, description }: ProductCardP
             <img width={"100%"} height={"100%"} src={photo} data-testid={"card-image-" + id} style={{ objectFit: "cover", borderRadius: "15px" }} />
             {// @ts-ignore 
               roles[0].name == "USER" ? (
-                <IconButton color="primary" aria-label="add to shopping cart" onClick={handleAddProduct} sx={{ marginLeft: "83%", border: "1px solid", width: "15%", height: "25%" }}>
+                <IconButton color="primary" aria-label="add to shopping cart" onClick={handleAddProduct} id={"add-product-" + id} sx={{ marginLeft: "83%", border: "1px solid", width: "15%", height: "25%" }}>
                   {/* NOSONAR: Function addProduct doesn't return Promise.*/}
                   <AddShoppingCartIcon />
                 </IconButton>) : null

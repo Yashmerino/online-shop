@@ -49,6 +49,7 @@ import { useAppSelector } from '../../../hooks'
 import { Stack, Typography } from '@mui/material';
 import { getCategories } from '../../../api/CategoryRequest';
 import { getTranslation } from '../../../../i18n/i18n';
+import NoPhoto from "../../../../img/no_photo.jpg";
 
 const MenuProps = {
     PaperProps: {
@@ -77,7 +78,7 @@ const EditProductPage = () => {
     const [error, setError] = React.useState("");
     const [isSuccess, setSuccess] = React.useState(false);
 
-    const [photo, setPhoto] = React.useState("");
+    const [photo, setPhoto] = React.useState(NoPhoto);
     const [file, setFile] = React.useState<File | null>(null);
 
     const handleAlertClick = () => {
@@ -104,8 +105,11 @@ const EditProductPage = () => {
 
         const getProductPhotoRequest = async () => {
             const photoBlob = await getProductPhoto(location.state ? location.state.id : "1");
-            setPhoto(URL.createObjectURL(photoBlob));
-            setFile(photoBlob as File);
+            if(photoBlob.size > 0) {
+                setPhoto(URL.createObjectURL(photoBlob));
+                setFile(photoBlob as File);
+            }
+
         }
 
         getProductPhotoRequest();

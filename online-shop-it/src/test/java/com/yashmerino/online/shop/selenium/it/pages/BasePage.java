@@ -12,17 +12,22 @@ public class BasePage {
     /**
      * Web Driver to make browser actions.
      */
-    protected WebDriver driver;
+    protected final WebDriver driver;
 
     /**
      * Wait web driver to wait until certain conditions met.
      */
-    protected WebDriverWait wait;
+    protected final WebDriverWait wait;
 
     /**
      * Success alert element.
      */
-    protected By successAlert = By.id("alert-success");
+    protected final By successAlert = By.id("alert-success");
+
+    /**
+     * Submit button.
+     */
+    protected final By submitButton = By.id("submit-button");
 
     /**
      * Constructor.

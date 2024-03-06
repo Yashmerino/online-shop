@@ -256,6 +256,7 @@ const AddProductPage = () => {
                                     </Box>
                                 </Paper>
                                 <Button
+                                    id="submit-button"
                                     type="submit"
                                     data-testid="submit-button"
                                     variant="contained"
