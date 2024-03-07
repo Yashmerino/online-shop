@@ -1,0 +1,12 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+DELETE FROM products_cart_items;
+DELETE FROM cart_items;
+DELETE FROM products;
+DELETE FROM carts;
+DELETE FROM users;
+
+ALTER TABLE cart_items_seq AUTO_INCREMENT=1;
+ALTER TABLE carts_seq AUTO_INCREMENT=1;
+ALTER TABLE products_seq AUTO_INCREMENT=1;
+ALTER TABLE users_seq AUTO_INCREMENT=1;

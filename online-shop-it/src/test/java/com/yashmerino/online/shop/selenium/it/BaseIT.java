@@ -1,5 +1,8 @@
 package com.yashmerino.online.shop.selenium.it;
 
+import com.yashmerino.online.shop.selenium.it.pages.BasePage;
+import com.yashmerino.online.shop.selenium.it.utils.TestUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -34,6 +37,11 @@ public class BaseIT {
     protected WebDriverWait wait;
 
     /**
+     * Current page.
+     */
+    protected BasePage currentPage;
+
+    /**
      * Constructor.
      */
     public BaseIT() {
@@ -41,5 +49,13 @@ public class BaseIT {
 
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, TIMEOUT_IN_SECONDS);
+    }
+
+    /**
+     * Method that is called before each test.
+     */
+    @BeforeEach
+    public void tearDown() {
+        TestUtils.executeSQLScript(TestUtils.SQL_CLEAN_SCRIPT_FILE);
     }
 }
