@@ -23,7 +23,6 @@ export const getTranslation = (lang: Lang, key: string) => {
             messagesArray.forEach(message => {
                 if (message.$.lang.localeCompare(lang.toString()) == 0) {
                     translatedMessage = message._;
-                    return;
                 }
             })
         }

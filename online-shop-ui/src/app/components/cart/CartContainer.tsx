@@ -31,10 +31,8 @@ import { getCartItems } from '../../api/CartItemsRequest';
 import CartItemCard from './CartItemCard';
 
 import { useAppSelector } from '../../hooks';
-import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Typography, Box, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
-import { Paper } from '@mui/material';
 import { getTranslation } from '../../../i18n/i18n';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Divider from '@mui/material/Divider';

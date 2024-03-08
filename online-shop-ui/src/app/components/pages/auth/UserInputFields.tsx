@@ -35,9 +35,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputFields from '../../../utils/InputFields';
-import { InputError } from '../../../utils/InputErrorUtils';
-import { isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
-import { getFieldInputErrorMessage } from '../../../utils/InputErrorUtils';
+import { InputError, getFieldInputErrorMessage, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import { useAppSelector } from '../../../hooks';
 import { getTranslation } from '../../../../i18n/i18n';
 
@@ -54,7 +52,7 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
     const lang = useAppSelector(state => state.lang.lang);
 
     const handleRoleChange = (event: SelectChangeEvent) => {
-        setRole(event.target.value as string);
+        setRole(event.target.value);
     };
 
     return (

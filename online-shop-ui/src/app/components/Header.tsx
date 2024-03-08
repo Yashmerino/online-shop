@@ -21,7 +21,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AddIcon from '@mui/icons-material/Add';
 import SellIcon from '@mui/icons-material/Sell';
 
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Lang from '../../i18n/LangEnum';
 import { getTranslation } from '../../i18n/i18n';
 import { updateLang } from '../slices/langSlice';

@@ -23,9 +23,8 @@
  */
 
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { useTheme } from '@mui/material';
 import { getTranslation } from '../../../i18n/i18n';
 import { useAppSelector } from '../../hooks';
 

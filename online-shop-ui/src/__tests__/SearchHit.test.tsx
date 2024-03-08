@@ -1,14 +1,12 @@
 import React from "react";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import CartItemCard from "../app/components/cart/CartItemCard";
 import * as ProductRequest from "../app/api/ProductRequest";
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Store } from "redux";
 import "../app/utils/mockJsdom";
-import MyProductCard from "../app/components/pages/products/MyProductCard";
 import SearchHit from "../app/components/pages/search/SearchHit";
 
 describe("Search Hit Card Tests", () => {

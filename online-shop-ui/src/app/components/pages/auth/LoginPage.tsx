@@ -34,13 +34,12 @@ import * as UserRequest from '../../../api/UserRequest';
 import * as AuthRequest from '../../../api/AuthRequest';
 import { InputError } from '../../../utils/InputErrorUtils';
 
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { updateJwt } from '../../../slices/jwtSlice';
 import { updateUsername } from '../../../slices/usernameSlice';
 import { parseJwt } from '../../../utils/Utils';
 import { updateInfo } from '../../../slices/infoSlice';
 import { getTranslation } from '../../../../i18n/i18n';
-import { useAppSelector } from '../../../hooks';
 
 const LoginPage = () => {
   const lang = useAppSelector(state => state.lang.lang);
@@ -70,9 +69,7 @@ const LoginPage = () => {
       dispatch(updateInfo(await UserRequest.getUserInfo(username ?? "")));
       navigate("/products");
     } else {
-      if (response.fieldErrors) {
-        setInputErrors(response.fieldErrors);
-      }
+      response.fieldErrors && setInputErrors(response.fieldErrors);
     }
   };
 
@@ -81,24 +78,24 @@ const LoginPage = () => {
   };
 
   return (
-      <Container component="main" maxWidth="xs" sx={{pt: 26}}>
-        {error.length > 0 &&
-          <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
-            <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }} id="alert-error">
-              {getTranslation(lang, error)}
-            </Alert>
-          </Snackbar>}
-        <Grid container>
-          <Grid item>
-            <UserInputFields title={getTranslation(lang, "sign_in")} buttonText={getTranslation(lang, "sign_in")} handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
-          </Grid>
-          <Grid item>
-            <Link component={RouterLink} to={'/register'} variant="body2" id="dont-have-account">
-              {getTranslation(lang, "create_account_message")}
-            </Link>
-          </Grid>
+    <Container component="main" maxWidth="xs" sx={{ pt: 26 }}>
+      {error.length > 0 &&
+        <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
+          <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }} id="alert-error">
+            {getTranslation(lang, error)}
+          </Alert>
+        </Snackbar>}
+      <Grid container>
+        <Grid item>
+          <UserInputFields title={getTranslation(lang, "sign_in")} buttonText={getTranslation(lang, "sign_in")} handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
         </Grid>
-      </Container>
+        <Grid item>
+          <Link component={RouterLink} to={'/register'} variant="body2" id="dont-have-account">
+            {getTranslation(lang, "create_account_message")}
+          </Link>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 

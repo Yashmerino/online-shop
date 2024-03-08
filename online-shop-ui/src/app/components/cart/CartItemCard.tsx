@@ -23,12 +23,7 @@
  */
 
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, CardActions } from '@mui/material';
-import Button from '@mui/material/Button';
 import { useAppSelector } from '../../hooks';
 import { deleteCartItem, changeQuantity } from '../../api/CartItemsRequest';
 import Snackbar from '@mui/material/Snackbar';
@@ -36,7 +31,6 @@ import Alert from '@mui/material/Alert';
 import QuantityInput from '../QuantityInput';
 import { getProductPhoto } from '../../api/ProductRequest';
 import { Box } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getTranslation } from '../../../i18n/i18n';
@@ -52,8 +46,7 @@ interface CartItemProps {
 }
 
 const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) => {
-  const [isDeleted, setDeleted] = React.useState<boolean>(false);
-  const [isSuccess, setSuccess] = React.useState<boolean>(false);
+  const [isDeleted, setIsDeleted] = React.useState<boolean>(false);
   const [photo, setPhoto] = React.useState(NoPhoto);
   const navigate = useNavigate();
   const lang = useAppSelector(state => state.lang.lang);
@@ -61,13 +54,11 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
   const jwt = useAppSelector(state => state.jwt);
 
   const handleAlertClick = () => {
-    setDeleted(false);
-    setSuccess(false);
+    setIsDeleted(false);
   };
 
   const handleDeleteProduct = async () => {
-    setDeleted(false);
-    setSuccess(false);
+    setIsDeleted(false);
 
     const response = await deleteCartItem(jwt.token, id);
 
@@ -78,7 +69,7 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
     }
 
     if (response.status == 200) {
-      setDeleted(true);
+      setIsDeleted(true);
     }
 
     location.reload();
@@ -92,10 +83,6 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
       if (response.status == 401) {
         navigate("/login");
       }
-    }
-
-    if (response.status == 200) {
-      setSuccess(true);
     }
   }
 
@@ -126,7 +113,7 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
       </Snackbar>}
     <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
       <Box height={"5vh"} sx={{ aspectRatio: "1/1" }}>
-        <img width={"100%"} height={"100%"} className="card-image" src={photo} data-testid={"card-image-" + id} />
+        <img width={"100%"} height={"100%"} className="card-image" src={photo} alt="cart-item-image" data-testid={"card-image-" + id} />
       </Box>
       <Typography variant="h6" sx={{ fontWeight: 200, width: "35%", ml: "1.5%", overflow: "hidden", lineHeight: "1", textOverflow: "ellipsis" }}>{title}</Typography>
       <QuantityInput id={id} defaultValue={quantity} handleSaveProduct={handleSaveProduct} />

@@ -1,12 +1,8 @@
 import algoliasearch from 'algoliasearch';
 import * as React from 'react'
-import { Hits, SearchBox, InstantSearch } from 'react-instantsearch';
-import { ALGOLIA_APP_ID, ALGOLIA_API_KEY, ALGOLIA_INDEX_NAME } from '../../../../env-config';
-import ProductCard from '../products/ProductCard';
-import { Grid, Paper } from "@mui/material";
-import CartItemCard from '../../cart/CartItemCard';
-import MyProductCard from '../products/MyProductCard';
-import SearchHit from './SearchHit';
+import { InstantSearch } from 'react-instantsearch';
+import { ALGOLIA_APP_ID, ALGOLIA_API_KEY, ALGOLIA_INDEX_NAME } from '../../../../env-config';;
+import { Paper } from "@mui/material";
 import SearchBar from './SearchBar';
 import SearchHits from './SearchHits';
 

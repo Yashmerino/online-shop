@@ -10,7 +10,6 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Store } from "redux";
 import "../app/utils/mockJsdom";
-import i18n from "../i18n/i18n.xml";
 
 describe("Update Product Page Tests", () => {
     const initialState = { jwt: { token: "jwtkey" }, username: { sub: "seller" }, info: { info: { roles: [{ id: 2, name: "SELLER" }], email: null } }, lang: { lang: "ENG" }, theme: { theme: "false" } };

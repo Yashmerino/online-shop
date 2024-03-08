@@ -25,7 +25,6 @@
 import React from 'react';
 import './../main.scss';
 
-import { Link } from 'react-router-dom';
 import Main from './Main';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';

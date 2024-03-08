@@ -28,17 +28,15 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import { addProduct, getProductPhoto, setProductPhoto, updateProduct } from '../../../api/ProductRequest';
+import { getProductPhoto, setProductPhoto, updateProduct } from '../../../api/ProductRequest';
 import Alert from '@mui/material/Alert';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-import Chip from '@mui/material/Chip';
-import { InputError } from '../../../utils/InputErrorUtils';
-import { getFieldInputErrorMessage, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
+import { InputError, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import InputFields from '../../../utils/InputFields';
-import { Paper, Input, Snackbar } from '@mui/material';
+import { Paper, Snackbar, Typography } from '@mui/material';
 import { useLocation, useNavigate } from "react-router-dom";
 import { Category } from './AddProductPage';
 
@@ -46,7 +44,6 @@ import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
 
 import { useAppSelector } from '../../../hooks'
-import { Stack, Typography } from '@mui/material';
 import { getCategories } from '../../../api/CategoryRequest';
 import { getTranslation } from '../../../../i18n/i18n';
 import NoPhoto from "../../../../img/no_photo.jpg";

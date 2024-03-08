@@ -22,10 +22,9 @@
  * SOFTWARE.
  */
 
-import { Alert, Box, Button, Divider, Input, Paper, Snackbar, TextField, useTheme } from '@mui/material';
+import { Alert, Box, Button, Divider, Paper, Snackbar, TextField } from '@mui/material';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
 import * as React from 'react';
 import { InputError, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
 import InputFields from '../../../utils/InputFields';
@@ -143,7 +142,7 @@ const MyProfilePage = () => {
                     />
                     <label htmlFor="photo-upload-button">
                         <Button component="span" sx={{ width: "100%", height: "100%" }}>
-                            <img width={"100%"} height={"100%"} className="user-image" src={photo} />
+                            <img width={"100%"} height={"100%"} className="user-image" alt="user-image" src={photo} />
                         </Button>
                     </label>
                 </Box>

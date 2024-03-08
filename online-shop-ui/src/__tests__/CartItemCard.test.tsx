@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import CartItemCard from "../app/components/cart/CartItemCard";
 import * as CartItemsRequest from "../app/api/CartItemsRequest";

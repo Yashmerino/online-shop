@@ -8,7 +8,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
 const NumberInput = React.forwardRef(function CustomNumberInput(
-  props: NumberInputProps,
+  props: Readonly<NumberInputProps>,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   return (

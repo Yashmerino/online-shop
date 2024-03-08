@@ -26,14 +26,12 @@ import * as React from 'react';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import { Alert } from '@mui/material';
+import { Alert, Snackbar } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { InputError } from '../../../utils/InputErrorUtils';
-import { Snackbar } from '@mui/material';
 import { getTranslation } from '../../../../i18n/i18n';
 import { useAppSelector } from '../../../hooks';
 
-import Copyright from '../../footer/Copyright';
 import UserInputFields from './UserInputFields';
 import * as AuthRequest from '../../../api/AuthRequest';
 
@@ -63,9 +61,7 @@ const RegisterPage = () => {
         } else if (response.status == 200) {
             setSuccess(true);
         } else {
-            if (response.fieldErrors) {
-                setInputErrors(response.fieldErrors);
-            }
+            response.fieldErrors && setInputErrors(response.fieldErrors);
         }
     };
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import { Paper, Snackbar } from '@mui/material';
+import { Paper, Snackbar, Typography } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -43,7 +43,6 @@ import AddIcon from '@mui/icons-material/Add';
 import Header from '../../Header';
 import Copyright from '../../footer/Copyright';
 
-import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../../../../i18n/i18n';
 import { getCategories } from '../../../api/CategoryRequest';
@@ -178,7 +177,7 @@ const AddProductPage = () => {
                                 />
                                 <label htmlFor="photo-upload-button">
                                     <Button component="span" sx={{ width: "100%", height: "100%" }}>
-                                        <img width={"100%"} height={"100%"} className="user-image" src={photo} data-testid="photo" />
+                                        <img width={"100%"} height={"100%"} className="user-image" src={photo} alt="product-image" data-testid="photo" />
                                     </Button>
                                 </label>
                             </Box>
