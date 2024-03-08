@@ -23,13 +23,11 @@
  */
 
 import * as React from 'react';
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import Copyright from '../../footer/Copyright';
 import Header from '../../Header';
-import ProductCard from './ProductCard';
 import { getSellerProducts } from '../../../api/ProductRequest';
 import Product from './Product';
 import SellIcon from '@mui/icons-material/Sell';

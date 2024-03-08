@@ -25,7 +25,6 @@ package com.yashmerino.online.shop.services.interfaces;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.Category;
-import com.yashmerino.online.shop.model.dto.CategoryDTO;
 
 import java.util.List;
 

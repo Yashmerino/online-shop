@@ -196,7 +196,7 @@ const EditProductPage = () => {
                             />
                             <label htmlFor="photo-upload-button">
                                 <Button component="span" sx={{ width: "100%", height: "100%" }}>
-                                    <img width={"100%"} height={"100%"} className="user-image" src={photo} data-testid="photo" />
+                                    <img width={"100%"} height={"100%"} className="user-image" src={photo} alt="product-photo" data-testid="photo" />
                                 </Button>
                             </label>
                         </Box>

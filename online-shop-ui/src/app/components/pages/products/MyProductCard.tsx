@@ -23,28 +23,21 @@
  */
 
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, CardActions } from '@mui/material';
-import Button from '@mui/material/Button';
 import Product from './Product';
 import { useAppSelector } from '../../../hooks';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Box } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deleteCartItem } from '../../../api/CartItemsRequest';
 import { deleteProduct, getProductPhoto } from '../../../api/ProductRequest';
 import { getTranslation } from '../../../../i18n/i18n';
 import NoPhoto from "../../../../img/no_photo.jpg";
 import { useNavigate } from 'react-router-dom';
 
 const MyProductCard = ({ objectID, name, price, categories, description }: Product) => {
-    const [isDeleted, setDeleted] = React.useState<boolean>(false);
+    const [isDeleted, setIsDeleted] = React.useState<boolean>(false);
     const [photo, setPhoto] = React.useState(NoPhoto);
     const navigate = useNavigate();
     const lang = useAppSelector(state => state.lang.lang);
@@ -52,12 +45,12 @@ const MyProductCard = ({ objectID, name, price, categories, description }: Produ
     const jwt = useAppSelector(state => state.jwt);
 
     const handleAlertClick = () => {
-        setDeleted(false);
+        setIsDeleted(false);
     };
 
     const handleDeleteProduct = async (event: any) => {
         event.stopPropagation();
-        setDeleted(false);
+        setIsDeleted(false);
 
         const response = await deleteProduct(jwt.token, objectID);
 
@@ -68,7 +61,7 @@ const MyProductCard = ({ objectID, name, price, categories, description }: Produ
         }
 
         if (response.status == 200) {
-            setDeleted(true);
+            setIsDeleted(true);
         }
 
         location.reload();
@@ -108,7 +101,7 @@ const MyProductCard = ({ objectID, name, price, categories, description }: Produ
         <div onClick={handleEditProduct} className="my-product-card">
             <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
                 <Box height={"5vh"} sx={{ aspectRatio: "1/1" }}>
-                    <img width={"100%"} height={"100%"} className="card-image" src={photo} data-testid={"card-image-" + objectID} />
+                    <img width={"100%"} height={"100%"} className="card-image" src={photo} alt="product-image" data-testid={"card-image-" + objectID} />
                 </Box>
                 <Typography variant="h6" sx={{ fontWeight: 200, width: "35%", ml: "1.5%", overflow: "hidden", lineHeight: "1", textOverflow: "ellipsis" }}>{name}</Typography>
                 <Typography variant="h6" sx={{ fontWeight: 400, marginLeft: "2%" }}>{price + "€"}</Typography>

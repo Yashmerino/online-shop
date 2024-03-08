@@ -458,7 +458,7 @@ class ProductControllerTest {
     void getProductPhotoTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/product/1/photo")).andExpect(status().isOk()).andReturn();
 
-        assertEquals(result.getResponse().getContentAsString().length(), 31163);
+        assertEquals(31163, result.getResponse().getContentAsString().length());
     }
 
     /**
@@ -471,7 +471,7 @@ class ProductControllerTest {
     void getUserPhotoWithUserRoleTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/product/1/photo")).andExpect(status().isOk()).andReturn();
 
-        assertEquals(result.getResponse().getContentAsString().length(), 31163);
+        assertEquals(31163, result.getResponse().getContentAsString().length());
     }
 
     /**

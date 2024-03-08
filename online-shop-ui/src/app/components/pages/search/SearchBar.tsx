@@ -12,7 +12,6 @@ function SearchBar(props: any) {
     const {
         query,
         refine,
-        clear,
     } = useSearchBox(props);
 
     const lang = useAppSelector(state => state.lang.lang);

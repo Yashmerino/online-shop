@@ -59,12 +59,12 @@ public class CartItemServiceImpl implements CartItemService {
     /**
      * Access denied message translation key.
      */
-    private final String ACCESS_DENIED_MESSAGE = "access_denied";
+    private final static String ACCESS_DENIED_MESSAGE = "access_denied";
 
     /**
      * Cart item not found message translation key.
      */
-    private final String CART_ITEM_NOT_FOUND_MESSAGE = "cartitem_not_found";
+    private final static String CART_ITEM_NOT_FOUND_MESSAGE = "cartitem_not_found";
 
     /**
      * Constructor to inject dependencies.

@@ -23,16 +23,12 @@
  */
 
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { Box, Button, CardActionArea, CardActions, IconButton } from '@mui/material';
-import { addProductToCart, deleteProduct, getProductPhoto } from '../../../api/ProductRequest';
+import { Box, IconButton } from '@mui/material';
+import { addProductToCart, getProductPhoto } from '../../../api/ProductRequest';
 import { useAppSelector } from '../../../hooks';
-import QuantityInput from '../../QuantityInput';
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../../../../i18n/i18n';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -58,24 +54,22 @@ const ProductCard = ({ id, title, price, categories, description }: ProductCardP
 
   const roles = useAppSelector(state => state.info.info.roles);
   const lang = useAppSelector(state => state.lang.lang);
-  const [isAdded, setAdded] = React.useState<boolean>(false);
-  const [isDeleted, setDeleted] = React.useState<boolean>(false);
+  const [isAdded, setIsAdded] = React.useState<boolean>(false);
   const [photo, setPhoto] = React.useState(NoPhoto);
 
   const jwt = useAppSelector(state => state.jwt);
 
   const handleAlertClick = () => {
-    setAdded(false);
-    setDeleted(false);
+    setIsAdded(false);
   };
 
   const handleAddProduct = async () => {
-    setAdded(false);
+    setIsAdded(false);
 
     const response = await addProductToCart(jwt.token, id, 1);
 
     if (response.status == 200) {
-      setAdded(true);
+      setIsAdded(true);
     }
   }
 
@@ -119,7 +113,7 @@ const ProductCard = ({ id, title, price, categories, description }: ProductCardP
       <div onClick={handleEditProduct} className={roles[0].name == "SELLER" ? "my-product-card" : ""}>
         <Box sx={{ display: "flex", flexDirection: "column", }} id={title + '-' + id}>
           <Box height={"20vh"} width={"32vh"}>
-            <img width={"100%"} height={"100%"} src={photo} data-testid={"card-image-" + id} style={{ objectFit: "cover", borderRadius: "15px" }} />
+            <img width={"100%"} height={"100%"} src={photo} data-testid={"card-image-" + id} alt="product-photo" style={{ objectFit: "cover", borderRadius: "15px" }} />
             {// @ts-ignore 
               roles[0].name == "USER" ? (
                 <IconButton color="primary" aria-label="add to shopping cart" onClick={handleAddProduct} id={"add-product-" + id} sx={{ marginLeft: "83%", border: "1px solid", width: "15%", height: "25%" }}>
