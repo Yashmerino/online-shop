@@ -59,7 +59,7 @@ public class ApiExceptionHandler {
         FieldErrorResponse fieldErrorResponse = new FieldErrorResponse();
 
         List<CustomFieldError> fieldErrors = new ArrayList<>();
-        e.getConstraintViolations().forEach((error) -> {
+        e.getConstraintViolations().forEach(error -> {
             CustomFieldError fieldError = new CustomFieldError();
             fieldError.setField(error.getPropertyPath().toString());
             fieldError.setMessage(error.getMessage());
@@ -82,7 +82,7 @@ public class ApiExceptionHandler {
         FieldErrorResponse fieldErrorResponse = new FieldErrorResponse();
 
         List<CustomFieldError> fieldErrors = new ArrayList<>();
-        e.getAllErrors().forEach((error) -> {
+        e.getAllErrors().forEach(error -> {
             CustomFieldError fieldError = new CustomFieldError();
             fieldError.setField(((FieldError) error).getField());
             fieldError.setMessage(error.getDefaultMessage());

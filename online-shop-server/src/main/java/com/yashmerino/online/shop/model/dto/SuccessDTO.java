@@ -23,11 +23,8 @@ package com.yashmerino.online.shop.model.dto;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 /**
  * DTO to return when a request was successful.

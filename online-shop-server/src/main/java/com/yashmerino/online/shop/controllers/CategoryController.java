@@ -80,7 +80,7 @@ public class CategoryController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @GetMapping
-    public ResponseEntity<List> getCategories() {
+    public ResponseEntity<List<CategoryDTO>> getCategories() {
         List<Category> categories = categoryService.getCategories();
         List<CategoryDTO> categoriesDTO = new ArrayList<>();
 

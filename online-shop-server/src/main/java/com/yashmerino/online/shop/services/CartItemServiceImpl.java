@@ -57,6 +57,16 @@ public class CartItemServiceImpl implements CartItemService {
     private final UserRepository userRepository;
 
     /**
+     * Access denied message translation key.
+     */
+    private final String ACCESS_DENIED_MESSAGE = "access_denied";
+
+    /**
+     * Cart item not found message translation key.
+     */
+    private final String CART_ITEM_NOT_FOUND_MESSAGE = "cartitem_not_found";
+
+    /**
      * Constructor to inject dependencies.
      *
      * @param cartItemRepository is the cart item repository.
@@ -83,13 +93,13 @@ public class CartItemServiceImpl implements CartItemService {
             String currentUserUsername = auth.getName();
 
             if (!cartItem.getCart().getUser().getUsername().equals(currentUserUsername)) {
-                throw new AccessDeniedException("access_denied");
+                throw new AccessDeniedException(ACCESS_DENIED_MESSAGE);
             }
 
             Product product = cartItem.getProduct();
             product.deleteCartItem(cartItem);
         } else {
-            throw new EntityNotFoundException("cartitem_not_found");
+            throw new EntityNotFoundException(CART_ITEM_NOT_FOUND_MESSAGE);
         }
 
         cartItemRepository.deleteById(id);
@@ -112,13 +122,13 @@ public class CartItemServiceImpl implements CartItemService {
             String currentUserUsername = auth.getName();
 
             if (!cartItem.getCart().getUser().getUsername().equals(currentUserUsername)) {
-                throw new AccessDeniedException("access_denied");
+                throw new AccessDeniedException(ACCESS_DENIED_MESSAGE);
             }
 
             cartItem.setQuantity(quantity);
             cartItemRepository.save(cartItem);
         } else {
-            throw new EntityNotFoundException("cartitem_not_found");
+            throw new EntityNotFoundException(CART_ITEM_NOT_FOUND_MESSAGE);
         }
     }
 
@@ -139,12 +149,12 @@ public class CartItemServiceImpl implements CartItemService {
             String currentUserUsername = auth.getName();
 
             if (!cartItem.getCart().getUser().getUsername().equals(currentUserUsername)) {
-                throw new AccessDeniedException("access_denied");
+                throw new AccessDeniedException(ACCESS_DENIED_MESSAGE);
             }
 
             return cartItem;
         } else {
-            throw new EntityNotFoundException("cartitem_not_found");
+            throw new EntityNotFoundException(CART_ITEM_NOT_FOUND_MESSAGE);
         }
     }
 
@@ -166,13 +176,12 @@ public class CartItemServiceImpl implements CartItemService {
             String currentUserUsername = auth.getName();
 
             if (!user.getUsername().equals(currentUserUsername)) {
-                throw new AccessDeniedException("access_denied");
+                throw new AccessDeniedException(ACCESS_DENIED_MESSAGE);
             }
 
-            Set<CartItem> cartItemsSet = cart.getItems();
-            return cartItemsSet;
+            return cart.getItems();
         } else {
-            throw new EntityNotFoundException("cartitem_not_found");
+            throw new EntityNotFoundException(CART_ITEM_NOT_FOUND_MESSAGE);
         }
     }
 

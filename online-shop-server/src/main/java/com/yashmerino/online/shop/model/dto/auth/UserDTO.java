@@ -41,6 +41,7 @@ public class UserDTO {
     @Email(message = "email_is_invalid", regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-z A-Z]{2,7}$")
     @NotNull(message = "email_is_required")
     @NotBlank(message = "email_is_required")
+    // NOSONAR: The wrapper is required. Different error messages.
     @Size.List({
             @Size(min = 4, message = "email_too_short"),
             @Size(max = 255, message = "email_too_long")

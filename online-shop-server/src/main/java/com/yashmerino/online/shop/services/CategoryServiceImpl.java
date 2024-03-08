@@ -25,13 +25,10 @@ package com.yashmerino.online.shop.services;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.Category;
-import com.yashmerino.online.shop.model.dto.CategoryDTO;
 import com.yashmerino.online.shop.repositories.CategoryRepository;
 import com.yashmerino.online.shop.services.interfaces.CategoryService;
-import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,8 +58,6 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public List<Category> getCategories() {
-        List<Category> categories = categoryRepository.findAll();
-
-        return categories;
+        return categoryRepository.findAll();
     }
 }

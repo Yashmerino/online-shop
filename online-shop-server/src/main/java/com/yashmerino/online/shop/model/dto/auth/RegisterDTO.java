@@ -49,6 +49,7 @@ public class RegisterDTO {
     @Email(message = "email_is_invalid", regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-z A-Z]{2,7}$")
     @NotNull(message = "email_is_required")
     @NotBlank(message = "email_is_required")
+    // NOSONAR: The wrapper is required. Different error messages.
     @Size.List({
             @Size(min = 4, message = "email_too_short"),
             @Size(max = 255, message = "email_too_long")
@@ -60,6 +61,7 @@ public class RegisterDTO {
      */
     @NotNull(message = "username_is_required")
     @NotBlank(message = "username_is_required")
+    // NOSONAR: The wrapper is required. Different error messages.
     @Size.List({
             @Size(min = 4, message = "username_too_short"),
             @Size(max = 40, message = "username_too_long")
@@ -71,6 +73,7 @@ public class RegisterDTO {
      */
     @NotNull(message = "password_is_required")
     @NotBlank(message = "password_is_required")
+    // NOSONAR: The wrapper is required. Different error messages.
     @Size.List({
             @Size(min = 4, message = "password_too_short"),
             @Size(max = 40, message = "password_too_long")

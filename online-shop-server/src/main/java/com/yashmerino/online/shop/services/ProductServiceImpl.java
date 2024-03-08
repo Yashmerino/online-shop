@@ -92,8 +92,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> productOptional = productRepository.findById(id);
 
         if (productOptional.isPresent()) {
-            Product product = productOptional.get();
-            return product;
+            return productOptional.get();
         } else {
             throw new EntityNotFoundException("Product couldn't be found!");
         }
@@ -113,7 +112,6 @@ public class ProductServiceImpl implements ProductService {
      * Saves a product.
      *
      * @param product is the product's object.
-     * @return <code>Product</code>
      */
     @Override
     public void save(Product product) {

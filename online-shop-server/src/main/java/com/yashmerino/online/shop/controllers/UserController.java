@@ -66,7 +66,7 @@ public class UserController {
      *
      * @param userService is the user's service.
      */
-    public UserController(UserService userService, AuthService authService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Seller integration tests.
  */
-public class SellerIT extends BaseIT {
+class SellerIT extends BaseIT {
 
     /**
      * Tests that a product is added and appears in the products and my products page.
      */
     @Test
-    public void testAddProduct() {
+    void testAddProduct() {
         final String productName = "test";
 
         assertTrue(createTestSellerAndLogin());

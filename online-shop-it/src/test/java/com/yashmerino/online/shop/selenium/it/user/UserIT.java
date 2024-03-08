@@ -12,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * User integration tests.
  */
-public class UserIT extends BaseIT {
+class UserIT extends BaseIT {
 
     /**
      * Tests that a product is added to the cart.
      */
     @Test
-    public void testAddProductToCart() {
+    void testAddProductToCart() {
         final String productName = "test";
 
         assertTrue(createTestSellerAndLogin());

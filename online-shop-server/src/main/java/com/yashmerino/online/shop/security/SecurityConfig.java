@@ -42,6 +42,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Security configuration.
@@ -96,12 +97,26 @@ public class SecurityConfig {
     private final JwtAuthEntryPoint jwtAuthEntryPoint;
 
     /**
+     * JWT Token generator.
+     */
+    private final JwtProvider tokenGenerator;
+
+    /**
+     * Custom user details service.
+     */
+    private final CustomUserDetailsService customUserDetailsService;
+
+    /**
      * Constructor.
      *
-     * @param jwtAuthEntryPoint is the auth entry point.
+     * @param jwtAuthEntryPoint        is the auth entry point.
+     * @param tokenGenerator           is the token generator.
+     * @param customUserDetailsService is the service that deals with user's details.
      */
-    public SecurityConfig(JwtAuthEntryPoint jwtAuthEntryPoint) {
+    public SecurityConfig(JwtAuthEntryPoint jwtAuthEntryPoint, JwtProvider tokenGenerator, CustomUserDetailsService customUserDetailsService) {
         this.jwtAuthEntryPoint = jwtAuthEntryPoint;
+        this.tokenGenerator = tokenGenerator;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     /**
@@ -152,9 +167,9 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+        corsConfiguration.setAllowedOrigins(List.of("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+        corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setExposedHeaders(Arrays.asList("X-Auth-Token", "Authorization", "Access-Control-Allow-Origin",
                 "Access-Control-Allow-Credentials"));
 
@@ -187,6 +202,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthFilter jwtAuthenticationFilter() {
-        return new JwtAuthFilter();
+        return new JwtAuthFilter(tokenGenerator, customUserDetailsService);
     }
 }

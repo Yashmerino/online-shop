@@ -28,7 +28,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,14 +48,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     /**
      * JWT Token generator.
      */
-    @Autowired
-    private JwtProvider tokenGenerator;
+    private final JwtProvider tokenGenerator;
 
     /**
      * Custom user details service.
      */
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
+
+    /**
+     * Constructor.
+     *
+     * @param tokenGenerator           is the token generator.
+     * @param customUserDetailsService is the service that deals with user's details.
+     */
+    public JwtAuthFilter(JwtProvider tokenGenerator, CustomUserDetailsService customUserDetailsService) {
+        this.tokenGenerator = tokenGenerator;
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

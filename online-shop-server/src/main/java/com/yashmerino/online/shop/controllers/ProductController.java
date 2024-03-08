@@ -28,10 +28,7 @@ import com.yashmerino.online.shop.model.dto.ProductDTO;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.model.dto.SuccessWithIdDTO;
 import com.yashmerino.online.shop.services.AlgoliaService;
-import com.yashmerino.online.shop.services.interfaces.CartItemService;
-import com.yashmerino.online.shop.services.interfaces.CartService;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
-import com.yashmerino.online.shop.services.interfaces.UserService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
@@ -73,21 +70,6 @@ public class ProductController {
     private final ProductService productService;
 
     /**
-     * Cart items' service.
-     */
-    private final CartItemService cartItemService;
-
-    /**
-     * Carts' service.
-     */
-    private final CartService cartService;
-
-    /**
-     * Users' service.
-     */
-    private final UserService userService;
-
-    /**
      * Algolia service.
      */
     private final AlgoliaService algoliaService;
@@ -101,17 +83,11 @@ public class ProductController {
      * Constructor.
      *
      * @param productService        is the products' service.
-     * @param cartItemService       is the cart items' service.
-     * @param cartService           is the carts' service.
-     * @param userService           is the users' service
      * @param algoliaService        is the Algolia service.
      * @param applicationProperties is the application's properties.
      */
-    public ProductController(ProductService productService, CartItemService cartItemService, CartService cartService, UserService userService, AlgoliaService algoliaService, ApplicationProperties applicationProperties) {
+    public ProductController(ProductService productService, AlgoliaService algoliaService, ApplicationProperties applicationProperties) {
         this.productService = productService;
-        this.cartItemService = cartItemService;
-        this.cartService = cartService;
-        this.userService = userService;
         this.algoliaService = algoliaService;
         this.applicationProperties = applicationProperties;
     }
@@ -144,7 +120,7 @@ public class ProductController {
         successDTO.setMessage("product_added_successfully");
         successDTO.setId(productId);
 
-        if (applicationProperties.IS_ALGOLIA_USED) {
+        if (applicationProperties.isAlgoliaUsed) {
             algoliaService.addProductToIndex(convertToProductDTO(productService.getProduct(productId)));
         }
 
@@ -266,7 +242,7 @@ public class ProductController {
         successDTO.setStatus(200);
         successDTO.setMessage("product_deleted_successfully");
 
-        if (applicationProperties.IS_ALGOLIA_USED) {
+        if (applicationProperties.isAlgoliaUsed) {
             algoliaService.deleteProductFromIndex(id);
         }
 
@@ -380,7 +356,7 @@ public class ProductController {
         successDTO.setStatus(200);
         successDTO.setMessage("product_updated_successfully");
 
-        if (applicationProperties.IS_ALGOLIA_USED) {
+        if (applicationProperties.isAlgoliaUsed) {
             algoliaService.updateProduct(convertToProductDTO(productService.getProduct(id)));
         }
 

@@ -29,15 +29,12 @@ import com.algolia.search.SearchIndex;
 import com.algolia.search.models.settings.IndexSettings;
 import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
-import com.yashmerino.online.shop.services.interfaces.ProductService;
 import com.yashmerino.online.shop.utils.ApplicationProperties;
 import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,40 +45,23 @@ import java.util.List;
 public class AlgoliaService {
 
     /**
-     * Search client to connect to the Algolia Application.
-     */
-    private SearchClient client;
-
-    /**
      * Search client to connect to the Algolia index.
      */
-    private SearchIndex<ProductDTO> index;
-
-    /**
-     * Products' service.
-     */
-    private final ProductService productService;
-
-    /**
-     * Application's properties.
-     */
-    private final ApplicationProperties applicationProperties;
+    private final SearchIndex<ProductDTO> index;
 
     /**
      * Constructor.
      *
-     * @param productService        is the products' service.
      * @param applicationProperties is the Application's properties.
      */
-    public AlgoliaService(ProductService productService, ApplicationProperties applicationProperties) {
-        this.productService = productService;
-        this.applicationProperties = applicationProperties;
-        this.client = DefaultSearchClient.create(applicationProperties.ALGOLIA_APPLICATION_ID, applicationProperties.ALGOLIA_API_KEY);
-        this.index = client.initIndex(applicationProperties.ALGOLIA_INDEX_NAME, ProductDTO.class);
+    public AlgoliaService(ApplicationProperties applicationProperties) {
+        SearchClient client = DefaultSearchClient.create(applicationProperties.algoliaApplicationId, applicationProperties.algoliaApiKey);
+
+        this.index = client.initIndex(applicationProperties.algoliaIndexName, ProductDTO.class);
         this.index.setSettings(new IndexSettings()
-                .setSearchableAttributes(Arrays.asList("name"))
-                .setCustomRanking(Arrays.asList("desc(name)"))
-                .setAttributesForFaceting(Arrays.asList("categories"))
+                .setSearchableAttributes(List.of("name"))
+                .setCustomRanking(List.of("desc(name)"))
+                .setAttributesForFaceting(List.of("categories"))
                 .setAttributesToHighlight(new ArrayList<>()));
 
         this.index.clearObjects();

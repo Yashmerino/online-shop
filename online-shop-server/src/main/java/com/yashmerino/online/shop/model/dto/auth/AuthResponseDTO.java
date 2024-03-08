@@ -24,7 +24,6 @@ package com.yashmerino.online.shop.model.dto.auth;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.yashmerino.online.shop.security.SecurityConstants;
 import lombok.Data;
 
 import static com.yashmerino.online.shop.security.SecurityConstants.JWT_HEADER;

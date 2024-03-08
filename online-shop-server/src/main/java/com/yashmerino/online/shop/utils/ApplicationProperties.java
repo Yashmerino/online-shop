@@ -35,29 +35,29 @@ public class ApplicationProperties {
      * JWT Secret.
      */
     @Value("${jwt.secret}")
-    public String JWT_SECRET;
+    public String jwtSecret;
 
     /**
      * Algolia private API key.
      */
     @Value("${algolia.usage:false}")
-    public boolean IS_ALGOLIA_USED;
+    public boolean isAlgoliaUsed;
 
     /**
      * Algolia private API key.
      */
     @Value("${algolia.api.key}")
-    public String ALGOLIA_API_KEY;
+    public String algoliaApiKey;
 
     /**
      * Algolia application id.
      */
     @Value("${algolia.app.id}")
-    public String ALGOLIA_APPLICATION_ID;
+    public String algoliaApplicationId;
 
     /**
      * Algolia index's name.
      */
     @Value("${algolia.index.name}")
-    public String ALGOLIA_INDEX_NAME;
+    public String algoliaIndexName;
 }

@@ -42,6 +42,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
@@ -53,7 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 @Transactional
 @ActiveProfiles("test")
-public class UserControllerTest {
+class UserControllerTest {
     /**
      * MVC Mock.
      */
@@ -195,7 +196,7 @@ public class UserControllerTest {
     void getUserPhotoTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/user/user/photo")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().length() == 31163);
+        assertEquals(result.getResponse().getContentAsString().length(), 31163);
     }
 
     /**
@@ -208,7 +209,7 @@ public class UserControllerTest {
     void getUserPhotoWithSellerRoleTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/user/user/photo")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().length() == 31163);
+        assertEquals(result.getResponse().getContentAsString().length(), 31163);
     }
 
     /**

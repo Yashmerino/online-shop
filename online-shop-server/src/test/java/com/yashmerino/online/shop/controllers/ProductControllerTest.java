@@ -44,7 +44,9 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
@@ -456,7 +458,7 @@ class ProductControllerTest {
     void getProductPhotoTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/product/1/photo")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().length() == 31163);
+        assertEquals(result.getResponse().getContentAsString().length(), 31163);
     }
 
     /**
@@ -469,7 +471,7 @@ class ProductControllerTest {
     void getUserPhotoWithUserRoleTest() throws Exception {
         MvcResult result = mvc.perform(get("/api/product/1/photo")).andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().length() == 31163);
+        assertEquals(result.getResponse().getContentAsString().length(), 31163);
     }
 
     /**
@@ -503,7 +505,7 @@ class ProductControllerTest {
         Category digitalServicesCategory = new Category();
         digitalServicesCategory.setId(1L);
         digitalServicesCategory.setName("Digital Services");
-        productDTO.setCategories(new HashSet<>(Arrays.asList(digitalServicesCategory)));
+        productDTO.setCategories(new HashSet<>(List.of(digitalServicesCategory)));
 
         result = mvc.perform(put("/api/product/1")
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
@@ -519,7 +521,7 @@ class ProductControllerTest {
     /**
      * Update product with invalid DTO.
      *
-     * @throws Exception
+     * @throws Exception if something goes wrong.
      */
     @Test
     @WithMockUser(username = "seller", authorities = {"SELLER"})
@@ -593,7 +595,7 @@ class ProductControllerTest {
     /**
      * Update product with too long description.
      *
-     * @throws Exception
+     * @throws Exception if something goes wrong.
      */
     @Test
     @WithMockUser(username = "seller", authorities = {"SELLER"})

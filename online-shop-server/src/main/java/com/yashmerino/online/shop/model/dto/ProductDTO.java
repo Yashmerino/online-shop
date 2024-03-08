@@ -54,6 +54,7 @@ public class ProductDTO {
      */
     @NotNull(message = "name_is_required")
     @NotBlank(message = "name_is_required")
+    // NOSONAR: The wrapper is required. Different error messages.
     @Size.List({
             @Size(min = 4, message = "name_too_short"),
             @Size(max = 40, message = "name_too_long")
@@ -63,9 +64,7 @@ public class ProductDTO {
     /**
      * Product's description;
      */
-    @Size.List({
-            @Size(max = 100, message = "description_too_long")
-    })
+    @Size(max = 100, message = "description_too_long")
     private String description;
 
     /**

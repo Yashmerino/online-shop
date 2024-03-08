@@ -24,7 +24,6 @@ package com.yashmerino.online.shop.model.base;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
