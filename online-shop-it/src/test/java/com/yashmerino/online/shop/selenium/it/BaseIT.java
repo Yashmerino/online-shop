@@ -1,7 +1,11 @@
 package com.yashmerino.online.shop.selenium.it;
 
 import com.yashmerino.online.shop.selenium.it.pages.BasePage;
+import com.yashmerino.online.shop.selenium.it.pages.auth.LoginPage;
+import com.yashmerino.online.shop.selenium.it.pages.auth.RegisterPage;
+import com.yashmerino.online.shop.selenium.it.utils.Role;
 import com.yashmerino.online.shop.selenium.it.utils.TestUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,6 +19,11 @@ import static com.yashmerino.online.shop.selenium.it.utils.SeleniumProperties.CH
  * Base selenium integration test.
  */
 public class BaseIT {
+
+    /**
+     * Register page URL.
+     */
+    protected final String REGISTER_PAGE_URL = "http://localhost:8081/#/register";
 
     /**
      * Timeout in seconds.
@@ -55,7 +64,59 @@ public class BaseIT {
      * Method that is called before each test.
      */
     @BeforeEach
-    public void tearDown() {
+    public void beforeEach() {
         TestUtils.executeSQLScript(TestUtils.SQL_CLEAN_SCRIPT_FILE);
+    }
+
+    /**
+     * Method that is executed after each test.
+     */
+    @AfterEach
+    public void tearDown() {
+        driver.quit();
+    }
+
+    /**
+     * Creates a test seller and logins.
+     *
+     * @return <code>true</code> if everything went ok and <code>false</code> otherwise.
+     */
+    protected boolean createTestSellerAndLogin() {
+        try {
+            driver.get(REGISTER_PAGE_URL);
+            currentPage = new RegisterPage(driver, wait);
+            ((RegisterPage) currentPage).registerUser(Role.SELLER, "test@mail.ru", "seller", "seller");
+
+            ((RegisterPage) currentPage).goToLoginPage();
+
+            currentPage = new LoginPage(driver, wait);
+            ((LoginPage) currentPage).loginUser("seller", "seller");
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Creates a test user and logins.
+     *
+     * @return <code>true</code> if everything went ok and <code>false</code> otherwise.
+     */
+    protected boolean createTestUserAndLogin() {
+        try {
+            driver.get(REGISTER_PAGE_URL);
+            currentPage = new RegisterPage(driver, wait);
+            ((RegisterPage) currentPage).registerUser(Role.USER, "test@mail.ru", "user", "user");
+
+            ((RegisterPage) currentPage).goToLoginPage();
+
+            currentPage = new LoginPage(driver, wait);
+            ((LoginPage) currentPage).loginUser("user", "user");
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

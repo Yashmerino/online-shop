@@ -162,6 +162,7 @@ const Header = () => {
                     </Box>
                     <LocalMallIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
+                        id="home-title"
                         variant="h5"
                         noWrap
                         component="a"

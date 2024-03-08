@@ -1,27 +1,24 @@
-package com.yashmerino.online.shop.selenium.it.seller;
+package com.yashmerino.online.shop.selenium.it.user;
 
 import com.yashmerino.online.shop.selenium.it.BaseIT;
-import com.yashmerino.online.shop.selenium.it.pages.BasePage;
-import com.yashmerino.online.shop.selenium.it.pages.auth.LoginPage;
-import com.yashmerino.online.shop.selenium.it.pages.auth.RegisterPage;
+import com.yashmerino.online.shop.selenium.it.pages.cart.MyCartPage;
 import com.yashmerino.online.shop.selenium.it.pages.products.AddProductPage;
 import com.yashmerino.online.shop.selenium.it.pages.products.MyProductsPage;
 import com.yashmerino.online.shop.selenium.it.pages.products.ProductsPage;
-import com.yashmerino.online.shop.selenium.it.utils.Role;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Seller integration tests.
+ * User integration tests.
  */
-public class SellerIT extends BaseIT {
+public class UserIT extends BaseIT {
 
     /**
-     * Tests that a product is added and appears in the products and my products page.
+     * Tests that a product is added to the cart.
      */
     @Test
-    public void testAddProduct() {
+    public void testAddProductToCart() {
         final String productName = "test";
 
         assertTrue(createTestSellerAndLogin());
@@ -39,5 +36,15 @@ public class SellerIT extends BaseIT {
         ((ProductsPage) currentPage).clickMyProductsButton();
         currentPage = new MyProductsPage(driver, wait);
         assertTrue(((MyProductsPage) currentPage).productExists(productName));
+
+        driver.navigate().to(REGISTER_PAGE_URL);
+        assertTrue(createTestUserAndLogin());
+
+        currentPage = new ProductsPage(driver, wait);
+        ((ProductsPage) currentPage).addProductToCard(productName);
+        ((ProductsPage) currentPage).clickMyCartButton();
+
+        currentPage = new MyCartPage(driver, wait);
+        assertTrue(((MyCartPage) currentPage).productExists(productName));
     }
 }

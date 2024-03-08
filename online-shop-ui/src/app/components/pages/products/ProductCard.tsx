@@ -117,7 +117,7 @@ const ProductCard = ({ id, title, price, categories, description }: ProductCardP
           </Alert>
         </Snackbar>}
       <div onClick={handleEditProduct} className={roles[0].name == "SELLER" ? "my-product-card" : ""}>
-        <Box sx={{ display: "flex", flexDirection: "column", }}>
+        <Box sx={{ display: "flex", flexDirection: "column", }} id={title + '-' + id}>
           <Box height={"20vh"} width={"32vh"}>
             <img width={"100%"} height={"100%"} src={photo} data-testid={"card-image-" + id} style={{ objectFit: "cover", borderRadius: "15px" }} />
             {// @ts-ignore 
