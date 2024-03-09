@@ -54,6 +54,19 @@ export const ALGOLIA_USAGE = true;
 * Execute the `npm start` command in the `online-shop\online-shop-ui` directory.
 
 #### NOTE: If you don't want to use the Algolia search and therefore to not display the search page, you don't have to define any Algolia properties.
+
+<br>
+
+# Selenium Integration Tests
+
+* Online Shop also has a separate module for Selenium integration tests. It resides here: `online-shop/online-shop-it`
+* Modify the `online-shop-it\src\test\resources\it-test.properties` file.
+```properties
+db.url=jdbc:mysql://localhost:3306/online_shop
+db.username=root
+db.password=1234
+```
+* Make sure to turn on the Spring server and React client to run the integration tests.
   
 <br>
 
