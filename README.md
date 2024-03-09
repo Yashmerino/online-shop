@@ -52,6 +52,9 @@ export const ALGOLIA_INDEX_NAME = "online-shop-dev";
 export const ALGOLIA_USAGE = true;
 ```
 * Execute `npm start` command in `online-shop\online-shop-ui` directory.
+
+#### NOTE: If you don't want to use the Algolia search and therefore to not display the search page, you don't have to define Algolia properties.
+  
 <br>
 
 #### Feel free to create issues and pull requests :)
