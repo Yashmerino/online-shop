@@ -53,7 +53,7 @@ export const ALGOLIA_USAGE = true;
 ```
 * Execute the `npm start` command in the `online-shop\online-shop-ui` directory.
 
-#### NOTE: If you don't want to use the Algolia search and therefore to not display the search page, you don't have to define any Algolia properties.
+<b>NOTE</b>: If you don't want to use the Algolia search and therefore to not display the search page, you don't have to define any Algolia properties.
 
 <br>
 
@@ -67,6 +67,8 @@ db.username=root
 db.password=1234
 ```
 * Make sure to turn on the Spring server and React client to run the integration tests.
+
+<b>NOTE</b>: If you run any integration test, it will dump all the existing data from your database.
   
 <br>
 
