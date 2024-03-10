@@ -45,7 +45,7 @@ interface QuantityInputProps {
 export default function QuantityInput({ id, defaultValue, handleSaveProduct }: QuantityInputProps) {
   return (
     <NumberInput
-      id={id + ""}
+      id={"quantity-input-" + id}
       defaultValue={defaultValue}
       onChange={(event, val) => handleSaveProduct()}
     />
