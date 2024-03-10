@@ -72,7 +72,7 @@ const ProductsContainer = () => {
       <Paper square elevation={3} sx={{ width: "70%", pb: "1.5%", margin: "auto", mt: "2.5%", display: "flex", overflow: "hidden" }}>
         <Grid container justifyContent="center" alignItems="center" columnGap={4}>
           {products.length > 0 && products.map(product => {
-            return (<div style={{ marginTop: "2.5%" }} key={product.objectID}><ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories} description={product.description} /></div>);
+            return (<div style={{ marginTop: "2.5%" }} key={product.objectID}><ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories as any} description={product.description} /></div>);
           })}
           {products.length <= 0 &&
             <Typography variant="h4" sx={{ margin: "auto", mt: "5%", mb: "3.5%" }}>{getTranslation(lang, "no_products_found")}</Typography>
