@@ -8,7 +8,7 @@
 
 [![Youtube Showcase Video of the project](demo/thumbnail.png)](https://www.youtube.com/watch?v=dHOEWaF5XuI)
 
-Online Shop is a pet project made using Spring Boot and React. It uses a MySQL database to store the user, seller and products data. Online shop uses JWT for the authentication system and supports 3 languages:
+Online Shop is a pet project made using Spring Boot and React. It uses a MySQL database to store the user, seller and products data. Online shop uses JWT for the authorization system and supports 3 languages:
 * English
 * Romanian
 * Russian
