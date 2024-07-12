@@ -2,9 +2,9 @@ FROM node:18-alpine
 
 WORKDIR /online-shop-ui/
 
-RUN apt-get update && \
-    apt-get install -y python3 make g++ && \
-    npm install node-gyp -g
+RUN apk update && \
+    apk add --no-cache python3 make g++ && \
+    npm install -g node-gyp
 
 COPY . /online-shop-ui/
 
