@@ -13,12 +13,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Setup Node.js and Python
+    - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'
-        python-version: '2.7'
-        cache: npm
+        node-version: '14'  # Specify the Node.js version you are using
+
+    - name: Install Python
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
