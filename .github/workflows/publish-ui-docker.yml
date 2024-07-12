@@ -13,10 +13,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Change directory to app
-      run: cd online-shop-ui
-      working-directory: online-shop-ui
-
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
@@ -31,6 +27,7 @@ jobs:
 
     - name: Build and push
       uses: docker/build-push-action@v4
+      working-directory: ./online-shop-ui
       with:
         context: .
         push: true
