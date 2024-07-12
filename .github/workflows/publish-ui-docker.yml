@@ -19,16 +19,11 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
     - name: Build and push
       run: |
         cd online-shop-ui
-        docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/online-shop-ui:latest . --push
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/online-shop-ui:latest .
+        docker push ${{ secrets.DOCKER_USERNAME }}/online-shop-ui:latest
 
     - name: Logout from Docker Hub
       run: docker logout
