@@ -1,13 +1,18 @@
-FROM node:18-alpine
+FROM node:18-alpine as build
 
 WORKDIR /online-shop-ui/
 
 RUN apk update && \
-    apk add --no-cache python3 make g++ && \
-    npm install -g node-gyp
+    apk add --no-cache python3 make g++
 
-COPY . /online-shop-ui/
+COPY package.json package-lock.json /online-shop-ui/
 
-RUN npm install
+RUN npm install --production
+
+FROM node:18-alpine
+
+WORKDIR /online-shop-ui/
+
+COPY --from=build /online-shop-ui/ /online-shop-ui/
 
 CMD ["npm", "start"]

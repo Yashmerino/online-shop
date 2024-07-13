@@ -14,8 +14,8 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /online-shop-server
 
-COPY --from=build /online-shop-server/target/*.jar online-shop-server-1.0-SNAPSHOT.jar
+COPY --from=build /online-shop-server/target/*.jar online-shop-server.jar
 
 EXPOSE 8081
 
-ENTRYPOINT ["java", "-jar", "online-shop-server-1.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "online-shop-server.jar"]
