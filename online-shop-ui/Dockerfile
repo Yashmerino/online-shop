@@ -7,7 +7,7 @@ RUN apk update && \
 
 COPY package.json package-lock.json /online-shop-ui/
 
-RUN npm install --production
+RUN npm install
 
 FROM node:18-alpine
 
