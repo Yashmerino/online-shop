@@ -18,4 +18,6 @@ COPY --from=build /online-shop-server/target/*.jar online-shop-server.jar
 
 EXPOSE 8081
 
+RUN apt-get update && apt-get install -y curl
+
 CMD ["java", "-jar", "online-shop-server.jar"]
