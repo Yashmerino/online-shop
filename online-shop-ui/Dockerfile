@@ -16,7 +16,7 @@ WORKDIR /online-shop-ui/
 
 COPY --from=build /online-shop-ui/ /online-shop-ui/
 
-COPY ./scripts/wait-for-it.sh /scripts/wait-for-it.sh
+COPY ../scripts/wait-for-it.sh /scripts/wait-for-it.sh
 
 RUN chmod +x /scripts/wait-for-it.sh
 
