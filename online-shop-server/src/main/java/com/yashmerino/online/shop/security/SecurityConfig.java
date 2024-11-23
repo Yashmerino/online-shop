@@ -67,6 +67,15 @@ public class SecurityConfig {
     };
 
     /**
+     * Endpoints for Actuator.
+     */
+    private static final String[] ACTUATOR_WHITELIST = {
+        "/actuator/**",
+        "/actuator/health",
+        "/actuator/info"
+    };
+
+    /**
      * Regex for all the endpoints related to authentication/authorization.
      */
     private static final String AUTH_ALL_ENDPOINTS = "/api/auth/**";
@@ -150,6 +159,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, PRODUCTS_ALL_ENDPOINTS).hasAuthority(Role.SELLER.name())
                         .requestMatchers(HttpMethod.GET, CATEGORIES_ALL_ENDPOINTS).hasAnyAuthority(Role.SELLER.name(), Role.USER.name())
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                        .requestMatchers(ACTUATOR_WHITELIST).permitAll()
                         .anyRequest()
                         .authenticated())
                 .httpBasic();
