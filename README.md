@@ -38,7 +38,8 @@ springdoc.swagger-ui.tagsSorter=alpha
 jwt.secret=YOUR_JWT_SECRET
 
 # Algolia
-algolia.usage=true
+# Change it to true if you want to enable it.
+algolia.usage=false
 algolia.app.id=YOUR_APP_ID
 algolia.api.key=YOUR_API_KEY
 algolia.index.name=YOUR_INDEX_NAME
@@ -56,7 +57,8 @@ export const JWT_SECRET = process.env.JWT_SECRET || 'YOUR_JWT_SECRET';
 export const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID || 'YOUR_APP_ID';
 export const ALGOLIA_API_KEY = process.env.ALGOLIA_API_KEY || 'YOUR_API_KEY';
 export const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME || 'YOUR_INDEX_NAME';
-export const ALGOLIA_USAGE = process.env.ALGOLIA_USAGE === "true";
+// Change it to "true" if Algolia search is enabled.
+export const ALGOLIA_USAGE = "false";
 ```
 * Execute the `npm start` command in the `online-shop\online-shop-ui` directory.
 
