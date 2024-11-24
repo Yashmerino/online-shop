@@ -38,7 +38,7 @@ springdoc.swagger-ui.tagsSorter=alpha
 jwt.secret=YOUR_JWT_SECRET
 
 # Algolia
-# Change it to true if you want to enable it.
+# Change it to "true" if Algolia search is enabled.
 algolia.usage=false
 algolia.app.id=YOUR_APP_ID
 algolia.api.key=YOUR_API_KEY
