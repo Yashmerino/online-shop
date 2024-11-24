@@ -86,6 +86,11 @@ services:
       MYSQL_ROOT_PASSWORD: 1234
     volumes:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p1234"]
+      interval: 10s
+      retries: 5
+      start_period: 60s
 
   # Server service
   server:
@@ -105,7 +110,13 @@ services:
       algolia.index.name: YOUR_INDEX_NAME
       jwt.secret: YOUR_JWT_SECRET
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8081/actuator/health"]
+      interval: 10s
+      retries: 5
+      start_period: 60s
 
   # UI service
   ui:
@@ -120,10 +131,16 @@ services:
       JWT_SECRET: YOUR_JWT_SECRET
       ALGOLIA_APP_ID: YOUR_APP_ID
       ALGOLIA_API_KEY: YOUR_API_KEY
-      ALGOLIA_INDEX_NAME: YOUR_INDEX_nAME
+      ALGOLIA_INDEX_NAME: YOUR_INDEX_NAME
       ALGOLIA_USAGE: true
     depends_on:
-      - server
+      server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8080 || exit 1"]
+      interval: 10s
+      retries: 5
+      start_period: 60s
 networks:
   online-shop-network:
     driver: bridge
