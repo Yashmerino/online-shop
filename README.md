@@ -18,7 +18,6 @@ Online Shop is a pet project made using Spring Boot and React. It uses a MySQL d
 * Node.js 21+
 * Maven
 * MySQL Database
-<br>
 
 ## To run the Spring server application:
 
