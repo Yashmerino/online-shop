@@ -34,7 +34,7 @@ import Product from './Product';
 
 import { useAppSelector } from '../../../hooks';
 import { useNavigate } from 'react-router-dom';
-import { Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import Banner from "../../../../img/banner.jpg";
 import { getTranslation } from '../../../../i18n/i18n';
 
@@ -64,23 +64,105 @@ const ProductsContainer = () => {
   }, []);
 
   return (
-    <Container component="main" maxWidth={false} id="main-container" sx={{ height: "100vh" }} disableGutters>
+    <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Header />
-      <Paper square elevation={6} sx={{ width: "70%", margin: "auto", mt: "2.5%", display: "flex" }}>
-        <img width="100%" height="100%" alt="banner" src={Banner} />
-      </Paper>
-      <Paper square elevation={3} sx={{ width: "70%", pb: "1.5%", margin: "auto", mt: "2.5%", display: "flex", overflow: "hidden" }}>
-        <Grid container justifyContent="center" alignItems="center" columnGap={4}>
-          {products.length > 0 && products.map(product => {
-            return (<div style={{ marginTop: "2.5%" }} key={product.objectID}><ProductCard key={product.objectID} id={product.objectID} title={product.name} price={product.price} categories={product.categories as any} description={product.description} /></div>);
-          })}
-          {products.length <= 0 &&
-            <Typography variant="h4" sx={{ margin: "auto", mt: "5%", mb: "3.5%" }}>{getTranslation(lang, "no_products_found")}</Typography>
-          }
-        </Grid>
-      </Paper>
+      <Container maxWidth="xl" sx={{ flex: 1, py: 4 }}>
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100%',
+            height: { xs: '200px', sm: '300px', md: '400px' },
+            mb: 4,
+            borderRadius: 2,
+            overflow: 'hidden',
+            boxShadow: 3,
+          }}
+        >
+          <img
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+            alt="banner"
+            src={Banner}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2))',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography
+              variant="h2"
+              color="white"
+              sx={{
+                textAlign: 'center',
+                fontWeight: 700,
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+              }}
+            >
+              {getTranslation(lang, "online_shop")}
+            </Typography>
+          </Box>
+        </Box>
+
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: 2,
+            bgcolor: 'background.default',
+          }}
+        >
+          {products.length > 0 ? (
+            <Grid
+              container
+              spacing={3}
+              justifyContent="center"
+            >
+              {products.map(product => (
+                <Grid item key={product.objectID}>
+                  <ProductCard
+                    id={product.objectID}
+                    title={product.name}
+                    price={product.price}
+                    categories={product.categories as any}
+                    description={product.description}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Box
+              sx={{
+                py: 8,
+                textAlign: 'center',
+              }}
+            >
+              <Typography
+                variant="h4"
+                color="text.secondary"
+                sx={{
+                  mb: 2,
+                  fontWeight: 500,
+                }}
+              >
+                {getTranslation(lang, "no_products_found")}
+              </Typography>
+            </Box>
+          )}
+        </Paper>
+      </Container>
       <Copyright />
-    </Container>
+    </Box>
   );
 }
 

@@ -22,17 +22,22 @@
  * SOFTWARE.
  */
 
-import { Paper, Snackbar, Typography } from '@mui/material';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Container from '@mui/material/Container';
-import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
+import {
+    Alert,
+    Box,
+    Button,
+    Checkbox,
+    Container,
+    ListItemText,
+    MenuItem,
+    OutlinedInput,
+    Paper,
+    Select,
+    SelectChangeEvent,
+    Snackbar,
+    TextField,
+    Typography
+} from '@mui/material';
 import * as React from 'react';
 import { addProduct, setProductPhoto } from '../../../api/ProductRequest';
 import { InputError, isFieldPresentInInputErrors } from '../../../utils/InputErrorUtils';
@@ -151,23 +156,55 @@ const AddProductPage = () => {
     };
 
     return (
-        <Container component="main" maxWidth={false} id="main-container" sx={{ height: "100vh" }} disableGutters>
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
             <Header />
-            {isSuccess &&
-                <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
+            {isSuccess && (
+                <Snackbar 
+                    open={isSuccess} 
+                    autoHideDuration={2000} 
+                    onClose={handleAlertClick}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                >
                     <Alert data-testid="alert-success" id="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
                         {getTranslation(lang, "product_added_successfully")}
                     </Alert>
-                </Snackbar>}
-            <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%", display: "flex" }}>
-                <AddIcon fontSize='large' sx={{ marginRight: "1.5%" }} />
-                <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "add_product")}</Typography>
-            </Paper>
-            {// @ts-ignore 
-                roles[0].name == "SELLER"
-                    ? (
-                        <Paper square elevation={3} sx={{ width: "70%", height: "40%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "row", alignItems: "center" }}>
-                            <Box width={"65%"} sx={{ aspectRatio: "1/1", boxShadow: 12 }} ml={"2%"} mt={"2%"} mb={"2%"}>
+                </Snackbar>
+            )}
+            <Container maxWidth="lg" sx={{ flex: 1, py: 4 }}>
+                <Box sx={{ mb: 4 }}>
+                    <Typography
+                        variant="h4"
+                        fontWeight={700}
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 2,
+                            color: 'primary.main'
+                        }}
+                    >
+                        <AddIcon fontSize="large" />
+                        {getTranslation(lang, "add_product")}
+                    </Typography>
+                </Box>
+
+                {// @ts-ignore 
+                    roles[0].name === "SELLER" ? (
+                        <Paper 
+                            elevation={2} 
+                            sx={{ 
+                                borderRadius: 2,
+                                overflow: 'hidden',
+                                bgcolor: 'background.paper',
+                                p: 4,
+                                display: 'flex',
+                                flexDirection: { xs: 'column', md: 'row' },
+                                gap: 4
+                            }}
+                        >
+                            <Box sx={{
+                                width: { xs: '100%', md: '300px' },
+                                alignSelf: 'start'
+                            }}>
                                 <input
                                     accept="image/*"
                                     style={{ display: 'none' }}
@@ -176,13 +213,45 @@ const AddProductPage = () => {
                                     onChange={handleFileChange}
                                 />
                                 <label htmlFor="photo-upload-button">
-                                    <Button component="span" sx={{ width: "100%", height: "100%" }}>
-                                        <img width={"100%"} height={"100%"} className="user-image" src={photo} alt="product-image" data-testid="photo" />
+                                    <Button 
+                                        component="span" 
+                                        sx={{ 
+                                            width: '100%',
+                                            aspectRatio: '1/1',
+                                            p: 0,
+                                            overflow: 'hidden',
+                                            borderRadius: 2,
+                                            boxShadow: 2,
+                                            '&:hover': {
+                                                boxShadow: 4,
+                                                '& img': {
+                                                    transform: 'scale(1.05)'
+                                                }
+                                            }
+                                        }}
+                                    >
+                                        <img 
+                                            width="100%" 
+                                            height="100%" 
+                                            className="user-image" 
+                                            alt="product-image" 
+                                            data-testid="photo"
+                                            src={photo}
+                                            style={{
+                                                objectFit: 'cover',
+                                                transition: 'transform 0.3s ease-in-out'
+                                            }}
+                                        />
                                     </Button>
                                 </label>
                             </Box>
-                            <Paper square elevation={6} sx={{ height: "80%", width: "100%", display: "flex", flexDirection: "row", mr: "2.5%", ml: "2%", mb: "4%", mt: "4%" }}>
-                                <Box margin={"4%"} sx={{ width: "100%" }}>
+
+                            <Box sx={{ flex: 1 }}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 2
+                                }}>
                                     <TextField
                                         error={isFieldPresentInInputErrors(InputFields.NAME, inputErrors)}
                                         required
@@ -198,9 +267,9 @@ const AddProductPage = () => {
                                         }}
                                     />
                                     <TextField
-                                        sx={{ marginTop: "6%", marginBottom: "4%", width: "100%" }}
+                                        fullWidth
                                         multiline
-                                        rows={7}
+                                        rows={4}
                                         error={isFieldPresentInInputErrors(InputFields.DESCRIPTION, inputErrors)}
                                         name="description"
                                         label={getTranslation(lang, "description")}
@@ -212,13 +281,8 @@ const AddProductPage = () => {
                                             setDescription(event.target.value);
                                         }}
                                     />
-                                </Box>
-                            </Paper>
-                            <Box sx={{ width: "100%", height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-between", mr: "3%" }}>
-                                <Paper square elevation={6} sx={{ width: "100%" }}>
-                                    <Box sx={{ margin: "4%" }}>
+                                    <Box sx={{ display: 'flex', gap: 2 }}>
                                         <TextField
-                                            sx={{ width: "100%" }}
                                             error={isFieldPresentInInputErrors(InputFields.PRICE, inputErrors)}
                                             value={price}
                                             onChange={(event) => { setPrice(Number(event.target.value)) }}
@@ -227,7 +291,9 @@ const AddProductPage = () => {
                                             data-testid="price-field"
                                             label={getTranslation(lang, "price") + '€'}
                                             type="number"
-                                            inputProps={{ min: 1 }} />
+                                            inputProps={{ min: 0.01 }}
+                                            sx={{ flex: 1 }}
+                                        />
                                         <Select
                                             id="categories-field"
                                             data-testid="categories-field"
@@ -243,7 +309,7 @@ const AddProductPage = () => {
                                                     : (<em>{getTranslation(lang, "categories")}</em>)
                                             )}
                                             MenuProps={MenuProps}
-                                            sx={{ width: "100%", mb: "0", mt: "6%", maxWidth: "100%" }}
+                                            sx={{ flex: 2 }}
                                         >
                                             {fetchedCategories.map((fetchedCategory) => (
                                                 <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
@@ -253,22 +319,38 @@ const AddProductPage = () => {
                                             ))}
                                         </Select>
                                     </Box>
-                                </Paper>
-                                <Button
-                                    id="submit-button"
-                                    type="submit"
-                                    data-testid="submit-button"
-                                    variant="contained"
-                                    sx={{ width: "16%", ml: "auto" }}
-                                    onClick={handleSubmit}
-                                >
-                                    {getTranslation(lang, "add")}
-                                </Button>
+                                </Box>
+                                <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button
+                                        id="submit-button"
+                                        type="submit"
+                                        data-testid="submit-button"
+                                        variant="contained"
+                                        onClick={handleSubmit}
+                                        sx={{
+                                            px: 4,
+                                            py: 1,
+                                            borderRadius: 2,
+                                        }}
+                                    >
+                                        {getTranslation(lang, "add")}
+                                    </Button>
+                                </Box>
                             </Box>
-                        </Paper>)
-                    : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)}
+                        </Paper>
+                    ) : (
+                        <Typography 
+                            variant="h6" 
+                            color="text.secondary" 
+                            align='center' 
+                            py={8}
+                        >
+                            {getTranslation(lang, "no_rights_to_access")}
+                        </Typography>
+                    )}
+            </Container>
             <Copyright />
-        </Container>
+        </Box>
     );
 }
 

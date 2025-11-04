@@ -26,7 +26,7 @@ import * as React from 'react';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, Snackbar, Box} from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { InputError } from '../../../utils/InputErrorUtils';
 import { getTranslation } from '../../../../i18n/i18n';
@@ -71,30 +71,82 @@ const RegisterPage = () => {
     };
 
     return (
-        <Container component="main" maxWidth="xs" sx={{ pt: 26 }}>
-            <Grid container>
-                <Grid item>
-                    {isSuccess &&
-                        <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
-                            <Alert data-testid="alert-success" id="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }} >
-                                {getTranslation(lang, "user_registered_successfully")}
-                            </Alert>
-                        </Snackbar>}
-                    {error.length > 0 &&
-                        <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
-                            <Alert data-testid="alert-error" id="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
-                                {getTranslation(lang, error)}
-                            </Alert>
-                        </Snackbar>}
-                    <UserInputFields title={getTranslation(lang, "sign_up")} buttonText={getTranslation(lang, "sign_up")} handleSubmit={handleSubmit} isEmailAndRoleMandatory={true} inputErrors={inputErrors} />
-                </Grid>
-                <Grid item>
-                    <Link component={RouterLink} to={'/login'} variant="body2" id="have-already-account">
-                        {getTranslation(lang, "have_account_message")}
-                    </Link>
-                </Grid>
-            </Grid>
-        </Container>
+        <Box
+            sx={{
+                minHeight: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                bgcolor: 'background.default',
+            }}
+        >
+            {isSuccess && (
+                <Snackbar 
+                    open={isSuccess} 
+                    autoHideDuration={2000} 
+                    onClose={handleAlertClick}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                >
+                    <Alert data-testid="alert-success" id="alert-success" onClose={handleAlertClick} severity="success" sx={{ width: '100%' }}>
+                        {getTranslation(lang, "user_registered_successfully")}
+                    </Alert>
+                </Snackbar>
+            )}
+            {error.length > 0 && (
+                <Snackbar 
+                    open={error.length > 0} 
+                    autoHideDuration={2000} 
+                    onClose={handleAlertClick}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                >
+                    <Alert data-testid="alert-error" id="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }}>
+                        {getTranslation(lang, error)}
+                    </Alert>
+                </Snackbar>
+            )}
+            <Container
+                component="main"
+                maxWidth="xs"
+                sx={{
+                    minHeight: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
+                <Box
+                    sx={{
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                    }}
+                >
+                    <UserInputFields 
+                        title={getTranslation(lang, "sign_up")} 
+                        buttonText={getTranslation(lang, "sign_up")} 
+                        handleSubmit={handleSubmit} 
+                        isEmailAndRoleMandatory={true} 
+                        inputErrors={inputErrors} 
+                    />
+                    <Box
+                        sx={{
+                            mt: 3,
+                            width: '100%',
+                            textAlign: 'center'
+                        }}
+                    >
+                        <Link 
+                            component={RouterLink}
+                            to={'/login'}
+                            variant="body1" 
+                            id="have-already-account" 
+                        >
+                            {getTranslation(lang, "have_account_message")}
+                        </Link>
+                    </Box>
+                </Box>
+            </Container>
+        </Box>
     );
 }
 

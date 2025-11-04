@@ -80,24 +80,107 @@ const SearchHit = ({ objectID, name, price }: ISearchHit) => {
         getProductPhotoRequest();
     }, []);
 
-    return (<>
-        {isSuccess &&
-            <Snackbar open={isSuccess} autoHideDuration={2000} onClose={handleAlertClick}>
-                <Alert onClose={handleAlertClick} id="alert-success" severity="success" sx={{ width: '100%' }}>
-                    {getTranslation(lang, "product_added_successfully")}
-                </Alert>
-            </Snackbar>}
-        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-            <Box height={"5vh"} sx={{ aspectRatio: "1/1" }}>
-                <img width={"100%"} height={"100%"} className="card-image" src={photo} alt="product-image" data-testid={"card-image-" + objectID} />
+    return (
+        <>
+            {isSuccess && (
+                <Snackbar 
+                    open={isSuccess} 
+                    autoHideDuration={2000} 
+                    onClose={handleAlertClick}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                >
+                    <Alert 
+                        onClose={handleAlertClick} 
+                        severity="success" 
+                        id="alert-success"
+                        sx={{ 
+                            width: '100%',
+                            borderRadius: 2
+                        }}
+                    >
+                        {getTranslation(lang, "product_added_successfully")}
+                    </Alert>
+                </Snackbar>
+            )}
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    p: 2,
+                    borderRadius: 2,
+                    backgroundColor: 'background.paper',
+                    boxShadow: 1,
+                    transition: 'all 0.3s ease-in-out',
+                    '&:hover': {
+                        boxShadow: 3,
+                        transform: 'translateY(-2px)',
+                    }
+                }}
+            >
+                <Box
+                    sx={{
+                        width: '80px',
+                        height: '80px',
+                        borderRadius: 2,
+                        overflow: 'hidden',
+                        flexShrink: 0,
+                    }}
+                >
+                    <img 
+                        width="100%" 
+                        height="100%" 
+                        className="card-image" 
+                        src={photo} 
+                        alt={getTranslation(lang, "product_image")}
+                        data-testid={"card-image-" + objectID}
+                        style={{
+                            objectFit: 'cover',
+                            transition: 'transform 0.3s ease-in-out'
+                        }}
+                    />
+                </Box>
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography 
+                        variant="h6" 
+                        sx={{ 
+                            fontWeight: 500,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                        }}
+                    >
+                        {name}
+                    </Typography>
+                    <Typography 
+                        variant="h6" 
+                        color="primary"
+                        sx={{ 
+                            fontWeight: 700,
+                            mt: 0.5
+                        }}
+                    >
+                        {price + "€"}
+                    </Typography>
+                </Box>
+                <IconButton 
+                    color="primary" 
+                    data-testid="add-icon" 
+                    aria-label={getTranslation(lang, "add_to_cart")}
+                    onClick={handleAddProduct}
+                    sx={{
+                        backgroundColor: 'background.paper',
+                        boxShadow: 1,
+                        '&:hover': {
+                            backgroundColor: 'primary.light',
+                            color: 'background.paper',
+                        }
+                    }}
+                >
+                    <AddShoppingCartIcon />
+                </IconButton>
             </Box>
-            <Typography variant="h6" sx={{ fontWeight: 200, width: "35%", ml: "1.5%", overflow: "hidden", lineHeight: "1", textOverflow: "ellipsis" }}>{name}</Typography>
-            <Typography variant="h6" sx={{ fontWeight: 400, marginLeft: "2%" }}>{price + "€"}</Typography>
-            <IconButton color="primary" data-testid="add-icon" aria-label="add-to-cart" sx={{ zIndex: "99999999", border: "1px solid", marginLeft: "2%", width: "3.5vh", height: "3.5vh" }} onClick={handleAddProduct}>
-                <AddShoppingCartIcon />
-            </IconButton>
-        </Box>
-    </>
+        </>
     );
 }
 

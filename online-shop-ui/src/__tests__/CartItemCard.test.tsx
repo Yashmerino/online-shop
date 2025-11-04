@@ -13,6 +13,7 @@ describe("Cart Item Tests", () => {
     const initialState = { jwt: { token: "jwtkey" }, username: { sub: "user" }, roles: { roles: { roles: [{ id: 1, name: "USER" }] } }, lang: { lang: "ENG" } };
     const mockStore = configureStore();
     let store: Store;
+    const mockOnUpdate = jest.fn();
 
     it("Test Cart Items displayed", () => {
         store = mockStore(initialState)
@@ -20,7 +21,7 @@ describe("Cart Item Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <CartItemCard id={1} productId={1} price="2.5" quantity={1} title="Apple" key={1} />
+                    <CartItemCard id={1} productId={1} price="2.5" quantity={1} title="Apple" key={1} onUpdate={mockOnUpdate} />
                 </MemoryRouter>
             </Provider>
         );
@@ -49,7 +50,7 @@ describe("Cart Item Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <CartItemCard id={1} productId={1} price="2.5" quantity={1} title="Apple" key={1} />
+                    <CartItemCard id={1} productId={1} price="2.5" quantity={1} title="Apple" key={1} onUpdate={mockOnUpdate} />
                 </MemoryRouter>
             </Provider>
         );
@@ -72,7 +73,7 @@ describe("Cart Item Tests", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <CartItemCard id={1} productId={1} price="2.5" quantity={1} title="Apple" key={1} />
+                    <CartItemCard id={1} productId={1} price="2.5" quantity={1} title="Apple" key={1} onUpdate={mockOnUpdate} />
                 </MemoryRouter>
             </Provider>
         );

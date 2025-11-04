@@ -5,6 +5,31 @@
 		<language description="Russian" lang="RU" />
 		<language description="Romanian" lang="RO" />
 	</languages>
+	<key value="cart_empty">
+		<val lang="ENG">Your cart is empty</val>
+		<val lang="RU">Ваша корзина пуста</val>
+		<val lang="RO">Coșul dvs este gol</val>
+	</key>
+	<key value="order_summary">
+		<val lang="ENG">Order Summary</val>
+		<val lang="RU">Сводка заказа</val>
+		<val lang="RO">Sumar comandă</val>
+	</key>
+	<key value="payment_method">
+		<val lang="ENG">Payment Method</val>
+		<val lang="RU">Способ оплаты</val>
+		<val lang="RO">Modalitate de plată</val>
+	</key>
+	<key value="remember_payment_method">
+		<val lang="ENG">Remember payment method</val>
+		<val lang="RU">Запомнить способ оплаты</val>
+		<val lang="RO">Salvează modalitatea de plată</val>
+	</key>
+	<key value="proceed_to_checkout">
+		<val lang="ENG">Proceed to Checkout</val>
+		<val lang="RU">Перейти к оформлению</val>
+		<val lang="RO">Continuă spre plasare</val>
+	</key>
 	<key value="online_shop">
 		<val lang="ENG">ONLINE SHOP</val>
 		<val lang="RU">ИНТЕРНЕТ МАГАЗИН</val>
@@ -404,6 +429,31 @@
 		<val lang="ENG">Light</val>
 		<val lang="RU">Светлая</val>
 		<val lang="RO">Deschisă</val>
+	</key>
+	<key value="contact_us">
+		<val lang="ENG">Contact Us</val>
+		<val lang="RU">Свяжитесь с нами</val>
+		<val lang="RO">Contactați-ne</val>
+	</key>
+	<key value="follow_us">
+		<val lang="ENG">Follow Us</val>
+		<val lang="RU">Подпишитесь на нас</val>
+		<val lang="RO">Urmăriți-ne</val>
+	</key>
+	<key value="all_rights_reserved">
+		<val lang="ENG">All rights reserved.</val>
+		<val lang="RU">Все права защищены.</val>
+		<val lang="RO">Toate drepturile rezervate.</val>
+	</key>
+	<key value="privacy_policy">
+		<val lang="ENG">Privacy Policy</val>
+		<val lang="RU">Политика конфиденциальности</val>
+		<val lang="RO">Politica de confidențialitate</val>
+	</key>
+	<key value="terms_of_service">
+		<val lang="ENG">Terms of Service</val>
+		<val lang="RU">Условия использования</val>
+		<val lang="RO">Termeni și condiții</val>
 	</key>
 	<key value="dark_theme">
 		<val lang="ENG">Dark</val>

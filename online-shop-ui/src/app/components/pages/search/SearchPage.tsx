@@ -1,16 +1,18 @@
 import * as React from 'react';
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import Header from '../../Header';
 import Search from './Search';
 import Copyright from "../../footer/Copyright";
 
 const SearchPage = () => {
     return (
-        <Container component="main" maxWidth={false} id="search-container" sx={{ height: "100vh" }} disableGutters>
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
             <Header />
-            <Search />
+            <Container maxWidth="lg" sx={{ flex: 1, py: 4 }}>
+                <Search />
+            </Container>
             <Copyright />
-        </Container>
+        </Box>
     );
 }
 

@@ -13,7 +13,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { getUserPhoto } from '../api/UserRequest';
 import { updateJwt } from '../slices/jwtSlice';
-import { Select, InputLabel, SelectChangeEvent, Button } from '@mui/material';
+import { Select, InputLabel, SelectChangeEvent, Button, Divider } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -27,6 +27,7 @@ import { updateLang } from '../slices/langSlice';
 import { setCookie } from '../utils/Utils';
 import { updateTheme } from '../slices/themeSlice';
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { ALGOLIA_USAGE } from '../../env-config';
 
 const Header = () => {
@@ -117,163 +118,299 @@ const Header = () => {
     }
 
     return (
-        <AppBar position="static" sx={{ width: "100%" }}>
-            <Container maxWidth={false} data-testid="header">
-                <Toolbar disableGutters>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+        <AppBar
+            position="sticky"
+            elevation={0}
+            sx={{
+                backdropFilter: 'blur(6px)',
+                backgroundColor: theme ? 'rgba(255, 255, 255, 0.6)' : 'rgba(18, 18, 18, 0.6)',
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+                color: 'text.primary',
+            }}
+        >
+            <Container maxWidth="lg" data-testid="header">
+                <Toolbar
+                    disableGutters
+                    sx={{
+                        minHeight: { xs: 64, md: 72 },
+                        py: 1,
+                    }}
+                >
+                    {/* Mobile Menu */}
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
                         <IconButton
                             size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
+                            aria-label="menu"
                             onClick={handleOpenNavMenu}
                             color="inherit"
+                            sx={{ mr: 1 }}
                         >
                             <MenuIcon />
                         </IconButton>
                         <Menu
-                            id="menu-appbar"
+                            id="mobile-menu"
                             anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
+                            PaperProps={{
+                                elevation: 0,
+                                sx: {
+                                    mt: 1.5,
+                                    borderRadius: 2,
+                                    border: 1,
+                                    borderColor: 'divider',
+                                    minWidth: 200,
+                                }
                             }}
                         >
-                            {// @ts-ignore 
-                                roles[0].name == "USER" ? <MenuItem key={1} onClick={handleMyCart}><Typography textAlign="center" >{getTranslation(lang, "my_cart")}</Typography></MenuItem> : null}
-                            {// @ts-ignore 
-                                roles[0].name == "SELLER" ? <MenuItem key={2} onClick={handleAddProduct}><Typography textAlign="center" >{getTranslation(lang, "add_product")}</Typography></MenuItem> : null}
-                            {// @ts-ignore 
-                                roles[0].name == "SELLER" ? <MenuItem key={3} onClick={handleMyProducts}><Typography textAlign="center" >{getTranslation(lang, "my_products")}</Typography></MenuItem> : null}
-                            {// @ts-ignore 
-                                roles[0].name == "USER" ? ALGOLIA_USAGE && <MenuItem key={4} onClick={handleSearch}><Typography textAlign="center" >{getTranslation(lang, "search")}</Typography></MenuItem> : null}
+                            {roles[0].name === "USER" && (
+                                <MenuItem onClick={handleMyCart}>
+                                    <ShoppingCartIcon sx={{ mr: 1.5 }} />
+                                    <Typography>{getTranslation(lang, "my_cart")}</Typography>
+                                </MenuItem>
+                            )}
+                            {roles[0].name === "SELLER" && (
+                                <>
+                                    <MenuItem onClick={handleAddProduct}>
+                                        <AddIcon sx={{ mr: 1.5 }} />
+                                        <Typography>{getTranslation(lang, "add_product")}</Typography>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleMyProducts}>
+                                        <SellIcon sx={{ mr: 1.5 }} />
+                                        <Typography>{getTranslation(lang, "my_products")}</Typography>
+                                    </MenuItem>
+                                </>
+                            )}
+                            {roles[0].name === "USER" && ALGOLIA_USAGE && (
+                                <MenuItem onClick={handleSearch}>
+                                    <SearchIcon sx={{ mr: 1.5 }} />
+                                    <Typography>{getTranslation(lang, "search")}</Typography>
+                                </MenuItem>
+                            )}
                         </Menu>
                     </Box>
-                    <LocalMallIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                    <Typography
-                        id="home-title"
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#/products"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'Roboto',
-                            fontWeight: "Bold",
-                            fontSize: 28,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        {getTranslation(lang, "online_shop")}
-                    </Typography>
-                    <LocalMallIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#/products"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        {getTranslation(lang, "online_shop")}
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <Button key={1} startIcon={<AccountCircleIcon />} onClick={handleProfile} id="profile-button" sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "profile")}</Button>
-                        {// @ts-ignore 
-                            roles[0].name == "USER" ?
-                                <Button key={2} startIcon={<ShoppingCartIcon />} onClick={handleMyCart} id="my-cart-button" sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "my_cart")}</Button> :
-                                null
-                        }
-                        {// @ts-ignore 
-                            roles[0].name == "SELLER" ?
-                                <Button key={3} startIcon={<AddIcon />} onClick={handleAddProduct} id="add-product-button" sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "add_product")}</Button> :
-                                null
-                        }
-                        {// @ts-ignore 
-                            roles[0].name == "SELLER" ?
-                                <Button key={4} startIcon={<SellIcon />} onClick={handleMyProducts} id="my-products-button" sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "my_products")}</Button> :
-                                null
-                        }
-                        {// @ts-ignore 
-                            roles[0].name == "USER" ? ALGOLIA_USAGE && <Button key={5} startIcon={<SearchIcon />} onClick={handleSearch} sx={{ ml: "2vh", my: 2, color: 'white', display: 'flex', fontWeight: "Bold" }}>{getTranslation(lang, "search")}</Button> :
-                                null
-                        }
+
+                    {/* Logo */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: { xs: 1, md: 0 } }}>
+                        <LocalMallIcon
+                            sx={{
+                                display: 'flex',
+                                mr: 1,
+                                color: 'primary.main',
+                                fontSize: { xs: 28, md: 32 },
+                            }}
+                        />
+                        <Typography
+                            id="home-title"
+                            variant="h5"
+                            component="a"
+                            href="#/products"
+                            sx={{
+                                fontWeight: 700,
+                                fontSize: { xs: 20, md: 24 },
+                                letterSpacing: '.1rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                                '&:hover': {
+                                    color: 'primary.main',
+                                },
+                            }}
+                        >
+                            {getTranslation(lang, "online_shop")}
+                        </Typography>
                     </Box>
-                    <Box sx={{ flexGrow: 0 }}>
+
+                    {/* Desktop Navigation */}
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            display: { xs: 'none', md: 'flex' },
+                            justifyContent: 'center',
+                            gap: 2,
+                        }}
+                    >
+                        <Button
+                            startIcon={<AccountCircleIcon />}
+                            onClick={handleProfile}
+                            id="profile-button"
+                            sx={{
+                                color: 'text.primary',
+                                borderRadius: 2,
+                                px: 2,
+                                transition: 'all 0.2s',
+                                '&:hover': {
+                                    bgcolor: 'primary.main',
+                                    color: 'white',
+                                },
+                            }}
+                        >
+                            {getTranslation(lang, "profile")}
+                        </Button>
+
+                        {roles[0].name === "USER" && (
+                            <Button
+                                startIcon={<ShoppingCartIcon />}
+                                onClick={handleMyCart}
+                                id="my-cart-button"
+                                sx={{
+                                    color: 'text.primary',
+                                    borderRadius: 2,
+                                    px: 2,
+                                    transition: 'all 0.2s',
+                                    '&:hover': {
+                                        bgcolor: 'primary.main',
+                                        color: 'white',
+                                    },
+                                }}
+                            >
+                                {getTranslation(lang, "my_cart")}
+                            </Button>
+                        )}
+
+                        {roles[0].name === "SELLER" && (
+                            <>
+                                <Button
+                                    startIcon={<AddIcon />}
+                                    onClick={handleAddProduct}
+                                    id="add-product-button"
+                                    sx={{
+                                        color: 'text.primary',
+                                        borderRadius: 2,
+                                        px: 2,
+                                        transition: 'all 0.2s',
+                                        '&:hover': {
+                                            bgcolor: 'primary.main',
+                                            color: 'white',
+                                        },
+                                    }}
+                                >
+                                    {getTranslation(lang, "add_product")}
+                                </Button>
+                                <Button
+                                    startIcon={<SellIcon />}
+                                    onClick={handleMyProducts}
+                                    id="my-products-button"
+                                    sx={{
+                                        color: 'text.primary',
+                                        borderRadius: 2,
+                                        px: 2,
+                                        transition: 'all 0.2s',
+                                        '&:hover': {
+                                            bgcolor: 'primary.main',
+                                            color: 'white',
+                                        },
+                                    }}
+                                >
+                                    {getTranslation(lang, "my_products")}
+                                </Button>
+                            </>
+                        )}
+
+                        {roles[0].name === "USER" && ALGOLIA_USAGE && (
+                            <Button
+                                startIcon={<SearchIcon />}
+                                onClick={handleSearch}
+                                sx={{
+                                    color: 'text.primary',
+                                    borderRadius: 2,
+                                    px: 2,
+                                    transition: 'all 0.2s',
+                                    '&:hover': {
+                                        bgcolor: 'primary.main',
+                                        color: 'white',
+                                    },
+                                }}
+                            >
+                                {getTranslation(lang, "search")}
+                            </Button>
+                        )}
+                    </Box>
+
+                    {/* User Menu */}
+                    <Box sx={{ flexShrink: 0 }}>
                         <Tooltip title={getTranslation(lang, "open_settings")}>
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar src={photo} />
+                            <IconButton
+                                onClick={handleOpenUserMenu}
+                                sx={{
+                                    p: 0.5,
+                                    border: 2,
+                                    borderColor: 'transparent',
+                                    '&:hover': {
+                                        borderColor: 'primary.main',
+                                    },
+                                }}
+                            >
+                                <Avatar
+                                    src={photo}
+                                    sx={{
+                                        width: 40,
+                                        height: 40,
+                                        bgcolor: 'primary.main',
+                                    }}
+                                />
                             </IconButton>
                         </Tooltip>
                         <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
+                            id="user-menu"
                             anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
+                            PaperProps={{
+                                elevation: 0,
+                                sx: {
+                                    mt: 1.5,
+                                    borderRadius: 2,
+                                    border: 1,
+                                    borderColor: 'divider',
+                                    minWidth: 200,
+                                }
+                            }}
                         >
-                            <MenuItem onClick={handleProfile}>{getTranslation(lang, "profile")}</MenuItem>
-                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                            <InputLabel sx={{ textAlign: "center", fontSize: "15px" }} id="select-language-label">{getTranslation(lang, "language")}</InputLabel>
-                            <Select
-                                sx={{ width: '150px', margin: "0 15px" }}
-                                labelId="select-language-label"
-                                id="select-language"
-                                value={lang.toString()}
-                                label={getTranslation(lang, "language")}
-                                onChange={(value) => { handleLanguageSelection(value) }}
-                            >
-                                <MenuItem value={Lang.ENG.toString()}>{getTranslation(lang, "english")}</MenuItem>
-                                <MenuItem value={Lang.RU.toString()}>{getTranslation(lang, "russian")}</MenuItem>
-                                <MenuItem value={Lang.RO.toString()}>{getTranslation(lang, "romanian")}</MenuItem>
-                            </Select>
-                            <InputLabel sx={{ textAlign: "center", fontSize: "15px" }} id="select-theme-label">{getTranslation(lang, "theme")}</InputLabel>
-                            <Select
-                                sx={{ width: '150px', margin: "0 15px" }}
-                                labelId="select-theme-label"
-                                id="select-theme"
-                                value={theme ? getTranslation(lang, "light_theme") : getTranslation(lang, "dark_theme")}
-                                label={getTranslation(lang, "theme")}
-                                onChange={(value) => { handleChangeTheme(value) }}
-                            >
-                                <MenuItem value={getTranslation(lang, "dark_theme")}>{getTranslation(lang, "dark_theme")}</MenuItem>
-                                <MenuItem value={getTranslation(lang, "light_theme")}>{getTranslation(lang, "light_theme")}</MenuItem>
-                            </Select>
+                            <MenuItem onClick={handleProfile}>
+                                <AccountCircleIcon sx={{ mr: 1.5 }} />
+                                <Typography>{getTranslation(lang, "profile")}</Typography>
+                            </MenuItem>
+                            <Divider />
+                            <Box sx={{ px: 2, py: 1 }}>
+                                <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+                                    {getTranslation(lang, "language")}
+                                </Typography>
+                                <Select
+                                    fullWidth
+                                    size="small"
+                                    value={lang.toString()}
+                                    onChange={(value) => handleLanguageSelection(value)}
+                                    sx={{ mb: 2 }}
+                                >
+                                    <MenuItem value={Lang.ENG.toString()}>{getTranslation(lang, "english")}</MenuItem>
+                                    <MenuItem value={Lang.RU.toString()}>{getTranslation(lang, "russian")}</MenuItem>
+                                    <MenuItem value={Lang.RO.toString()}>{getTranslation(lang, "romanian")}</MenuItem>
+                                </Select>
+
+                                <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+                                    {getTranslation(lang, "theme")}
+                                </Typography>
+                                <Select
+                                    fullWidth
+                                    size="small"
+                                    value={theme ? getTranslation(lang, "light_theme") : getTranslation(lang, "dark_theme")}
+                                    onChange={(value) => handleChangeTheme(value)}
+                                >
+                                    <MenuItem value={getTranslation(lang, "dark_theme")}>{getTranslation(lang, "dark_theme")}</MenuItem>
+                                    <MenuItem value={getTranslation(lang, "light_theme")}>{getTranslation(lang, "light_theme")}</MenuItem>
+                                </Select>
+                            </Box>
+                            <Divider />
+                            <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
+                                <LogoutIcon sx={{ mr: 1.5 }} />
+                                <Typography>{getTranslation(lang, "logout")}</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>
             </Container>
-        </AppBar >
+        </AppBar>
     );
 }
 export default Header;
