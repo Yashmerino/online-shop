@@ -300,30 +300,20 @@
 		<val lang="RU">Имя пользователя обязательно.</val>
 		<val lang="RO">Numele de utilizator este necesar.</val>
 	</key>
-	<key value="username_too_long">
-		<val lang="ENG">Username is too long.</val>
-		<val lang="RU">Имя пользователя слишком длинное.</val>
-		<val lang="RO">Numele de utilizator este prea lung.</val>
-	</key>
-	<key value="username_too_short">
-		<val lang="ENG">Username is too short.</val>
-		<val lang="RU">Имя пользователя слишком короткое.</val>
-		<val lang="RO">Numele de utilizator este prea scurt.</val>
+	<key value="username_invalid_length">
+		<val lang="ENG">Username length is invalid.</val>
+		<val lang="RU">Длина имени пользователя неправильная.</val>
+		<val lang="RO">Lungimea numelui de utilizator este invalida.</val>
 	</key>
 	<key value="password_is_required">
 		<val lang="ENG">Password is required.</val>
 		<val lang="RU">Пароль обязательно.</val>
 		<val lang="RO">Parola este necesară.</val>
 	</key>
-	<key value="password_too_short">
-		<val lang="ENG">Password is too short.</val>
-		<val lang="RU">Пароль слишком короткий.</val>
-		<val lang="RO">Parola este prea scurtă.</val>
-	</key>
-	<key value="password_too_long">
-		<val lang="ENG">Password is too long.</val>
-		<val lang="RU">Пароль слишком длинный.</val>
-		<val lang="RO">Parola este prea lungă.</val>
+	<key value="password_invalid_length">
+		<val lang="ENG">Password length is invalid.</val>
+		<val lang="RU">Длина пароля неправильная.</val>
+		<val lang="RO">Lungimea parolei e invalida.</val>
 	</key>
 	<key value="email_is_required">
 		<val lang="ENG">Email is required.</val>
@@ -335,30 +325,20 @@
 		<val lang="RU">Электронная почта инвалидна.</val>
 		<val lang="RO">Email este invalid.</val>
 	</key>
-	<key value="email_too_short">
-		<val lang="ENG">Email is too short.</val>
-		<val lang="RU">Электронная почта слишком короткая.</val>
-		<val lang="RO">Email este prea scurt.</val>
-	</key>
-	<key value="email_too_long">
-		<val lang="ENG">Email is too long.</val>
-		<val lang="RU">Электронная почта слишком длинная.</val>
-		<val lang="RO">Email este prea lung.</val>
+	<key value="email_invalid_length">
+		<val lang="ENG">Email length is invalid.</val>
+		<val lang="RU">Длина электронной почты неправильная.</val>
+		<val lang="RO">Lungimea email-ului nu este valida.</val>
 	</key>
 	<key value="name_is_required">
 		<val lang="ENG">Name is required.</val>
 		<val lang="RU">Имя обязательно.</val>
 		<val lang="RO">Numele este necesar.</val>
 	</key>
-	<key value="name_too_long">
-		<val lang="ENG">Name is too long.</val>
-		<val lang="RU">Имя слишком длинное.</val>
-		<val lang="RO">Numele este prea lung.</val>
-	</key>
-	<key value="name_too_short">
-		<val lang="ENG">Name is too short.</val>
-		<val lang="RU">Имя слишком короткое.</val>
-		<val lang="RO">Numele este prea scurt.</val>
+	<key value="name_invalid_length">
+		<val lang="ENG">Name length is invalid.</val>
+		<val lang="RU">Длина имени неправильная.</val>
+		<val lang="RO">Lungimea numelui e invalida.</val>
 	</key>
 	<key value="price_is_required">
 		<val lang="ENG">Price is required.</val>

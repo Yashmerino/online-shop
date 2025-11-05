@@ -42,9 +42,6 @@ public class UserDTO {
     @NotNull(message = "email_is_required")
     @NotBlank(message = "email_is_required")
     // NOSONAR: The wrapper is required. Different error messages.
-    @Size.List({
-            @Size(min = 4, message = "email_too_short"),
-            @Size(max = 255, message = "email_too_long")
-    })
+    @Size(min = 4, max = 255, message = "email_invalid_length")
     private String email;
 }
