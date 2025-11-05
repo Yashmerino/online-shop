@@ -10,7 +10,7 @@ COPY src /online-shop-server/src
 
 RUN mvn package -DskipTests
 
-FROM openjdk:17-oracle
+FROM eclipse-temurin:17-jre
 
 WORKDIR /online-shop-server
 
