@@ -132,7 +132,6 @@ services:
       - "8080:8080"
     environment:
       API_BASE_URL: http://online-shop-server:8081
-      JWT_SECRET: YOUR_JWT_SECRET
       ALGOLIA_APP_ID: YOUR_APP_ID
       ALGOLIA_API_KEY: YOUR_API_KEY
       ALGOLIA_INDEX_NAME: YOUR_INDEX_NAME
