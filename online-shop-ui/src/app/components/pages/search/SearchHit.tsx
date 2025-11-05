@@ -107,24 +107,31 @@ const SearchHit = ({ objectID, name, price }: ISearchHit) => {
                     display: "flex",
                     alignItems: "center",
                     gap: 2,
-                    p: 2,
+                    p: 2.5,
                     borderRadius: 2,
                     backgroundColor: 'background.paper',
-                    boxShadow: 1,
+                    boxShadow: 2,
+                    border: 1,
+                    borderColor: 'divider',
                     transition: 'all 0.3s ease-in-out',
                     '&:hover': {
-                        boxShadow: 3,
-                        transform: 'translateY(-2px)',
+                        boxShadow: 4,
+                        transform: 'translateY(-4px)',
+                        borderColor: 'primary.main',
+                        backgroundColor: 'background.default'
                     }
                 }}
             >
-                <Box
+                    <Box
                     sx={{
-                        width: '80px',
-                        height: '80px',
+                        width: '100px',
+                        height: '100px',
                         borderRadius: 2,
                         overflow: 'hidden',
                         flexShrink: 0,
+                        boxShadow: 1,
+                        border: 1,
+                        borderColor: 'divider',
                     }}
                 >
                     <img 
@@ -144,17 +151,19 @@ const SearchHit = ({ objectID, name, price }: ISearchHit) => {
                     <Typography 
                         variant="h6" 
                         sx={{ 
-                            fontWeight: 500,
+                            fontWeight: 600,
                             overflow: "hidden",
                             textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
+                            whiteSpace: "nowrap",
+                            mb: 1,
+                            color: 'text.primary'
                         }}
                     >
                         {name}
                     </Typography>
                     <Typography 
-                        variant="h6" 
-                        color="primary"
+                        variant="h5" 
+                        color="primary.main"
                         sx={{ 
                             fontWeight: 700,
                             mt: 0.5
@@ -170,11 +179,16 @@ const SearchHit = ({ objectID, name, price }: ISearchHit) => {
                     onClick={handleAddProduct}
                     sx={{
                         backgroundColor: 'background.paper',
-                        boxShadow: 1,
+                        boxShadow: 2,
+                        p: 1.5,
+                        border: 1,
+                        borderColor: 'primary.main',
                         '&:hover': {
-                            backgroundColor: 'primary.light',
+                            backgroundColor: 'primary.main',
                             color: 'background.paper',
-                        }
+                            transform: 'scale(1.1)'
+                        },
+                        transition: 'all 0.2s ease-in-out'
                     }}
                 >
                     <AddShoppingCartIcon />

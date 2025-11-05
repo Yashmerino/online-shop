@@ -15,6 +15,7 @@ import { getUserPhoto } from '../api/UserRequest';
 import { updateJwt } from '../slices/jwtSlice';
 import { Select, InputLabel, SelectChangeEvent, Button, Divider } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AddIcon from '@mui/icons-material/Add';
@@ -74,6 +75,10 @@ const Header = () => {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
+    const handleHome = () => {
+        navigate("/products");
+    }
 
     const handleMyCart = () => {
         navigate("/cart");
@@ -230,6 +235,23 @@ const Header = () => {
                             gap: 2,
                         }}
                     >
+                        <Button
+                            startIcon={<HomeIcon />}
+                            onClick={handleHome}
+                            id="home-button"
+                            sx={{
+                                color: 'text.primary',
+                                borderRadius: 2,
+                                px: 2,
+                                transition: 'all 0.2s',
+                                '&:hover': {
+                                    bgcolor: 'primary.main',
+                                    color: 'white',
+                                },
+                            }}
+                        >
+                            {getTranslation(lang, "home")}
+                        </Button>
                         <Button
                             startIcon={<AccountCircleIcon />}
                             onClick={handleProfile}

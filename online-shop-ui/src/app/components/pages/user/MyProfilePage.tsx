@@ -229,7 +229,6 @@ const MyProfilePage = () => {
                                 />
                                 <TextField
                                     defaultValue={email}
-                                    error={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors)}
                                     required
                                     fullWidth
                                     name="email"
@@ -238,6 +237,8 @@ const MyProfilePage = () => {
                                     id="email"
                                     data-testid="email"
                                     autoComplete="current-email"
+                                    error={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors)}
+                                    helperText={inputErrors.find(error => error.field === InputFields.EMAIL)?.message ? getTranslation(lang, inputErrors.find(error => error.field === InputFields.EMAIL)?.message || '') : undefined}
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                         setEmail(event.target.value);
                                     }}

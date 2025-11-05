@@ -5,6 +5,11 @@
 		<language description="Russian" lang="RU" />
 		<language description="Romanian" lang="RO" />
 	</languages>
+	<key value="home">
+		<val lang="ENG">Home</val>
+		<val lang="RU">Главная</val>
+		<val lang="RO">Pagina Principala</val>
+	</key>
 	<key value="cart_empty">
 		<val lang="ENG">Your cart is empty</val>
 		<val lang="RU">Ваша корзина пуста</val>

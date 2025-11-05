@@ -262,6 +262,7 @@ const AddProductPage = () => {
                                         id="name-field"
                                         data-testid="name-field"
                                         autoComplete="current-name"
+                                        helperText={inputErrors.find(error => error.field === InputFields.NAME)?.message ? getTranslation(lang, inputErrors.find(error => error.field === InputFields.NAME)?.message || '') : undefined}
                                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                             setName(event.target.value);
                                         }}
@@ -277,6 +278,7 @@ const AddProductPage = () => {
                                         id="description"
                                         data-testid="description"
                                         autoComplete="current-description"
+                                        helperText={inputErrors.find(error => error.field === InputFields.DESCRIPTION)?.message ? getTranslation(lang, inputErrors.find(error => error.field === InputFields.DESCRIPTION)?.message || '') : undefined}
                                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                             setDescription(event.target.value);
                                         }}
@@ -292,6 +294,7 @@ const AddProductPage = () => {
                                             label={getTranslation(lang, "price") + '€'}
                                             type="number"
                                             inputProps={{ min: 0.01 }}
+                                            helperText={inputErrors.find(error => error.field === InputFields.PRICE)?.message ? getTranslation(lang, inputErrors.find(error => error.field === InputFields.PRICE)?.message || '') : undefined}
                                             sx={{ flex: 1 }}
                                         />
                                         <Select
@@ -309,7 +312,7 @@ const AddProductPage = () => {
                                                     : (<em>{getTranslation(lang, "categories")}</em>)
                                             )}
                                             MenuProps={MenuProps}
-                                            sx={{ flex: 2 }}
+                                            sx={{ flex: 2, height: '100%' }}
                                         >
                                             {fetchedCategories.map((fetchedCategory) => (
                                                 <MenuItem key={fetchedCategory.name} value={fetchedCategory.name}>
