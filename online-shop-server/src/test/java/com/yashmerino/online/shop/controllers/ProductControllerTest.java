@@ -231,7 +231,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_too_short\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_invalid_length\"}"));
         assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_is_required\"}"));
     }
 
@@ -303,37 +303,20 @@ class ProductControllerTest {
     }
 
     /**
-     * Test add product with name that is too long.
+     * Test add product with name that has invalid length.
      *
      * @throws Exception if something goes wrong.
      */
     @Test
     @WithMockUser(username = "seller", authorities = {"SELLER"})
-    void addProductNameTooLongTest() throws Exception {
-        productDTO.setName("geragaergaerghawrighaerwuighaerghaerghaerghaerjygfaerjygfawjfgawefgaewyfagrjyaerjyaergfjyargfjyarwgyjfa");
+    void addProductNameInvalidLengthTest() throws Exception {
+        productDTO.setName("geragaergaerghawrighaerwuighaerghaerghaerghaerjighaerwuighaerghaerghghaerwuighaerghaerghaerghaerjighaerwughaerwuighaerghaerghaerghaerjighaerwughaerwuighaerghaerghaerghaerjighaerwughaerwuighaerghaerghaerghaerjighaerwughaerwuighaerghaerghaerghaerjighaerwughaerwuighaerghaerghaerghaerjighaerwuaerghaerjighaerwuighaerghaerghaerghaerjighaerwuighaerghaerghaerghaerjighaerwuighaerghaerghaerghaerjygfaerjygfawjfgawefgaewyfagrjyaerjyaergfjyargfjyarwgyjfa");
 
         MvcResult result = mvc.perform(post("/api/product")
                 .content(objectMapper.writeValueAsString(productDTO)).contentType(
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"name_too_long\"}]}"));
-    }
-
-    /**
-     * Test add product with name that is too short.
-     *
-     * @throws Exception if something goes wrong.
-     */
-    @Test
-    @WithMockUser(username = "seller", authorities = {"SELLER"})
-    void addProductNameTooShortTest() throws Exception {
-        productDTO.setName("baa");
-
-        MvcResult result = mvc.perform(post("/api/product")
-                .content(objectMapper.writeValueAsString(productDTO)).contentType(
-                        APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
-
-        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"name_too_short\"}]}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"fieldErrors\":[{\"field\":\"name\",\"message\":\"name_invalid_length\"}]}"));
     }
 
     /**
@@ -535,7 +518,7 @@ class ProductControllerTest {
 
         assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_is_required\"}"));
         assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"price\",\"message\":\"price_value_error\"}"));
-        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_too_short\"}"));
+        assertTrue(result.getResponse().getContentAsString().contains("{\"field\":\"name\",\"message\":\"name_invalid_length\"}"));
 
         result = mvc.perform(get("/api/product/1")).andExpect(status().isOk()).andReturn();
 
