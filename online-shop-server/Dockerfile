@@ -10,7 +10,7 @@ COPY src /online-shop-server/src
 
 RUN mvn package -DskipTests
 
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-oracle
 
 WORKDIR /online-shop-server
 
