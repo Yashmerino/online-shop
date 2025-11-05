@@ -19,19 +19,40 @@ function SearchBar(props: any) {
     return (
         <Paper
             component="form"
-            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "70%", margin: "auto", mt: "2.5%" }}
+            elevation={0}
+            sx={{ 
+                p: '12px 20px',
+                display: 'flex', 
+                alignItems: 'center', 
+                width: '100%',
+                borderRadius: 2,
+                backgroundColor: 'background.paper',
+                border: 1,
+                borderColor: 'divider',
+                transition: 'all 0.2s ease-in-out',
+                '&:hover': {
+                    borderColor: 'primary.main',
+                },
+                '&:focus-within': {
+                    borderColor: 'primary.main',
+                    boxShadow: '0 0 0 2px rgba(25, 118, 210, 0.1)',
+                }
+            }}
         >
+            <SearchIcon sx={{ color: 'text.secondary', mr: 1 }} />
             <InputBase
-                sx={{ ml: 1, flex: 1 }}
+                sx={{ 
+                    flex: 1,
+                    '& input': {
+                        py: 1,
+                        fontSize: '1.1rem',
+                    }
+                }}
                 placeholder={getTranslation(lang, "search")}
                 inputProps={{ 'aria-label': getTranslation(lang, "search") }}
                 value={query}
                 onChange={(e) => refine(e.currentTarget.value)}
             />
-            <IconButton type="button" sx={{ p: '10px' }} aria-label={getTranslation(lang, "search")}>
-                <SearchIcon />
-            </IconButton>
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
         </Paper>
     );
 }

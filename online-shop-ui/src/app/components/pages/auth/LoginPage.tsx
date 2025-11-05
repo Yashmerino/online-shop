@@ -27,7 +27,7 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Snackbar, Alert } from '@mui/material';
+import { Box, Snackbar, Alert } from '@mui/material';
 
 import UserInputFields from './UserInputFields';
 import * as UserRequest from '../../../api/UserRequest';
@@ -78,24 +78,77 @@ const LoginPage = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ pt: 26 }}>
-      {error.length > 0 &&
-        <Snackbar open={error.length > 0} autoHideDuration={2000} onClose={handleAlertClick}>
-          <Alert data-testid="alert-error" onClose={handleAlertClick} severity="error" sx={{ width: '100%' }} id="alert-error">
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        bgcolor: 'background.default',
+      }}
+    >
+      {error.length > 0 && (
+        <Snackbar
+          open={error.length > 0}
+          autoHideDuration={2000}
+          onClose={handleAlertClick}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        >
+          <Alert
+            data-testid="alert-error"
+            onClose={handleAlertClick}
+            severity="error"
+            sx={{
+              width: '100%',
+              boxShadow: 2,
+            }}
+            id="alert-error"
+          >
             {getTranslation(lang, error)}
           </Alert>
-        </Snackbar>}
-      <Grid container>
-        <Grid item>
-          <UserInputFields title={getTranslation(lang, "sign_in")} buttonText={getTranslation(lang, "sign_in")} handleSubmit={handleSubmit} isEmailAndRoleMandatory={false} inputErrors={inputErrors} />
-        </Grid>
-        <Grid item>
-          <Link component={RouterLink} to={'/register'} variant="body2" id="dont-have-account">
-            {getTranslation(lang, "create_account_message")}
-          </Link>
-        </Grid>
-      </Grid>
-    </Container>
+        </Snackbar>
+      )}
+      <Container
+        maxWidth="sm"
+        sx={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          py: 8,
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            position: 'relative',
+          }}
+        >
+          <UserInputFields
+            title={getTranslation(lang, "sign_in")}
+            buttonText={getTranslation(lang, "sign_in")}
+            handleSubmit={handleSubmit}
+            isEmailAndRoleMandatory={false}
+            inputErrors={inputErrors}
+          />
+          <Box
+            sx={{
+              mt: 3,
+              textAlign: 'center',
+            }}
+          >
+            <Link
+              component={RouterLink}
+              to="/register"
+              variant="body1"
+              id="dont-have-account">
+              {getTranslation(lang, "create_account_message")}
+            </Link>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
   );
 }
 

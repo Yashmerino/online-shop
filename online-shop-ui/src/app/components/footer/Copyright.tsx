@@ -23,8 +23,25 @@
  */
 
 import React from 'react';
-import { Typography, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import {
+    Typography,
+    useTheme,
+    Box,
+    Container,
+    Grid,
+    Stack,
+    IconButton,
+    Link,
+    Divider
+} from '@mui/material';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { getTranslation } from '../../../i18n/i18n';
 import { useAppSelector } from '../../hooks';
 
@@ -33,18 +50,159 @@ const Copyright = (props: any) => {
     const theme = useTheme();
 
     return (
-        <Grid container direction="row" style={{ marginTop: "50px" }} sx={{ mt: "4%", p: "1%", bottom: 0, top: "100vh", position: "sticky" }} bgcolor={theme.palette.mode === "light" ? "#1976d2" : "#272727"} data-testid="footer">
-            <Grid item width="34%" ml="16%" sx={{display: 'flex', flexDirection: "column", justifyContent: "space-between"}}>
-                <Typography variant="h5" color="#FFF" align="left" sx={{ lineHeight: "1", fontWeight: 600 }}>{getTranslation(lang, "online_shop")}</Typography>
-                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }}>example@shop.com<br />+40 336 772 413</Typography>
-                <Typography variant="subtitle2" color="#FFF" align="left" sx={{ lineHeight: "1" }}>Strada Alexandru Ioan Cuza 13, Craiova 200585</Typography>
-            </Grid>
-            <Grid item width="34%" mr="16%">
-                <Typography variant="subtitle2" color="#FFF" align="right" sx={{ lineHeight: "1", textAlign: "justify" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum iaculis lacus sit amet ipsum finibus blandit. Nam ac nibh et ante varius fermentum sed et turpis. Sed nibh felis, accumsan vel erat in, facilisis vulputate velit. Phasellus ac iaculis eros. Praesent porttitor neque non augue porta facilisis. Nunc hendrerit massa dui, non auctor enim placerat vitae. Aliquam at diam neque.
-                    Nam vitae porta nunc. Quisque a nisi nec felis sagittis condimentum. Ut mollis lectus magna, eget maximus turpis rutrum venenatis, odit rutrum.</Typography>
-                <Typography variant="subtitle2" color="#FFF" align="right" sx={{ lineHeight: "1" }} marginTop="4%">© 2023</Typography>
-            </Grid>
-        </Grid>
+            <Box
+            component="footer"
+            sx={{
+                mt: 'auto',
+                py: 6,
+                bgcolor: theme.palette.mode === "light" ? 'primary.main' : 'background.paper',
+                color: theme.palette.mode === "light" ? 'primary.contrastText' : 'text.primary',
+                width: '100%',
+                position: 'relative',
+                zIndex: 1,
+                borderTop: 1,
+                borderColor: 'divider'
+            }}
+            data-testid="footer"
+        >
+            <Container maxWidth="lg">
+                <Grid container spacing={4}>
+                    {/* Company Info */}
+                    <Grid item xs={12} md={4}>
+                        <Box sx={{ mb: 4 }}>
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 2,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                }}
+                            >
+                                <LocalMallIcon sx={{ fontSize: 28 }} />
+                                {getTranslation(lang, "online_shop")}
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    opacity: 0.8,
+                                    maxWidth: 300,
+                                }}
+                            >
+                                Your one-stop shop for all your needs. Quality products, great prices, and excellent service.
+                            </Typography>
+                        </Box>
+                    </Grid>
+
+                    {/* Contact Info */}
+                    <Grid item xs={12} md={4}>
+                        <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                            {getTranslation(lang, "contact_us")}
+                        </Typography>
+                        <Stack spacing={1}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <EmailIcon fontSize="small" />
+                                <Typography variant="body2">example@shop.com</Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <PhoneIcon fontSize="small" />
+                                <Typography variant="body2">+40 336 772 413</Typography>
+                            </Box>
+                        </Stack>
+                    </Grid>
+
+                    {/* Social Links */}
+                    <Grid item xs={12} md={4}>
+                        <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                            {getTranslation(lang, "follow_us")}
+                        </Typography>
+                        <Stack direction="row" spacing={2}>
+                            <IconButton
+                                color="inherit"
+                                sx={{
+                                    '&:hover': {
+                                        bgcolor: 'primary.dark',
+                                    },
+                                }}
+                            >
+                                <FacebookIcon />
+                            </IconButton>
+                            <IconButton
+                                color="inherit"
+                                sx={{
+                                    '&:hover': {
+                                        bgcolor: 'primary.dark',
+                                    },
+                                }}
+                            >
+                                <TwitterIcon />
+                            </IconButton>
+                            <IconButton
+                                color="inherit"
+                                sx={{
+                                    '&:hover': {
+                                        bgcolor: 'primary.dark',
+                                    },
+                                }}
+                            >
+                                <InstagramIcon />
+                            </IconButton>
+                            <IconButton
+                                color="inherit"
+                                sx={{
+                                    '&:hover': {
+                                        bgcolor: 'primary.dark',
+                                    },
+                                }}
+                            >
+                                <LinkedInIcon />
+                            </IconButton>
+                        </Stack>
+                    </Grid>
+                </Grid>
+
+                <Divider sx={{ my: 4, opacity: 0.2 }} />
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: 2,
+                    }}
+                >
+                    <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                        © {new Date().getFullYear()} {getTranslation(lang, "online_shop")}. {getTranslation(lang, "all_rights_reserved")}
+                    </Typography>
+                    <Stack direction="row" spacing={2}>
+                        <Link
+                            href="#"
+                            color="inherit"
+                            sx={{
+                                opacity: 0.8,
+                                textDecoration: 'none',
+                                '&:hover': { opacity: 1 },
+                            }}
+                        >
+                            {getTranslation(lang, "privacy_policy")}
+                        </Link>
+                        <Link
+                            href="#"
+                            color="inherit"
+                            sx={{
+                                opacity: 0.8,
+                                textDecoration: 'none',
+                                '&:hover': { opacity: 1 },
+                            }}
+                        >
+                            {getTranslation(lang, "terms_of_service")}
+                        </Link>
+                    </Stack>
+                </Box>
+            </Container>
+        </Box>
     );
 }
 

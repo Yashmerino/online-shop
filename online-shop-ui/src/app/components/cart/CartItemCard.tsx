@@ -26,11 +26,10 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { useAppSelector } from '../../hooks';
 import { deleteCartItem, changeQuantity } from '../../api/CartItemsRequest';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
 import QuantityInput from '../QuantityInput';
+import { useSnackbar } from '../../components/SnackbarProvider';
 import { getProductPhoto } from '../../api/ProductRequest';
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getTranslation } from '../../../i18n/i18n';
@@ -38,41 +37,35 @@ import NoPhoto from "../../../img/no_photo.jpg";
 import { useNavigate } from 'react-router';
 
 interface CartItemProps {
-  id: number,
-  productId: number,
-  title: string,
-  price: string,
-  quantity: number
+    id: number,
+    productId: number,
+    title: string,
+    price: string,
+    quantity: number,
+    onUpdate: (id: number, newQuantity: number) => void 
 }
 
-const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) => {
-  const [isDeleted, setIsDeleted] = React.useState<boolean>(false);
+const CartItemCard = ({ id, productId, title, price, quantity, onUpdate }: CartItemProps) => {
   const [photo, setPhoto] = React.useState(NoPhoto);
   const navigate = useNavigate();
   const lang = useAppSelector(state => state.lang.lang);
-
   const jwt = useAppSelector(state => state.jwt);
-
-  const handleAlertClick = () => {
-    setIsDeleted(false);
-  };
+  const { showSnackbar } = useSnackbar();
 
   const handleDeleteProduct = async () => {
-    setIsDeleted(false);
-
     const response = await deleteCartItem(jwt.token, id);
 
     if (response.status) {
       if (response.status == 401) {
         navigate("/login");
+        return;
       }
     }
 
     if (response.status == 200) {
-      setIsDeleted(true);
+      showSnackbar(getTranslation(lang, "cartitem_deleted_successfully"), "success");
+      onUpdate(id, 0);
     }
-
-    location.reload();
   }
 
   const handleSaveProduct = async () => {
@@ -82,8 +75,11 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
     if (response.status) {
       if (response.status == 401) {
         navigate("/login");
+        return;
       }
     }
+
+    onUpdate(id, parseInt(updatedQuantity));
   }
 
   React.useEffect(() => {
@@ -104,25 +100,118 @@ const CartItemCard = ({ id, productId, title, price, quantity }: CartItemProps) 
     getProductPhotoRequest();
   }, []);
 
-  return (<>
-    {isDeleted &&
-      <Snackbar open={isDeleted} autoHideDuration={2000} onClose={handleAlertClick}>
-        <Alert onClose={handleAlertClick} severity="success" sx={{ width: '100%' }} id="alert-success">
-          {getTranslation(lang, "cartitem_deleted_successfully")}
-        </Alert>
-      </Snackbar>}
-    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-      <Box height={"5vh"} sx={{ aspectRatio: "1/1" }}>
-        <img width={"100%"} height={"100%"} className="card-image" src={photo} alt="cart-item-image" data-testid={"card-image-" + id} />
-      </Box>
-      <Typography variant="h6" sx={{ fontWeight: 200, width: "35%", ml: "1.5%", overflow: "hidden", lineHeight: "1", textOverflow: "ellipsis" }}>{title}</Typography>
-      <QuantityInput id={id} defaultValue={quantity} handleSaveProduct={handleSaveProduct} />
-      <Typography variant="h6" sx={{ fontWeight: 400, marginLeft: "2%" }}>{price + "€"}</Typography>
-      <IconButton color="error" aria-label="delete from shopping cart" data-testid="delete-icon" sx={{ border: "1px solid", marginLeft: "2%", width: "3.5vh", height: "3.5vh" }} onClick={handleDeleteProduct}>
-        <DeleteIcon />
-      </IconButton>
-    </Box>
-  </>
+  return (
+    <>
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2,
+          borderRadius: 2,
+          border: 1,
+          borderColor: 'divider',
+          transition: '0.2s',
+          '&:hover': {
+            boxShadow: 2,
+            borderColor: 'primary.main',
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: { xs: 1, sm: 2, md: 3 },
+            flexWrap: { xs: 'wrap', sm: 'nowrap' },
+          }}
+        >
+          {/* Product Image */}
+          <Box
+            sx={{
+              width: { xs: 60, sm: 80, md: 100 },
+              height: { xs: 60, sm: 80, md: 100 },
+              borderRadius: 1,
+              overflow: 'hidden',
+              flexShrink: 0,
+            }}
+          >
+            <img
+              width="100%"
+              height="100%"
+              className="card-image"
+              src={photo}
+              alt="cart-item"
+              data-testid={`card-image-${id}`}
+              style={{
+                objectFit: 'cover',
+                width: '100%',
+                height: '100%',
+              }}
+            />
+          </Box>
+
+          {/* Product Details */}
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 500,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                mb: 1,
+              }}
+            >
+              {title}
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                flexWrap: { xs: 'wrap', sm: 'nowrap' },
+              }}
+            >
+              <QuantityInput
+                id={id}
+                defaultValue={quantity}
+                handleSaveProduct={handleSaveProduct}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 600,
+                  color: 'primary.main',
+                  minWidth: 80,
+                  textAlign: 'right',
+                }}
+              >
+                {price + "€"}
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Delete Button */}
+          <IconButton
+            color="error"
+            aria-label="delete from shopping cart"
+            data-testid="delete-icon"
+            onClick={handleDeleteProduct}
+            sx={{
+              p: 1,
+              borderRadius: 1,
+              '&:hover': {
+                bgcolor: 'error.light',
+                '& .MuiSvgIcon-root': {
+                  color: 'error.main',
+                },
+              },
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      </Paper>
+    </>
   );
 }
 

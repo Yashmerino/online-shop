@@ -28,6 +28,7 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
@@ -58,25 +59,50 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
     return (
         <React.Fragment>
             <CssBaseline />
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
+            <Paper 
+                elevation={2} 
+                sx={{ 
+                    borderRadius: 2,
+                    overflow: 'hidden',
+                    bgcolor: 'background.paper',
+                    p: 4,
+                    width: '100%',
+                    maxWidth: 400
                 }}
             >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5" data-testid="title">
-                    {title}
-                </Typography>
-                <Box component="form" onSubmit={(e) => handleSubmit(e)} noValidate sx={{ mt: 1 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Avatar 
+                        sx={{ 
+                            width: 56,
+                            height: 56,
+                            bgcolor: 'primary.main',
+                            boxShadow: 2,
+                            mb: 2
+                        }}
+                    >
+                        <LockOutlinedIcon sx={{ fontSize: 32 }} />
+                    </Avatar>
+                    <Typography 
+                        component="h1" 
+                        variant="h5" 
+                        data-testid="title"
+                        fontWeight={700}
+                        color="primary.main"
+                        mb={3}
+                    >
+                        {title}
+                    </Typography>
+                    <Box component="form" onSubmit={(e) => handleSubmit(e)} noValidate sx={{ width: '100%' }}>
                     {isEmailAndRoleMandatory &&
                         <>
-                            <FormControl fullWidth>
-                                <InputLabel id="roleInput">Role</InputLabel>
+                            <FormControl fullWidth sx={{ mb: 2 }}>
+                                <InputLabel id="roleInput">{getTranslation(lang, "role")}</InputLabel>
                                 <Select
                                     labelId="role"
                                     id="role"
@@ -92,7 +118,6 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                             <TextField
                                 error={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors)}
                                 helperText={isFieldPresentInInputErrors(InputFields.EMAIL, inputErrors) ? getFieldInputErrorMessage(InputFields.EMAIL, inputErrors, lang) : null}
-                                margin="normal"
                                 required
                                 fullWidth
                                 name="email"
@@ -101,12 +126,12 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                                 id="email"
                                 data-testid="email"
                                 autoComplete="current-email"
+                                sx={{ mb: 2 }}
                             />
                         </>}
                     <TextField
                         error={isFieldPresentInInputErrors(InputFields.USERNAME, inputErrors)}
                         helperText={isFieldPresentInInputErrors(InputFields.USERNAME, inputErrors) ? getFieldInputErrorMessage(InputFields.USERNAME, inputErrors, lang) : null}
-                        margin="normal"
                         required
                         fullWidth
                         id="username"
@@ -115,11 +140,11 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         name="username"
                         autoComplete="username"
                         autoFocus
+                        sx={{ mb: 2 }}
                     />
                     <TextField
                         error={isFieldPresentInInputErrors(InputFields.PASSWORD, inputErrors)}
                         helperText={isFieldPresentInInputErrors(InputFields.PASSWORD, inputErrors) ? getFieldInputErrorMessage(InputFields.PASSWORD, inputErrors, lang) : null}
-                        margin="normal"
                         required
                         fullWidth
                         name="password"
@@ -135,12 +160,19 @@ const UserInputFields = ({ title, buttonText, handleSubmit, isEmailAndRoleMandat
                         fullWidth
                         variant="contained"
                         id="submit"
-                        sx={{ mt: 3, mb: 2 }}
+                        sx={{ 
+                            mt: 3,
+                            py: 1.5,
+                            borderRadius: 2,
+                            fontWeight: 600,
+                            fontSize: '1rem'
+                        }}
                     >
                         {buttonText}
                     </Button>
                 </Box>
             </Box>
+            </Paper>
         </React.Fragment>);
 }
 

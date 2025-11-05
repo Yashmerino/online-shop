@@ -36,7 +36,8 @@ import { useAppSelector } from '../../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../../../../i18n/i18n';
 import MyProductCard from './MyProductCard';
-import { Paper } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
@@ -66,24 +67,134 @@ const ProductsContainer = () => {
   }, []);
 
   return (
-    <Container component="main" maxWidth={false} id="my-products-container" sx={{ height: "100vh" }} disableGutters>
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
       <Header />
-      <Paper square elevation={3} sx={{ width: "70%", padding: "2.5%", margin: "auto", mt: "2.5%", display: "flex" }}>
-        <SellIcon fontSize='large' sx={{ marginRight: "1.5%" }} />
-        <Typography variant="h4" fontWeight={800}>{getTranslation(lang, "my_products")}</Typography>
-      </Paper>
+      <Container maxWidth="lg" sx={{ flex: 1, py: 4 }}>
+        <Box sx={{ 
+          mb: 4, 
+          display: 'flex', 
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <Typography
+            variant="h4"
+            fontWeight={700}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2,
+              color: 'primary.main'
+            }}
+          >
+            <SellIcon fontSize="large" />
+            {getTranslation(lang, "my_products")}
+          </Typography>
+          
+          {// @ts-ignore 
+            roles[0].name === "SELLER" && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate('/product/add')}
+                startIcon={<AddIcon />}
+                sx={{
+                  borderRadius: 2,
+                  px: 3,
+                  py: 1
+                }}
+              >
+                {getTranslation(lang, "add_product")}
+              </Button>
+            )
+          }
+        </Box>
 
-      {// @ts-ignore 
-        roles[0].name == "SELLER" ?
-          (<Paper square elevation={3} sx={{ width: "70%", height: "50%", paddingBottom: "2.5%", pl: "2.5%", pr: "2.5%", margin: "auto", mt: "2.5%", display: "flex", flexDirection: "column", overflowY: "scroll" }}>
-            {products.length > 0 && products.map(product => {
-              return (<div key={product.objectID} style={{ marginTop: "3.5%" }}><MyProductCard key={product.objectID} objectID={product.objectID} name={product.name} price={product.price} categories={product.categories} description={product.description} /></div>);
-            })}
-          </Paper>) : (<Typography align='center' marginTop={10}>{getTranslation(lang, "no_rights_to_access")}</Typography>)
-      }
+        {// @ts-ignore 
+          roles[0].name === "SELLER" ? (
+            <Paper 
+              elevation={2} 
+              sx={{ 
+                borderRadius: 2,
+                overflow: 'hidden',
+                bgcolor: 'background.paper',
+                minHeight: '70vh'
+              }}
+            >
+              {products.length > 0 ? (
+                <Box
+                  sx={{
+                    overflowY: 'auto',
+                    p: 3,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                  }}
+                >
+                  {products.map(product => (
+                    <MyProductCard
+                      key={product.objectID}
+                      objectID={product.objectID}
+                      name={product.name}
+                      price={product.price}
+                      categories={product.categories}
+                      description={product.description}
+                    />
+                  ))}
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    minHeight: '70vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 2,
+                    p: 4,
+                    color: 'text.secondary'
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src="/empty-box.png"
+                    alt="No products"
+                    sx={{
+                      width: 120,
+                      height: 120,
+                      opacity: 0.5
+                    }}
+                  />
+                  <Typography variant="h6" textAlign="center">
+                    {getTranslation(lang, "no_products_found")}
+                  </Typography>
+                  <Typography variant="body2" textAlign="center">
+                    {getTranslation(lang, "start_by_adding_product")}
+                  </Typography>
+                </Box>
+              )}
+            </Paper>
+          ) : (
+            <Box
+              sx={{
+                minHeight: '70vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Typography 
+                variant="h6" 
+                color="text.secondary" 
+                textAlign="center"
+              >
+                {getTranslation(lang, "no_rights_to_access")}
+              </Typography>
+            </Box>
+          )
+        }
+      </Container>
       <Copyright />
-
-    </Container>
+    </Box>
   );
 }
 
