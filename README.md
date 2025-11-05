@@ -6,7 +6,7 @@
 
 <h3 align="center"><strong>Online Shop YouTube Video</strong></h3>
 
-[![YouTube Showcase Video of the project](demo/thumbnail.png)](https://youtu.be/TUkewNnLL78)
+[![YouTube Showcase Video of the project](demo/thumbnail.png)](https://youtu.be/uiiix4CfOrQ)
 
 Online Shop is a pet project made using Spring Boot and React. It uses a MySQL database to store the user, seller and products data. Online shop uses JWT for the authorization system and supports 3 languages:
 * English
