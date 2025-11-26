@@ -46,8 +46,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -594,5 +593,37 @@ class ProductControllerTest {
                         APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("\"field\":\"description\",\"message\":\"description_too_long\""));
+    }
+
+    @Test
+    @WithMockUser(username = "seller", authorities = {"SELLER"})
+    void productPaginationWithExistingProductsTest() throws Exception {
+        // Request first page with size 1
+        MvcResult page0 = mvc.perform(get("/api/product?page=0&size=1"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content0 = page0.getResponse().getContentAsString();
+        assertTrue(content0.contains("Phone"));   // first product
+        assertFalse(content0.contains("Laptop")); // not on first page
+
+        // Request second page with size 1
+        MvcResult page1 = mvc.perform(get("/api/product?page=1&size=1"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content1 = page1.getResponse().getContentAsString();
+        assertTrue(content1.contains("Laptop")); // second product
+        assertFalse(content1.contains("Phone")); // not on second page
+
+        // Request a page beyond the existing products
+        MvcResult page2 = mvc.perform(get("/api/product?page=2&size=1"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content2 = page2.getResponse().getContentAsString();
+        // Should be empty
+        assertFalse(content2.contains("Phone"));
+        assertFalse(content2.contains("Laptop"));
     }
 }
