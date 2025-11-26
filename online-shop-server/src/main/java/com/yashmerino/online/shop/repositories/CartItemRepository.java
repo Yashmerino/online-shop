@@ -28,6 +28,8 @@ import com.yashmerino.online.shop.model.CartItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -36,4 +38,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     Page<CartItem> findAllByCartUserUsername(String username, Pageable pageable);
+
+    @Query("SELECT SUM(c.price * c.quantity) FROM cart_items c WHERE c.cart.user.username = :username")
+    Double getTotalPriceByUsername(@Param("username") String username);
 }

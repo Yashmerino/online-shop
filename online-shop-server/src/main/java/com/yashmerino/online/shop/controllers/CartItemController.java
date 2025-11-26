@@ -198,6 +198,9 @@ public class CartItemController {
         paginated.setHasNext(page.hasNext());
         paginated.setHasPrevious(page.hasPrevious());
 
+        double totalPrice = cartItemService.getTotalCartPrice(username);
+        paginated.setTotalPrice(totalPrice);
+
         return paginated;
     }
 }

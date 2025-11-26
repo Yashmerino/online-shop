@@ -19,6 +19,7 @@ public class PaginatedDTO<T> {
     private int totalPages;
     private long totalItems;
     private int pageSize;
+    private double totalPrice;
     private boolean hasNext;
     private boolean hasPrevious;
 

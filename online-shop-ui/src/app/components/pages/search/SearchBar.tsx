@@ -1,10 +1,8 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import { useSearchBox } from 'react-instantsearch';
+import { useSearchBox } from 'react-instantsearch-hooks-web';
 import { useAppSelector } from '../../../hooks';
 import { getTranslation } from '../../../../i18n/i18n';
 

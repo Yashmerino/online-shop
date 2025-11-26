@@ -34,39 +34,53 @@ import Product from './Product';
 
 import { useAppSelector } from '../../../hooks';
 import { useNavigate } from 'react-router-dom';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography, Pagination } from '@mui/material';
 import Banner from "../../../../img/banner.jpg";
 import { getTranslation } from '../../../../i18n/i18n';
+import { PaginatedDTO } from '../../../../types/PaginatedDTO';
 
 const ProductsContainer = () => {
   const jwt = useAppSelector(state => state.jwt);
   const lang = useAppSelector(state => state.lang.lang);
 
-  const [products, setProducts] = React.useState<Product[]>([]);
+  const [page, setPage] = React.useState(0);
+
+  const [pagination, setPagination] = React.useState<PaginatedDTO<Product>>({
+    data: [],
+    currentPage: 0,
+    totalPages: 0,
+    totalItems: 0,
+    totalPrice: 0,
+    pageSize: 10,
+    hasNext: false,
+    hasPrevious: false,
+  });
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
     const token = jwt.token;
 
     const fetchProducts = async () => {
-      const productsResponse = await getProducts(token);
+      const res = await getProducts(token, page, 8);
 
-      if (productsResponse.status) {
-        if (productsResponse.status == 401) {
-          navigate("/login");
-        }
+      if (res.status === 401) {
+        navigate("/login");
+        return;
       }
 
-      setProducts(productsResponse);
-    }
+      setPagination(res);
+    };
 
-    fetchProducts(); // NOSONAR: It should not await.
-  }, []);
+    fetchProducts();
+  }, [page]);
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Header />
       <Container maxWidth="xl" sx={{ flex: 1, py: 4 }}>
+
+        {/* Banner */}
         <Box
           sx={{
             position: 'relative',
@@ -79,21 +93,14 @@ const ProductsContainer = () => {
           }}
         >
           <img
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             alt="banner"
             src={Banner}
           />
           <Box
             sx={{
               position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
+              inset: 0,
               background: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2))',
               display: 'flex',
               alignItems: 'center',
@@ -103,67 +110,51 @@ const ProductsContainer = () => {
             <Typography
               variant="h2"
               color="white"
-              sx={{
-                textAlign: 'center',
-                fontWeight: 700,
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-              }}
+              sx={{ textAlign: 'center', fontWeight: 700, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}
             >
               {getTranslation(lang, "online_shop")}
             </Typography>
           </Box>
         </Box>
 
-        <Paper
-          elevation={0}
-          sx={{
-            p: 3,
-            borderRadius: 2,
-            bgcolor: 'background.default',
-          }}
-        >
-          {products.length > 0 ? (
-            <Grid
-              container
-              spacing={3}
-              justifyContent="center"
-            >
-              {products.map(product => (
+        {/* Products */}
+        <Paper elevation={0} sx={{ p: 3, borderRadius: 2, bgcolor: 'background.default' }}>
+          {pagination.data.length > 0 ? (
+            <Grid container spacing={3} justifyContent="center">
+              {pagination.data.map(product => (
                 <Grid item key={product.objectID}>
                   <ProductCard
                     id={product.objectID}
                     title={product.name}
                     price={product.price}
-                    categories={product.categories as any}
+                    categories={product.categories}
                     description={product.description}
                   />
                 </Grid>
               ))}
             </Grid>
           ) : (
-            <Box
-              sx={{
-                py: 8,
-                textAlign: 'center',
-              }}
-            >
-              <Typography
-                variant="h4"
-                color="text.secondary"
-                sx={{
-                  mb: 2,
-                  fontWeight: 500,
-                }}
-              >
+            <Box sx={{ py: 8, textAlign: 'center' }}>
+              <Typography variant="h4" color="text.secondary" sx={{ mb: 2, fontWeight: 500 }}>
                 {getTranslation(lang, "no_products_found")}
               </Typography>
             </Box>
           )}
         </Paper>
+
+        {/* Pagination */}
+        <Box display="flex" justifyContent="center" mt={2}>
+          <Pagination
+            count={pagination.totalPages || 1}
+            page={page + 1}
+            onChange={(_, value) => setPage(value - 1)}
+          />
+        </Box>
+
       </Container>
       <Copyright />
     </Box>
   );
-}
+};
 
 export default ProductsContainer;

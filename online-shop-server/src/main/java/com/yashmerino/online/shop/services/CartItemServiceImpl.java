@@ -181,6 +181,27 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     /**
+     * Calculates the total price of the cart.
+     *
+     * @param username is the user whose cart to use.
+     *
+     * @return the total cart price.
+     */
+    @Override
+    public double getTotalCartPrice(String username) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserUsername = auth.getName();
+
+        if (!username.equals(currentUserUsername)) {
+            throw new AccessDeniedException("access_denied");
+        }
+
+
+        Double total = cartItemRepository.getTotalPriceByUsername(username);
+        return total != null ? total : 0.0;
+    }
+
+    /**
      * Saves cart item.
      *
      * @param cartItem is the cart item.

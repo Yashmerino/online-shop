@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import CartItemCard from "../app/components/cart/CartItemCard";
+import CartItemCard from "../app/components/pages/cart/CartItemCard";
 import * as CartItemsRequest from "../app/api/CartItemsRequest";
 
 import { Provider } from 'react-redux';

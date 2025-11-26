@@ -28,8 +28,6 @@ import com.yashmerino.online.shop.model.CartItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Set;
-
 /**
  * Interface for cart item service.
  */
@@ -67,6 +65,15 @@ public interface CartItemService {
      * @return <code>List of CartItem</code>
      */
      Page<CartItem> getCartItems(String username, Pageable pageable);
+
+    /**
+     * Calculates the total cart price.
+     *
+     * @param username is the user whose cart to use.
+     *
+     * @return the total cart price.
+     */
+     double getTotalCartPrice(String username);
 
     /**
      * Saves cart item.

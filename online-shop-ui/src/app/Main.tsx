@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './components/pages/auth/LoginPage';
 import RegisterPage from './components/pages/auth/RegisterPage';
 import ProductsContainer from './components/pages/products/ProductsContainer';
-import CartContainer from './components/cart/CartContainer';
+import CartContainer from './components/pages/cart/CartContainer';
 import AddProductPage from './components/pages/products/AddProductPage';
 import MyProductsPage from './components/pages/products/MyProductsPage';
 import MyProfilePage from './components/pages/user/MyProfilePage';

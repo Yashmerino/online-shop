@@ -29,17 +29,24 @@ import { Category } from "../components/pages/products/AddProductPage";
  * @param token The JWT Token.
  * @returns Response.
  */
-export const getProducts = async (token: string) => {
-    const response = await fetch(`${API_BASE_URL}/api/product`, {
-        headers: { Authorization: `Bearer ${token}` },
-    })
+export const getProducts = async (token: string, page = 0, size = 10) => {
+    const response = await fetch(
+        `${API_BASE_URL}/api/product?page=${page}&size=${size}`,
+        {
+            headers: { Authorization: `Bearer ${token}` },
+        }
+    );
 
-    if (response.status == 401) {
+    if (response.status === 401) {
+        return response;
+    }
+
+    if (!response.ok) {
         return response;
     }
 
     return response.json();
-}
+};
 
 /**
  * API Request to get a certain product.
@@ -117,20 +124,28 @@ export const addProduct = async (token: string, name: string, categories: Catego
  * @param username The seller's username.
  * @returns Response.
  */
-export const getSellerProducts = async (token: string, username: string) => {
-    const response = await fetch(`${API_BASE_URL}/api/product/seller/${username}`, {
+export const getSellerProducts = async (token: string, username: string, page = 0, size = 5) => {
+    const response = await fetch(
+        `${API_BASE_URL}/api/product/seller/${username}?page=${page}&size=${size}`,
+        {
         headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': "application/json"
+            'Content-Type': 'application/json',
         },
-    })
+        }
+    );
 
-    if (response.status == 401) {
+    if (response.status === 401) {
+        return response;
+    }
+
+    if (!response.ok) {
         return response;
     }
 
     return response.json();
-}
+};
+
 
 /**
  * API Request to delete a product.

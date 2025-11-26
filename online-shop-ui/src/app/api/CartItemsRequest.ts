@@ -29,17 +29,23 @@ import { API_BASE_URL } from "../../env-config";
  * @param username User's username.
  * @returns Response.
  */
-export const getCartItems = async (token: string, username: string) => {
-    const response = await fetch(`${API_BASE_URL}/api/cartItem?&username=${username}`, {
-        headers: { Authorization: `Bearer ${token}` },
-    })
+export const getCartItems = async (token: string, username: string, page = 0, size = 5) => {
+    const response = await fetch(
+        `${API_BASE_URL}/api/cartItem?username=${username}&page=${page}&size=${size}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-    if (response.status == 401) {
+    if (response.status === 401) {
+        return response;
+    } 
+
+    if (!response.ok) {
         return response;
     }
 
     return response.json();
-}
+};
+
 
 /**
  * API Request to delete a cart item.

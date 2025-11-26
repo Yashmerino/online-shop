@@ -24,16 +24,16 @@
 
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import { useAppSelector } from '../../hooks';
-import { deleteCartItem, changeQuantity } from '../../api/CartItemsRequest';
-import QuantityInput from '../QuantityInput';
-import { useSnackbar } from '../../components/SnackbarProvider';
-import { getProductPhoto } from '../../api/ProductRequest';
+import { useAppSelector } from '../../../hooks';
+import { deleteCartItem, changeQuantity } from '../../../api/CartItemsRequest';
+import QuantityInput from '../../QuantityInput';
+import { useSnackbar } from '../../SnackbarProvider';
+import { getProductPhoto } from '../../../api/ProductRequest';
 import { Box, Paper } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getTranslation } from '../../../i18n/i18n';
-import NoPhoto from "../../../img/no_photo.jpg";
+import { getTranslation } from '../../../../i18n/i18n';
+import NoPhoto from "../../../../img/no_photo.jpg";
 import { useNavigate } from 'react-router';
 
 interface CartItemProps {
