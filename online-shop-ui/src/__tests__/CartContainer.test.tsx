@@ -19,7 +19,8 @@ describe("Cart Container Tests", () => {
 
         const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');
         const result = [{ id: 1, "productId": 1, "name": "Apple", "price": 2.5, "cartId": 1, "quantity": 5 }];
-        getCartItems.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+        getCartItems.mockReturnValue(Promise.resolve(result));
+
 
         render(
             <Provider store={store}>
@@ -56,7 +57,8 @@ describe("Cart Container Tests", () => {
 
         const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');
         const result = [{ "productId": 1, "name": "Apple", "price": 2.5, "cartId": 1, "quantity": 5 }];
-        getCartItems.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+        getCartItems.mockReturnValue(Promise.resolve(result));
+
 
         render(
             <Provider store={store}>
@@ -77,7 +79,8 @@ describe("Cart Container Tests", () => {
 
         const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');
         const result = [{ "productId": 1, "name": "Apple", "price": 2.5, "cartId": 1, "quantity": 5 }];
-        getCartItems.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+        getCartItems.mockReturnValue(Promise.resolve(result));
+
 
         const deleteCartItem = jest.spyOn(CartItemsRequest, 'deleteCartItem');
         deleteCartItem.mockReturnValue(Promise.resolve({ "status": 200, "message": "Cart item successfully deleted!" }));
@@ -104,7 +107,8 @@ describe("Cart Container Tests", () => {
 
         const getCartItems = jest.spyOn(CartItemsRequest, 'getCartItems');
         const result = [{ id: 1, "productId": 1, "name": "Apple", "price": 2.5, "cartId": 1, "quantity": 5 }];
-        getCartItems.mockReturnValue(Promise.resolve(JSON.stringify(result)));
+        getCartItems.mockReturnValue(Promise.resolve(result));
+
 
         const changeQuantity = jest.spyOn(CartItemsRequest, 'changeQuantity');
         changeQuantity.mockReturnValue(Promise.resolve({ "status": 200, "message": "Cart item successfully updated!" }));
