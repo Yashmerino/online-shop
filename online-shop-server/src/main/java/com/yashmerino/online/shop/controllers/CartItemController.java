@@ -25,6 +25,7 @@ package com.yashmerino.online.shop.controllers;
 
 import com.yashmerino.online.shop.model.CartItem;
 import com.yashmerino.online.shop.model.dto.CartItemDTO;
+import com.yashmerino.online.shop.model.dto.PaginatedDTO;
 import com.yashmerino.online.shop.model.dto.SuccessDTO;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import com.yashmerino.online.shop.swagger.SwaggerConfig;
@@ -40,6 +41,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.Min;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -179,14 +182,22 @@ public class CartItemController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @GetMapping
-    public List<CartItemDTO> getCartItems(@RequestParam String username) {
-        Set<CartItem> cartItemsSet = cartItemService.getCartItems(username);
-        List<CartItemDTO> cartItems = new ArrayList<>();
+    public PaginatedDTO<CartItemDTO> getCartItems(@RequestParam String username, Pageable pageable) {
+        Page<CartItem> page = cartItemService.getCartItems(username, pageable);
 
-        for (CartItem cartItem : cartItemsSet) {
-            cartItems.add(RequestBodyToEntityConverter.convertToCartItemDTO(cartItem));
-        }
+        List<CartItemDTO> items = page.getContent().stream()
+                .map(RequestBodyToEntityConverter::convertToCartItemDTO)
+                .toList();
 
-        return cartItems;
+        PaginatedDTO<CartItemDTO> paginated = new PaginatedDTO<>();
+        paginated.setData(items);
+        paginated.setCurrentPage(page.getNumber());
+        paginated.setTotalPages(page.getTotalPages());
+        paginated.setTotalItems(page.getTotalElements());
+        paginated.setPageSize(page.getSize());
+        paginated.setHasNext(page.hasNext());
+        paginated.setHasPrevious(page.hasPrevious());
+
+        return paginated;
     }
 }

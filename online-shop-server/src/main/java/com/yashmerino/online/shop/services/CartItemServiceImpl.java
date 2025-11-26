@@ -32,6 +32,8 @@ import com.yashmerino.online.shop.repositories.CartItemRepository;
 import com.yashmerino.online.shop.repositories.UserRepository;
 import com.yashmerino.online.shop.services.interfaces.CartItemService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -162,27 +164,20 @@ public class CartItemServiceImpl implements CartItemService {
      * Returns all the cart items.
      *
      * @param username is the user's username.
+     * @param pageable is the page object.
+     *
      * @return <code>Set of CartItem</code>
      */
     @Override
-    public Set<CartItem> getCartItems(final String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
+    public Page<CartItem> getCartItems(String username, Pageable pageable) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserUsername = auth.getName();
 
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            Cart cart = user.getCart();
-
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String currentUserUsername = auth.getName();
-
-            if (!user.getUsername().equals(currentUserUsername)) {
-                throw new AccessDeniedException(ACCESS_DENIED_MESSAGE);
-            }
-
-            return cart.getItems();
-        } else {
-            throw new EntityNotFoundException(CART_ITEM_NOT_FOUND_MESSAGE);
+        if (!username.equals(currentUserUsername)) {
+            throw new AccessDeniedException("access_denied");
         }
+
+        return cartItemRepository.findAllByCartUserUsername(username, pageable);
     }
 
     /**

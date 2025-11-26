@@ -25,11 +25,11 @@ package com.yashmerino.online.shop.repositories;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Products' repository.
@@ -43,6 +43,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param userId is the seller's id.
      * @return List of Products.
      */
-    @Query(nativeQuery = true, value = "SELECT * FROM products p WHERE p.user_id = ?1")
-    List<Product> getProductsBySellerId(Long userId);
+    @Query(
+            value = "SELECT * FROM products p WHERE p.user_id = ?1",
+            countQuery = "SELECT count(*) FROM products p WHERE p.user_id = ?1",
+            nativeQuery = true
+    )
+    Page<Product> getProductsBySellerId(Long userId, Pageable pageable);
 }

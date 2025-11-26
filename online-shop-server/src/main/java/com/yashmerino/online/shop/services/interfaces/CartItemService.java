@@ -25,6 +25,8 @@ package com.yashmerino.online.shop.services.interfaces;
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 import com.yashmerino.online.shop.model.CartItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Set;
 
@@ -59,10 +61,12 @@ public interface CartItemService {
     /**
      * Returns all the cart items.
      *
-     * @param username is the user's username..
+     * @param username is the user's username.
+     * @param pageable is the page object.
+     *
      * @return <code>List of CartItem</code>
      */
-    Set<CartItem> getCartItems(final String username);
+     Page<CartItem> getCartItems(String username, Pageable pageable);
 
     /**
      * Saves cart item.

@@ -26,6 +26,8 @@ package com.yashmerino.online.shop.services.interfaces;
 
 import com.yashmerino.online.shop.model.Product;
 import com.yashmerino.online.shop.model.dto.ProductDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -46,9 +48,11 @@ public interface ProductService {
     /**
      * Returns all the products.
      *
-     * @return <code>List of Products</code>
+     * @param pageable is the page object.
+     *
+     * @return <code>Page of Products</code>
      */
-    List<Product> getAllProducts();
+    Page<Product> getAllProducts(Pageable pageable);
 
     /**
      * Saves a product.
@@ -68,9 +72,11 @@ public interface ProductService {
      * Returns seller's products.
      *
      * @param username is the seller's username.
-     * @return List of Products.
+     * @param pageable is the page details.
+     *
+     * @return Page of Products.
      */
-    List<Product> getSellerProducts(String username);
+    Page<Product> getSellerProducts(String username, Pageable pageable);
 
     /**
      * Add product to the cart.

@@ -23,10 +23,9 @@ package com.yashmerino.online.shop.controllers;
  + SOFTWARE.
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+import com.yashmerino.online.shop.model.CartItem;
 import com.yashmerino.online.shop.model.Product;
-import com.yashmerino.online.shop.model.dto.ProductDTO;
-import com.yashmerino.online.shop.model.dto.SuccessDTO;
-import com.yashmerino.online.shop.model.dto.SuccessWithIdDTO;
+import com.yashmerino.online.shop.model.dto.*;
 import com.yashmerino.online.shop.services.AlgoliaServiceImpl;
 import com.yashmerino.online.shop.services.interfaces.AlgoliaService;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
@@ -34,6 +33,7 @@ import com.yashmerino.online.shop.swagger.SwaggerConfig;
 import com.yashmerino.online.shop.swagger.SwaggerHttpStatus;
 import com.yashmerino.online.shop.swagger.SwaggerMessages;
 import com.yashmerino.online.shop.utils.ApplicationProperties;
+import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -43,6 +43,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -190,7 +192,9 @@ public class ProductController {
     /**
      * Returns all the products.
      *
-     * @return <code>List of ProductDTOs</code>.
+     * @param pageable is the page data.
+     *
+     * @return <code>Page of ProductDTOs</code>.
      */
     @Operation(summary = "Returns all the products.")
     @ApiResponses(value = {
@@ -205,15 +209,63 @@ public class ProductController {
             @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
                     content = @Content)})
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        List<ProductDTO> productsDTO = new ArrayList<>();
+    public PaginatedDTO<ProductDTO> getProducts(Pageable pageable) {
+        Page<Product> page = productService.getAllProducts(pageable);
 
-        for (Product product : products) {
-            productsDTO.add(convertToProductDTO(product));
-        }
+        List<ProductDTO> products = page.getContent().stream()
+                .map(RequestBodyToEntityConverter::convertToProductDTO)
+                .toList();
 
-        return new ResponseEntity<>(productsDTO, HttpStatus.OK);
+        PaginatedDTO<ProductDTO> paginated = new PaginatedDTO<>();
+        paginated.setData(products);
+        paginated.setCurrentPage(page.getNumber());
+        paginated.setTotalPages(page.getTotalPages());
+        paginated.setTotalItems(page.getTotalElements());
+        paginated.setPageSize(page.getSize());
+        paginated.setHasNext(page.hasNext());
+        paginated.setHasPrevious(page.hasPrevious());
+
+        return paginated;
+    }
+
+    /**
+     * Returns all the seller's products.
+     *
+     * @param username is the seller's username.
+     * @param pageable is the page details.
+     *
+     * @return <code>Page of ProductDTOs</code>.
+     */
+    @Operation(summary = "Returns all the seller's products by username.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.RETURN_SELLER_PRODUCTS,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
+                    content = @Content),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = @Content)})
+    @GetMapping("/seller/{username}")
+    public PaginatedDTO<ProductDTO> getSellerProducts(@PathVariable String username, Pageable pageable) {
+        Page<Product> page = productService.getSellerProducts(username, pageable);
+
+        List<ProductDTO> products = page.getContent().stream()
+                .map(RequestBodyToEntityConverter::convertToProductDTO)
+                .toList();
+
+        PaginatedDTO<ProductDTO> paginated = new PaginatedDTO<>();
+        paginated.setData(products);
+        paginated.setCurrentPage(page.getNumber());
+        paginated.setTotalPages(page.getTotalPages());
+        paginated.setTotalItems(page.getTotalElements());
+        paginated.setPageSize(page.getSize());
+        paginated.setHasNext(page.hasNext());
+        paginated.setHasPrevious(page.hasPrevious());
+
+        return paginated;
     }
 
     /**
@@ -248,36 +300,6 @@ public class ProductController {
         }
 
         return new ResponseEntity<>(successDTO, HttpStatus.OK);
-    }
-
-    /**
-     * Returns all the seller's products.
-     *
-     * @param username is the seller's username.
-     * @return <code>List of ProductDTOs</code>.
-     */
-    @Operation(summary = "Returns all the seller's products by username.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.RETURN_SELLER_PRODUCTS,
-                    content = @Content),
-            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
-                    content = @Content),
-            @ApiResponse(responseCode = SwaggerHttpStatus.FORBIDDEN, description = SwaggerMessages.FORBIDDEN,
-                    content = @Content),
-            @ApiResponse(responseCode = SwaggerHttpStatus.UNAUTHORIZED, description = SwaggerMessages.UNAUTHORIZED,
-                    content = @Content),
-            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
-                    content = @Content)})
-    @GetMapping("/seller/{username}")
-    public ResponseEntity<List<ProductDTO>> getSellerProducts(@PathVariable String username) {
-        List<Product> products = productService.getSellerProducts(username);
-        List<ProductDTO> productsDTO = new ArrayList<>();
-
-        for (Product product : products) {
-            productsDTO.add(convertToProductDTO(product));
-        }
-
-        return new ResponseEntity<>(productsDTO, HttpStatus.OK);
     }
 
     /**

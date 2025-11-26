@@ -35,7 +35,10 @@ import com.yashmerino.online.shop.repositories.ProductRepository;
 import com.yashmerino.online.shop.services.interfaces.ProductService;
 import com.yashmerino.online.shop.services.interfaces.UserService;
 import com.yashmerino.online.shop.utils.RequestBodyToEntityConverter;
+import com.yashmerino.online.shop.utils.Role;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -101,11 +104,11 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Returns all the products.
      *
-     * @return <code>List of Products</code>
+     * @return <code>Page of Products</code>
      */
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     /**
@@ -134,14 +137,16 @@ public class ProductServiceImpl implements ProductService {
      * Returns seller's products.
      *
      * @param username is the seller's username.
-     * @return List of Products.
+     * @param pageable is the page details.
+     *
+     * @return Page of Products.
      */
     @Override
-    public List<Product> getSellerProducts(String username) {
+    public Page<Product> getSellerProducts(String username, Pageable pageable) {
         User user = userService.getByUsername(username);
 
         Long userId = user.getId();
-        return productRepository.getProductsBySellerId(userId);
+        return productRepository.getProductsBySellerId(userId, pageable);
     }
 
     /**
